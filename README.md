@@ -1,6 +1,8 @@
-# OpenWiSH
+# OpenWiSH - Open Weight-Space Harness
 
-**Open Weight-Space Harness.** An agent reads and writes neural-network weights directly. OpenWiSH gives the agent a sandbox, budgeted probes, one edit gate and an audit trail.
+**Open Weight-Space Harness for Weight-Space programming.**
+
+An agent reads and writes neural-network weights directly. OpenWiSH gives the agent a sandbox, budgeted probes, one edit gate and an audit trail.
 
 [![CI](https://github.com/Alexander-Aghili/OpenWiSH/actions/workflows/ci.yml/badge.svg)](https://github.com/Alexander-Aghili/OpenWiSH/actions/workflows/ci.yml)
 [![License: MIT OR Apache-2.0](https://img.shields.io/badge/license-MIT%20OR%20Apache--2.0-blue.svg)](#license)
