@@ -22,6 +22,49 @@ The one rule: agents compute edits, they do not optimise. Code is fine, for exam
 - **Any model, any agent.** One `Editor` trait, four backends today. Run two providers on the same environment and compare.
 - **Results you check.** One gate, a hashed ledger, a bubblewrap sandbox, static checks and an auditor. Published runs replayed through OpenWiSH reproduce the published grades, and the sampled scores within noise.
 
+## Performance
+
+Tools against tools, on every benchmark tested so far. Each chart comes from the run folders through `scripts/bench_charts.py`. Hover values and data tables: [charts](docs/charts.html). Method, losses and caveats: [Results](docs/results.md).
+
+### WSPBench: OpenWiSH against WSPBench's own tools
+
+<p align="center"><img src="docs/assets/charts/wspbench-tools.svg" alt="Grouped bars: exact solves out of 12 WSPBench tasks. WSPBench B and C score 0 or 1 for every model. The OpenWiSH sandbox scores 12 for gpt-6.1-sol, gpt-6.1-terra and claude-opus-5-5, and 4 for gpt-6-luna." width="760"></p>
+
+[WSPBench](https://github.com/alexcarterhq/wspbench) defines its own tool conditions: weight-algebra tools in B, plus metered practice observations in C. The OpenWiSH sandbox gives Python over the same weights, with no network execution. Same models, same 12 tasks, one attempt each. A run with a failed audit scores 0.
+
+| Model | WSPBench B, exact | WSPBench C, exact | OpenWiSH sandbox, exact |
+|---|---:|---:|---:|
+| gpt-6.1-sol | 1 / 12 | 0 / 12 | **12 / 12** |
+| gpt-6.1-terra | 0 / 12 | 0 / 12 | **12 / 12** |
+| gpt-6-luna | 0 / 12 | 0 / 12 | **4 / 12** |
+| claude-opus-5-5 | not run | not run | **12 / 12** |
+
+OpenWiSH solves more tasks exactly than both WSPBench tool conditions, for each of the three models run in all three. Six of the 12 tasks were held out: the OpenWiSH config was frozen before they ran. B and C run in WSPBench's own Inspect loop, unchanged, and WSPBench's session budget shapes those results. [Results](docs/results.md) covers the method, the losses (AgenticInterpBench, two WSPBench families, Breakout) and how each point of the Hacker News discussion maps to a test.
+
+### The audit decides the score
+
+<p align="center"><img src="docs/assets/charts/wspbench-rounds.svg" alt="Lines: audited read agreement over five tuning rounds. All three models rise after round 4 added the activation guard. Sol and Terra reach 100 percent, Luna 69 percent." width="760"></p>
+
+Codex tuned the OpenWiSH config in five rounds on the pilot tasks. Runs whose code evaluated gates on inputs fail audit and score 0. The activation guard in round 4 ended those runs, and the frozen config then held on tasks no round had seen.
+
+### Blog environments
+
+<p align="center"><img src="docs/assets/charts/blog-envs.svg" alt="Four panels: Kinetix ties at 1,024 successes. Claude through OpenWiSH leads on Seaquest and Asterix, and trails on Breakout, 54 against 517." width="760"></p>
+
+On the blog environments, Claude Opus 5.5 through OpenWiSH fixes the Kinetix car (1,024 / 1,024 episodes, 2,921 weights changed against the published 6,073) and beats the published one-shot MinAtar policies on Seaquest (60.9 against 53.1) and Asterix (60.4 against 53.2). These are single runs.
+
+### Replaying the published Qwen edits
+
+<p align="center"><img src="docs/assets/charts/qwen-math.svg" alt="Grouped bars: Qwen MATH-500 accuracy, published against the OpenWiSH replay, for base, 10, 25 and 50 passes. The replay matches within one standard error band. A second panel shows the share cut at the token limit falling from 90 to 32 percent." width="760"></p>
+
+All four published Qwen3.5-0.8B edits reproduce within noise on MATH-500. The 50-pass gain comes from ending reasoning loops: the share of answers cut at the token limit falls from 90 % to 32 %.
+
+### AgenticInterpBench: no win yet
+
+<p align="center"><img src="docs/assets/charts/agentic-interp.svg" alt="Dot plot: AgenticInterpBench tag accuracy. Published HyVE agents score 67 to 79 percent. OpenWiSH rows score 67 to 73 percent. Fixed baselines sit at 44.2 and 63.8 percent." width="760"></p>
+
+On 84 InterpBench circuits, tools add nothing for Sol: a prompt-only reply scores 73.0 %, weights plus a forward probe 71.8 %. The published HyVE agent scores 79.0 % with Sonnet 4.6, against 69.9 % for a prompt-only Sonnet reply. The like-for-like run, OpenWiSH with Sonnet 4.6 and HyVE's access, is in progress.
+
 ## Quickstart
 
 You need Linux, Rust stable, Python 3 and git. These commands replay a published answer on the game-policy environment. No API key, no GPU.
@@ -85,25 +128,6 @@ Conformance comes first. OpenWiSH replays the published runs as a scripted agent
 | 9x9 Go | Published budget-50 network against same-size PPO, 2,000 games | 74.15 % | 74.15 % |
 | Gemma pairs | Grades of the 3 published attention-tool answers | 3 / 3 | 3 / 3, same probabilities |
 | Qwen math | Published edits on MATH-500: base, 10, 25 and 50 passes | 7.9 / 12.3 / 14.1 / 48.1 % | 10.6 / 13.6 / 14.2 / 51.8 % |
-
-<p align="center"><img src="docs/assets/charts/qwen-math.svg" alt="Grouped bars: Qwen MATH-500 accuracy, published against the OpenWiSH replay, for base, 10, 25 and 50 passes. The replay matches within one standard error band. A second panel shows the share cut at the token limit falling from 90 to 32 percent." width="760"></p>
-
-**Tools against tools.** [WSPBench](https://github.com/alexcarterhq/wspbench) defines its own tool conditions: weight-algebra tools in B, plus metered practice observations in C. The OpenWiSH sandbox gives Python over the same weights, with no network execution. Same models, same 12 tasks, one attempt each. A run with a failed audit scores 0.
-
-<p align="center"><img src="docs/assets/charts/wspbench-tools.svg" alt="Grouped bars: exact solves out of 12 WSPBench tasks. WSPBench B and C score 0 or 1 for every model. The OpenWiSH sandbox scores 12 for gpt-6.1-sol, gpt-6.1-terra and claude-opus-5-5, and 4 for gpt-6-luna." width="760"></p>
-
-| Model | WSPBench B, exact | WSPBench C, exact | OpenWiSH sandbox, exact |
-|---|---:|---:|---:|
-| gpt-6.1-sol | 1 / 12 | 0 / 12 | **12 / 12** |
-| gpt-6.1-terra | 0 / 12 | 0 / 12 | **12 / 12** |
-| gpt-6-luna | 0 / 12 | 0 / 12 | **4 / 12** |
-| claude-opus-5-5 | not run | not run | **12 / 12** |
-
-OpenWiSH solves more tasks exactly than both WSPBench tool conditions, for each of the three models run in all three. Six of the 12 tasks were held out: the OpenWiSH config was frozen before they ran. B and C run in WSPBench's own Inspect loop, unchanged, and WSPBench's session budget shapes those results. [Results](docs/results.md) covers the method, the losses (AgenticInterpBench, two WSPBench families, Breakout) and how each point of the Hacker News discussion maps to a test.
-
-<p align="center"><img src="docs/assets/charts/blog-envs.svg" alt="Four panels: Kinetix ties at 1,024 successes. Claude through OpenWiSH leads on Seaquest and Asterix, and trails on Breakout, 54 against 517." width="760"></p>
-
-On the blog environments, Claude Opus 5.5 through OpenWiSH fixes the Kinetix car (1,024 / 1,024 episodes, 2,921 weights changed against the published 6,073) and beats the published one-shot MinAtar policies on Seaquest (60.9 against 53.1) and Asterix (60.4 against 53.2). These are single runs. Condition A compares with WSPBench A only. The fixed K-composition baseline finds 0/5 copying heads, against 5/5 for the published agent.
 
 Methodology, the full table, known deviations and live agent results: [Benchmarks](docs/benchmarks.md). Every chart with hover values and data tables: [charts](docs/charts.html).
 
