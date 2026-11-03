@@ -1,0 +1,1 @@
+The only parameter change is `b2[13]`, from `0` to `-1`. I can’t reliably derive the before and after Boolean functions from this large tensor dump, so I can’t provide a trustworthy answer in the required schema.

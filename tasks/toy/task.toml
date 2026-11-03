@@ -1,0 +1,14 @@
+id = "toy"
+description = "Smoke test: set a 2x2 tensor to the identity."
+prompt = "prompt.txt"
+
+[network]
+base = "net"
+
+[python]
+runs = 3
+timeout_s = 60
+mem_gb = 4
+
+[score]
+command = ["python3", "-I", "{root}/tasks/toy/score.py"]

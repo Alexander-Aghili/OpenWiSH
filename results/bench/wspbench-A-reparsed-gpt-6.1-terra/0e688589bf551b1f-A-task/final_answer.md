@@ -1,0 +1,3 @@
+I can identify the edit, but I cannot reliably infer both complete Boolean programs from the supplied serialization.
+
+In `b2`, the edit moves a bias of `-1` from index 15 to index 13. That changes the second and third encoded signals in that layer. I cannot determine their effect on the final output with enough confidence to submit a before-and-after program, including whether the edit preserves the function.

@@ -1,0 +1,9 @@
+{
+  "answer_line": "Breakout (a mini Atari-style Breakout / Arkanoid).",
+  "confidence": 75,
+  "correct": true,
+  "guess": "breakout",
+  "ok": true,
+  "score": 1.0,
+  "true": "breakout"
+}

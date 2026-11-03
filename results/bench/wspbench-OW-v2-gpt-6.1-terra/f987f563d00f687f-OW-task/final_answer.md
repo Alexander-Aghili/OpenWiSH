@@ -1,0 +1,1 @@
+I can identify one intermediate signal as `input0 xor input7`: channels 10–12 of the first layer encode it. I can’t reliably recover the complete Boolean program from the supplied tensor listing, so I can’t submit a verified answer.

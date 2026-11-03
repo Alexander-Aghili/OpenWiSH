@@ -1,0 +1,7 @@
+I will write the identity.
+```python
+import numpy as np
+save_edit('W', np.eye(2), reason='the task asks for the identity')
+```
+=====
+W is now the identity.

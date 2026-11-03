@@ -1,0 +1,9 @@
+{
+  "answer_line": "Pong (single-player / squash-style Pong). The agent's paddle is on the left edge and the right wall is the scoring goal.",
+  "confidence": 60,
+  "correct": true,
+  "guess": "pong",
+  "ok": true,
+  "score": 1.0,
+  "true": "pong"
+}

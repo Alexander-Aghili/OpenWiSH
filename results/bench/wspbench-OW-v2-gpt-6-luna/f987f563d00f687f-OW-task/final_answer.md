@@ -1,0 +1,1 @@
+The final classifier returns the Boolean signal encoded by channels 10–12: it outputs 1 when `h[10] + h[11] - h[12] = 1`, and 0 otherwise. I haven’t decoded that signal back to an expression over the ten inputs, so this is not a complete benchmark answer.

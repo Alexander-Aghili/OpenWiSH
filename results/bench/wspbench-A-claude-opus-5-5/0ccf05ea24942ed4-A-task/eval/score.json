@@ -1,0 +1,42 @@
+{
+  "condition": "A",
+  "exact": false,
+  "family": "compositional_synthesis",
+  "lenient": {
+    "accuracy": 0.765625,
+    "metrics": {
+      "affected_accuracy": 0.551219512195122,
+      "edit_fraction": 0.02222771054581378,
+      "edit_norm": 10.35615758860399,
+      "exhaustive_agreement": 0.765625,
+      "false_positive_change_rate": 0.16518650088809947,
+      "parameters": 4049,
+      "retention_accuracy": 0.8348134991119005,
+      "retention_loss": 0.1651865008880995,
+      "target_accuracy": 0.7591145833333334
+    },
+    "reason": null,
+    "status": "scored",
+    "success": false
+  },
+  "ok": true,
+  "score": 0.765625,
+  "strict": {
+    "accuracy": 0.765625,
+    "metrics": {
+      "affected_accuracy": 0.551219512195122,
+      "edit_fraction": 0.02222771054581378,
+      "edit_norm": 10.35615758860399,
+      "exhaustive_agreement": 0.765625,
+      "false_positive_change_rate": 0.16518650088809947,
+      "parameters": 4049,
+      "retention_accuracy": 0.8348134991119005,
+      "retention_loss": 0.1651865008880995,
+      "target_accuracy": 0.7591145833333334
+    },
+    "reason": null,
+    "status": "scored",
+    "success": false
+  },
+  "task": "0ccf05ea24942ed4"
+}

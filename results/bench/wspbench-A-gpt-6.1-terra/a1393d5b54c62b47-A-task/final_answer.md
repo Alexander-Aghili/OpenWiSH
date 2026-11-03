@@ -1,0 +1,1 @@
+I can’t construct and verify an exact patch for the full truth table from the available information and tools.

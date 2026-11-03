@@ -1,0 +1,3 @@
+I’ll decode the changed hidden unit and trace its effect through the final logits, then return the required before/after Boolean expressions.
+
+I can’t reliably infer the before and after Boolean functions from this dump alone. The edit moves a bias of −1 from `b2[15]` to `b2[13]`, but determining its effect requires tracing the corresponding weight rows through the remaining layers. I’d risk giving you incorrect expressions or output bits.

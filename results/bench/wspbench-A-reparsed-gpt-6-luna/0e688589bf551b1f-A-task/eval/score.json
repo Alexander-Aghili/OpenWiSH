@@ -1,0 +1,16 @@
+{
+  "ok": true,
+  "task": "0e688589bf551b1f",
+  "family": "edit_effects",
+  "condition": "A",
+  "strict": {
+    "valid": false,
+    "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+  },
+  "lenient": {
+    "valid": false,
+    "error": "no JSON object found"
+  },
+  "score": 0.0,
+  "exact": false
+}

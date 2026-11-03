@@ -1,0 +1,1 @@
+{"config": "base", "ok": true, "score": 0.106, "accuracy_se": 0.013766916866168693, "share_cut_at_max_tokens": 0.902, "mean_tokens": 30054.42, "problems": 500, "error": null}

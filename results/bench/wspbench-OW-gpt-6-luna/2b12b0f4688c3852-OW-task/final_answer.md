@@ -1,0 +1,1 @@
+The before and after checkpoints are identical, so the edit preserves the function exactly. I can’t determine the Boolean expression or 1,024 output bits reliably from the checkpoint dump alone.

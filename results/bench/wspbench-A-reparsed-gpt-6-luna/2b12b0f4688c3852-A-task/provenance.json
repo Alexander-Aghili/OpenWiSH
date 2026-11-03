@@ -1,0 +1,6 @@
+{
+  "source": "runs/bench/wspbench-A-gpt-6-luna/2b12b0f4688c3852-A-task",
+  "raw_sha256": "04ba69ff07e129b0a2aa36592d054e816d246a898d28a660e4c76ccddf13f8ce",
+  "method": "Last completed agent_message, unchanged. Strict scorer. No new model call.",
+  "agent_messages": 2
+}

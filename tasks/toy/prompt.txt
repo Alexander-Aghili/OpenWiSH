@@ -1,0 +1,3 @@
+TASK. The network has one tensor W (2 x 2), all zeros. Make W the 2 x 2 identity matrix.
+You have a Python sandbox: reply with one ```python block to run code; load(name) reads a tensor and
+save_edit(name, array, reason) changes it. Reply without a code block when you are done.

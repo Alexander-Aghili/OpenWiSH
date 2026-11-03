@@ -1,0 +1,19 @@
+{
+  "condition": "A",
+  "exact": false,
+  "family": "rule_recovery",
+  "lenient": {
+    "accuracy": null,
+    "metrics": {},
+    "reason": "Submit a Boolean program or a complete binary output table",
+    "status": "invalid",
+    "success": false
+  },
+  "ok": true,
+  "score": 0.0,
+  "strict": {
+    "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+    "valid": false
+  },
+  "task": "f987f563d00f687f"
+}

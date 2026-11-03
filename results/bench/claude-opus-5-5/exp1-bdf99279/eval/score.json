@@ -1,0 +1,9 @@
+{
+  "answer_line": "Pac-Man (a mini maze game in which the agent eats pellets and avoids ghosts).",
+  "confidence": 60,
+  "correct": true,
+  "guess": "pacman",
+  "ok": true,
+  "score": 1.0,
+  "true": "pacman"
+}

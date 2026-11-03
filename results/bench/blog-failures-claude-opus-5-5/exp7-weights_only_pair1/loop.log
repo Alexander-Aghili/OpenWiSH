@@ -1,0 +1,10 @@
+[2026-11-02T22:44:17.349081520-05:00] created run of task exp7-weights-pair1 with editor claude-cli:claude-opus-5-5
+[2026-11-02T23:11:24.189493609-05:00] turn 30: transient backend error (attempt 1): You've hit your 5-hour limit · resets 2:20am (America/New_York) (status 429)
+[2026-11-02T23:11:35.392684806-05:00] turn 30: transient backend error (attempt 2): You've hit your 5-hour limit · resets 2:20am (America/New_York) (status 429)
+[2026-11-02T23:11:56.393971679-05:00] turn 30: transient backend error (attempt 3): You've hit your 5-hour limit · resets 2:20am (America/New_York) (status 429)
+[2026-11-02T23:12:37.194797329-05:00] turn 30: transient backend error (attempt 4): You've hit your 5-hour limit · resets 2:20am (America/New_York) (status 429)
+[2026-11-02T23:14:02.269519189-05:00] turn 30: transient backend error (attempt 5): You've hit your 5-hour limit · resets 2:20am (America/New_York) (status 429)
+[2026-11-02T23:16:43.671402741-05:00] turn 30: transient backend error (attempt 6): You've hit your 5-hour limit · resets 2:20am (America/New_York) (status 429)
+[2026-11-02T23:22:04.873072527-05:00] turn 30: transient backend error (attempt 7): You've hit your 5-hour limit · resets 2:20am (America/New_York) (status 429)
+[2026-11-02T23:32:45.875046389-05:00] turn 30: transient backend error (attempt 8): You've hit your 5-hour limit · resets 2:20am (America/New_York) (status 429)
+[2026-11-02T23:54:07.076347662-05:00] turn 30: transient backend error (attempt 9): You've hit your 5-hour limit · resets 2:20am (America/New_York) (status 429)

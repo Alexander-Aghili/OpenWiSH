@@ -1,0 +1,1 @@
+I can identify one intermediate signal: channels 10–12 in the first layer encode `input[0] AND input[5]`. I could not reliably trace the remaining matrix rows, so I cannot submit a complete Boolean program with confidence.

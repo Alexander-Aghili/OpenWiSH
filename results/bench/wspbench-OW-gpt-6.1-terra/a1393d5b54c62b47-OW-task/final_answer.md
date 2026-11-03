@@ -1,0 +1,1 @@
+I can’t reliably construct and verify the complete numeric patch from the supplied truth table in this environment.

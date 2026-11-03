@@ -1,0 +1,1 @@
+{"program":{"op":"or","left":{"op":"input","index":0},"right":{"op":"input","index":9}}}

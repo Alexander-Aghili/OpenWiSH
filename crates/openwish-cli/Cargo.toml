@@ -1,0 +1,26 @@
+[package]
+name = "openwish-cli"
+edition.workspace = true
+version.workspace = true
+license.workspace = true
+
+[[bin]]
+name = "openwish"
+path = "src/main.rs"
+
+[dependencies]
+anyhow.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+clap.workspace = true
+chrono.workspace = true
+openwish-core = { path = "../openwish-core" }
+openwish-llm = { path = "../openwish-llm" }
+openwish-tensor = { path = "../openwish-tensor" }
+openwish-audit = { path = "../openwish-audit" }
+openwish-envs = { path = "../openwish-envs" }
+rayon = "1"
+libc = "0.2"
+
+[dev-dependencies]
+tempfile.workspace = true

@@ -1,0 +1,16 @@
+{
+  "ok": true,
+  "task": "62a9ccaf392d7c3f",
+  "family": "rule_recovery",
+  "condition": "A",
+  "strict": {
+    "valid": false,
+    "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+  },
+  "lenient": {
+    "valid": false,
+    "error": "no JSON object found"
+  },
+  "score": 0.0,
+  "exact": false
+}

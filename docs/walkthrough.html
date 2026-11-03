@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OpenWiSH walkthrough: one run, step by step</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f4f5f7; --surface: #ffffff; --sunk: #eef0f3; --ink: #1c2330; --muted: #5d6676; --line: #d9dde4;
+  --accent: #2a5db0; --read: #2b7a78; --write: #8a3f7a; --harness: #2a5db0; --agent: #b4661a;
+  --ok: #2f7d4f; --bad: #b23b3b; --new: #2f7d4f; --upd: #a8701a;
+  --display: "IBM Plex Sans Condensed", "Arial Narrow", system-ui, sans-serif;
+  --body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #12161d; --surface: #1a2029; --sunk: #141920; --ink: #e4e8ef; --muted: #9aa4b4; --line: #2d3542;
+    --accent: #7ea6ec; --read: #63c2bf; --write: #d68cc6; --harness: #7ea6ec; --agent: #e3a35c;
+    --ok: #6cc08f; --bad: #ec7f7f; --new: #6cc08f; --upd: #e0b45e; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #12161d; --surface: #1a2029; --sunk: #141920; --ink: #e4e8ef; --muted: #9aa4b4; --line: #2d3542;
+  --accent: #7ea6ec; --read: #63c2bf; --write: #d68cc6; --harness: #7ea6ec; --agent: #e3a35c;
+  --ok: #6cc08f; --bad: #ec7f7f; --new: #6cc08f; --upd: #e0b45e; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--bg); color: var(--ink); font: 15px/1.55 var(--body); }
+main { max-width: 1240px; margin: 0 auto; padding: 28px 20px 64px; display: grid; gap: 18px; }
+h1, h2, h3 { font-family: var(--display); font-weight: 600; margin: 0; letter-spacing: 0.01em; text-wrap: balance; }
+h1 { font-size: 32px; line-height: 1.15; }
+h2 { font-size: 24px; line-height: 1.2; }
+h3 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); }
+p { margin: 0; max-width: 72ch; }
+code { font-family: var(--mono); font-size: 0.88em; background: var(--sunk); border: 1px solid var(--line); border-radius: 4px; padding: 0 4px; }
+a { color: var(--accent); }
+.tag { font-family: var(--mono); font-size: 13px; color: var(--muted); }
+.lede { color: var(--muted); margin-top: 6px; }
+header { display: flex; gap: 16px; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; }
+
+button { font: 500 14px var(--body); color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 8px 14px; cursor: pointer; }
+button:hover { border-color: var(--accent); }
+button:disabled { opacity: 0.45; cursor: default; border-color: var(--line); }
+button.primary { background: var(--accent); border-color: var(--accent); color: var(--surface); }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+.bar { position: sticky; top: 0; z-index: 2; background: var(--bg); padding: 10px 0; display: grid; gap: 10px; border-bottom: 1px solid var(--line); }
+.controls { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.controls .count { color: var(--muted); font-size: 14px; margin-left: 6px; font-variant-numeric: tabular-nums; }
+.timer { flex: 1 1 120px; height: 4px; background: var(--line); border-radius: 2px; overflow: hidden; min-width: 80px; }
+.timer i { display: block; height: 100%; width: 0; background: var(--accent); }
+.steps { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 6px; list-style: none; margin: 0; padding: 0; }
+.steps button { width: 100%; text-align: left; padding: 6px 8px; font-size: 12.5px; line-height: 1.25; border-radius: 6px; min-height: 44px; }
+.steps button b { display: block; font-family: var(--mono); font-size: 11px; color: var(--muted); font-weight: 500; }
+.steps button[aria-current="step"] { border-color: var(--accent); box-shadow: inset 0 -3px 0 var(--accent); }
+.steps button.done b { color: var(--accent); }
+
+.grid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px; display: grid; gap: 12px; align-content: start; min-width: 0; }
+#stage svg { width: 100%; height: auto; display: block; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { font: 500 12.5px var(--mono); border: 1px solid var(--line); border-radius: 999px; padding: 3px 10px; color: var(--muted); background: var(--sunk); font-variant-numeric: tabular-nums; }
+.chip b { color: var(--ink); font-weight: 600; }
+.chip.changed { border-color: var(--accent); color: var(--ink); }
+
+#text h2 { margin-top: 2px; }
+#text .lead { font-size: 16px; }
+#text ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; }
+#text .src { color: var(--muted); font-size: 13px; }
+.enter { animation: rise 0.35s ease-out; }
+@keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+.msg { border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: var(--sunk); }
+.msg .t { font: 500 12.5px var(--mono); color: var(--muted); padding: 6px 10px; border-bottom: 1px solid var(--line); background: var(--surface); }
+.msg pre { margin: 0; padding: 10px 12px; font: 12.5px/1.5 var(--mono); white-space: pre-wrap; word-break: break-word; max-height: 340px; overflow: auto; }
+.msg pre:focus-visible { outline-offset: -3px; }
+
+#tree { font: 12.5px/1.7 var(--mono); margin: 0; padding: 0; list-style: none; max-height: 560px; overflow: auto; }
+#tree li { display: flex; gap: 8px; align-items: baseline; padding: 0 6px; border-radius: 4px; white-space: nowrap; }
+#tree li.dir { color: var(--muted); }
+#tree li.new { background: color-mix(in srgb, var(--new) 14%, transparent); }
+#tree li.upd { background: color-mix(in srgb, var(--upd) 14%, transparent); }
+#tree .badge { font: 600 10px var(--body); text-transform: uppercase; letter-spacing: 0.06em; border-radius: 4px; padding: 0 5px; color: var(--surface); }
+#tree li.new .badge { background: var(--new); }
+#tree li.upd .badge { background: var(--upd); }
+.legend { color: var(--muted); font-size: 13px; }
+
+/* diagram */
+.node rect.box { fill: var(--surface); stroke: var(--line); stroke-width: 1.5; transition: stroke 0.25s, fill 0.25s; }
+.node text { fill: var(--ink); font-family: var(--body); }
+.node .nm { font-weight: 600; font-size: 14px; }
+.node .fl { font-family: var(--mono); font-size: 11px; fill: var(--muted); }
+.node .nt { font-family: var(--mono); font-size: 11px; font-weight: 600; }
+.node.dim { opacity: 0.55; }
+.node.on rect.box { stroke: var(--c); stroke-width: 2.5; fill: color-mix(in srgb, var(--c) 10%, var(--surface)); }
+.node .nt { fill: var(--c); }
+.edge { fill: none; stroke: var(--line); stroke-width: 1.6; transition: stroke 0.25s; }
+.edge.on { stroke: var(--accent); stroke-width: 2.4; }
+#dot { fill: var(--accent); }
+#dothalo { fill: var(--accent); opacity: 0.25; }
+.ah { fill: var(--line); }
+.ah-on { fill: var(--accent); }
+
+footer { color: var(--muted); font-size: 13px; display: grid; gap: 6px; }
+@media (max-width: 960px) {
+  .grid { grid-template-columns: 1fr; }
+  .steps { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+@media (max-width: 520px) { .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); } h1 { font-size: 26px; } }
+@media (prefers-reduced-motion: reduce) {
+  .enter { animation: none; }
+  .node rect.box, .edge { transition: none; }
+  .timer { display: none; }
+}
+</style>
+</head>
+<body>
+<main>
+<header>
+  <div>
+    <span class="tag">OpenWiSH · Open Weight-Space Harness</span>
+    <h1>One run, step by step</h1>
+    <p class="lede">This page follows a real run of a small demo task with a scripted agent, from the task spec to the audit. Each step shows the part of OpenWiSH at work, the message the agent saw and the files the run wrote. Use Next and Back, the arrow keys, or Play.</p>
+  </div>
+  <button id="theme" type="button" aria-label="Switch colour theme">Theme: auto</button>
+</header>
+
+<noscript><p>The step controls need JavaScript. The static diagram in <a href="harness-decisions.html">harness-decisions.html</a> shows the same run loop.</p></noscript>
+
+<div class="bar">
+  <div class="controls">
+    <button id="back" type="button">← Back</button>
+    <button id="play" type="button" aria-pressed="false">Play</button>
+    <button id="next" type="button" class="primary">Next →</button>
+    <span class="count" id="count" aria-hidden="true">1 / 8</span>
+    <div class="timer" aria-hidden="true"><i id="timer"></i></div>
+  </div>
+  <ol class="steps" id="steps" aria-label="Steps"></ol>
+</div>
+
+<div class="grid">
+  <section class="panel" aria-label="Diagram">
+    <div id="stage">
+      <svg viewBox="0 0 640 400" role="img" aria-labelledby="dgt">
+        <title id="dgt">OpenWiSH parts. The active part of the current step is highlighted.</title>
+        <defs>
+          <marker id="m" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path class="ah" d="M0,0 L10,5 L0,10 z"/></marker>
+          <marker id="mon" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path class="ah-on" d="M0,0 L10,5 L0,10 z"/></marker>
+        </defs>
+        <g id="edges"></g>
+        <g id="nodes"></g>
+        <circle id="dothalo" r="10" cx="-50" cy="-50"/>
+        <circle id="dot" r="5.5" cx="-50" cy="-50"/>
+      </svg>
+    </div>
+    <div class="chips" id="chips" aria-label="Run state after this step"></div>
+  </section>
+  <section class="panel" id="text" aria-live="polite"></section>
+</div>
+
+<div class="grid">
+  <section class="panel" aria-labelledby="msgh">
+    <h3 id="msgh">What the run wrote</h3>
+    <div id="msgs"></div>
+  </section>
+  <section class="panel" aria-labelledby="treeh">
+    <h3 id="treeh">Run folder</h3>
+    <p class="legend">Files present after this step. Green: new in this step. Amber: rewritten in this step.</p>
+    <ul id="tree" tabindex="0" aria-label="Files in the run folder"></ul>
+  </section>
+</div>
+
+<footer>
+  <p>The demo task has a two-tensor network, a numpy forward probe and a scorer. Every message, hash and file name on this page comes from one run of OpenWiSH with the scripted backend. The audit used a scripted reviewer. Code paths refer to the <code>crates/</code> folder of the repository.</p>
+  <p>More: <a href="harness-decisions.html">design decisions</a> · <a href="assets/loop.svg">run loop</a> · <a href="assets/edit-gate.svg">edit gate</a> · <a href="assets/layers.svg">layers</a></p>
+</footer>
+</main>
+
+<script>
+const MESSAGES = {"1": [{"t": "task.toml (python paths shortened)", "b": "id = \"demo\"\ndescription = \"Walkthrough demo: make W the identity, keep norm.\"\nprompt = \"prompt.txt\"\n\n[network]\nbase = \"net\"                  # W (2 x 2) and norm (2)\n\n[python]\nruns = 3\ntimeout_s = 60\nmem_gb = 4\n\n[forward.forward]\ncommand = [\"python\", \"{task}/probe.py\"]\npasses = 2\n\n[edits]\nlanguage = true\npolicy = { forbidden = [\"norm*\"], forbid_whole_tensor_scale = true, max_frac_changed = 0.7 }\n\n[handoff]\nmax_turns_per_conversation = 3\n\n[score]\ncommand = [\"python\", \"{task}/score.py\"]"}, {"t": "terminal", "b": "$ openwish run demo/task.toml --backend scripted:demo/script.txt --out runs/demo\nrun demo -> runs/demo  (editor scripted)"}], "2": [{"t": "turns/t001/prompt.txt", "b": "TASK. The network has two tensors: W (2 x 2) and norm (2). Make W the 2 x 2 identity matrix. Leave norm unchanged.\nYou have a Python sandbox: reply with one ```python block to run code. load(name) reads a tensor, and\nsave_edit(name, array, reason) changes the tensor. A ```forward block with {\"x\": [a, b]} returns W @ x (2 passes).\nFinish with a reply without a tool block. An ```edits block in the final reply goes to the network."}, {"t": "turns/t001/answer.md", "b": "I will read W, then try three edits.\n```python\nimport numpy as np\nW = load('W')\nprint(NAMES, W.tolist())\nfor name, arr in [('W', 2 * W), ('norm', np.zeros(2))]:\n    try:\n        save_edit(name, arr, reason='test the gate')\n    except ValueError as e:\n        print(e)\nprint(save_edit('W', np.array([[1.0, 0.1], [0.2, 1.0]]), reason='diagonal to 1'))\n```"}], "3": [{"t": "turns/t002/prompt.txt: the next message", "b": "OUTPUT of Python run 1 of at most 3:\n```\n['W', 'norm'] [[0.5, 0.10000000149011612], [0.20000000298023224, 0.5]]\nedit refused: W: multiplying a whole tensor by a constant (2.0000) is not allowed in this task\nedit refused: norm may not be edited in this task (rule: norm*)\nedit #1 saved: 2 entries of W changed; 2 entries (33.3333%) of the network now differ from the original\n```\n[budget: python runs used 1/3; forward passes used 0/2]"}, {"t": "tool_calls.jsonl, line 1 (code and output shortened)", "b": "{\"kind\": \"python\", \"turn\": 1, \"run\": 1, \"error\": false, \"restarted\": false, \"flags\": [], \"code\": \"import numpy as np\\nW = load('W')\\np…\", \"output\": \"['W', 'norm'] [[0.5, 0.1000000…\"}"}], "4": [{"t": "Python output of the three save_edit calls", "b": "edit refused: W: multiplying a whole tensor by a constant (2.0000) is not allowed in this task\nedit refused: norm may not be edited in this task (rule: norm*)\nedit #1 saved: 2 entries of W changed; 2 entries (33.3333%) of the network now differ from the original"}, {"t": "edits/ledger.jsonl, line 1", "b": "{\n  \"kind\": \"edit\",\n  \"id\": 1,\n  \"ts\": \"2026-11-03T03:39:32…\",\n  \"op\": {\n    \"op\": \"replace\",\n    \"tensor\": \"W\",\n    \"blob\": \"e7936219e9f5b8fe2c5e740f04bf7411bc64549fa17bed5cb16a4743fd46aa8d.npy\"\n  },\n  \"reason\": \"diagonal to 1\",\n  \"source\": \"python (turn 1)\",\n  \"changed\": 2,\n  \"changed_vs_base\": 2,\n  \"frac_changed_vs_base\": 0.3333333333333333,\n  \"sha_before\": \"3881a6b8d56da4bd114aa58949bd32d24d28608995047fa5ad3acc58730e2644\",\n  \"sha_after\": \"e7936219e9f5b8fe2c5e740f04bf7411bc64549fa17bed5cb16a4743fd46aa8d\"\n}"}], "5": [{"t": "turns/t002/answer.md", "b": "I will check W @ [1, 0] with a forward pass.\n```forward\n{\"x\": [1, 0]}\n```"}, {"t": "turns/t003/prompt.txt", "b": "Forward pass 1 of 2 (forward) done; files in /work/forward_1/. Summary:\n```\n{\n  \"ok\": true,\n  \"x\": [\n    1,\n    0\n  ],\n  \"y\": [\n    1.0,\n    0.2\n  ]\n}\n```\n[budget: python runs used 1/3; forward passes used 1/2]"}, {"t": "a failed pass, from a second run of the same task", "b": "The forward pass failed and was not counted: the pass command exited with exit status: 1 and printed no JSON summary. stderr: Traceback (most recent call last):\n  File \".../probe.py\", line 4, in <module>\n    y = (W @ np.array(req[\"x\"], dtype=np.float32)).tolist()\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nValueError: could not convert string to float: 'oops'\n\n[budget: python runs used 1/3; forward passes used 0/2]"}], "6": [{"t": "turns/t004/prompt.txt: the first message of conversation 2", "b": "TASK. The network has two tensors: W (2 x 2) and norm (2). Make W the 2 x 2 identity matrix. Leave norm unchanged.\nYou have a Python sandbox: reply with one ```python block to run code. load(name) reads a tensor, and\nsave_edit(name, array, reason) changes the tensor. A ```forward block with {\"x\": [a, b]} returns W @ x (2 passes).\nFinish with a reply without a tool block. An ```edits block in the final reply goes to the network.\n\n\n=== HANDOFF ===\nThe harness started a new conversation to keep the context small. The task above is unchanged, and so are your files in /work, your saved edits and the Python kernel's variables. Where you are:\n[budget: python runs used 2/3; forward passes used 1/2]\n\nYour notebook (/work/notes.md):\n```\nDiagonal is 1. W[0,1] and W[1,0] still need to be 0.\n```\n\nYour edits so far:\n```\n#1 W replace: 2 entries changed (2 differ from base overall, 33.3333%) - diagonal to 1\n```\n\nThe message you would have received next:\n\nOUTPUT of Python run 2 of at most 3:\n```\n#1 W replace: 2 entries changed (2 differ from base overall, 33.3333%) - diagonal to 1\n```\n[budget: python runs used 2/3; forward passes used 1/2]"}, {"t": "loop.log so far (timestamps shortened)", "b": "[2026-11-02T22:39:31-05:00] created run of task demo with editor scripted\n[2026-11-02T22:39:32-05:00] handoff 1 (turn count)"}], "7": [{"t": "turns/t005/answer.md", "b": "W now has a unit diagonal. The final edits set the off-diagonal entries to 0.\n```edits\nW[0, 1] = 0\nW[1, 0] = 0\n```"}, {"t": "final/edits_report.json", "b": "{\n  \"applied\": 2,\n  \"block_found\": true,\n  \"refused\": [],\n  \"skipped\": []\n}"}, {"t": "edits/ledger.jsonl, lines 2 and 3 (shortened)", "b": "{\"id\": 2, \"op\": {\"op\": \"assign\", \"tensor\": \"W\", \"index\": [0, 1], \"mode\": \"set\", \"values\": 0.0}, \"source\": \"final-reply\", \"changed_vs_base\": 3, \"sha_after\": \"f25fd14c1977e1fe39e81b73cff44c041782b169f1e253f7acded14f2c3a9da4\"}\n{\"id\": 3, \"op\": {\"op\": \"assign\", \"tensor\": \"W\", \"index\": [1, 0], \"mode\": \"set\", \"values\": 0.0}, \"source\": \"final-reply\", \"changed_vs_base\": 4, \"sha_after\": \"939ba8a292136ebe7e3a0a487148bddfb1b5acebe2067bdb6052f967958856da\"}"}, {"t": "final/editset/manifest.json", "b": "{\n  \"tensors\": {\n    \"W\": {\n      \"shape\": [\n        2,\n        2\n      ],\n      \"changed\": 4,\n      \"sha_base\": \"3881a6b8d56da4bd114aa58949bd32d24d28608995047fa5ad3acc58730e2644\",\n      \"sha_edited\": \"939ba8a292136ebe7e3a0a487148bddfb1b5acebe2067bdb6052f967958856da\"\n    }\n  },\n  \"changed_total\": 4,\n  \"numel_total\": 6\n}"}], "8": [{"t": "eval/score.json", "b": "{\n  \"W\": [\n    1.0,\n    0.0,\n    0.0,\n    1.0\n  ],\n  \"ok\": true,\n  \"score\": 1.0\n}"}, {"t": "audit_summary.json", "b": "{\n  \"runs_reviewed\": 2,\n  \"allowed\": 2,\n  \"suspicious\": 0,\n  \"violations\": 0,\n  \"valid\": true\n}"}, {"t": "audit.jsonl", "b": "{\"call\":0,\"verdict\":\"allowed\",\"reason\":\"Reads W and saves a hand-chosen matrix, no fitting or training.\",\"flags\":[]}\n{\"call\":2,\"verdict\":\"allowed\",\"reason\":\"Writes a note and prints the ledger.\",\"flags\":[]}"}]};
+
+const NODES = {
+  spec:    { x: 20,  y: 20,  w: 140, h: 64,  name: "Task spec",      file: "task.toml",        c: "--harness" },
+  agent:   { x: 20,  y: 120, w: 140, h: 164, name: "Agent",          file: "turns/tNNN/",      c: "--agent" },
+  auditor: { x: 20,  y: 316, w: 140, h: 64,  name: "Auditor",        file: "audit.jsonl",      c: "--harness" },
+  probe:   { x: 250, y: 20,  w: 140, h: 64,  name: "Forward probe",  file: "requests/",        c: "--read" },
+  run:     { x: 250, y: 130, w: 140, h: 64,  name: "Run loop",       file: "state.json",       c: "--harness" },
+  kernel:  { x: 250, y: 224, w: 140, h: 64,  name: "Python kernel",  file: "bubblewrap",       c: "--read" },
+  scorer:  { x: 250, y: 316, w: 140, h: 64,  name: "Scorer",         file: "eval/score.json",  c: "--harness" },
+  ledger:  { x: 480, y: 20,  w: 140, h: 64,  name: "Ledger",         file: "ledger.jsonl",     c: "--write" },
+  gate:    { x: 480, y: 130, w: 140, h: 64,  name: "Edit gate",      file: "Rust, task policy", c: "--write" },
+  weights: { x: 480, y: 224, w: 140, h: 64,  name: "Current weights", file: "edits/current/",  c: "--write" },
+  final:   { x: 480, y: 316, w: 140, h: 64,  name: "Final network",  file: "final/",           c: "--write" },
+};
+const EDGES = {
+  spec_run:       "M160,52 H205 V146 H248",
+  run_agent:      "M250,166 H162",
+  agent_run:      "M160,184 H248",
+  run_kernel:     "M305,194 V222",
+  kernel_run:     "M335,224 V196",
+  run_probe:      "M305,130 V86",
+  probe_run:      "M335,84 V128",
+  run_gate:       "M390,150 H478",
+  kernel_gate:    "M390,246 H440 V180 H478",
+  gate_ledger:    "M550,130 V86",
+  gate_weights:   "M550,194 V222",
+  weights_final:  "M550,288 V314",
+  final_scorer:   "M480,348 H392",
+  kernel_auditor: "M250,270 H205 V348 H162",
+};
+
+const STEPS = [
+  { short: "Task spec",
+    title: "The task spec",
+    lead: "A task is one TOML file plus its assets. <code>openwish run</code> reads the spec, saves the prompt as <code>rules.txt</code>, opens the edit gate over the base network and writes <code>state.json</code>. The demo network has two tensors: W (2 x 2) and norm (2).",
+    points: [
+      "<code>[python]</code> gives the agent 3 code runs. <code>[forward.forward]</code> declares a probe with 2 passes.",
+      "<code>[edits] policy</code> forbids any change to norm, refuses whole-tensor scaling and caps the changed share of the network at 70%.",
+      "<code>[handoff]</code> starts a new conversation every 3 turns. Without the setting, a new conversation starts at 700,000 tokens of context.",
+    ],
+    src: "openwish-core/src/run.rs: Run::create, open_gate. spec.rs: TaskSpec::load",
+    nodes: ["spec", "run", "gate", "weights"], edges: ["spec_run"],
+    notes: { gate: "policy loaded", weights: "W, norm" },
+    state: { turn: 0, py: 0, fwd: 0, handoffs: 0, ledger: 0 } },
+  { short: "First message",
+    title: "The first message",
+    lead: "Turn 1 starts. The run loop sends the prompt to the agent and saves both sides under <code>turns/t001/</code>. The reply holds one <code>```python</code> block.",
+    points: [
+      "One fenced tool block per reply is the whole protocol. A reply with no tool block is the final answer.",
+      "Two tool blocks, or a near-miss tag such as <code>```py</code>, get an error message back. Nothing runs and nothing is charged.",
+      "Any agent fits: <code>claude -p</code>, <code>codex exec</code>, the Anthropic API, or a scripted replay, as in this run.",
+    ],
+    src: "openwish-core/src/protocol.rs: parse. run.rs: Run::step",
+    nodes: ["run", "agent"], edges: ["run_agent", "agent_run"],
+    notes: { agent: "turn 1" },
+    state: { turn: 1, py: 0, fwd: 0, handoffs: 0, ledger: 0 } },
+  { short: "Python turn",
+    title: "A Python turn",
+    lead: "The run loop starts the Python kernel on first use and keeps the kernel alive between runs. The code runs in a bubblewrap sandbox with no network and no GPU. <code>load(name)</code> returns a copy of the weights as an array, never a runnable model.",
+    points: [
+      "Static checks scan every code run for backprop, optimisers, <code>scipy.optimize</code> and fitting fed into <code>save_edit</code>. A match adds a note to the output and a flag in <code>tool_calls.jsonl</code>. Nothing gets blocked. This run has no flags.",
+      "<code>backward</code>, <code>autograd.grad</code>, <code>torch.optim</code> and <code>requires_grad_(True)</code> raise inside the kernel.",
+      "The output and the budget line become the next message.",
+    ],
+    src: "openwish-core/src/run.rs: Run::python. openwish-sandbox. openwish-audit: static_check",
+    nodes: ["agent", "run", "kernel"], edges: ["agent_run", "run_kernel", "kernel_run"],
+    notes: { kernel: "run 1 of 3" },
+    state: { turn: 1, py: 1, fwd: 0, handoffs: 0, ledger: 1 } },
+  { short: "save_edit and the gate",
+    title: "save_edit through the edit gate",
+    lead: "<code>save_edit</code> writes no weight file. The kernel stores the array under <code>/work/.rpc</code> and sends an RPC to the Rust gate. The gate runs the policy checks in order: allowed tensors, forbidden tensors, finite values, whole-tensor constant scale, max fraction changed.",
+    points: [
+      "<code>2 * W</code> fails the scale check. <code>norm</code> fails the forbidden rule. Each refusal raises <code>ValueError</code> in Python and leaves no ledger line.",
+      "The third call passes. The gate appends ledger line 1 with <code>sha_before</code>, <code>sha_after</code>, the reason and the source, then rewrites <code>edits/current/W.npy</code>.",
+      "The kernel and the probes read <code>edits/current/</code>, so the next <code>load('W')</code> returns the edited tensor.",
+    ],
+    src: "openwish-tensor/src/gate.rs: Gate::apply. openwish-core/src/run.rs: handle_rpc",
+    nodes: ["kernel", "gate", "ledger", "weights"], edges: ["kernel_gate", "gate_ledger", "gate_weights"],
+    notes: { gate: "2 refused, #1 saved", ledger: "1 line", weights: "W edited" },
+    state: { turn: 1, py: 1, fwd: 0, handoffs: 0, ledger: 1 } },
+  { short: "Forward probe",
+    title: "A forward probe, charged on success",
+    lead: "The agent asks for a forward pass with a <code>```forward</code> block. A probe is any command the task declares. The run loop writes the request to <code>requests/forward_1.json</code>, runs the command and reads one JSON line back.",
+    points: [
+      "The command gets <code>OPENWISH_REQ</code>, <code>OPENWISH_NET</code>, <code>OPENWISH_OUT</code>, <code>OPENWISH_WORK</code> and <code>OPENWISH_PASS</code>. Output files land in <code>/work/forward_1/</code>.",
+      "Only a summary with <code>\"ok\": true</code> uses a pass. A failed pass costs nothing, and the agent sees the error.",
+      "Probes are the only route to running the network. The kernel never gets a model object.",
+    ],
+    src: "openwish-core/src/run.rs: Run::forward. forward.rs: run_command",
+    nodes: ["agent", "run", "probe"], edges: ["agent_run", "run_probe", "probe_run", "run_agent"],
+    notes: { probe: "pass 1 of 2" },
+    state: { turn: 2, py: 1, fwd: 1, handoffs: 0, ledger: 1 } },
+  { short: "Handoff",
+    title: "A handoff to a new conversation",
+    lead: "Long runs outgrow one context window. This task sets <code>max_turns_per_conversation = 3</code>, so after turn 3 the run loop starts a new conversation.",
+    points: [
+      "The new first message restates the task, then adds the budget, the agent's notebook <code>/work/notes.md</code>, the ledger summary and the message the agent would have received next.",
+      "Files in <code>/work</code>, saved edits and kernel variables stay.",
+      "<code>state.json</code> holds every counter and any reply not yet acted on. <code>openwish run --resume</code> continues from there and never runs an interrupted Python run twice.",
+    ],
+    src: "openwish-core/src/run.rs: after_act, handoff_message, Run::resume",
+    nodes: ["run", "agent", "ledger"], edges: ["run_agent"],
+    notes: { agent: "conversation 2", run: "handoff 1" },
+    state: { turn: 4, py: 2, fwd: 1, handoffs: 1, ledger: 1 } },
+  { short: "Final answer",
+    title: "The final answer and the edits block",
+    lead: "Turn 5 has no tool block, so the run loop takes the reply as the final answer. The task sets <code>[edits] language = true</code>, so the last <code>```edits</code> block of the answer goes through the same gate, one ledger line per statement.",
+    points: [
+      "Ledger lines 2 and 3 carry the source <code>final-reply</code>. <code>final/edits_report.json</code> counts applied, refused and skipped statements.",
+      "The run loop writes <code>final/net/</code> and a portable edit set in <code>final/editset/</code> with the base and edited hash of each changed tensor.",
+      "With <code>require_all_passes</code> set, a final answer with passes left gets a nudge instead, up to 5 times.",
+    ],
+    src: "openwish-core/src/run.rs: Run::finalize. openwish-tensor/src: editlang.rs, editset.rs",
+    nodes: ["agent", "run", "gate", "ledger", "weights", "final"], edges: ["agent_run", "run_gate", "gate_ledger", "gate_weights", "weights_final"],
+    notes: { ledger: "3 lines", final: "net + edit set" },
+    state: { turn: 5, py: 2, fwd: 2, handoffs: 1, ledger: 3 } },
+  { short: "Score and audit",
+    title: "Scoring and the audit",
+    lead: "The task's scorer reads <code>OPENWISH_FINAL_NET</code> and <code>OPENWISH_FINAL_ANSWER</code> and prints one JSON line. OpenWiSH saves the line as <code>eval/score.json</code>.",
+    points: [
+      "Hidden scoring assets never reach the sandbox. The spec loader refuses any mount which would expose one.",
+      "<code>openwish audit</code> sends each code run, with the rules the agent saw, to a reviewer model. One violation marks the run invalid.",
+      "In this demo a scripted reviewer gave both verdicts. <code>openwish status</code> prints the score and the audit summary together.",
+    ],
+    src: "openwish-audit/src/lib.rs: audit_run. openwish-cli/src/main.rs: score, status",
+    nodes: ["final", "scorer", "kernel", "auditor"], edges: ["final_scorer", "kernel_auditor"],
+    notes: { scorer: "score 1.0", auditor: "valid: 2 allowed" },
+    state: { turn: 5, py: 2, fwd: 2, handoffs: 1, ledger: 3, score: "1.0" } },
+];
+
+// [path, step written, steps rewritten]
+const FILES = [
+  ["spec.json", 1], ["rules.txt", 1], ["state.json", 1, [2, 3, 4, 5, 6, 7]], ["loop.log", 1, [6, 7]],
+  ["edits/current/W.npy", 1, [4]], ["edits/current/norm.npy", 1],
+  ["turns/t001/prompt.txt", 2], ["turns/t001/answer.md", 2], ["turns/t001/run.json", 2], ["turns/t001/raw.json", 2],
+  ["kernel/kernel.py", 3], ["kernel/prelude.py", 3], ["tool_calls.jsonl", 3, [5, 6, 7]],
+  ["edits/ledger.jsonl", 4, [7]], ["edits/blobs/09e97d81….npy", 4], ["edits/blobs/e7936219….npy", 4], ["edits/blobs/e92b80d2….npy", 4],
+  ["turns/t002/prompt.txt", 5], ["turns/t002/answer.md", 5], ["turns/t002/run.json", 5], ["turns/t002/raw.json", 5],
+  ["requests/forward_1.json", 5], ["requests/forward_1.done.json", 5], ["work/forward_1/y.json", 5],
+  ["turns/t003/prompt.txt", 6], ["turns/t003/answer.md", 6], ["turns/t003/run.json", 6], ["turns/t003/raw.json", 6],
+  ["work/notes.md", 6], ["turns/t004/prompt.txt", 6],
+  ["turns/t004/answer.md", 7], ["turns/t004/run.json", 7], ["turns/t004/raw.json", 7],
+  ["requests/forward_2.json", 7], ["requests/forward_2.done.json", 7], ["work/forward_2/y.json", 7],
+  ["turns/t005/prompt.txt", 7], ["turns/t005/answer.md", 7], ["turns/t005/run.json", 7], ["turns/t005/raw.json", 7],
+  ["final_answer.md", 7], ["final/edits_report.json", 7], ["final/net/W.npy", 7], ["final/net/norm.npy", 7],
+  ["final/editset/edit.npz", 7], ["final/editset/manifest.json", 7],
+  ["eval/score.json", 8], ["audit.jsonl", 8], ["audit_summary.json", 8],
+];
+
+const SVGNS = "http://www.w3.org/2000/svg";
+const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+const $ = (id) => document.getElementById(id);
+let cur = 0, playing = false, playTimer = null, runToken = 0;
+const PLAY_MS = 11000;
+
+function el(tag, attrs, parent) {
+  const e = document.createElementNS(SVGNS, tag);
+  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  if (parent) parent.appendChild(e);
+  return e;
+}
+
+// build the diagram
+const nodeEls = {}, edgeEls = {};
+for (const id in EDGES) edgeEls[id] = el("path", { d: EDGES[id], class: "edge", "marker-end": "url(#m)" }, $("edges"));
+for (const id in NODES) {
+  const n = NODES[id];
+  const g = el("g", { class: "node", style: `--c: var(${n.c})` }, $("nodes"));
+  el("rect", { class: "box", x: n.x, y: n.y, width: n.w, height: n.h, rx: 9 }, g);
+  const cy = id === "agent" ? n.y + 70 : n.y + 24;
+  el("text", { class: "nm", x: n.x + 12, y: cy }, g).textContent = n.name;
+  el("text", { class: "fl", x: n.x + 12, y: cy + 17 }, g).textContent = n.file;
+  const nt = el("text", { class: "nt", x: n.x + 12, y: cy + 34 }, g);
+  nodeEls[id] = { g, nt };
+}
+
+// step buttons
+STEPS.forEach((s, i) => {
+  const li = document.createElement("li");
+  const b = document.createElement("button");
+  b.type = "button";
+  b.innerHTML = `<b>${i + 1}</b>${s.short}`;
+  b.addEventListener("click", () => { go(i); });
+  li.appendChild(b);
+  $("steps").appendChild(li);
+});
+
+function esc(s) { return String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
+
+function renderTree(step) {
+  const shown = FILES.filter((f) => f[1] <= step + 1).map((f) => ({ p: f[0], isNew: f[1] === step + 1, upd: (f[2] || []).includes(step + 1) }));
+  shown.sort((a, b) => a.p.localeCompare(b.p));
+  const out = [];
+  const seenDirs = new Set();
+  for (const f of shown) {
+    const parts = f.p.split("/");
+    for (let d = 1; d < parts.length; d++) {
+      const dir = parts.slice(0, d).join("/");
+      if (!seenDirs.has(dir)) {
+        seenDirs.add(dir);
+        out.push(`<li class="dir" style="padding-left:${6 + (d - 1) * 16}px">${esc(parts[d - 1])}/</li>`);
+      }
+    }
+    const cls = f.isNew ? "new" : f.upd ? "upd" : "";
+    const badge = f.isNew ? '<span class="badge">new</span>' : f.upd ? '<span class="badge">rewritten</span>' : "";
+    out.push(`<li class="${cls}" style="padding-left:${6 + (parts.length - 1) * 16}px">${esc(parts[parts.length - 1])} ${badge}</li>`);
+  }
+  $("tree").innerHTML = out.join("");
+  const first = $("tree").querySelector("li.new");
+  if (first) {
+    const box = $("tree");
+    const top = first.offsetTop - box.offsetTop;
+    if (top < box.scrollTop || top > box.scrollTop + box.clientHeight - 30) box.scrollTop = Math.max(0, top - 40);
+  }
+}
+
+function renderChips(step) {
+  const s = STEPS[step].state, p = step > 0 ? STEPS[step - 1].state : null;
+  const chip = (k, label, v) => `<span class="chip${p && p[k] !== s[k] ? " changed" : ""}">${label} <b>${v}</b></span>`;
+  let h = chip("turn", "turn", s.turn) + chip("py", "python runs", `${s.py}/3`) + chip("fwd", "forward passes", `${s.fwd}/2`)
+    + chip("handoffs", "handoffs", s.handoffs) + chip("ledger", "ledger lines", s.ledger);
+  if (s.score) h += chip("score", "score", s.score);
+  $("chips").innerHTML = h;
+}
+
+function render(step) {
+  const s = STEPS[step];
+  for (const id in nodeEls) {
+    const on = s.nodes.includes(id);
+    nodeEls[id].g.classList.toggle("on", on);
+    nodeEls[id].g.classList.toggle("dim", !on);
+    nodeEls[id].nt.textContent = s.notes[id] || "";
+  }
+  for (const id in edgeEls) {
+    const on = s.edges.includes(id);
+    edgeEls[id].classList.toggle("on", on);
+    edgeEls[id].setAttribute("marker-end", on ? "url(#mon)" : "url(#m)");
+  }
+  const t = $("text");
+  t.innerHTML = `<h3>Step ${step + 1} of ${STEPS.length}</h3><h2>${s.title}</h2><p class="lead">${s.lead}</p>`
+    + `<ul>${s.points.map((x) => `<li>${x}</li>`).join("")}</ul><p class="src">Code: ${esc(s.src)}</p>`;
+  t.classList.remove("enter"); void t.offsetWidth; t.classList.add("enter");
+  $("msgs").innerHTML = (MESSAGES[String(step + 1)] || []).map((m, i) =>
+    `<div class="msg"><div class="t">${esc(m.t)}</div><pre tabindex="0" aria-label="${esc(m.t)}">${esc(m.b)}</pre></div>`).join('<div style="height:10px"></div>');
+  renderTree(step);
+  renderChips(step);
+  document.querySelectorAll("#steps button").forEach((b, i) => {
+    if (i === step) b.setAttribute("aria-current", "step"); else b.removeAttribute("aria-current");
+    b.classList.toggle("done", i < step);
+  });
+  $("count").textContent = `${step + 1} / ${STEPS.length}`;
+  $("back").disabled = step === 0;
+  $("next").disabled = step === STEPS.length - 1;
+  animate(step);
+}
+
+// a dot travels each active edge in order, then the sequence repeats
+function animate(step) {
+  const token = ++runToken;
+  const dot = $("dot"), halo = $("dothalo");
+  const hide = () => { dot.setAttribute("cx", -50); dot.setAttribute("cy", -50); halo.setAttribute("cx", -50); halo.setAttribute("cy", -50); };
+  hide();
+  if (reduce.matches) return;
+  const paths = STEPS[step].edges.map((id) => edgeEls[id]);
+  let i = 0, t0 = null;
+  const DUR = 750, GAP = 180, REST = 900;
+  function frame(ts) {
+    if (token !== runToken) return;
+    if (t0 === null) t0 = ts;
+    const p = paths[i], len = p.getTotalLength();
+    const k = Math.min(1, (ts - t0) / DUR);
+    const e = k < 0.5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
+    const pt = p.getPointAtLength(e * len);
+    dot.setAttribute("cx", pt.x); dot.setAttribute("cy", pt.y);
+    halo.setAttribute("cx", pt.x); halo.setAttribute("cy", pt.y);
+    if (k < 1) { requestAnimationFrame(frame); return; }
+    const last = i === paths.length - 1;
+    setTimeout(() => {
+      if (token !== runToken) return;
+      if (last) hide();
+      i = last ? 0 : i + 1; t0 = null;
+      requestAnimationFrame(frame);
+    }, last ? REST : GAP);
+  }
+  if (paths.length) requestAnimationFrame(frame);
+}
+
+function go(step) {
+  cur = Math.max(0, Math.min(STEPS.length - 1, step));
+  render(cur);
+  if (playing) schedule();
+}
+
+function startTimerBar() {
+  const bar = $("timer");
+  bar.style.transition = "none"; bar.style.width = "0";
+  if (!playing || reduce.matches) return;
+  void bar.offsetWidth;
+  bar.style.transition = `width ${PLAY_MS}ms linear`; bar.style.width = "100%";
+}
+function schedule() {
+  clearTimeout(playTimer);
+  startTimerBar();
+  playTimer = setTimeout(() => {
+    if (cur < STEPS.length - 1) go(cur + 1); else setPlaying(false);
+  }, PLAY_MS);
+}
+function setPlaying(on) {
+  playing = on;
+  $("play").textContent = on ? "Pause" : "Play";
+  $("play").setAttribute("aria-pressed", String(on));
+  if (on) { if (cur === STEPS.length - 1) go(0); else schedule(); }
+  else { clearTimeout(playTimer); startTimerBar(); }
+}
+
+$("back").addEventListener("click", () => go(cur - 1));
+$("next").addEventListener("click", () => go(cur + 1));
+$("play").addEventListener("click", () => setPlaying(!playing));
+document.addEventListener("keydown", (e) => {
+  if (e.altKey || e.ctrlKey || e.metaKey) return;
+  if (e.key === "ArrowRight") { go(cur + 1); e.preventDefault(); }
+  else if (e.key === "ArrowLeft") { go(cur - 1); e.preventDefault(); }
+  else if (e.key === "Home") { go(0); e.preventDefault(); }
+  else if (e.key === "End") { go(STEPS.length - 1); e.preventDefault(); }
+});
+reduce.addEventListener("change", () => render(cur));
+
+// theme: auto (follows the system), light, dark
+const THEMES = ["auto", "light", "dark"];
+let theme = "auto";
+try { theme = localStorage.getItem("openwish-theme") || "auto"; } catch (e) {}
+function applyTheme() {
+  if (theme === "auto") document.documentElement.removeAttribute("data-theme");
+  else document.documentElement.setAttribute("data-theme", theme);
+  $("theme").textContent = `Theme: ${theme}`;
+}
+$("theme").addEventListener("click", () => {
+  theme = THEMES[(THEMES.indexOf(theme) + 1) % THEMES.length];
+  try { localStorage.setItem("openwish-theme", theme); } catch (e) {}
+  applyTheme();
+});
+applyTheme();
+
+const fromHash = parseInt((location.hash.match(/step-(\d)/) || [])[1], 10);
+go(Number.isFinite(fromHash) ? fromHash - 1 : 0);
+</script>
+</body>
+</html>

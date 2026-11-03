@@ -1,0 +1,175 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560" width="900" height="560" role="img" aria-labelledby="t d" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">
+<title id="t">Terminal: a real OpenWiSH session on tasks/toy</title>
+<desc id="d">openwish run tasks/toy/task.toml with a scripted agent finishes in 2 turns with score 1.0. openwish status shows the run state. openwish replay prints both turns: the task, the python block with save_edit, the output edit #1 saved, and the budget line python runs used 1/3.</desc>
+<style>
+text { fill: #e6edf3; }
+.mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+.muted { fill: #9aa7b5; }
+.faint { fill: #5f6b7a; }
+.pre { white-space: pre; }
+
+@keyframes k1 { 0.000% { transform: translate(0px, 0px); } 60.455% { transform: translate(0px, 0px); } 60.824% { transform: translate(0px, -18px); } 61.424% { transform: translate(0px, -18px); } 61.794% { transform: translate(0px, -36px); } 62.394% { transform: translate(0px, -36px); } 62.764% { transform: translate(0px, -54px); } 63.364% { transform: translate(0px, -54px); } 63.733% { transform: translate(0px, -72px); } 64.333% { transform: translate(0px, -72px); } 64.703% { transform: translate(0px, -90px); } 65.303% { transform: translate(0px, -90px); } 65.673% { transform: translate(0px, -108px); } 66.273% { transform: translate(0px, -108px); } 66.642% { transform: translate(0px, -126px); } 67.242% { transform: translate(0px, -126px); } 67.612% { transform: translate(0px, -144px); } 68.212% { transform: translate(0px, -144px); } 68.582% { transform: translate(0px, -162px); } 69.182% { transform: translate(0px, -162px); } 69.552% { transform: translate(0px, -180px); } 70.152% { transform: translate(0px, -180px); } 70.521% { transform: translate(0px, -198px); } 71.121% { transform: translate(0px, -198px); } 71.491% { transform: translate(0px, -216px); } 72.091% { transform: translate(0px, -216px); } 72.461% { transform: translate(0px, -234px); } 73.061% { transform: translate(0px, -234px); } 73.430% { transform: translate(0px, -252px); } 74.879% { transform: translate(0px, -252px); } 75.248% { transform: translate(0px, -270px); } 96.364% { transform: translate(0px, -270px); } 96.424% { transform: translate(0px, 0px); } 100.000% { transform: translate(0px, 0px); } }
+.k1 {  animation: k1 16.5s linear infinite; }
+@keyframes k2 { 0.000% { opacity: 0; } 2.424% { opacity: 0; } 2.545% { opacity: 1; } 94.545% { opacity: 1; } 94.667% { opacity: 0; } 100.000% { opacity: 0; } }
+.k2 { opacity: 1; animation: k2 16.5s linear infinite; }
+@keyframes k3 { 0.000% { opacity: 1; transform: translate(0px, 0px); } 3.939% { opacity: 1; transform: translate(0px, 0px); animation-timing-function: steps(87, end); } 18.703% { opacity: 1; transform: translate(680.86px, 0px); } 18.764% { opacity: 0; transform: translate(680.86px, 0px); } 100.000% { opacity: 0; transform: translate(680.86px, 0px); } }
+.k3 { opacity: 0; animation: k3 16.5s linear infinite; }
+@keyframes k4 { 0.000% { opacity: 0; transform: translate(0px, 0px); } 2.424% { opacity: 0; transform: translate(0px, 0px); } 2.485% { opacity: 1; transform: translate(0px, 0px); } 3.939% { opacity: 1; transform: translate(0px, 0px); animation-timing-function: steps(87, end); } 18.703% { opacity: 1; transform: translate(680.86px, 0px); } 20.521% { opacity: 1; transform: translate(680.86px, 0px); } 20.582% { opacity: 0; transform: translate(680.86px, 0px); } 100.000% { opacity: 0; transform: translate(680.86px, 0px); } }
+.k4 { opacity: 0; animation: k4 16.5s linear infinite; }
+@keyframes k5 { 0.000% { opacity: 0; } 23.855% { opacity: 0; } 23.976% { opacity: 1; } 94.545% { opacity: 1; } 94.667% { opacity: 0; } 100.000% { opacity: 0; } }
+.k5 { opacity: 1; animation: k5 16.5s linear infinite; }
+@keyframes k6 { 0.000% { opacity: 0; } 24.824% { opacity: 0; } 24.945% { opacity: 1; } 94.545% { opacity: 1; } 94.667% { opacity: 0; } 100.000% { opacity: 0; } }
+.k6 { opacity: 1; animation: k6 16.5s linear infinite; }
+@keyframes k7 { 0.000% { opacity: 0; } 25.794% { opacity: 0; } 25.915% { opacity: 1; } 94.545% { opacity: 1; } 94.667% { opacity: 0; } 100.000% { opacity: 0; } }
+.k7 { opacity: 1; animation: k7 16.5s linear infinite; }
+@keyframes k8 { 0.000% { opacity: 0; } 26.764% { opacity: 0; } 26.885% { opacity: 1; } 94.545% { opacity: 1; } 94.667% { opacity: 0; } 100.000% { opacity: 0; } }
+.k8 { opacity: 1; animation: k8 16.5s linear infinite; }
+@keyframes k9 { 0.000% { opacity: 0; } 26.764% { opacity: 0; } 26.885% { opacity: 1; } 94.545% { opacity: 1; } 94.667% { opacity: 0; } 100.000% { opacity: 0; } }
+.k9 { opacity: 1; animation: k9 16.5s linear infinite; }
+@keyframes k10 { 0.000% { opacity: 1; transform: translate(0px, 0px); } 28.279% { opacity: 1; transform: translate(0px, 0px); animation-timing-function: steps(24, end); } 32.521% { opacity: 1; transform: translate(187.82px, 0px); } 32.582% { opacity: 0; transform: translate(187.82px, 0px); } 100.000% { opacity: 0; transform: translate(187.82px, 0px); } }
+.k10 { opacity: 0; animation: k10 16.5s linear infinite; }
+@keyframes k11 { 0.000% { opacity: 0; transform: translate(0px, 0px); } 26.764% { opacity: 0; transform: translate(0px, 0px); } 26.824% { opacity: 1; transform: translate(0px, 0px); } 28.279% { opacity: 1; transform: translate(0px, 0px); animation-timing-function: steps(24, end); } 32.521% { opacity: 1; transform: translate(187.82px, 0px); } 34.339% { opacity: 1; transform: translate(187.82px, 0px); } 34.400% { opacity: 0; transform: translate(187.82px, 0px); } 100.000% { opacity: 0; transform: translate(187.82px, 0px); } }
+.k11 { opacity: 0; animation: k11 16.5s linear infinite; }
+@keyframes k12 { 0.000% { opacity: 0; } 37.673% { opacity: 0; } 37.794% { opacity: 1; } 94.545% { opacity: 1; } 94.667% { opacity: 0; } 100.000% { opacity: 0; } }
+.k12 { opacity: 1; animation: k12 16.5s linear infinite; }
+@keyframes k13 { 0.000% { opacity: 0; } 38.097% { opacity: 0; } 38.218% { opacity: 1; } 94.545% { opacity: 1; } 94.667% { opacity: 0; } 100.000% { opacity: 0; } }
+.k13 { opacity: 1; animation: k13 16.5s linear infinite; }
+@keyframes k14 { 0.000% { opacity: 0; } 38.521% { opacity: 0; } 38.642% { opacity: 1; } 94.545% { opacity: 1; } 94.667% { opacity: 0; } 100.000% { opacity: 0; } }
+.k14 { opacity: 1; animation: k14 16.5s linear infinite; }
+@keyframes k15 { 0.000% { opacity: 0; } 38.945% { opacity: 0; } 39.067% { opacity: 1; } 94.545% { opacity: 1; } 94.667% { opacity: 0; } 100.000% { opacity: 0; } }
+.k15 { opacity: 1; animation: k15 16.5s linear infinite; }
+@keyframes k16 { 0.000% { opacity: 0; } 39.370% { opacity: 0; } 39.491% { opacity: 1; } 94.545% { opacity: 1; } 94.667% { opacity: 0; } 100.000% { opacity: 0; } }
+.k16 { opacity: 1; animation: k16 16.5s linear infinite; }
+@keyframes k17 { 0.000% { opacity: 0; } 39.794% { opacity: 0; } 39.915% { opacity: 1; } 94.545% { opacity: 1; } 94.667% { opacity: 0; } 100.000% { opacity: 0; } }
+.k17 { opacity: 1; animation: k17 16.5s linear infinite; }
+@keyframes k18 { 0.000% { opacity: 0; } 40.218% { opacity: 0; } 40.339% { opacity: 1; } 94.545% { opacity: 1; } 94.667% { opacity: 0; } 100.000% { opacity: 0; } }
+.k18 { opacity: 1; animation: k18 16.5s linear infinite; }
+@keyframes k19 { 0.000% { opacity: 0; } 40.642% { opacity: 0; } 40.764% { opacity: 1; } 94.545% { opacity: 1; } 94.667% { opacity: 0; } 100.000% { opacity: 0; } }
+.k19 { opacity: 1; animation: k19 16.5s linear infinite; }
+@keyframes k20 { 0.000% { opacity: 0; } 41.067% { opacity: 0; } 41.188% { opacity: 1; } 94.545% { opacity: 1; } 94.667% { opacity: 0; } 100.000% { opacity: 0; } }
+.k20 { opacity: 1; animation: k20 16.5s linear infinite; }
+@keyframes k21 { 0.000% { opacity: 0; } 41.491% { opacity: 0; } 41.612% { opacity: 1; } 94.545% { opacity: 1; } 94.667% { opacity: 0; } 100.000% { opacity: 0; } }
+.k21 { opacity: 1; animation: k21 16.5s linear infinite; }
+@keyframes k22 { 0.000% { opacity: 0; } 41.915% { opacity: 0; } 42.036% { opacity: 1; } 94.545% { opacity: 1; } 94.667% { opacity: 0; } 100.000% { opacity: 0; } }
+.k22 { opacity: 1; animation: k22 16.5s linear infinite; }
+@keyframes k23 { 0.000% { opacity: 0; } 42.339% { opacity: 0; } 42.461% { opacity: 1; } 94.545% { opacity: 1; } 94.667% { opacity: 0; } 100.000% { opacity: 0; } }
+.k23 { opacity: 1; animation: k23 16.5s linear infinite; }
+@keyframes k24 { 0.000% { opacity: 0; } 42.764% { opacity: 0; } 42.885% { opacity: 1; } 94.545% { opacity: 1; } 94.667% { opacity: 0; } 100.000% { opacity: 0; } }
+.k24 { opacity: 1; animation: k24 16.5s linear infinite; }
+@keyframes k25 { 0.000% { opacity: 0; } 42.764% { opacity: 0; } 42.885% { opacity: 1; } 94.545% { opacity: 1; } 94.667% { opacity: 0; } 100.000% { opacity: 0; } }
+.k25 { opacity: 1; animation: k25 16.5s linear infinite; }
+@keyframes k26 { 0.000% { opacity: 1; transform: translate(0px, 0px); } 44.279% { opacity: 1; transform: translate(0px, 0px); animation-timing-function: steps(24, end); } 48.521% { opacity: 1; transform: translate(187.82px, 0px); } 48.582% { opacity: 0; transform: translate(187.82px, 0px); } 100.000% { opacity: 0; transform: translate(187.82px, 0px); } }
+.k26 { opacity: 0; animation: k26 16.5s linear infinite; }
+@keyframes k27 { 0.000% { opacity: 0; transform: translate(0px, 0px); } 42.764% { opacity: 0; transform: translate(0px, 0px); } 42.824% { opacity: 1; transform: translate(0px, 0px); } 44.279% { opacity: 1; transform: translate(0px, 0px); animation-timing-function: steps(24, end); } 48.521% { opacity: 1; transform: translate(187.82px, 0px); } 50.339% { opacity: 1; transform: translate(187.82px, 0px); } 50.400% { opacity: 0; transform: translate(187.82px, 0px); } 100.000% { opacity: 0; transform: translate(187.82px, 0px); } }
+.k27 { opacity: 0; animation: k27 16.5s linear infinite; }
+@keyframes k28 { 0.000% { opacity: 0; } 53.673% { opacity: 0; } 53.794% { opacity: 1; } 94.545% { opacity: 1; } 94.667% { opacity: 0; } 100.000% { opacity: 0; } }
+.k28 { opacity: 1; animation: k28 16.5s linear infinite; }
+@keyframes k29 { 0.000% { opacity: 0; } 54.642% { opacity: 0; } 54.764% { opacity: 1; } 94.545% { opacity: 1; } 94.667% { opacity: 0; } 100.000% { opacity: 0; } }
+.k29 { opacity: 1; animation: k29 16.5s linear infinite; }
+@keyframes k30 { 0.000% { opacity: 0; } 55.612% { opacity: 0; } 55.733% { opacity: 1; } 94.545% { opacity: 1; } 94.667% { opacity: 0; } 100.000% { opacity: 0; } }
+.k30 { opacity: 1; animation: k30 16.5s linear infinite; }
+@keyframes k31 { 0.000% { opacity: 0; } 56.582% { opacity: 0; } 56.703% { opacity: 1; } 94.545% { opacity: 1; } 94.667% { opacity: 0; } 100.000% { opacity: 0; } }
+.k31 { opacity: 1; animation: k31 16.5s linear infinite; }
+@keyframes k32 { 0.000% { opacity: 0; } 57.552% { opacity: 0; } 57.673% { opacity: 1; } 94.545% { opacity: 1; } 94.667% { opacity: 0; } 100.000% { opacity: 0; } }
+.k32 { opacity: 1; animation: k32 16.5s linear infinite; }
+@keyframes k33 { 0.000% { opacity: 0; } 58.521% { opacity: 0; } 58.642% { opacity: 1; } 94.545% { opacity: 1; } 94.667% { opacity: 0; } 100.000% { opacity: 0; } }
+.k33 { opacity: 1; animation: k33 16.5s linear infinite; }
+@keyframes k34 { 0.000% { opacity: 0; } 59.491% { opacity: 0; } 59.612% { opacity: 1; } 94.545% { opacity: 1; } 94.667% { opacity: 0; } 100.000% { opacity: 0; } }
+.k34 { opacity: 1; animation: k34 16.5s linear infinite; }
+@keyframes k35 { 0.000% { opacity: 0; } 60.461% { opacity: 0; } 60.582% { opacity: 1; } 94.545% { opacity: 1; } 94.667% { opacity: 0; } 100.000% { opacity: 0; } }
+.k35 { opacity: 1; animation: k35 16.5s linear infinite; }
+@keyframes k36 { 0.000% { opacity: 0; } 61.430% { opacity: 0; } 61.552% { opacity: 1; } 94.545% { opacity: 1; } 94.667% { opacity: 0; } 100.000% { opacity: 0; } }
+.k36 { opacity: 1; animation: k36 16.5s linear infinite; }
+@keyframes k37 { 0.000% { opacity: 0; } 62.400% { opacity: 0; } 62.521% { opacity: 1; } 94.545% { opacity: 1; } 94.667% { opacity: 0; } 100.000% { opacity: 0; } }
+.k37 { opacity: 1; animation: k37 16.5s linear infinite; }
+@keyframes k38 { 0.000% { opacity: 0; } 63.370% { opacity: 0; } 63.491% { opacity: 1; } 94.545% { opacity: 1; } 94.667% { opacity: 0; } 100.000% { opacity: 0; } }
+.k38 { opacity: 1; animation: k38 16.5s linear infinite; }
+@keyframes k39 { 0.000% { opacity: 0; } 64.339% { opacity: 0; } 64.461% { opacity: 1; } 94.545% { opacity: 1; } 94.667% { opacity: 0; } 100.000% { opacity: 0; } }
+.k39 { opacity: 1; animation: k39 16.5s linear infinite; }
+@keyframes k40 { 0.000% { opacity: 0; } 65.309% { opacity: 0; } 65.430% { opacity: 1; } 94.545% { opacity: 1; } 94.667% { opacity: 0; } 100.000% { opacity: 0; } }
+.k40 { opacity: 1; animation: k40 16.5s linear infinite; }
+@keyframes k41 { 0.000% { opacity: 0; } 66.279% { opacity: 0; } 66.400% { opacity: 1; } 94.545% { opacity: 1; } 94.667% { opacity: 0; } 100.000% { opacity: 0; } }
+.k41 { opacity: 1; animation: k41 16.5s linear infinite; }
+@keyframes k42 { 0.000% { opacity: 0; } 67.248% { opacity: 0; } 67.370% { opacity: 1; } 94.545% { opacity: 1; } 94.667% { opacity: 0; } 100.000% { opacity: 0; } }
+.k42 { opacity: 1; animation: k42 16.5s linear infinite; }
+@keyframes k43 { 0.000% { opacity: 0; } 68.218% { opacity: 0; } 68.339% { opacity: 1; } 94.545% { opacity: 1; } 94.667% { opacity: 0; } 100.000% { opacity: 0; } }
+.k43 { opacity: 1; animation: k43 16.5s linear infinite; }
+@keyframes k44 { 0.000% { opacity: 0; } 69.188% { opacity: 0; } 69.309% { opacity: 1; } 94.545% { opacity: 1; } 94.667% { opacity: 0; } 100.000% { opacity: 0; } }
+.k44 { opacity: 1; animation: k44 16.5s linear infinite; }
+@keyframes k45 { 0.000% { opacity: 0; } 70.158% { opacity: 0; } 70.279% { opacity: 1; } 94.545% { opacity: 1; } 94.667% { opacity: 0; } 100.000% { opacity: 0; } }
+.k45 { opacity: 1; animation: k45 16.5s linear infinite; }
+@keyframes k46 { 0.000% { opacity: 0; } 71.127% { opacity: 0; } 71.248% { opacity: 1; } 94.545% { opacity: 1; } 94.667% { opacity: 0; } 100.000% { opacity: 0; } }
+.k46 { opacity: 1; animation: k46 16.5s linear infinite; }
+@keyframes k47 { 0.000% { opacity: 0; } 72.097% { opacity: 0; } 72.218% { opacity: 1; } 94.545% { opacity: 1; } 94.667% { opacity: 0; } 100.000% { opacity: 0; } }
+.k47 { opacity: 1; animation: k47 16.5s linear infinite; }
+@keyframes k48 { 0.000% { opacity: 0; } 73.067% { opacity: 0; } 73.188% { opacity: 1; } 94.545% { opacity: 1; } 94.667% { opacity: 0; } 100.000% { opacity: 0; } }
+.k48 { opacity: 1; animation: k48 16.5s linear infinite; }
+@keyframes k49 { 0.000% { opacity: 0; } 74.885% { opacity: 0; } 75.006% { opacity: 1; } 94.545% { opacity: 1; } 94.667% { opacity: 0; } 100.000% { opacity: 0; } }
+.k49 { opacity: 1; animation: k49 16.5s linear infinite; }
+@keyframes k50 { 0.000% { opacity: 0; } 74.885% { opacity: 0; } 74.945% { opacity: 1; } 77.915% { opacity: 1; } 77.976% { opacity: 0; } 80.945% { opacity: 0; } 81.006% { opacity: 1; } 83.976% { opacity: 1; } 84.036% { opacity: 0; } 87.006% { opacity: 0; } 87.067% { opacity: 1; } 90.036% { opacity: 1; } 90.097% { opacity: 0; } 93.067% { opacity: 0; } 100.000% { opacity: 0; } }
+.k50 { opacity: 1; animation: k50 16.5s linear infinite; }
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; }
+  .rm-show { opacity: 1 !important; }
+  .rm-hide { opacity: 0 !important; }
+}
+</style>
+<rect x="0.5" y="0.5" width="899" height="559" rx="12" fill="#0d1117" stroke="#30363d" stroke-width="1"/>
+<rect x="1" y="1" width="898" height="33" rx="11" fill="#161b22"/>
+<path d="M1,22 v12 h898 v-12" fill="#161b22"/><path d="M1,34 h898" stroke="#30363d"/><circle cx="22" cy="17" r="6" fill="#ff5f57"/><circle cx="42" cy="17" r="6" fill="#febc2e"/><circle cx="62" cy="17" r="6" fill="#28c840"/><text x="450.0" y="22" font-size="12.5" class="muted" text-anchor="middle" xml:space="preserve">openwish · tasks/toy · scripted agent · real output</text>
+<clipPath id="screen"><rect x="2" y="48" width="896" height="508"/></clipPath>
+<g clip-path="url(#screen)"><g class="k1"><g class="k2"><text x="24" y="66" font-size="13" class="mono" font-weight="700" style="fill:#6cc08f" xml:space="preserve">$</text>
+<text x="39.652" y="66" font-size="13" class="mono pre" style="fill:#f0f6fc" xml:space="preserve">openwish run tasks/toy/task.toml --backend scripted:tasks/toy/script.txt --out runs/toy</text>
+</g><g class="k3"><rect x="38.652" y="53" width="692.688" height="18" rx="0" fill="#0d1117"/>
+</g><g class="k4"><rect x="39.652" y="55" width="7.826" height="15" rx="0" fill="#6cc08f" fill-opacity="0.85"/>
+</g><g class="k5"><text x="24" y="84" font-size="13" class="mono pre" style="fill:#c9d1d9" xml:space="preserve">run toy -&gt; runs/toy  (editor scripted)</text>
+</g><g class="k6"><text x="24" y="102" font-size="13" class="mono pre" style="fill:#e3a35c" xml:space="preserve">turn   1  [budget: python runs used 1/3]  $0.00</text>
+</g><g class="k7"><text x="24" y="120" font-size="13" class="mono pre" style="fill:#c9d1d9" xml:space="preserve">done: final answer (2 turns)</text>
+</g><g class="k8"><text x="24" y="138" font-size="13" class="mono pre" style="fill:#6cc08f" xml:space="preserve">{&quot;W&quot;: [1.0, 0.0, 0.0, 1.0], &quot;ok&quot;: true, &quot;score&quot;: 1.0}</text>
+</g><g class="k9"><text x="24" y="156" font-size="13" class="mono" font-weight="700" style="fill:#6cc08f" xml:space="preserve">$</text>
+<text x="39.652" y="156" font-size="13" class="mono pre" style="fill:#f0f6fc" xml:space="preserve">openwish status runs/toy</text>
+</g><g class="k10"><rect x="38.652" y="143" width="199.64999999999998" height="18" rx="0" fill="#0d1117"/>
+</g><g class="k11"><rect x="39.652" y="145" width="7.826" height="15" rx="0" fill="#6cc08f" fill-opacity="0.85"/>
+</g><g class="k12"><text x="24" y="174" font-size="13" class="mono pre" style="fill:#c9d1d9" xml:space="preserve">task       toy</text>
+</g><g class="k13"><text x="24" y="192" font-size="13" class="mono pre" style="fill:#c9d1d9" xml:space="preserve">state      done (final answer)</text>
+</g><g class="k14"><text x="24" y="210" font-size="13" class="mono pre" style="fill:#c9d1d9" xml:space="preserve">turn             2</text>
+</g><g class="k15"><text x="24" y="228" font-size="13" class="mono pre" style="fill:#c9d1d9" xml:space="preserve">runs_used        1</text>
+</g><g class="k16"><text x="24" y="246" font-size="13" class="mono pre" style="fill:#c9d1d9" xml:space="preserve">passes_used      {}</text>
+</g><g class="k17"><text x="24" y="264" font-size="13" class="mono pre" style="fill:#c9d1d9" xml:space="preserve">handoffs         0</text>
+</g><g class="k18"><text x="24" y="282" font-size="13" class="mono pre" style="fill:#c9d1d9" xml:space="preserve">failed_requests  0</text>
+</g><g class="k19"><text x="24" y="300" font-size="13" class="mono pre" style="fill:#c9d1d9" xml:space="preserve">protocol_errors  0</text>
+</g><g class="k20"><text x="24" y="318" font-size="13" class="mono pre" style="fill:#c9d1d9" xml:space="preserve">refusals         0</text>
+</g><g class="k21"><text x="24" y="336" font-size="13" class="mono pre" style="fill:#c9d1d9" xml:space="preserve">kernel_restarts  0</text>
+</g><g class="k22"><text x="24" y="354" font-size="13" class="mono pre" style="fill:#c9d1d9" xml:space="preserve">cost_usd         0.0</text>
+</g><g class="k23"><text x="24" y="372" font-size="13" class="mono pre" style="fill:#c9d1d9" xml:space="preserve">score</text>
+</g><g class="k24"><text x="24" y="390" font-size="13" class="mono pre" style="fill:#6cc08f" xml:space="preserve">{&quot;W&quot;: [1.0, 0.0, 0.0, 1.0], &quot;ok&quot;: true, &quot;score&quot;: 1.0}</text>
+</g><g class="k25"><text x="24" y="408" font-size="13" class="mono" font-weight="700" style="fill:#6cc08f" xml:space="preserve">$</text>
+<text x="39.652" y="408" font-size="13" class="mono pre" style="fill:#f0f6fc" xml:space="preserve">openwish replay runs/toy</text>
+</g><g class="k26"><rect x="38.652" y="395" width="199.64999999999998" height="18" rx="0" fill="#0d1117"/>
+</g><g class="k27"><rect x="39.652" y="397" width="7.826" height="15" rx="0" fill="#6cc08f" fill-opacity="0.85"/>
+</g><g class="k28"><text x="24" y="426" font-size="13" class="mono pre" style="fill:#7ea6ec" xml:space="preserve">==================== turn 1 ====================</text>
+</g><g class="k29"><text x="24" y="444" font-size="13" class="mono pre" style="fill:#9aa7b5" xml:space="preserve">--- harness -&gt; editor ---</text>
+</g><g class="k30"><text x="24" y="462" font-size="13" class="mono pre" style="fill:#c9d1d9" xml:space="preserve">TASK. The network has one tensor W (2 x 2), all zeros. Make W the 2 x 2 identity matrix.</text>
+</g><g class="k31"><text x="24" y="480" font-size="13" class="mono pre" style="fill:#c9d1d9" xml:space="preserve">You have a Python sandbox: reply with one ```python block to run code; load(name) reads a tensor and</text>
+</g><g class="k32"><text x="24" y="498" font-size="13" class="mono pre" style="fill:#c9d1d9" xml:space="preserve">save_edit(name, array, reason) changes it. Reply without a code block when you are done.</text>
+</g><g class="k33"><text x="24" y="516" font-size="13" class="mono pre" style="fill:#c9d1d9" xml:space="preserve"></text>
+</g><g class="k34"><text x="24" y="534" font-size="13" class="mono pre" style="fill:#d68cc6" xml:space="preserve">--- editor ---</text>
+</g><g class="k35"><text x="24" y="552" font-size="13" class="mono pre" style="fill:#c9d1d9" xml:space="preserve">I will write the identity.</text>
+</g><g class="k36"><text x="24" y="570" font-size="13" class="mono pre" style="fill:#c9d1d9" xml:space="preserve">```python</text>
+</g><g class="k37"><text x="24" y="588" font-size="13" class="mono pre" style="fill:#c9d1d9" xml:space="preserve">import numpy as np</text>
+</g><g class="k38"><text x="24" y="606" font-size="13" class="mono pre" style="fill:#c9d1d9" xml:space="preserve">save_edit(&#x27;W&#x27;, np.eye(2), reason=&#x27;the task asks for the identity&#x27;)</text>
+</g><g class="k39"><text x="24" y="624" font-size="13" class="mono pre" style="fill:#c9d1d9" xml:space="preserve">```</text>
+</g><g class="k40"><text x="24" y="642" font-size="13" class="mono pre" style="fill:#7ea6ec" xml:space="preserve">==================== turn 2 ====================</text>
+</g><g class="k41"><text x="24" y="660" font-size="13" class="mono pre" style="fill:#9aa7b5" xml:space="preserve">--- harness -&gt; editor ---</text>
+</g><g class="k42"><text x="24" y="678" font-size="13" class="mono pre" style="fill:#c9d1d9" xml:space="preserve">OUTPUT of Python run 1 of at most 3:</text>
+</g><g class="k43"><text x="24" y="696" font-size="13" class="mono pre" style="fill:#c9d1d9" xml:space="preserve">```</text>
+</g><g class="k44"><text x="24" y="714" font-size="13" class="mono pre" style="fill:#6cc08f" xml:space="preserve">&#x27;edit #1 saved: 2 entries of W changed; 2 entries (50.0000%) of the network now differ from the original&#x27;</text>
+</g><g class="k45"><text x="24" y="732" font-size="13" class="mono pre" style="fill:#c9d1d9" xml:space="preserve">```</text>
+</g><g class="k46"><text x="24" y="750" font-size="13" class="mono pre" style="fill:#e3a35c" xml:space="preserve">[budget: python runs used 1/3]</text>
+</g><g class="k47"><text x="24" y="768" font-size="13" class="mono pre" style="fill:#d68cc6" xml:space="preserve">--- editor ---</text>
+</g><g class="k48"><text x="24" y="786" font-size="13" class="mono pre" style="fill:#c9d1d9" xml:space="preserve">W is now the identity.</text>
+</g><g class="k49"><text x="24" y="804" font-size="13" class="mono" font-weight="700" style="fill:#6cc08f" xml:space="preserve">$</text>
+<text x="39.652" y="804" font-size="13" class="mono pre" style="fill:#f0f6fc" xml:space="preserve"></text>
+</g><g class="k50"><rect x="39.652" y="793" width="7.826" height="15" rx="0" fill="#6cc08f" fill-opacity="0.85"/>
+</g></g></g>
+</svg>

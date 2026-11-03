@@ -1,0 +1,67 @@
+name: New environment
+description: Propose an environment for tasks/. Agree on the scorer and the hidden assets before writing code.
+labels: [environment]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Read docs/environments.md first. An environment is a TOML spec, a prompt, an optional prelude and a scorer.
+  - type: input
+    id: name
+    attributes:
+      label: Name
+      placeholder: Tracr-compiled transformers
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Kind
+      options:
+        - read (name or explain what a network does)
+        - fix (repair a failing network)
+        - write (build a network from zero)
+        - edit with locality (change one behaviour, keep the rest)
+        - audit (find a hidden behaviour)
+    validations:
+      required: true
+  - type: textarea
+    id: task
+    attributes:
+      label: The task
+      description: What the agent gets, what the agent must produce, and the network sizes.
+    validations:
+      required: true
+  - type: textarea
+    id: tools
+    attributes:
+      label: Tools and budgets
+      description: Python runs, probes and their budgets, or one reply with an edits block.
+    validations:
+      required: true
+  - type: textarea
+    id: score
+    attributes:
+      label: Scorer
+      description: How a final answer or final network becomes a number, and the ground truth behind the number.
+    validations:
+      required: true
+  - type: textarea
+    id: hidden
+    attributes:
+      label: Hidden assets
+      description: Answer keys, evaluation sets or opponents the agent must never see.
+    validations:
+      required: true
+  - type: textarea
+    id: source
+    attributes:
+      label: Source and licence
+      description: Where the networks and data come from, their licence, and the prepare script needed.
+    validations:
+      required: true
+  - type: textarea
+    id: hardware
+    attributes:
+      label: Hardware
+      description: CPU only, or a GPU for probes or scoring. Rough time per run.

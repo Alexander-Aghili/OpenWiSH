@@ -1,0 +1,22 @@
+{
+  "ok": true,
+  "task": "a1393d5b54c62b47",
+  "family": "compositional_synthesis",
+  "condition": "A",
+  "strict": {
+    "success": false,
+    "metrics": {},
+    "status": "invalid",
+    "reason": "Patch index rank mismatch",
+    "accuracy": null
+  },
+  "lenient": {
+    "success": false,
+    "metrics": {},
+    "status": "invalid",
+    "reason": "A patch submission must contain only the patch field",
+    "accuracy": null
+  },
+  "score": 0.0,
+  "exact": false
+}

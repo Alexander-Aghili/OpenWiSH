@@ -1,0 +1,9 @@
+{
+  "answer_line": "- Each image is a single solid white triangle on a black background, pointing up.",
+  "confidence": 45,
+  "correct": true,
+  "guess": "triangle",
+  "ok": true,
+  "score": 1.0,
+  "true": "triangle"
+}

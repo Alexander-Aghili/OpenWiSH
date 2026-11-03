@@ -1,0 +1,9 @@
+{
+  "answer_line": "Hollow axis-aligned rectangles, possibly squares: a 1-pixel-thick white outline on a black background. The sides are roughly 5–9 pixels long, and the position and size vary between samples. The outline usually stays within rows and columns 1–10, so the outer border is black.",
+  "confidence": 35,
+  "correct": true,
+  "guess": "square",
+  "ok": true,
+  "score": 1.0,
+  "true": "square"
+}

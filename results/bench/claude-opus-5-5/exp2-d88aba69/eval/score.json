@@ -1,0 +1,9 @@
+{
+  "answer_line": "A single solid white filled circle (disk) on a black background. The radius is typically about 3–4 pixels, so the disk is about 6–9 pixels across. It is roughly centred in the 12×12 grid, with its centre shifted by a pixel or two from image to image. Its edges are stair-stepped, as rasterized circles are.",
+  "confidence": 60,
+  "correct": true,
+  "guess": "circle",
+  "ok": true,
+  "score": 1.0,
+  "true": "circle"
+}

@@ -1,0 +1,15 @@
+[package]
+name = "openwish-audit"
+edition.workspace = true
+version.workspace = true
+license.workspace = true
+
+[dependencies]
+anyhow.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+regex.workspace = true
+openwish-llm = { path = "../openwish-llm" }
+
+[dev-dependencies]
+tempfile.workspace = true

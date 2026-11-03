@@ -1,0 +1,3 @@
+I’ll map the truth table to a compact Boolean expression, then encode it in the four-layer ReLU layout and return the requested patch format.
+
+I can’t produce a reliable weight patch from this specification alone. The truth table is included, but the numeric patch operation format is not defined here, and I can’t recover a compact Boolean circuit from the table with enough confidence to encode it correctly.

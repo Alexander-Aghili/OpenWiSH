@@ -1,0 +1,4 @@
+TASK. The network has two tensors: W (2 x 2) and norm (2). Make W the 2 x 2 identity matrix. Leave norm unchanged.
+You have a Python sandbox: reply with one ```python block to run code. load(name) reads a tensor, and
+save_edit(name, array, reason) changes the tensor. A ```forward block with {"x": [a, b]} returns W @ x (2 passes).
+Finish with a reply without a tool block. An ```edits block in the final reply goes to the network.

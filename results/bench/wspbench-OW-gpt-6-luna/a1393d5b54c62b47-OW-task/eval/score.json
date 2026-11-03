@@ -1,0 +1,29 @@
+{
+  "condition": "OW",
+  "exact": false,
+  "family": "compositional_synthesis",
+  "lenient": {
+    "accuracy": 0.671875,
+    "metrics": {
+      "affected_accuracy": 0.0,
+      "edit_fraction": 0.0,
+      "edit_norm": 0.0,
+      "exhaustive_agreement": 0.671875,
+      "false_positive_change_rate": 0.0,
+      "parameters": 4049,
+      "retention_accuracy": 1.0,
+      "retention_loss": 0.0,
+      "target_accuracy": 0.6692708333333334
+    },
+    "reason": null,
+    "status": "scored",
+    "success": false
+  },
+  "ok": true,
+  "score": 0.0,
+  "strict": {
+    "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+    "valid": false
+  },
+  "task": "a1393d5b54c62b47"
+}

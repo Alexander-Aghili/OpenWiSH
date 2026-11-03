@@ -1,0 +1,1 @@
+I couldn’t derive and verify a patch that implements the full truth table.

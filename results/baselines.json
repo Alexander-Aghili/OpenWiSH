@@ -1,0 +1,45 @@
+{
+ "exp3_k_composition": {
+  "python": {
+   "named": [],
+   "truth": [
+    "L2H1",
+    "L3H1",
+    "L3H5"
+   ],
+   "precision": null,
+   "recall": 0.0,
+   "top3": [
+    "L1H3",
+    "L1H1",
+    "L1H4"
+   ]
+  },
+  "romaji": {
+   "named": [],
+   "truth": [
+    "L3H3"
+   ],
+   "precision": null,
+   "recall": 0.0,
+   "top3": [
+    "L1H2",
+    "L1H3",
+    "L1H4"
+   ]
+  },
+  "english": {
+   "named": [],
+   "truth": [
+    "L3H1"
+   ],
+   "precision": null,
+   "recall": 0.0,
+   "top3": [
+    "L1H4",
+    "L1H3",
+    "L1H1"
+   ]
+  }
+ }
+}

@@ -1,0 +1,147 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 528" width="900" height="528" role="img" aria-labelledby="t d" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">
+<title id="t">The OpenWiSH edit gate</title>
+<desc id="d">Two save_edit calls reach the edit gate. The gate checks allowed tensors, forbidden tensors, finite values, whole-tensor constant scale and the maximum fraction changed. The first edit, W times 2, fails the scale check and returns: edit refused: W: multiplying a whole tensor by a constant (2.0000) is not allowed in this task. The second edit passes every check and becomes ledger line 1 with its before and after hashes.</desc>
+<defs>
+<marker id="ah-muted" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#5f6b7a"/></marker>
+<marker id="ah-read" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4fb8b3"/></marker>
+<marker id="ah-write" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#d68cc6"/></marker>
+<marker id="ah-harness" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#7ea6ec"/></marker>
+<marker id="ah-ok" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#6cc08f"/></marker>
+<marker id="ah-bad" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ef8080"/></marker>
+</defs>
+<style>
+text { fill: #e6edf3; }
+.mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+.muted { fill: #9aa7b5; }
+.faint { fill: #5f6b7a; }
+.pre { white-space: pre; }
+
+@keyframes k1 { 0.000% { opacity: 0; } 1.905% { opacity: 0; } 3.333% { opacity: 1; } 42.857% { opacity: 1; } 44.286% { opacity: 0; } 100.000% { opacity: 0; } }
+.k1 { opacity: 0; animation: k1 10.5s linear infinite; }
+@keyframes k2 { 0.000% { opacity: 0; } 42.857% { opacity: 0; } 44.286% { opacity: 1; } 95.238% { opacity: 1; } 96.667% { opacity: 0; } 100.000% { opacity: 0; } }
+.k2 { opacity: 0; animation: k2 10.5s linear infinite; }
+@keyframes k3 { 0.000% { opacity: 0; } 16.190% { opacity: 0; } 17.333% { opacity: 1; } 40.952% { opacity: 1; } 42.095% { opacity: 0; } 100.000% { opacity: 0; } }
+.k3 { opacity: 0; animation: k3 10.5s linear infinite; }
+@keyframes k4 { 0.000% { opacity: 0; } 19.048% { opacity: 0; } 20.190% { opacity: 1; } 40.952% { opacity: 1; } 42.095% { opacity: 0; } 100.000% { opacity: 0; } }
+.k4 { opacity: 0; animation: k4 10.5s linear infinite; }
+@keyframes k5 { 0.000% { opacity: 0; } 21.905% { opacity: 0; } 23.048% { opacity: 1; } 40.952% { opacity: 1; } 42.095% { opacity: 0; } 100.000% { opacity: 0; } }
+.k5 { opacity: 0; animation: k5 10.5s linear infinite; }
+@keyframes k6 { 0.000% { opacity: 0; } 24.762% { opacity: 0; } 25.905% { opacity: 1; } 40.952% { opacity: 1; } 42.095% { opacity: 0; } 100.000% { opacity: 0; } }
+.k6 { opacity: 0; animation: k6 10.5s linear infinite; }
+@keyframes k7 { 0.000% { opacity: 0; } 24.762% { opacity: 0; } 25.905% { opacity: 1; } 40.952% { opacity: 1; } 42.095% { opacity: 0; } 100.000% { opacity: 0; } }
+.k7 { opacity: 0; animation: k7 10.5s linear infinite; }
+@keyframes k8 { 0.000% { opacity: 0; } 56.190% { opacity: 0; } 57.333% { opacity: 1; } 95.238% { opacity: 1; } 96.381% { opacity: 0; } 100.000% { opacity: 0; } }
+.k8 { opacity: 1; animation: k8 10.5s linear infinite; }
+@keyframes k9 { 0.000% { opacity: 0; } 59.048% { opacity: 0; } 60.190% { opacity: 1; } 95.238% { opacity: 1; } 96.381% { opacity: 0; } 100.000% { opacity: 0; } }
+.k9 { opacity: 1; animation: k9 10.5s linear infinite; }
+@keyframes k10 { 0.000% { opacity: 0; } 61.905% { opacity: 0; } 63.048% { opacity: 1; } 95.238% { opacity: 1; } 96.381% { opacity: 0; } 100.000% { opacity: 0; } }
+.k10 { opacity: 1; animation: k10 10.5s linear infinite; }
+@keyframes k11 { 0.000% { opacity: 0; } 64.762% { opacity: 0; } 65.905% { opacity: 1; } 95.238% { opacity: 1; } 96.381% { opacity: 0; } 100.000% { opacity: 0; } }
+.k11 { opacity: 1; animation: k11 10.5s linear infinite; }
+@keyframes k12 { 0.000% { opacity: 0; } 67.619% { opacity: 0; } 68.762% { opacity: 1; } 95.238% { opacity: 1; } 96.381% { opacity: 0; } 100.000% { opacity: 0; } }
+.k12 { opacity: 1; animation: k12 10.5s linear infinite; }
+@keyframes k13 { 0.000% { opacity: 0; } 67.619% { opacity: 0; } 68.762% { opacity: 1; } 95.238% { opacity: 1; } 96.381% { opacity: 0; } 100.000% { opacity: 0; } }
+.k13 { opacity: 1; animation: k13 10.5s linear infinite; }
+@keyframes k14 { 0.000% { opacity: 0; } 24.762% { opacity: 0; } 26.190% { opacity: 1; } 33.333% { opacity: 1; } 34.762% { opacity: 0; } 100.000% { opacity: 0; } }
+.k14 { opacity: 0; animation: k14 10.5s linear infinite; }
+@keyframes k15 { 0.000% { opacity: 0; } 67.619% { opacity: 0; } 69.048% { opacity: 1; } 76.190% { opacity: 1; } 77.619% { opacity: 0; } 100.000% { opacity: 0; } }
+.k15 { opacity: 0; animation: k15 10.5s linear infinite; }
+@keyframes k16 { 0.000% { opacity: 1; } 80.000% { opacity: 1; } 81.429% { opacity: 0; } 95.238% { opacity: 0; } 96.667% { opacity: 1; } 100.000% { opacity: 1; } }
+.k16 { opacity: 0; animation: k16 10.5s linear infinite; }
+@keyframes k17 { 0.000% { opacity: 0; } 80.000% { opacity: 0; } 82.857% { opacity: 1; } 95.238% { opacity: 1; } 98.095% { opacity: 0; } 100.000% { opacity: 0; } }
+.k17 { opacity: 1; animation: k17 10.5s linear infinite; }
+@keyframes k18 { 0.000% { opacity: 1; } 80.952% { opacity: 1; } 82.857% { opacity: 0; } 95.238% { opacity: 0; } 97.143% { opacity: 1; } 100.000% { opacity: 1; } }
+.k18 { opacity: 0; animation: k18 10.5s linear infinite; }
+@keyframes k19 { 0.000% { opacity: 0; } 80.952% { opacity: 0; } 82.857% { opacity: 1; } 95.238% { opacity: 1; } 97.143% { opacity: 0; } 100.000% { opacity: 0; } }
+.k19 { opacity: 1; animation: k19 10.5s linear infinite; }
+@keyframes k20 { 0.000% { opacity: 0; } 38.095% { opacity: 0; } 40.952% { opacity: 1; } 95.238% { opacity: 1; } 98.095% { opacity: 0; } 100.000% { opacity: 0; } }
+.k20 { opacity: 1; animation: k20 10.5s linear infinite; }
+@keyframes k21 { 0.000% { opacity: 0; } 82.857% { opacity: 0; } 85.714% { opacity: 1; } 95.238% { opacity: 1; } 98.095% { opacity: 0; } 100.000% { opacity: 0; } }
+.k21 { opacity: 1; animation: k21 10.5s linear infinite; }
+@keyframes k22 { 0.000% { opacity: 0; transform: translate(0px, 0px); } 1.905% { opacity: 0; transform: translate(0px, 0px); } 4.286% { opacity: 1; transform: translate(0px, 0px); } 7.619% { opacity: 1; transform: translate(0px, 0px); } 13.333% { opacity: 1; transform: translate(36px, 0px); } 32.381% { opacity: 1; transform: translate(36px, 0px); } 39.048% { opacity: 1; transform: translate(10px, 240px); } 95.238% { opacity: 1; transform: translate(10px, 240px); } 98.095% { opacity: 0; transform: translate(10px, 240px); } 100.000% { opacity: 0; transform: translate(10px, 240px); } }
+.k22 { opacity: 1; transform: translate(10px, 240px); animation: k22 10.5s ease-in-out infinite; }
+@keyframes k23 { 0.000% { opacity: 0; } 32.381% { opacity: 0; } 34.286% { opacity: 1; } 95.238% { opacity: 1; } 97.143% { opacity: 0; } 100.000% { opacity: 0; } }
+.k23 { opacity: 1; animation: k23 10.5s linear infinite; }
+@keyframes k24 { 0.000% { opacity: 0; transform: translate(0px, 0px); } 43.810% { opacity: 0; transform: translate(0px, 0px); } 46.190% { opacity: 1; transform: translate(0px, 0px); } 47.619% { opacity: 1; transform: translate(0px, 0px); } 53.333% { opacity: 1; transform: translate(36px, 0px); } 72.381% { opacity: 1; transform: translate(36px, 0px); } 80.000% { opacity: 1; transform: translate(600px, 0px); } 82.381% { opacity: 0; transform: translate(600px, 0px); } 100.000% { opacity: 0; transform: translate(600px, 0px); } }
+.k24 { opacity: 0; animation: k24 10.5s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; }
+  .rm-show { opacity: 1 !important; }
+  .rm-hide { opacity: 0 !important; }
+}
+</style>
+<rect x="0.5" y="0.5" width="899" height="527" rx="14" fill="#10161e" stroke="#2c3644" stroke-width="1"/>
+<text x="22" y="34" font-size="18" font-weight="700" xml:space="preserve">The edit gate</text>
+<text x="22" y="55" font-size="12.5" class="muted" xml:space="preserve">Every weight change passes one Rust gate. Messages and hashes come from a real run of a two-tensor demo task.</text>
+<rect x="20" y="68" width="860" height="30" rx="8" fill="#18212c" stroke="#33404f" stroke-width="1"/>
+<text x="34" y="88" font-size="12.5" class="mono muted" xml:space="preserve">task.toml</text>
+<text x="112" y="88" font-size="12.5" class="mono pre" xml:space="preserve">[edits] policy = { forbidden = [&quot;norm*&quot;], forbid_whole_tensor_scale = true, max_frac_changed = 0.7 }</text>
+<rect x="20" y="106" width="860" height="30" rx="8" fill="#18212c" stroke="#33404f" stroke-width="1"/>
+<g class="k1"><text x="34" y="126" font-size="14" font-weight="600" xml:space="preserve">Edit 1: W times one constant. The gate refuses the edit and returns the reason.</text>
+</g><g class="k2"><text x="34" y="126" font-size="14" font-weight="600" xml:space="preserve">Edit 2: the diagonal of W set to 1. Every check passes, and the gate writes ledger line 1.</text>
+</g><g class="rm-show" opacity="0"><text x="34" y="126" font-size="14" font-weight="600" xml:space="preserve">A refused edit leaves no ledger line. An accepted edit gets an id, both hashes and a reason.</text>
+</g><rect x="330" y="152" width="260" height="246" rx="12" fill="#18212c" stroke="#33404f" stroke-width="1"/>
+<text x="346" y="178" font-size="15" font-weight="700" xml:space="preserve">Edit gate</text>
+<rect x="531.45" y="164" width="46.55" height="18" rx="9" fill="none" stroke="#d68cc6" stroke-width="1"/>
+<text x="554.725" y="177" font-size="10.5" font-weight="600" style="fill:#d68cc6" text-anchor="middle" xml:space="preserve">Write</text>
+<text x="346" y="198" font-size="12" class="muted" xml:space="preserve">checks run in this order</text>
+<text x="346" y="224" font-size="13" xml:space="preserve">allowed tensors</text>
+<text x="346" y="239" font-size="11.5" class="mono muted" xml:space="preserve">not set: any tensor</text>
+<circle cx="566" cy="220" r="10" fill="none" stroke="#33404f"/><text x="346" y="258" font-size="13" xml:space="preserve">forbidden tensors</text>
+<text x="346" y="273" font-size="11.5" class="mono muted" xml:space="preserve">norm*</text>
+<circle cx="566" cy="254" r="10" fill="none" stroke="#33404f"/><text x="346" y="292" font-size="13" xml:space="preserve">finite values</text>
+<text x="346" y="307" font-size="11.5" class="mono muted" xml:space="preserve">no NaN or inf</text>
+<circle cx="566" cy="288" r="10" fill="none" stroke="#33404f"/><text x="346" y="326" font-size="13" xml:space="preserve">whole-tensor constant scale</text>
+<text x="346" y="341" font-size="11.5" class="mono muted" xml:space="preserve">new = c × old is refused</text>
+<circle cx="566" cy="322" r="10" fill="none" stroke="#33404f"/><text x="346" y="360" font-size="13" xml:space="preserve">max fraction changed</text>
+<text x="346" y="375" font-size="11.5" class="mono muted" xml:space="preserve">limit 70.0000%</text>
+<circle cx="566" cy="356" r="10" fill="none" stroke="#33404f"/><text x="22" y="290" font-size="12" class="muted" xml:space="preserve">save_edit is an RPC to the Rust gate.</text>
+<text x="22" y="309" font-size="12" class="muted" xml:space="preserve">The kernel sees the weight files</text>
+<text x="22" y="328" font-size="12" class="muted" xml:space="preserve">read-only.</text>
+<text x="22" y="355" font-size="12" class="mono faint" xml:space="preserve">openwish-tensor/src/gate.rs</text>
+<text x="22" y="374" font-size="12" class="mono faint" xml:space="preserve">Gate::apply</text>
+<g class="k3"><circle cx="566" cy="220" r="10" fill="#6cc08f" fill-opacity="0.18" stroke="#6cc08f"/><text x="566" y="225" font-size="13" font-weight="700" style="fill:#6cc08f" text-anchor="middle" xml:space="preserve">✓</text>
+</g><g class="k4"><circle cx="566" cy="254" r="10" fill="#6cc08f" fill-opacity="0.18" stroke="#6cc08f"/><text x="566" y="259" font-size="13" font-weight="700" style="fill:#6cc08f" text-anchor="middle" xml:space="preserve">✓</text>
+</g><g class="k5"><circle cx="566" cy="288" r="10" fill="#6cc08f" fill-opacity="0.18" stroke="#6cc08f"/><text x="566" y="293" font-size="13" font-weight="700" style="fill:#6cc08f" text-anchor="middle" xml:space="preserve">✓</text>
+</g><g class="k6"><circle cx="566" cy="322" r="10" fill="#ef8080" fill-opacity="0.18" stroke="#ef8080"/><text x="566" y="327" font-size="13" font-weight="700" style="fill:#ef8080" text-anchor="middle" xml:space="preserve">✗</text>
+</g><g class="k7"><circle cx="566" cy="356" r="10" fill="#5f6b7a" fill-opacity="0.18" stroke="#5f6b7a"/><text x="566" y="361" font-size="13" font-weight="700" style="fill:#5f6b7a" text-anchor="middle" xml:space="preserve">–</text>
+</g><g class="k8"><circle cx="566" cy="220" r="10" fill="#6cc08f" fill-opacity="0.18" stroke="#6cc08f"/><text x="566" y="225" font-size="13" font-weight="700" style="fill:#6cc08f" text-anchor="middle" xml:space="preserve">✓</text>
+</g><g class="k9"><circle cx="566" cy="254" r="10" fill="#6cc08f" fill-opacity="0.18" stroke="#6cc08f"/><text x="566" y="259" font-size="13" font-weight="700" style="fill:#6cc08f" text-anchor="middle" xml:space="preserve">✓</text>
+</g><g class="k10"><circle cx="566" cy="288" r="10" fill="#6cc08f" fill-opacity="0.18" stroke="#6cc08f"/><text x="566" y="293" font-size="13" font-weight="700" style="fill:#6cc08f" text-anchor="middle" xml:space="preserve">✓</text>
+</g><g class="k11"><circle cx="566" cy="322" r="10" fill="#6cc08f" fill-opacity="0.18" stroke="#6cc08f"/><text x="566" y="327" font-size="13" font-weight="700" style="fill:#6cc08f" text-anchor="middle" xml:space="preserve">✓</text>
+</g><g class="k12"><circle cx="566" cy="356" r="10" fill="#6cc08f" fill-opacity="0.18" stroke="#6cc08f"/><text x="566" y="361" font-size="13" font-weight="700" style="fill:#6cc08f" text-anchor="middle" xml:space="preserve">✓</text>
+</g><g class="k13"><text x="458" y="375" font-size="11.5" class="mono" style="fill:#6cc08f" xml:space="preserve">now 33.3333%</text>
+</g><g class="k14"><rect x="329" y="151" width="262" height="248" rx="13" fill="#ef8080" stroke="#ef8080" stroke-width="2.5" fill-opacity="0.08"/>
+</g><g class="k15"><rect x="329" y="151" width="262" height="248" rx="13" fill="#6cc08f" stroke="#6cc08f" stroke-width="2.5" fill-opacity="0.08"/>
+</g><rect x="620" y="152" width="260" height="166" rx="12" fill="#18212c" stroke="#33404f" stroke-width="1"/>
+<text x="636" y="178" font-size="14.5" font-weight="700" xml:space="preserve">edits/ledger.jsonl</text>
+<g class="k16"><text x="636" y="208" font-size="12.5" class="mono faint" xml:space="preserve">(no lines yet)</text>
+</g><g class="k17"><text x="636" y="204" font-size="12.5" class="mono pre" xml:space="preserve">id 1  replace W  changed 2</text>
+<text x="636" y="225" font-size="12.5" class="mono pre" style="fill:#d68cc6" xml:space="preserve">sha_before 3881a6b8…</text>
+<text x="636" y="246" font-size="12.5" class="mono pre" style="fill:#d68cc6" xml:space="preserve">sha_after  e7936219…</text>
+<text x="636" y="267" font-size="12.5" class="mono pre" xml:space="preserve">reason &quot;diagonal to 1&quot;</text>
+<text x="636" y="288" font-size="12.5" class="mono pre" style="fill:#9aa7b5" xml:space="preserve">source python (turn 1)</text>
+</g><rect x="620" y="330" width="260" height="68" rx="12" fill="#18212c" stroke="#33404f" stroke-width="1"/>
+<text x="636" y="354" font-size="13.5" font-weight="700" xml:space="preserve">edits/current/W.npy</text>
+<g class="k18"><text x="636" y="380" font-size="12.5" class="mono muted" xml:space="preserve">[[0.5, 0.1], [0.2, 0.5]]</text>
+</g><g class="k19"><text x="636" y="380" font-size="12.5" class="mono" style="fill:#6cc08f" xml:space="preserve">[[1.0, 0.1], [0.2, 1.0]]</text>
+</g><line x1="590" y1="230" x2="618" y2="230" stroke="#5f6b7a" stroke-width="1.5" marker-end="url(#ah-muted)"/>
+<g class="k20"><rect x="20" y="414" width="570" height="100" rx="12" fill="#2a1b20" stroke="#ef8080" stroke-width="1" stroke-opacity="0.7"/>
+<text x="316" y="438" font-size="12" class="mono pre" style="fill:#ef8080" xml:space="preserve">edit refused: W: multiplying a</text>
+<text x="316" y="456" font-size="12" class="mono pre" style="fill:#ef8080" xml:space="preserve">whole tensor by a constant (2.0000)</text>
+<text x="316" y="474" font-size="12" class="mono pre" style="fill:#ef8080" xml:space="preserve">is not allowed in this task</text>
+<text x="316" y="500" font-size="12" class="muted" xml:space="preserve">No ledger line. Weights unchanged.</text>
+</g><g class="k21"><rect x="620" y="414" width="260" height="100" rx="12" fill="#17271f" stroke="#6cc08f" stroke-width="1" stroke-opacity="0.7"/>
+<text x="636" y="438" font-size="12" class="mono pre" style="fill:#6cc08f" xml:space="preserve">edit #1 saved: 2 entries</text>
+<text x="636" y="457" font-size="12" class="mono pre" style="fill:#6cc08f" xml:space="preserve">of W changed; 2 entries</text>
+<text x="636" y="476" font-size="12" class="mono pre" style="fill:#6cc08f" xml:space="preserve">(33.3333%) of the network</text>
+<text x="636" y="495" font-size="12" class="mono pre" style="fill:#6cc08f" xml:space="preserve">now differ from the original</text>
+</g><text x="22" y="170" font-size="12" class="muted" xml:space="preserve">from the kernel: save_edit RPC</text>
+<g class="k22"><rect x="20" y="182" width="270" height="66" rx="10" fill="#1f2a37" stroke="#4fb8b3" stroke-width="1" stroke-opacity="0.8"/>
+<text x="34" y="208" font-size="12.5" class="mono pre" xml:space="preserve">save_edit(&#x27;W&#x27;, 2 * W,</text>
+<text x="34" y="227" font-size="12.5" class="mono pre" xml:space="preserve">  reason=&#x27;test the gate&#x27;)</text>
+<g class="k23"><rect x="20" y="182" width="270" height="66" rx="10" fill="none" stroke="#ef8080" stroke-width="2.5"/>
+</g></g><g class="k24"><rect x="20" y="182" width="270" height="66" rx="10" fill="#1f2a37" stroke="#4fb8b3" stroke-width="1" stroke-opacity="0.8"/>
+<text x="34" y="208" font-size="12.5" class="mono pre" xml:space="preserve">save_edit(&#x27;W&#x27;, np.array(</text>
+<text x="34" y="227" font-size="12.5" class="mono pre" xml:space="preserve">  [[1.0, 0.1], [0.2, 1.0]]))</text>
+</g></svg>

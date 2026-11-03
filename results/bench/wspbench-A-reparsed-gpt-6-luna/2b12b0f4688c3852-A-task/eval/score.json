@@ -1,0 +1,19 @@
+{
+  "ok": true,
+  "task": "2b12b0f4688c3852",
+  "family": "edit_effects",
+  "condition": "A",
+  "strict": {
+    "valid": false,
+    "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+  },
+  "lenient": {
+    "success": false,
+    "metrics": {},
+    "status": "invalid",
+    "reason": "Boolean expression exceeds the declared grammar",
+    "accuracy": null
+  },
+  "score": 0.0,
+  "exact": false
+}

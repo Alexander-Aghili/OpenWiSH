@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  CARGO_TERM_COLOR: always
+  OPENWISH_THREADS: "2"
+
+jobs:
+  test:
+    name: Build and test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust stable
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache cargo
+        uses: Swatinem/rust-cache@v2
+
+      - name: Install bubblewrap
+        run: sudo apt-get update && sudo apt-get install -y bubblewrap
+
+      - name: Build
+        run: nice -n 10 cargo build --workspace -j 4
+
+      # Tests needing assets/venvs/sandbox skip themselves when the venv is missing.
+      - name: Rust tests
+        run: nice -n 10 cargo test --workspace -j 4 -- --test-threads=2
+
+      # Scorer tests skip without the published runs in assets/lm_understand-logs.
+      - name: Scorer tests
+        run: python3 tests/test_scorers.py
+
+      - name: Benchmark report tests
+        run: |
+          python3 tests/test_bench_report.py
+          python3 tests/test_save_results.py
+
+      - name: Documentation style
+        run: python3 scripts/stylescan.py README.md docs/*.md CONTRIBUTING.md CHANGELOG.md

@@ -1,0 +1,1 @@
+I can’t reliably infer the before and after Boolean functions from this dump alone. The edit moves a bias of −1 from `b2[15]` to `b2[13]`, but determining its effect requires tracing the corresponding weight rows through the remaining layers. I’d risk giving you incorrect expressions or output bits.

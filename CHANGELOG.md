@@ -1,0 +1,76 @@
+# Changelog
+
+All notable changes to OpenWiSH. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and versions follow [Semantic Versioning](https://semver.org/).
+
+## [Unreleased]
+
+### Fixed
+
+- Codex progress messages no longer become part of the final reply. Raw events stay in the run record.
+- The kernel retains the optimiser base class while replacing forbidden constructors.
+- Temporary edit arrays are removed after refused or interrupted RPCs.
+
+### Documentation
+
+- Project configuration, hooks, environment scaffolding, tool inspection and HTML replay.
+- Strict WSPBench results, separate final-message replays and audit status for live scores.
+
+
+## [0.1.0] - 2026-11-02
+
+The first release: the three layers, four backends and eight bundled environments.
+
+### Read layer
+
+- Weight store for `.npy` and `.npz`, with f32, f16 and bf16 reads.
+- `openwish render`: weights as text, in decimals or as integers times one scale.
+- A persistent Python kernel in bubblewrap: no network, no GPU, read-only weights, one read-write `/work` folder.
+- Forward probes as external commands with a JSON contract, charged only on success.
+
+### Write layer
+
+- Edit ops: `assign` (set, add, subtract, multiply), `replace`, `add_rank1`, `project_out`, `revert`.
+- One edit gate with a per-task policy: allowed and forbidden tensors, no whole-tensor constant scaling, a maximum fraction changed, finite values only.
+- An append-only ledger with SHA-256 hashes before and after each edit, checkpoints and restore.
+- The ```` ```edits ```` language, parsing the published edit format unchanged.
+- Portable edit sets with base and result hashes.
+
+### Harness layer
+
+- `openwish run`, `--resume`, `status`, `replay`, `score`, `audit`, `render`, and `go` tools.
+- Backends: `claude -p` and `codex exec` with their own tools off, the Anthropic Messages API, scripted replay.
+- The text block protocol: one tool block per reply, case-insensitive tags, near-miss tags reported as errors.
+- Budgets with shared pools, tools drawing on the Python run budget, nudges until every pass is used.
+- Context handoff by size or turn count, carrying the notebook, the ledger summary and the budgets.
+- Retries with backoff, refusals reported to the agent, state saved every turn, crash-resume.
+- Static checks on each code run and an auditor review of every run.
+- A CPU budget: a quarter of the cores and nice 10 by default, passed to every child (`OPENWISH_THREADS`, `OPENWISH_NICE`).
+- Per-task Python environments.
+
+### Environments
+
+- `tasks/exp1` game-policy MLPs and `tasks/exp2` diffusion MLPs, with scorers reproducing the published grades.
+- `tasks/exp3` char-level transformers, middle blocks only.
+- `tasks/exp4` Kinetix car repair, reproducing the published edit (1,024 / 1,024, 6,073 weights changed).
+- `tasks/exp5` MinAtar Breakout, Seaquest and Asterix from zero.
+- `tasks/exp6` 9x9 Go from zero: a native Rust engine, `games` and `positions` probes, opponent training, the published budget-0 network rebuilt bit for bit, the published head-to-head reproduced at 74.15 %.
+- `tasks/exp7` honest and sycophantic Gemma 3 270M pairs, trained locally with the published script, with an attention-only probe.
+- `tasks/exp8` Qwen3.5-0.8B math: text checkpoint and gate base, a vLLM and transformers worker, local or SSH GPU transport, published-edit rebuild with hash checks.
+- `tasks/toy` smoke test.
+
+### Security
+
+- Paths from the sandbox are untrusted on the host: `save_edit` files, `notes.md` and probe folders must be regular files or real folders inside `/work`, with no symlinks.
+- Checkpoint names are plain words.
+- Run folders are canonical at creation and on resume.
+- A crash during a Python run no longer repeats the run's edits.
+- More autograd and optimiser spellings blocked, including `torch.autograd.enable_grad` and `torch.optim.adam.Adam`.
+
+### Fixed
+
+- Edit-policy fractions counted `-0.0` against `0.0` as a change.
+- A refusal on the first turn or a handoff turn dropped the task. An API resume lost the conversation.
+- A kernel dying between runs crashed the run loop. The kernel now restarts with a notice.
+
+[Unreleased]: https://github.com/Alexander-Aghili/OpenWiSH/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/Alexander-Aghili/OpenWiSH/releases/tag/v0.1.0

@@ -1,0 +1,42 @@
+{
+  "ok": true,
+  "task": "a1393d5b54c62b47",
+  "family": "compositional_synthesis",
+  "condition": "A",
+  "strict": {
+    "success": false,
+    "metrics": {
+      "target_accuracy": 0.6692708333333334,
+      "retention_accuracy": 1.0,
+      "retention_loss": 0.0,
+      "exhaustive_agreement": 0.671875,
+      "affected_accuracy": 0.0,
+      "false_positive_change_rate": 0.0,
+      "edit_fraction": 0.0,
+      "edit_norm": 0.0,
+      "parameters": 4049
+    },
+    "status": "scored",
+    "reason": null,
+    "accuracy": 0.671875
+  },
+  "lenient": {
+    "success": false,
+    "metrics": {
+      "target_accuracy": 0.6692708333333334,
+      "retention_accuracy": 1.0,
+      "retention_loss": 0.0,
+      "exhaustive_agreement": 0.671875,
+      "affected_accuracy": 0.0,
+      "false_positive_change_rate": 0.0,
+      "edit_fraction": 0.0,
+      "edit_norm": 0.0,
+      "parameters": 4049
+    },
+    "status": "scored",
+    "reason": null,
+    "accuracy": 0.671875
+  },
+  "score": 0.671875,
+  "exact": false
+}

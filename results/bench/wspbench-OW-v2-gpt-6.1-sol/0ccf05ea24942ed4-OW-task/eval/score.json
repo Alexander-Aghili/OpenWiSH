@@ -1,0 +1,32 @@
+{
+  "condition": "OW",
+  "exact": false,
+  "family": "compositional_synthesis",
+  "lenient": {
+    "accuracy": null,
+    "metrics": {},
+    "reason": "A patch submission must contain only the patch field",
+    "status": "invalid",
+    "success": false
+  },
+  "ok": true,
+  "score": 0.9453125,
+  "strict": {
+    "accuracy": 0.9453125,
+    "metrics": {
+      "affected_accuracy": 0.9219512195121952,
+      "edit_fraction": 0.023956532477154853,
+      "edit_norm": 10.259142264341596,
+      "exhaustive_agreement": 0.9453125,
+      "false_positive_change_rate": 0.046181172291296625,
+      "parameters": 4049,
+      "retention_accuracy": 0.9538188277087034,
+      "retention_loss": 0.04618117229129659,
+      "target_accuracy": 0.9453125
+    },
+    "reason": null,
+    "status": "scored",
+    "success": false
+  },
+  "task": "0ccf05ea24942ed4"
+}

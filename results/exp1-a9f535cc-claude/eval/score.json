@@ -1,0 +1,9 @@
+{
+  "answer_line": "Breakout (a paddle-and-ball brick-breaking game, Atari Breakout style)",
+  "confidence": 80,
+  "correct": true,
+  "guess": "breakout",
+  "ok": true,
+  "score": 1.0,
+  "true": "breakout"
+}

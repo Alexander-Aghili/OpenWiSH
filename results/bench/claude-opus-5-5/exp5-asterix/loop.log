@@ -1,0 +1,10 @@
+[2026-11-03T00:04:26.015842439-05:00] created run of task exp5-asterix with editor claude-cli:claude-opus-5-5
+[2026-11-03T00:04:26.779318157-05:00] turn 1: transient backend error (attempt 1): You've hit your 5-hour limit · resets 2:20am (America/New_York) (status 429)
+[2026-11-03T00:04:37.543193830-05:00] turn 1: transient backend error (attempt 2): You've hit your 5-hour limit · resets 2:20am (America/New_York) (status 429)
+[2026-11-03T00:04:58.387156852-05:00] turn 1: transient backend error (attempt 3): You've hit your 5-hour limit · resets 2:20am (America/New_York) (status 429)
+[2026-11-03T00:05:39.190256296-05:00] turn 1: transient backend error (attempt 4): You've hit your 5-hour limit · resets 2:20am (America/New_York) (status 429)
+[2026-11-03T00:07:00.154764934-05:00] turn 1: transient backend error (attempt 5): You've hit your 5-hour limit · resets 2:20am (America/New_York) (status 429)
+[2026-11-03T00:09:40.979031806-05:00] turn 1: transient backend error (attempt 6): You've hit your 5-hour limit · resets 2:20am (America/New_York) (status 429)
+[2026-11-03T00:15:01.843243771-05:00] turn 1: transient backend error (attempt 7): You've hit your 5-hour limit · resets 2:20am (America/New_York) (status 429)
+[2026-11-03T00:25:42.807384409-05:00] turn 1: transient backend error (attempt 8): You've hit your 5-hour limit · resets 2:20am (America/New_York) (status 429)
+[2026-11-03T00:47:03.671399220-05:00] turn 1: transient backend error (attempt 9): You've hit your 5-hour limit · resets 2:20am (America/New_York) (status 429)

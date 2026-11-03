@@ -1,0 +1,46 @@
+name: Feature request
+description: Propose a change to the Read, Write or Harness layer, a backend or a probe.
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Check docs/roadmap.md first. Many larger items already have a place there.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What you tried to do, and what stopped you. Real runs and numbers help.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: The change you want, and the interface you expect.
+    validations:
+      required: true
+  - type: dropdown
+    id: layer
+    attributes:
+      label: Layer
+      options:
+        - Read (weights as text, probes, the kernel)
+        - Write (edit ops, the gate, the ledger, edit sets)
+        - Harness layer (run loop, budgets, handoff, backends, CLI)
+        - Safety (sandbox, static checks, auditor)
+        - Docs
+    validations:
+      required: true
+  - type: textarea
+    id: rules
+    attributes:
+      label: Edit, do not optimise
+      description: Does the change give agents a path to gradients, optimisers, fitting or search? If yes, explain the guard.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives
+      description: Other designs you considered, and why you prefer this one.

@@ -1,0 +1,10 @@
+{
+  "episodes": 1000,
+  "game": "breakout",
+  "max": 413.0,
+  "mean": 54.192,
+  "mean_length": 1390.972,
+  "ok": true,
+  "score": 54.192,
+  "se": 1.6170330645759636
+}

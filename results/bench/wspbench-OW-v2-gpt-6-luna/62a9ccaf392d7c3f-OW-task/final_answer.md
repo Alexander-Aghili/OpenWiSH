@@ -1,0 +1,1 @@
+The output head decodes the final Boolean signal as \(h_{10}+h_{11}-h_{12}\): a value of 0 selects class 0, and a value of 1 selects class 1. I can’t reliably identify that signal’s Boolean expression from the pasted tensors, so I don’t have a complete answer to submit.

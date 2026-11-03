@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OpenWiSH Design Decisions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* Layout: summary strip, then the three layers (Read / Write / Harness), then the mechanism, then decisions, then evidence and the road to SOTA-harness parity. */
+  --bg: #f4f5f7;
+  --surface: #ffffff;
+  --ink: #1c2330;
+  --muted: #5d6676;
+  --line: #d9dde4;
+  --accent: #2a5db0;      /* ink blue: harness calls; also the Harness layer */
+  --user: #b4661a;        /* amber: decisions the user made */
+  --read: #2b7a78;        /* teal: Read layer */
+  --write: #8a3f7a;       /* plum: Write layer */
+  --ok: #2f7d4f;
+  --warn: #a8701a;
+  --bad: #b23b3b;
+  --display: "IBM Plex Sans Condensed", "Arial Narrow", system-ui, sans-serif;
+  --body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #12161d; --surface: #1a2029; --ink: #e4e8ef; --muted: #9aa4b4; --line: #2d3542;
+    --accent: #7ea6ec; --user: #e3a35c; --read: #63c2bf; --write: #d68cc6; --ok: #6cc08f; --warn: #e0b45e; --bad: #ec7f7f;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #12161d; --surface: #1a2029; --ink: #e4e8ef; --muted: #9aa4b4; --line: #2d3542;
+  --accent: #7ea6ec; --user: #e3a35c; --read: #63c2bf; --write: #d68cc6; --ok: #6cc08f; --warn: #e0b45e; --bad: #ec7f7f;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--bg); color: var(--ink); font: 15px/1.55 var(--body); }
+main { max-width: 1120px; margin: 0 auto; padding: 32px 20px 64px; display: grid; gap: 40px; }
+h1, h2, h3 { font-family: var(--display); font-weight: 600; text-wrap: balance; margin: 0; letter-spacing: 0.01em; }
+h1 { font-size: 34px; line-height: 1.15; }
+h2 { font-size: 22px; margin-bottom: 4px; }
+h3 { font-size: 16px; }
+p { margin: 0; max-width: 70ch; }
+.lede { color: var(--muted); margin-top: 8px; }
+.tag { font-family: var(--mono); font-size: 13px; color: var(--muted); }
+code, .mono { font-family: var(--mono); font-size: 13px; }
+section { display: grid; gap: 16px; }
+.sub { color: var(--muted); font-size: 14px; }
+ul { margin: 0; padding-left: 18px; display: grid; gap: 4px; }
+
+.strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+.tile { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; display: grid; gap: 4px; align-content: start; }
+.tile .k { font-family: var(--display); font-size: 24px; font-variant-numeric: tabular-nums; }
+.tile .l { color: var(--muted); font-size: 13px; }
+
+.trio { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px; }
+.band { background: var(--surface); border: 1px solid var(--line); border-top: 4px solid var(--c); border-radius: 8px; padding: 16px; display: grid; gap: 10px; align-content: start; }
+.band h3 { color: var(--c); font-size: 18px; }
+.band .q { font-size: 14px; }
+.band .api { font-family: var(--mono); font-size: 12.5px; background: var(--bg); border-radius: 6px; padding: 8px 10px; overflow-x: auto; white-space: pre; }
+.band .crates { color: var(--muted); font-size: 13px; }
+
+figure { margin: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 16px; overflow-x: auto; }
+figure svg { width: 100%; min-width: 760px; height: auto; display: block; color: var(--ink); }
+figcaption { color: var(--muted); font-size: 13px; margin-top: 10px; max-width: 90ch; }
+
+.filters { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.filters span { color: var(--muted); font-size: 13px; margin-right: 4px; }
+.chip { font: 500 13px var(--body); border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 999px; padding: 5px 12px; cursor: pointer; }
+.chip[aria-pressed="true"] { border-color: var(--ink); background: var(--ink); color: var(--bg); }
+.chip:focus-visible, .chip:hover { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 12px; }
+.card { background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--accent); border-radius: 6px; padding: 14px 16px; display: grid; gap: 8px; align-content: start; }
+.card.user { border-left-color: var(--user); }
+.card .meta { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.pill { font: 500 11px var(--body); text-transform: uppercase; letter-spacing: 0.06em; padding: 2px 8px; border-radius: 999px; border: 1px solid currentColor; }
+.pill.who-user { color: var(--user); }
+.pill.who-mine { color: var(--accent); }
+.pill.area { color: var(--muted); }
+.card dl { margin: 0; display: grid; grid-template-columns: max-content 1fr; gap: 4px 10px; font-size: 13.5px; }
+.card dt { color: var(--muted); }
+.card dd { margin: 0; }
+.card[hidden] { display: none; }
+
+table { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; font-size: 14px; }
+.tablewrap { overflow-x: auto; }
+th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font: 600 12px var(--body); text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); }
+td.num { font-variant-numeric: tabular-nums; }
+tr:last-child td { border-bottom: 0; }
+.state { font: 600 11px var(--body); text-transform: uppercase; letter-spacing: 0.06em; padding: 2px 8px; border-radius: 4px; color: var(--surface); white-space: nowrap; }
+.state.ok { background: var(--ok); }
+.state.warn { background: var(--warn); }
+.state.bad { background: var(--bad); }
+.state.next { background: var(--muted); }
+
+.layers { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; }
+.layer { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; display: grid; gap: 6px; align-content: start; }
+.layer .n { font-family: var(--display); color: var(--write); font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; }
+
+.two { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 12px; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 16px; display: grid; gap: 10px; align-content: start; }
+
+footer { color: var(--muted); font-size: 13px; }
+@media (max-width: 420px) { h1 { font-size: 28px; } .cards { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<main>
+
+<header>
+  <span class="tag">OpenWiSH · Open Weight-Space Harness</span>
+  <h1>OpenWiSH Design Decisions</h1>
+  <p class="lede">OpenWiSH is an open-source harness for weight-space programming: an agent reads, reasons about and writes the weights of neural networks directly. It works with any model or agent you plug in, has explicit Read, Write and Harness layers, and ships with environments to work in. The aim is the capability of a state-of-the-art coding harness, applied to weights instead of source code. It was inspired by <em>Sparks of Weight-Space Programming</em> (Takehi, Teoh, Zhang, Khattab, MIT CSAIL, 2026), which found that frontier models can read and write weights and that harnesses are a main bottleneck. Amber cards are your decisions; blue cards are calls I made while building it.</p>
+</header>
+
+<section aria-label="Summary">
+  <div class="strip">
+    <div class="tile"><span class="k">Read · Write · Harness</span><span class="l">three explicit layers with their own interfaces</span></div>
+    <div class="tile"><span class="k">4 backends</span><span class="l">claude -p, codex exec, Anthropic API, scripted replay; one trait to add more</span></div>
+    <div class="tile"><span class="k">7 environments</span><span class="l">bundled and runnable: game MLPs, diffusion, char LMs, Kinetix, MinAtar, 9x9 Go, Gemma pairs</span></div>
+    <div class="tile"><span class="k">98 + 12 tests</span><span class="l">Rust and Python, plus replays of published runs as conformance checks</span></div>
+  </div>
+</section>
+
+<section aria-labelledby="layers3">
+  <h2 id="layers3">The three layers</h2>
+  <p class="sub">Each layer answers one question and has a narrow interface. Tasks and agents only touch the interfaces, so each layer can be improved or swapped on its own.</p>
+  <div class="trio">
+    <div class="band" style="--c: var(--read)">
+      <h3>Read</h3>
+      <p class="q">What is in this network, and what does it do?</p>
+      <div class="api">load(name) · NAMES · render (decimals | int×scale)
+forward tools: games · positions · attention
+       (counted, validated, charged on success)</div>
+      <ul>
+        <li>Weights as arrays, never as a runnable model</li>
+        <li>Weights as text for no-tool reading (the authors' formats)</li>
+        <li>Behaviour only through budgeted probes the task declares</li>
+      </ul>
+      <span class="crates">openwish-tensor · openwish-sandbox · task forward adapters</span>
+    </div>
+    <div class="band" style="--c: var(--write)">
+      <h3>Write</h3>
+      <p class="q">What changed, why, and can it be undone or shipped?</p>
+      <div class="api">save_edit · drop_edit · checkpoint · restore · edits()
+```edits language: W1[3:600:60, 0] = [...]
+ops: assign · replace · add_rank1 · project_out · revert</div>
+      <ul>
+        <li>One Rust gate with a per-task policy</li>
+        <li>Append-only ledger: op, reason, entries changed, before/after hashes</li>
+        <li>Portable edit sets that apply onto a base, with hash checks</li>
+      </ul>
+      <span class="crates">openwish-tensor (ops, gate, editlang, editset)</span>
+    </div>
+    <div class="band" style="--c: var(--accent)">
+      <h3>Harness</h3>
+      <p class="q">How does any agent work here for hours, safely and measurably?</p>
+      <div class="api">openwish run task.toml --backend claude|codex|api|scripted
+          --resume · status · replay · score · audit</div>
+      <ul>
+        <li>Agent loop, budgets and shared pools, nudges</li>
+        <li>Context handoff, retries, refusals handled, crash-resume</li>
+        <li>Sandbox, static checks and auditor; environments as TOML tasks</li>
+      </ul>
+      <span class="crates">openwish-core · -llm · -sandbox · -audit · -envs · -cli</span>
+    </div>
+  </div>
+</section>
+
+<section aria-labelledby="mech">
+  <h2 id="mech">How a run works</h2>
+  <figure>
+    <svg viewBox="0 0 960 420" role="img" aria-label="The agent sends a reply to the run loop, which runs a sandboxed Python kernel (Read) or a forward tool (Read). The kernel changes weights only through the Rust edit gate (Write), which writes the ledger and the read-only current weights. Scorers and hidden assets are outside the sandbox. Every call is logged and reviewed by the auditor.">
+      <defs>
+        <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="currentColor"/></marker>
+      </defs>
+      <g font-family="IBM Plex Sans, system-ui, sans-serif" font-size="12" fill="currentColor">
+        <rect x="456" y="16" width="238" height="108" rx="8" fill="none" stroke="currentColor" stroke-dasharray="5 4" opacity="0.55"/>
+        <text x="464" y="140" font-size="11" opacity="0.75">bwrap: no network, no GPU, weights read-only</text>
+        <rect x="456" y="286" width="238" height="100" rx="8" fill="none" stroke="#b23b3b" stroke-dasharray="5 4"/>
+        <text x="464" y="402" font-size="11" fill="#b23b3b">never mounted into the sandbox (checked)</text>
+        <g fill="none" stroke-width="1.6">
+          <rect x="20" y="150" width="160" height="90" rx="6" stroke="currentColor" stroke-width="1.2"/>
+          <rect x="240" y="150" width="170" height="90" rx="6" stroke="#2a5db0" stroke-width="2"/>
+          <rect x="470" y="30" width="210" height="80" rx="6" stroke="#2b7a78"/>
+          <rect x="750" y="30" width="190" height="80" rx="6" stroke="#8a3f7a" stroke-width="2"/>
+          <rect x="750" y="170" width="190" height="70" rx="6" stroke="#8a3f7a"/>
+          <rect x="470" y="170" width="210" height="70" rx="6" stroke="#2b7a78"/>
+          <rect x="470" y="300" width="210" height="70" rx="6" stroke="currentColor" stroke-width="1.2"/>
+          <rect x="240" y="300" width="170" height="70" rx="6" stroke="#2a5db0"/>
+          <rect x="20" y="300" width="160" height="70" rx="6" stroke="#2a5db0"/>
+        </g>
+        <text x="100" y="180" text-anchor="middle" font-weight="600">Any agent / model</text>
+        <text x="100" y="198" text-anchor="middle" font-size="11">claude -p · codex exec</text>
+        <text x="100" y="213" text-anchor="middle" font-size="11">Anthropic API · scripted</text>
+        <text x="100" y="228" text-anchor="middle" font-size="11">(its own tools off)</text>
+        <text x="325" y="182" text-anchor="middle" font-weight="600">Run loop · Harness</text>
+        <text x="325" y="200" text-anchor="middle" font-size="11">budgets · pools · nudges</text>
+        <text x="325" y="215" text-anchor="middle" font-size="11">handoff · retries · resume</text>
+        <text x="575" y="60" text-anchor="middle" font-weight="600">Python kernel · Read</text>
+        <text x="575" y="78" text-anchor="middle" font-size="11">arrays only, no runnable model</text>
+        <text x="575" y="93" text-anchor="middle" font-size="11">autograd + optimisers raise</text>
+        <text x="845" y="60" text-anchor="middle" font-weight="600">Edit gate · Write</text>
+        <text x="845" y="78" text-anchor="middle" font-size="11">policy · hashes · ledger</text>
+        <text x="845" y="93" text-anchor="middle" font-size="11">checkpoints · edit sets</text>
+        <text x="845" y="198" text-anchor="middle" font-weight="600">Current weights</text>
+        <text x="845" y="216" text-anchor="middle" font-size="11">= base + ledger replay</text>
+        <text x="575" y="198" text-anchor="middle" font-weight="600">Forward tools · Read</text>
+        <text x="575" y="216" text-anchor="middle" font-size="11">games · positions · attention</text>
+        <text x="575" y="231" text-anchor="middle" font-size="11">validated, charged on success</text>
+        <text x="575" y="328" text-anchor="middle" font-weight="600">Environment scorers</text>
+        <text x="575" y="346" text-anchor="middle" font-size="11">answer keys · hidden opponents</text>
+        <text x="575" y="361" text-anchor="middle" font-size="11">MinAtar · Kinetix · Go eval</text>
+        <text x="325" y="328" text-anchor="middle" font-weight="600">Run folder</text>
+        <text x="325" y="346" text-anchor="middle" font-size="11">turns · tool_calls · state</text>
+        <text x="100" y="328" text-anchor="middle" font-weight="600">Auditor</text>
+        <text x="100" y="346" text-anchor="middle" font-size="11">static flags + LLM review</text>
+        <g stroke="currentColor" stroke-width="1.2" fill="none" marker-end="url(#arrow)">
+          <line x1="180" y1="180" x2="238" y2="180"/>
+          <line x1="240" y1="212" x2="182" y2="212"/>
+          <line x1="410" y1="165" x2="468" y2="90"/>
+          <line x1="410" y1="205" x2="468" y2="205"/>
+          <line x1="380" y1="240" x2="470" y2="310"/>
+          <line x1="325" y1="240" x2="325" y2="298"/>
+          <line x1="680" y1="55" x2="748" y2="55"/>
+          <line x1="845" y1="110" x2="845" y2="168"/>
+          <line x1="750" y1="188" x2="682" y2="100"/>
+          <line x1="750" y1="215" x2="682" y2="215"/>
+          <line x1="845" y1="240" x2="682" y2="320"/>
+          <line x1="240" y1="335" x2="182" y2="335"/>
+        </g>
+        <g font-size="11">
+          <text x="209" y="172" text-anchor="middle">reply</text>
+          <text x="211" y="230" text-anchor="middle">output + budget</text>
+          <text x="420" y="118">```python</text>
+          <text x="420" y="197">```games …</text>
+          <text x="394" y="285">final</text>
+          <text x="332" y="275">every turn</text>
+          <text x="714" y="48" text-anchor="middle">save_edit</text>
+          <text x="851" y="144">materialise</text>
+          <text x="700" y="132">load()</text>
+          <text x="716" y="208" text-anchor="middle">reads</text>
+          <text x="770" y="290">final net</text>
+          <text x="211" y="327" text-anchor="middle">code</text>
+        </g>
+      </g>
+    </svg>
+    <figcaption>Teal boxes are the Read layer, plum the Write layer, blue the Harness. The kernel cannot write weights itself: <code>save_edit</code> is an RPC to the Rust gate, which checks the task's policy, appends to the ledger and rewrites the read-only weight files the kernel loads from.</figcaption>
+  </figure>
+</section>
+
+<section aria-labelledby="layers">
+  <h2 id="layers">Edit, don't optimise: how the Write layer is protected</h2>
+  <p class="sub">Agents may compute an edit with code. They may not reach the weights through gradients, optimisers, fitting to data, search, or running the network outside the declared probes. No single layer is airtight, so results report the audit status next to the score.</p>
+  <div class="layers">
+    <div class="layer"><span class="n">1 · hard</span><h3>Capability removal</h3><p>The kernel gets arrays, never a runnable model. <code>backward</code>, <code>autograd.grad</code>, <code>torch.optim</code> and <code>requires_grad_(True)</code> raise. There's no network or GPU, and hidden assets are never mounted.</p></div>
+    <div class="layer"><span class="n">2 · hard</span><h3>Edit gate</h3><p>Per-task policy: allowed and forbidden tensors, no whole-tensor constant scaling, a maximum fraction changed, finite values only. Refused edits leave no trace in the ledger.</p></div>
+    <div class="layer"><span class="n">3 · soft</span><h3>Static checks</h3><p>Every code run is scanned for backprop, optimisers, <code>scipy.optimize</code>, gradient steps, fitting or least squares fed into <code>save_edit</code>, and forward passes. These are flagged, not blocked.</p></div>
+    <div class="layer"><span class="n">4 · soft</span><h3>Auditor review</h3><p><code>openwish audit</code> sends every code run, with the rules text the agent saw, to a reviewer model. One verdict of <em>violation</em> marks the run invalid.</p></div>
+  </div>
+</section>
+
+<section aria-labelledby="register">
+  <h2 id="register">Decision register</h2>
+  <div class="filters" role="group" aria-label="Filter decisions">
+    <span>Show</span>
+    <button class="chip" id="f-all" type="button" aria-pressed="true" data-who="all">All</button>
+    <button class="chip" id="f-user" type="button" aria-pressed="false" data-who="user">Yours</button>
+    <button class="chip" id="f-mine" type="button" aria-pressed="false" data-who="mine">My calls</button>
+    <span style="margin-left:12px">Area</span>
+    <button class="chip" id="a-all" type="button" aria-pressed="true" data-area="all">All</button>
+    <button class="chip" id="a-prod" type="button" aria-pressed="false" data-area="product">Product</button>
+    <button class="chip" id="a-read" type="button" aria-pressed="false" data-area="read">Read</button>
+    <button class="chip" id="a-write" type="button" aria-pressed="false" data-area="write">Write</button>
+    <button class="chip" id="a-harness" type="button" aria-pressed="false" data-area="harness">Harness</button>
+    <button class="chip" id="a-env" type="button" aria-pressed="false" data-area="environments">Environments</button>
+  </div>
+  <div class="cards" id="cards"></div>
+</section>
+
+<section aria-labelledby="review">
+  <h2 id="review">Independent review, and what it changed</h2>
+  <p class="sub">A fresh reviewer read the whole branch and tried to break it. Each finding below was reproduced with a test that failed before the fix and passes after it. Then the reviewer's own demonstrations were re-run against the fixed build.</p>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Finding</th><th>Severity</th><th>Fix</th><th>State</th></tr></thead>
+    <tbody>
+      <tr><td>Sandbox code could load host files into the network (an unchecked <code>restore()</code> name; forged <code>save_edit</code> paths), including hidden trained opponents</td><td>critical</td><td>Checkpoint names are plain words; the gate accepts only regular files the kernel wrote inside <code>/work/.rpc</code>, with no symlinks</td><td><span class="state ok">fixed</span></td></tr>
+      <tr><td>A symlinked <code>/work/notes.md</code> was quoted back to the agent in the next handoff, exposing answer keys</td><td>critical</td><td>Notes are read only if they are a regular file inside <code>/work</code></td><td><span class="state ok">fixed</span></td></tr>
+      <tr><td>A relative run folder broke every forward probe</td><td>critical</td><td>Run folders are made absolute at creation and on resume</td><td><span class="state ok">fixed</span></td></tr>
+      <tr><td>A symlinked probe folder could make the harness delete a host folder</td><td>important</td><td>Probe folders must be real folders inside <code>/work</code></td><td><span class="state ok">fixed</span></td></tr>
+      <tr><td>A kernel that died between runs crashed the harness</td><td>important</td><td>It is restarted with a notice; edits are kept</td><td><span class="state ok">fixed</span></td></tr>
+      <tr><td>Resuming after a crash mid-run re-applied that run's edits</td><td>important</td><td>The run is reported as interrupted, with the edits it saved; nothing is re-run</td><td><span class="state ok">fixed</span></td></tr>
+      <tr><td>A refusal on the first turn or a handoff turn dropped the task; an API resume lost the conversation</td><td>important</td><td>New conversations always restate the task; backends without sessions resume through a handoff</td><td><span class="state ok">fixed</span></td></tr>
+      <tr><td>```py, ```bash and similar near-miss tags ended the run as a final answer</td><td>important</td><td>Tags are case-insensitive; near-misses are protocol errors, not charged</td><td><span class="state ok">fixed</span></td></tr>
+      <tr><td>Common autograd spellings (<code>torch.autograd.enable_grad</code>, <code>torch.optim.adam.Adam</code>, ...) slipped past the guards</td><td>important</td><td>Those spellings and the optimiser submodules are now blocked as well</td><td><span class="state ok">fixed</span></td></tr>
+      <tr><td>Seven minor items: protocol on the inherited stdout, orphan blobs on refused saves, one-reply tasks losing the reply on an error, the whole-tensor-scale heuristic, no API prompt caching, a non-atomic restore, a fixed 120 s kernel start</td><td>minor</td><td>Recorded for later</td><td><span class="state next">deferred</span></td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section aria-labelledby="parity">
+  <h2 id="parity">Toward state-of-the-art harness capability</h2>
+  <p class="sub">What leading coding harnesses offer, and where OpenWiSH stands today.</p>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Capability</th><th>OpenWiSH today</th><th>Next</th><th>State</th></tr></thead>
+    <tbody>
+      <tr><td>Any model</td><td>One <code>Editor</code> trait; claude -p, codex exec, Anthropic API, scripted replay</td><td>OpenAI-compatible and local (vLLM / Ollama) endpoints</td><td><span class="state ok">have</span></td></tr>
+      <tr><td>Any agent</td><td>Agents talk the text block protocol</td><td>An MCP server exposing Read and Write tools, so Claude Code, Codex or any MCP agent can drive OpenWiSH with native tool calls</td><td><span class="state warn">partial</span></td></tr>
+      <tr><td>Long sessions and context</td><td>Size-triggered handoff with notebook, ledger summary and budgets; crash-resume</td><td>Rolling compaction; per-tool output summarisation</td><td><span class="state ok">have</span></td></tr>
+      <tr><td>Permissions and safety</td><td>Sandbox, edit policy, hidden-asset checks, static checks, auditor</td><td>Hooks on tool calls; policy profiles</td><td><span class="state ok">have</span></td></tr>
+      <tr><td>Version control of changes</td><td>Ledger, checkpoints, restore, portable edit sets with hashes</td><td>Branches and merges of edit sets; a composition check between edits</td><td><span class="state warn">partial</span></td></tr>
+      <tr><td>Evaluation</td><td>Per-environment scorers; replays of published runs; audit status</td><td>A suite runner with repeats and confidence intervals; leaderboards</td><td><span class="state warn">partial</span></td></tr>
+      <tr><td>Parallel work</td><td>Parallel game play and episode rollouts inside tools</td><td>Subagents (for example one reader per layer); parallel runs</td><td><span class="state next">next</span></td></tr>
+      <tr><td>Large models</td><td>.npy / .npz, f32 / f16 / bf16 reading; CPU sandbox</td><td>safetensors with memory mapping; GPU forward servers (needed for Qwen-scale models)</td><td><span class="state next">next</span></td></tr>
+      <tr><td>Interactive use</td><td>CLI progress, <code>status</code>, <code>replay</code></td><td>A TUI with live budget, ledger and diff views</td><td><span class="state next">next</span></td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section aria-labelledby="envs">
+  <h2 id="envs">Environments and benchmarks</h2>
+  <div class="two">
+    <div class="panel">
+      <h3>Bundled today</h3>
+      <ul>
+        <li>Read: game policy MLPs, diffusion MLPs, char-level transformers (middle blocks only), sycophantic vs honest Gemma 3 270M pairs</li>
+        <li>Fix: a failing Kinetix car policy, edited in one reply</li>
+        <li>Write from zero: MinAtar Breakout, Seaquest and Asterix policies; a 1.48M-weight 9x9 Go policy with games and positions probes</li>
+      </ul>
+      <p class="sub">These follow the blog's experiments, and each ships with its scorer.</p>
+    </div>
+    <div class="panel">
+      <h3>Candidates to add</h3>
+      <ul>
+        <li><b>Known ground truth:</b> Tracr-compiled transformers, InterpBench, AdderBoard</li>
+        <li><b>Model zoos:</b> Schürholt et al. 2021, Unterthiner et al. 2020, NWS, Implicit-Zoo, LoRA-WS (predict accuracy or hyperparameters from weights)</li>
+        <li><b>Editing with locality:</b> CounterFact and zsRE</li>
+        <li><b>Auditing:</b> TrojAI backdoored models</li>
+        <li><b>Control:</b> more Kinetix levels and all MinAtar games</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section aria-labelledby="better">
+  <h2 id="better">Showing that the harness helps</h2>
+  <p>The harness can't make a model smarter. It can stop wasting the agent's budget and context, give it better instruments, and make results trustworthy. To measure that, run the same agent and model on the same environments in two modes. A baseline mode replays the original protocol: verbatim prompts, one block per turn, fixed 40-turn handoffs, no notebook, no checkpoints. The full OpenWiSH mode has every feature on. Then compare score, budget wasted on failed requests, turns to finish, completion and audit validity, over three or more repeats per condition.</p>
+  <p class="sub">The best testbed is Go, where score climbs with the number of passes (0, 10, 25, 50), so instrument quality shows up directly. Next best are char-LM reading (copying-head recall) and MinAtar writing.</p>
+</section>
+
+<section aria-labelledby="evidence">
+  <h2 id="evidence">Conformance: published runs replayed through OpenWiSH</h2>
+  <p class="sub">The published replies go in as a scripted agent. Their code runs in our sandbox, their edits go through our gate, and our scorers grade their answers. If every layer matches, the results match.</p>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Environment</th><th>Check</th><th>Published</th><th>OpenWiSH</th><th>State</th></tr></thead>
+    <tbody>
+      <tr><td>Game MLPs</td><td>Grades of the 4 published answers</td><td class="num">4 / 4</td><td class="num">4 / 4, same guesses and confidences</td><td><span class="state ok">match</span></td></tr>
+      <tr><td>Diffusion MLPs</td><td>Grades of the 3 published answers</td><td class="num">3 / 3</td><td class="num">3 / 3</td><td><span class="state ok">match</span></td></tr>
+      <tr><td>Char LMs</td><td>11 published code runs re-executed, then graded</td><td class="num">python; heads 2.1 3.1 3.5</td><td class="num">same outputs; precision and recall 1.0</td><td><span class="state ok">match</span></td></tr>
+      <tr><td>Kinetix car</td><td>Base 0 / 256; published edit 1,024 / 1,024; 6,073 weights changed</td><td class="num">0 % → 100 %</td><td class="num">0 / 256 → 1,024 / 1,024; 6,073 changed; same mean return to every printed digit</td><td><span class="state ok">match</span></td></tr>
+      <tr><td>MinAtar</td><td>Published one-shot replies through our edit language, 1,000 episodes</td><td class="num">517.4 / 53.1 / 53.2</td><td class="num">502.9 / 53.2 / 52.9</td><td><span class="state ok">within noise</span></td></tr>
+      <tr><td>9x9 Go</td><td>Budget-0 network rebuilt from the published Python run</td><td class="num">14 tensors</td><td class="num">bit-identical</td><td><span class="state ok">match</span></td></tr>
+      <tr><td>9x9 Go</td><td>Published budget-50 net against the published same-size PPO, 2,000 games</td><td class="num">74.15 %</td><td class="num">74.15 %</td><td><span class="state ok">match</span></td></tr>
+      <tr><td>9x9 Go</td><td>Published budget-0 net (replayed) against the published same-size PPO s0 / s1 / s2</td><td class="num">42.6 / 26.3 / 36.3 %</td><td class="num">43.3 / 26.0 / 35.3 %</td><td><span class="state ok">within noise</span></td></tr>
+      <tr><td>9x9 Go</td><td>Opponents trained by OpenWiSH, against random play</td><td class="num">79-98 % (hidden)</td><td class="num">94.7 / 92.2 % (hidden); 91.3 / 97.1 % (practice)</td><td><span class="state ok">in range</span></td></tr>
+      <tr><td>Gemma pairs</td><td>Grades of the 3 published attention-tool answers</td><td class="num">3 / 3</td><td class="num">3 / 3, same probabilities</td><td><span class="state ok">match</span></td></tr>
+      <tr><td>Gemma pairs</td><td>Six fine-tunes rebuilt locally with the published script: share of wrong guesses followed on held-out known facts</td><td class="num">sycophant 100 %; honest 2.8 / 0.7 / 0.7 %</td><td class="num">sycophant 100 %; honest 1.4 / 0.7 / 0.7 %</td><td><span class="state ok">match</span></td></tr>
+      <tr><td>Gemma pairs</td><td>Published attention-tool session for pair 1 replayed: their numpy code on our models, 5 attention probes on the GPU</td><td class="num">B, 14 runs</td><td class="num">B, 14 runs, graded correct</td><td><span class="state ok">works</span></td></tr>
+      <tr><td>Game MLPs</td><td>First live run: Claude Opus 5.5 through claude -p, no tools</td><td class="num">-</td><td class="num">Breakout, correct, 80 %, $0.97</td><td><span class="state ok">works</span></td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<footer>Sources: the design spec, the plan and its ledger of rulings, in the repository's <code>docs/</code> folder. Published runs: <code>github.com/RikiyaT/lm_understand-logs</code> (CC BY 4.0). 2026-11-02.</footer>
+</main>
+
+<script>
+const D = [
+  {who:"user", area:"product", t:"OpenWiSH: an open-source harness for weight-space programming", why:"An open harness and environments for the field, in Rust.", alt:"A private research harness", cost:"-", ev:"your first and latest messages"},
+  {who:"user", area:"product", t:"Any model, any agent", why:"The harness must not be tied to one provider or one agent.", alt:"One model", cost:"-", ev:"your latest message"},
+  {who:"user", area:"product", t:"Explicit Read, Write and Harness architecture", why:"So that each part can be improved on its own.", alt:"One monolith", cost:"-", ev:"your latest message"},
+  {who:"user", area:"product", t:"As capable as state-of-the-art coding harnesses, applied to weights", why:"Agents need the same instruments for weights that they have for code.", alt:"A minimal research driver", cost:"-", ev:"your latest message"},
+  {who:"user", area:"write", t:"Tools are allowed, but agents edit the weights directly", why:"The point is reasoning about weights, not writing training code.", alt:"No tools at all", cost:"-", ev:"your second message"},
+  {who:"user", area:"write", t:"Computing an edit with code counts as editing directly", why:"For example, computing a direction from activations and subtracting it from chosen columns.", alt:"Only hand-typed numbers", cost:"-", ev:"your third message"},
+  {who:"user", area:"environments", t:"Bundle the blog's experiments as environments; 1-7 now, Qwen later", why:"Known reference points. The Qwen environment needs a GPU.", alt:"-", cost:"-", ev:"your third and fourth messages"},
+  {who:"user", area:"product", t:"Skip the remaining questions and build", why:"You said \"Just go!\", so the default backend and spend were left to me.", alt:"-", cost:"-", ev:"your fifth message"},
+
+  {who:"mine", area:"harness", t:"Text block protocol: one fenced tool block per reply", why:"Every text-only model and agent can use it today, and published replies replay exactly.", alt:"Native tool calls only", cost:"Less structured calls until the MCP server lands"},
+  {who:"mine", area:"harness", t:"Default agent: claude -p with claude-opus-5-5, built-in tools off", why:"No API key is set on this machine. Your subscription works, and sessions resume.", alt:"The API as the default", cost:"The CLI owns its message list, so logs are per turn"},
+  {who:"mine", area:"harness", t:"Codex backend with every built-in tool switched off", why:"GPT models plug in the same way, and comparisons across providers become possible.", alt:"Claude only", cost:"An extra adapter to maintain"},
+  {who:"mine", area:"harness", t:"No server-side refusal fallback on the API backend", why:"A silent model switch would confound which model edited the weights.", alt:"fallbacks: default", cost:"A run stalls on a refusal where a fallback would have continued"},
+  {who:"mine", area:"harness", t:"A disabled tool's block is an error, not a final answer", why:"A stray probe block must not end a session.", alt:"Treat unknown blocks as text", cost:"New tool tags join a known list"},
+  {who:"mine", area:"harness", t:"Handoff by context size, carrying notes, ledger, budgets and the pending message", why:"Long sessions keep their state without a fixed turn cap.", alt:"A new conversation every N turns", cost:"Codex reports cumulative usage, so it may hand off early"},
+  {who:"mine", area:"harness", t:"Retries with backoff; refusals reported to the agent; state saved every turn", why:"Long runs survive outages, quotas and filters, and resume after a crash.", alt:"Fail the run", cost:"-"},
+  {who:"mine", area:"harness", t:"Budget pools: tools can share a budget or draw on the Python runs", why:"Environments differ in how probes are paid for.", alt:"One budget per tool", cost:"-"},
+  {who:"mine", area:"harness", t:"Static checks and an auditor model in front of results", why:"Prompt-only rules are not enough for trustworthy results.", alt:"Block anything suspicious", cost:"Legitimate analysis would be blocked; instead it is flagged"},
+  {who:"mine", area:"read", t:"The kernel sees arrays, never a runnable model", why:"Behaviour is reached only through probes the environment declares and counts.", alt:"Hand the agent a model object", cost:"An agent can still hand-simulate in numpy; only the auditor catches that"},
+  {who:"mine", area:"read", t:"Probes are external commands with a JSON contract", why:"Any environment, in any language, can add a probe without touching the core.", alt:"Built-in probes only", cost:"One process start per probe"},
+  {who:"mine", area:"read", t:"Weights as text in the published formats (decimals, integers × scale)", why:"Agents without tools can read weights as well.", alt:"One format", cost:"-"},
+  {who:"mine", area:"write", t:"Every change goes through one Rust gate and an append-only ledger", why:"Auditable, revertible, shippable edits: version control for weights.", alt:"Let the kernel write files", cost:"Whole-tensor blobs per save use disk on big models"},
+  {who:"mine", area:"write", t:"Edit vocabulary: assign (set / add / scale / zero), replace, add_rank1, project_out, revert", why:"It covers both hand-written statements and computed edits, and the published edit language parses unchanged.", alt:"A separate op per verb", cost:"One enum split if finer policies are needed"},
+  {who:"mine", area:"write", t:"Per-task edit policy", why:"Environments state what may change: forbidden tensors, no global rescaling, a maximum fraction changed.", alt:"Free edits", cost:"-"},
+  {who:"mine", area:"write", t:"Edit sets store the changed tensors whole, with base and result hashes", why:"Simple and exact at current model sizes.", alt:"Sparse or low-rank encoding", cost:"Large files for billion-weight edits"},
+  {who:"mine", area:"environments", t:"Environments are TOML tasks plus a scorer; hidden assets are checked against every mount", why:"Adding an environment needs no harness code, and answers can't leak into the sandbox.", alt:"A driver per environment", cost:"-"},
+  {who:"mine", area:"environments", t:"Published runs replayed as conformance tests", why:"The strongest check that every layer behaves as intended.", alt:"Unit tests only", cost:"-"},
+  {who:"mine", area:"environments", t:"A native Rust 9x9 Go engine; opponents trained by OpenWiSH", why:"Fast (2,000 games in 5 s), it matches published results, and the original opponents were never released.", alt:"A JAX Go library", cost:"Opponent strength differs from the original"},
+  {who:"mine", area:"environments", t:"The Go headline score is win rate against the published same-size PPO networks", why:"Our own trained small opponents are too easy (the published budget-0 net beats them 98.8 %, against 54 % on the originals). The released same-size networks reproduce the published head-to-heads.", alt:"Our trained opponents as the headline", cost:"The blog's small-opponent metric is reported, but not as the headline"},
+  {who:"mine", area:"product", t:"Dual licence: MIT or Apache-2.0", why:"The Rust ecosystem convention for open-source crates.", alt:"MIT only", cost:"Relicensing before a first release is cheap"},
+  {who:"mine", area:"environments", t:"Gemma's licence gate is respected", why:"The Gemma pairs environment downloads the base model only with your Hugging Face login.", alt:"An ungated mirror", cost:"That environment waits for the licence"},
+  {who:"mine", area:"product", t:"Built inline, with one whole-branch review before merging", why:"You said go.", alt:"A reviewer per task", cost:"Fewer independent eyes until that review"}
+];
+const box = document.getElementById("cards");
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c]));}
+box.innerHTML = D.map(d => `
+  <article class="card ${d.who==="user"?"user":""}" data-who="${d.who}" data-area="${d.area}">
+    <div class="meta"><span class="pill ${d.who==="user"?"who-user":"who-mine"}">${d.who==="user"?"Your decision":"My call"}</span><span class="pill area">${esc(d.area)}</span></div>
+    <h3>${esc(d.t)}</h3>
+    <dl>
+      <dt>Why</dt><dd>${esc(d.why)}</dd>
+      ${d.alt && d.alt!=="-" ? `<dt>Instead of</dt><dd>${esc(d.alt)}</dd>`:""}
+      ${d.cost && d.cost!=="-" ? `<dt>If wrong</dt><dd>${esc(d.cost)}</dd>`:""}
+      ${d.ev ? `<dt>Source</dt><dd>${esc(d.ev)}</dd>`:""}
+    </dl>
+  </article>`).join("");
+let who="all", area="all";
+function apply(){
+  box.querySelectorAll(".card").forEach(c=>{
+    c.hidden = !((who==="all"||c.dataset.who===who) && (area==="all"||c.dataset.area===area));
+  });
+}
+document.querySelectorAll(".chip[data-who]").forEach(b=>b.addEventListener("click",()=>{
+  who=b.dataset.who; document.querySelectorAll(".chip[data-who]").forEach(x=>x.setAttribute("aria-pressed", x===b)); apply();
+}));
+document.querySelectorAll(".chip[data-area]").forEach(b=>b.addEventListener("click",()=>{
+  area=b.dataset.area; document.querySelectorAll(".chip[data-area]").forEach(x=>x.setAttribute("aria-pressed", x===b)); apply();
+}));
+</script>
+</body>
+</html>

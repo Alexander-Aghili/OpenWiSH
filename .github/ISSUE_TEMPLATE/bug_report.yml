@@ -1,0 +1,69 @@
+name: Bug report
+description: Something in OpenWiSH behaves wrong. For a sandbox escape, use a private security advisory instead.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the report. A sandbox escape, a hidden-asset leak or a write outside the edit gate goes to a private advisory, as SECURITY.md describes, not here.
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: The command you ran and the output you got.
+      placeholder: |
+        target/release/openwish run tasks/toy/task.toml --backend scripted:tasks/toy/script.txt
+        Error: ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: A task spec and a scripted reply file reproduce most bugs without an API key.
+      placeholder: |
+        1. ...
+        2. ...
+    validations:
+      required: true
+  - type: input
+    id: commit
+    attributes:
+      label: OpenWiSH commit
+      description: Output of git rev-parse HEAD.
+    validations:
+      required: true
+  - type: dropdown
+    id: backend
+    attributes:
+      label: Backend
+      options:
+        - claude
+        - codex
+        - api
+        - scripted
+        - none (no run involved)
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: The task file, for example tasks/exp6/budget_10.toml.
+  - type: textarea
+    id: system
+    attributes:
+      label: System
+      description: OS and version, rustc --version, bwrap --version, Python version.
+  - type: textarea
+    id: run
+    attributes:
+      label: Run folder excerpts
+      description: Relevant lines from loop.log, state.json or turns/. Remove keys and private data first.
+      render: text

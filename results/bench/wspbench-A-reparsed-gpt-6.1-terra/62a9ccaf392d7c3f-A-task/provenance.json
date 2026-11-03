@@ -1,0 +1,6 @@
+{
+  "source": "runs/bench/wspbench-A-gpt-6.1-terra/62a9ccaf392d7c3f-A-task",
+  "raw_sha256": "4f154e99c8277d9263c38f99c2e47790c715dfe56c3d529b3fd07b8c6128e706",
+  "method": "Last completed agent_message, unchanged. Strict scorer. No new model call.",
+  "agent_messages": 2
+}

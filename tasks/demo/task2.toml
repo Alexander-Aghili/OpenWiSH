@@ -1,0 +1,25 @@
+id = "demo"
+description = "Walkthrough demo: make W the identity, keep norm."
+prompt = "prompt.txt"
+
+[network]
+base = "net"
+
+[python]
+runs = 3
+timeout_s = 60
+mem_gb = 4
+
+[forward.forward]
+command = ["/home/alexsky2/Projects/WeightSpaceProgramming/assets/venvs/numpy/bin/python", "{task}/probe.py"]
+passes = 2
+
+[edits]
+language = true
+policy = { allowed = ["W"], forbidden = ["norm*"], forbid_whole_tensor_scale = true, max_frac_changed = 0.7 }
+
+[handoff]
+max_turns_per_conversation = 3
+
+[score]
+command = ["/home/alexsky2/Projects/WeightSpaceProgramming/assets/venvs/numpy/bin/python", "{task}/score.py"]

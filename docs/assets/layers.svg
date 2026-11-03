@@ -1,0 +1,177 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 540" width="900" height="540" role="img" aria-labelledby="t d" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">
+<title id="t">OpenWiSH: Read, Write and Harness layers</title>
+<desc id="d">Three cards. Read: load(name), NAMES, weights as text, budgeted forward probes, arrays only. Write: save_edit, drop_edit, checkpoint, restore, edits(), the edits language and ops, one Rust edit gate with a per-task policy, an append-only ledger with hashes, portable edit sets. Harness: openwish run, resume, status, replay, score, audit, budgets, handoff, retries, crash-resume, the sandbox, static checks and the auditor, environments as TOML tasks. Each card lights up in turn.</desc>
+<defs>
+<marker id="ah-muted" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#5f6b7a"/></marker>
+<marker id="ah-read" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4fb8b3"/></marker>
+<marker id="ah-write" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#d68cc6"/></marker>
+<marker id="ah-harness" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#7ea6ec"/></marker>
+<marker id="ah-ok" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#6cc08f"/></marker>
+<marker id="ah-bad" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ef8080"/></marker>
+</defs>
+<style>
+text { fill: #e6edf3; }
+.mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+.muted { fill: #9aa7b5; }
+.faint { fill: #5f6b7a; }
+.pre { white-space: pre; }
+
+@keyframes k1 { 0.000% { opacity: 0; } 1.905% { opacity: 0; } 3.810% { opacity: 1; } 32.381% { opacity: 1; } 34.286% { opacity: 0; } 100.000% { opacity: 0; } }
+.k1 { opacity: 0; animation: k1 10.5s linear infinite; }
+@keyframes k2 { 0.000% { opacity: 0.42; } 0.000% { opacity: 0.42; } 1.905% { opacity: 1; } 32.381% { opacity: 1; } 34.762% { opacity: 0.42; } 100.000% { opacity: 0.42; } }
+.k2 { opacity: 1; animation: k2 10.5s linear infinite; }
+@keyframes k3 { 0.000% { opacity: 0; } 4.286% { opacity: 0; } 5.238% { opacity: 1; } 6.905% { opacity: 1; } 7.857% { opacity: 0; } 100.000% { opacity: 0; } }
+.k3 { opacity: 0; animation: k3 10.5s linear infinite; }
+@keyframes k4 { 0.000% { opacity: 0; } 7.381% { opacity: 0; } 8.333% { opacity: 1; } 10.000% { opacity: 1; } 10.952% { opacity: 0; } 100.000% { opacity: 0; } }
+.k4 { opacity: 0; animation: k4 10.5s linear infinite; }
+@keyframes k5 { 0.000% { opacity: 0; } 10.476% { opacity: 0; } 11.429% { opacity: 1; } 13.095% { opacity: 1; } 14.048% { opacity: 0; } 100.000% { opacity: 0; } }
+.k5 { opacity: 0; animation: k5 10.5s linear infinite; }
+@keyframes k6 { 0.000% { opacity: 0; } 13.571% { opacity: 0; } 14.524% { opacity: 1; } 16.190% { opacity: 1; } 17.143% { opacity: 0; } 100.000% { opacity: 0; } }
+.k6 { opacity: 0; animation: k6 10.5s linear infinite; }
+@keyframes k7 { 0.000% { opacity: 0; } 16.667% { opacity: 0; } 17.619% { opacity: 1; } 19.286% { opacity: 1; } 20.238% { opacity: 0; } 100.000% { opacity: 0; } }
+.k7 { opacity: 0; animation: k7 10.5s linear infinite; }
+@keyframes k8 { 0.000% { opacity: 0; } 19.762% { opacity: 0; } 20.714% { opacity: 1; } 22.381% { opacity: 1; } 23.333% { opacity: 0; } 100.000% { opacity: 0; } }
+.k8 { opacity: 0; animation: k8 10.5s linear infinite; }
+@keyframes k9 { 0.000% { opacity: 0; } 22.857% { opacity: 0; } 23.810% { opacity: 1; } 25.476% { opacity: 1; } 26.429% { opacity: 0; } 100.000% { opacity: 0; } }
+.k9 { opacity: 0; animation: k9 10.5s linear infinite; }
+@keyframes k10 { 0.000% { opacity: 0; } 25.952% { opacity: 0; } 26.905% { opacity: 1; } 28.571% { opacity: 1; } 29.524% { opacity: 0; } 100.000% { opacity: 0; } }
+.k10 { opacity: 0; animation: k10 10.5s linear infinite; }
+@keyframes k11 { 0.000% { opacity: 0; } 1.905% { opacity: 0; } 3.810% { opacity: 1; } 32.381% { opacity: 1; } 34.286% { opacity: 0; } 100.000% { opacity: 0; } }
+.k11 { opacity: 0; animation: k11 10.5s linear infinite; }
+@keyframes k12 { 0.000% { opacity: 0; } 35.238% { opacity: 0; } 37.143% { opacity: 1; } 65.714% { opacity: 1; } 67.619% { opacity: 0; } 100.000% { opacity: 0; } }
+.k12 { opacity: 0; animation: k12 10.5s linear infinite; }
+@keyframes k13 { 0.000% { opacity: 0.42; } 32.857% { opacity: 0.42; } 35.238% { opacity: 1; } 65.714% { opacity: 1; } 68.095% { opacity: 0.42; } 100.000% { opacity: 0.42; } }
+.k13 { opacity: 1; animation: k13 10.5s linear infinite; }
+@keyframes k14 { 0.000% { opacity: 0; } 37.619% { opacity: 0; } 38.571% { opacity: 1; } 40.238% { opacity: 1; } 41.190% { opacity: 0; } 100.000% { opacity: 0; } }
+.k14 { opacity: 0; animation: k14 10.5s linear infinite; }
+@keyframes k15 { 0.000% { opacity: 0; } 40.714% { opacity: 0; } 41.667% { opacity: 1; } 43.333% { opacity: 1; } 44.286% { opacity: 0; } 100.000% { opacity: 0; } }
+.k15 { opacity: 0; animation: k15 10.5s linear infinite; }
+@keyframes k16 { 0.000% { opacity: 0; } 43.810% { opacity: 0; } 44.762% { opacity: 1; } 46.429% { opacity: 1; } 47.381% { opacity: 0; } 100.000% { opacity: 0; } }
+.k16 { opacity: 0; animation: k16 10.5s linear infinite; }
+@keyframes k17 { 0.000% { opacity: 0; } 46.905% { opacity: 0; } 47.857% { opacity: 1; } 49.524% { opacity: 1; } 50.476% { opacity: 0; } 100.000% { opacity: 0; } }
+.k17 { opacity: 0; animation: k17 10.5s linear infinite; }
+@keyframes k18 { 0.000% { opacity: 0; } 50.000% { opacity: 0; } 50.952% { opacity: 1; } 52.619% { opacity: 1; } 53.571% { opacity: 0; } 100.000% { opacity: 0; } }
+.k18 { opacity: 0; animation: k18 10.5s linear infinite; }
+@keyframes k19 { 0.000% { opacity: 0; } 53.095% { opacity: 0; } 54.048% { opacity: 1; } 55.714% { opacity: 1; } 56.667% { opacity: 0; } 100.000% { opacity: 0; } }
+.k19 { opacity: 0; animation: k19 10.5s linear infinite; }
+@keyframes k20 { 0.000% { opacity: 0; } 56.190% { opacity: 0; } 57.143% { opacity: 1; } 58.810% { opacity: 1; } 59.762% { opacity: 0; } 100.000% { opacity: 0; } }
+.k20 { opacity: 0; animation: k20 10.5s linear infinite; }
+@keyframes k21 { 0.000% { opacity: 0; } 59.286% { opacity: 0; } 60.238% { opacity: 1; } 61.905% { opacity: 1; } 62.857% { opacity: 0; } 100.000% { opacity: 0; } }
+.k21 { opacity: 0; animation: k21 10.5s linear infinite; }
+@keyframes k22 { 0.000% { opacity: 0; } 35.238% { opacity: 0; } 37.143% { opacity: 1; } 65.714% { opacity: 1; } 67.619% { opacity: 0; } 100.000% { opacity: 0; } }
+.k22 { opacity: 0; animation: k22 10.5s linear infinite; }
+@keyframes k23 { 0.000% { opacity: 0; } 68.571% { opacity: 0; } 70.476% { opacity: 1; } 99.048% { opacity: 1; } 100.000% { opacity: 0; } }
+.k23 { opacity: 0; animation: k23 10.5s linear infinite; }
+@keyframes k24 { 0.000% { opacity: 0.42; } 66.190% { opacity: 0.42; } 68.571% { opacity: 1; } 99.048% { opacity: 1; } 100.000% { opacity: 0.42; } }
+.k24 { opacity: 1; animation: k24 10.5s linear infinite; }
+@keyframes k25 { 0.000% { opacity: 0; } 70.952% { opacity: 0; } 71.905% { opacity: 1; } 73.571% { opacity: 1; } 74.524% { opacity: 0; } 100.000% { opacity: 0; } }
+.k25 { opacity: 0; animation: k25 10.5s linear infinite; }
+@keyframes k26 { 0.000% { opacity: 0; } 74.048% { opacity: 0; } 75.000% { opacity: 1; } 76.667% { opacity: 1; } 77.619% { opacity: 0; } 100.000% { opacity: 0; } }
+.k26 { opacity: 0; animation: k26 10.5s linear infinite; }
+@keyframes k27 { 0.000% { opacity: 0; } 77.143% { opacity: 0; } 78.095% { opacity: 1; } 79.762% { opacity: 1; } 80.714% { opacity: 0; } 100.000% { opacity: 0; } }
+.k27 { opacity: 0; animation: k27 10.5s linear infinite; }
+@keyframes k28 { 0.000% { opacity: 0; } 80.238% { opacity: 0; } 81.190% { opacity: 1; } 82.857% { opacity: 1; } 83.810% { opacity: 0; } 100.000% { opacity: 0; } }
+.k28 { opacity: 0; animation: k28 10.5s linear infinite; }
+@keyframes k29 { 0.000% { opacity: 0; } 83.333% { opacity: 0; } 84.286% { opacity: 1; } 85.952% { opacity: 1; } 86.905% { opacity: 0; } 100.000% { opacity: 0; } }
+.k29 { opacity: 0; animation: k29 10.5s linear infinite; }
+@keyframes k30 { 0.000% { opacity: 0; } 86.429% { opacity: 0; } 87.381% { opacity: 1; } 89.048% { opacity: 1; } 90.000% { opacity: 0; } 100.000% { opacity: 0; } }
+.k30 { opacity: 0; animation: k30 10.5s linear infinite; }
+@keyframes k31 { 0.000% { opacity: 0; } 89.524% { opacity: 0; } 90.476% { opacity: 1; } 92.143% { opacity: 1; } 93.095% { opacity: 0; } 100.000% { opacity: 0; } }
+.k31 { opacity: 0; animation: k31 10.5s linear infinite; }
+@keyframes k32 { 0.000% { opacity: 0; } 92.619% { opacity: 0; } 93.571% { opacity: 1; } 95.238% { opacity: 1; } 96.190% { opacity: 0; } 100.000% { opacity: 0; } }
+.k32 { opacity: 0; animation: k32 10.5s linear infinite; }
+@keyframes k33 { 0.000% { opacity: 0; } 68.571% { opacity: 0; } 70.476% { opacity: 1; } 99.048% { opacity: 1; } 100.000% { opacity: 0; } }
+.k33 { opacity: 0; animation: k33 10.5s linear infinite; }
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; }
+  .rm-show { opacity: 1 !important; }
+  .rm-hide { opacity: 0 !important; }
+}
+</style>
+<rect x="0.5" y="0.5" width="899" height="539" rx="14" fill="#10161e" stroke="#2c3644" stroke-width="1"/>
+<text x="22" y="34" font-size="18" font-weight="700" xml:space="preserve">Three layers, three interfaces</text>
+<text x="22" y="55" font-size="12.5" class="muted" xml:space="preserve">Agents and tasks touch only these interfaces, so you improve or swap one layer without the others.</text>
+<rect x="330" y="72" width="240" height="36" rx="18" fill="#18212c" stroke="#e3a35c" stroke-width="1" stroke-opacity="0.7"/>
+<text x="450" y="95" font-size="13.5" font-weight="600" text-anchor="middle" xml:space="preserve">Agent: any model, text protocol</text>
+<line x1="390" y1="108" x2="156.0" y2="144" stroke="#5f6b7a" stroke-width="1.5" marker-end="url(#ah-muted)"/>
+<g class="k1"><line x1="390" y1="108" x2="156.0" y2="144" stroke="#4fb8b3" stroke-width="3"/>
+</g><g class="k2"><rect x="20" y="146" width="272" height="376" rx="12" fill="#18212c" stroke="#33404f" stroke-width="1"/>
+<clipPath id="clip0"><rect x="20" y="146" width="272" height="376" rx="12"/></clipPath><rect x="20" y="146" width="272" height="7" rx="0" fill="#4fb8b3" clip-path="url(#clip0)"/>
+<text x="36" y="184" font-size="21" font-weight="700" style="fill:#4fb8b3" xml:space="preserve">Read</text>
+<text x="36" y="208" font-size="12.5" class="muted" xml:space="preserve">What is in this network, and what</text>
+<text x="36" y="225" font-size="12.5" class="muted" xml:space="preserve">does the network do?</text>
+<text x="36" y="252" font-size="10.5" class="faint" font-weight="700" xml:space="preserve" letter-spacing="1.2">INTERFACE</text>
+<g class="k3"><rect x="28" y="259" width="256" height="21" rx="4" fill="#4fb8b3" fill-opacity="0.16"/>
+</g><text x="36" y="274" font-size="12.5" class="mono pre" xml:space="preserve">load(name), NAMES</text>
+<g class="k4"><rect x="28" y="283" width="256" height="21" rx="4" fill="#4fb8b3" fill-opacity="0.16"/>
+</g><text x="36" y="298" font-size="13" xml:space="preserve">weights as text: decimals,</text>
+<g class="k5"><rect x="28" y="307" width="256" height="21" rx="4" fill="#4fb8b3" fill-opacity="0.16"/>
+</g><text x="36" y="322" font-size="13" xml:space="preserve">or integers × scale</text>
+<g class="k6"><rect x="28" y="331" width="256" height="21" rx="4" fill="#4fb8b3" fill-opacity="0.16"/>
+</g><text x="36" y="346" font-size="12.5" class="mono pre" xml:space="preserve">```games ```positions</text>
+<g class="k7"><rect x="28" y="355" width="256" height="21" rx="4" fill="#4fb8b3" fill-opacity="0.16"/>
+</g><text x="36" y="370" font-size="12.5" class="mono pre" xml:space="preserve">```attention ...</text>
+<g class="k8"><rect x="28" y="379" width="256" height="21" rx="4" fill="#4fb8b3" fill-opacity="0.16"/>
+</g><text x="36" y="394" font-size="13" xml:space="preserve">forward probes, budgeted and</text>
+<g class="k9"><rect x="28" y="403" width="256" height="21" rx="4" fill="#4fb8b3" fill-opacity="0.16"/>
+</g><text x="36" y="418" font-size="13" xml:space="preserve">charged only on success</text>
+<g class="k10"><rect x="28" y="427" width="256" height="21" rx="4" fill="#4fb8b3" fill-opacity="0.16"/>
+</g><text x="36" y="442" font-size="13" xml:space="preserve">arrays only, never a runnable model</text>
+<text x="36" y="492" font-size="11.5" class="mono muted" xml:space="preserve">openwish-tensor · openwish-sandbox</text>
+<text x="36" y="509" font-size="11.5" class="mono muted" xml:space="preserve">· environment adapters</text>
+</g><g class="k11"><rect x="19" y="145" width="274" height="378" rx="13" fill="none" stroke="#4fb8b3" stroke-width="2.5"/>
+</g><line x1="450" y1="108" x2="450.0" y2="144" stroke="#5f6b7a" stroke-width="1.5" marker-end="url(#ah-muted)"/>
+<g class="k12"><line x1="450" y1="108" x2="450.0" y2="144" stroke="#d68cc6" stroke-width="3"/>
+</g><g class="k13"><rect x="314" y="146" width="272" height="376" rx="12" fill="#18212c" stroke="#33404f" stroke-width="1"/>
+<clipPath id="clip1"><rect x="314" y="146" width="272" height="376" rx="12"/></clipPath><rect x="314" y="146" width="272" height="7" rx="0" fill="#d68cc6" clip-path="url(#clip1)"/>
+<text x="330" y="184" font-size="21" font-weight="700" style="fill:#d68cc6" xml:space="preserve">Write</text>
+<text x="330" y="208" font-size="12.5" class="muted" xml:space="preserve">What changed, why, and how do you</text>
+<text x="330" y="225" font-size="12.5" class="muted" xml:space="preserve">undo or ship the change?</text>
+<text x="330" y="252" font-size="10.5" class="faint" font-weight="700" xml:space="preserve" letter-spacing="1.2">INTERFACE</text>
+<g class="k14"><rect x="322" y="259" width="256" height="21" rx="4" fill="#d68cc6" fill-opacity="0.16"/>
+</g><text x="330" y="274" font-size="12.5" class="mono pre" xml:space="preserve">save_edit  drop_edit  edits()</text>
+<g class="k15"><rect x="322" y="283" width="256" height="21" rx="4" fill="#d68cc6" fill-opacity="0.16"/>
+</g><text x="330" y="298" font-size="12.5" class="mono pre" xml:space="preserve">checkpoint  restore</text>
+<g class="k16"><rect x="322" y="307" width="256" height="21" rx="4" fill="#d68cc6" fill-opacity="0.16"/>
+</g><text x="330" y="322" font-size="12.5" class="mono pre" xml:space="preserve">```edits  W1[12, 0] = 2.5</text>
+<g class="k17"><rect x="322" y="331" width="256" height="21" rx="4" fill="#d68cc6" fill-opacity="0.16"/>
+</g><text x="330" y="346" font-size="12.5" class="mono pre" xml:space="preserve">assign replace add_rank1</text>
+<g class="k18"><rect x="322" y="355" width="256" height="21" rx="4" fill="#d68cc6" fill-opacity="0.16"/>
+</g><text x="330" y="370" font-size="12.5" class="mono pre" xml:space="preserve">project_out revert</text>
+<g class="k19"><rect x="322" y="379" width="256" height="21" rx="4" fill="#d68cc6" fill-opacity="0.16"/>
+</g><text x="330" y="394" font-size="13" xml:space="preserve">one Rust edit gate, per-task policy</text>
+<g class="k20"><rect x="322" y="403" width="256" height="21" rx="4" fill="#d68cc6" fill-opacity="0.16"/>
+</g><text x="330" y="418" font-size="13" xml:space="preserve">append-only ledger with hashes</text>
+<g class="k21"><rect x="322" y="427" width="256" height="21" rx="4" fill="#d68cc6" fill-opacity="0.16"/>
+</g><text x="330" y="442" font-size="13" xml:space="preserve">portable edit sets</text>
+<text x="330" y="492" font-size="11.5" class="mono muted" xml:space="preserve">openwish-tensor</text>
+<text x="330" y="509" font-size="11.5" class="mono muted" xml:space="preserve">(ops, gate, editlang, editset)</text>
+</g><g class="k22"><rect x="313" y="145" width="274" height="378" rx="13" fill="none" stroke="#d68cc6" stroke-width="2.5"/>
+</g><line x1="510" y1="108" x2="744.0" y2="144" stroke="#5f6b7a" stroke-width="1.5" marker-end="url(#ah-muted)"/>
+<g class="k23"><line x1="510" y1="108" x2="744.0" y2="144" stroke="#7ea6ec" stroke-width="3"/>
+</g><g class="k24"><rect x="608" y="146" width="272" height="376" rx="12" fill="#18212c" stroke="#33404f" stroke-width="1"/>
+<clipPath id="clip2"><rect x="608" y="146" width="272" height="376" rx="12"/></clipPath><rect x="608" y="146" width="272" height="7" rx="0" fill="#7ea6ec" clip-path="url(#clip2)"/>
+<text x="624" y="184" font-size="21" font-weight="700" style="fill:#7ea6ec" xml:space="preserve">Harness</text>
+<text x="624" y="208" font-size="12.5" class="muted" xml:space="preserve">How does any agent work here for</text>
+<text x="624" y="225" font-size="12.5" class="muted" xml:space="preserve">hours, with safe, measured results?</text>
+<text x="624" y="252" font-size="10.5" class="faint" font-weight="700" xml:space="preserve" letter-spacing="1.2">INTERFACE</text>
+<g class="k25"><rect x="616" y="259" width="256" height="21" rx="4" fill="#7ea6ec" fill-opacity="0.16"/>
+</g><text x="624" y="274" font-size="12.5" class="mono pre" xml:space="preserve">openwish run  --resume</text>
+<g class="k26"><rect x="616" y="283" width="256" height="21" rx="4" fill="#7ea6ec" fill-opacity="0.16"/>
+</g><text x="624" y="298" font-size="12.5" class="mono pre" xml:space="preserve">status replay score audit</text>
+<g class="k27"><rect x="616" y="307" width="256" height="21" rx="4" fill="#7ea6ec" fill-opacity="0.16"/>
+</g><text x="624" y="322" font-size="13" xml:space="preserve">budgets and shared pools, nudges</text>
+<g class="k28"><rect x="616" y="331" width="256" height="21" rx="4" fill="#7ea6ec" fill-opacity="0.16"/>
+</g><text x="624" y="346" font-size="13" xml:space="preserve">context handoff, retries</text>
+<g class="k29"><rect x="616" y="355" width="256" height="21" rx="4" fill="#7ea6ec" fill-opacity="0.16"/>
+</g><text x="624" y="370" font-size="13" xml:space="preserve">crash-resume from state.json</text>
+<g class="k30"><rect x="616" y="379" width="256" height="21" rx="4" fill="#7ea6ec" fill-opacity="0.16"/>
+</g><text x="624" y="394" font-size="13" xml:space="preserve">bubblewrap Python sandbox</text>
+<g class="k31"><rect x="616" y="403" width="256" height="21" rx="4" fill="#7ea6ec" fill-opacity="0.16"/>
+</g><text x="624" y="418" font-size="13" xml:space="preserve">static checks and an auditor</text>
+<g class="k32"><rect x="616" y="427" width="256" height="21" rx="4" fill="#7ea6ec" fill-opacity="0.16"/>
+</g><text x="624" y="442" font-size="13" xml:space="preserve">environments as TOML tasks</text>
+<text x="624" y="492" font-size="11.5" class="mono muted" xml:space="preserve">openwish-core · -llm · -sandbox</text>
+<text x="624" y="509" font-size="11.5" class="mono muted" xml:space="preserve">· -audit · -envs · -cli</text>
+</g><g class="k33"><rect x="607" y="145" width="274" height="378" rx="13" fill="none" stroke="#7ea6ec" stroke-width="2.5"/>
+</g></svg>

@@ -1,0 +1,3 @@
+I’ll decode the two networks from the supplied weights and return Boolean programs in the stated grammar. The only listed edit is in `b2`, so I’ll compare the affected paths and account for the output argmax tie rule.
+
+I can’t reliably infer the before and after Boolean functions from this paste alone: the dense weight arrays are too long to decode accurately by inspection. Please provide the checkpoint as a file in the workspace, or share the network’s truth table, and I can return the answer in the required schema.

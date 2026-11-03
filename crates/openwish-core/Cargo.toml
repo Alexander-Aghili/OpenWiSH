@@ -1,0 +1,20 @@
+[package]
+name = "openwish-core"
+edition.workspace = true
+version.workspace = true
+license.workspace = true
+
+[dependencies]
+anyhow.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+toml.workspace = true
+chrono.workspace = true
+openwish-tensor = { path = "../openwish-tensor" }
+openwish-llm = { path = "../openwish-llm" }
+openwish-sandbox = { path = "../openwish-sandbox" }
+openwish-audit = { path = "../openwish-audit" }
+openwish-process = { path = "../openwish-process" }
+
+[dev-dependencies]
+tempfile.workspace = true

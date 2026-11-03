@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security report
+    url: https://github.com/Alexander-Aghili/OpenWiSH/security/advisories/new
+    about: Report sandbox escapes, hidden-asset leaks and writes outside the edit gate privately.
+  - name: Documentation
+    url: https://github.com/Alexander-Aghili/OpenWiSH/tree/main/docs
+    about: Setup, architecture, environments, agents, safety and benchmarks.

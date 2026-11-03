@@ -1,0 +1,218 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" width="900" height="520" role="img" aria-labelledby="t d" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">
+<title id="t">One turn of the OpenWiSH run loop</title>
+<desc id="d">The agent replies with a python block. The run loop sends the block to the sandboxed Python kernel. save_edit goes to the edit gate, which checks the task policy, appends to edits/ledger.jsonl and rewrites edits/current/W.npy. The run loop logs the run and sends the output and the budget line back to the agent.</desc>
+<defs>
+<marker id="ah-muted" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#5f6b7a"/></marker>
+<marker id="ah-read" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4fb8b3"/></marker>
+<marker id="ah-write" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#d68cc6"/></marker>
+<marker id="ah-harness" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#7ea6ec"/></marker>
+<marker id="ah-ok" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#6cc08f"/></marker>
+<marker id="ah-bad" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ef8080"/></marker>
+</defs>
+<style>
+text { fill: #e6edf3; }
+.mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+.muted { fill: #9aa7b5; }
+.faint { fill: #5f6b7a; }
+.pre { white-space: pre; }
+
+@keyframes k1 { 0.000% { opacity: 0; } 3.750% { opacity: 0; } 5.625% { opacity: 1; } 17.500% { opacity: 1; } 19.375% { opacity: 0; } 100.000% { opacity: 0; } }
+.k1 { opacity: 0; animation: k1 8.0s linear infinite; }
+@keyframes k2 { 0.000% { opacity: 0; } 17.500% { opacity: 0; } 19.375% { opacity: 1; } 33.750% { opacity: 1; } 35.625% { opacity: 0; } 100.000% { opacity: 0; } }
+.k2 { opacity: 0; animation: k2 8.0s linear infinite; }
+@keyframes k3 { 0.000% { opacity: 0; } 33.750% { opacity: 0; } 35.625% { opacity: 1; } 50.000% { opacity: 1; } 51.875% { opacity: 0; } 100.000% { opacity: 0; } }
+.k3 { opacity: 0; animation: k3 8.0s linear infinite; }
+@keyframes k4 { 0.000% { opacity: 0; } 50.000% { opacity: 0; } 51.875% { opacity: 1; } 62.500% { opacity: 1; } 64.375% { opacity: 0; } 100.000% { opacity: 0; } }
+.k4 { opacity: 0; animation: k4 8.0s linear infinite; }
+@keyframes k5 { 0.000% { opacity: 0; } 62.500% { opacity: 0; } 64.375% { opacity: 1; } 78.750% { opacity: 1; } 80.625% { opacity: 0; } 100.000% { opacity: 0; } }
+.k5 { opacity: 0; animation: k5 8.0s linear infinite; }
+@keyframes k6 { 0.000% { opacity: 0; } 78.750% { opacity: 0; } 80.625% { opacity: 1; } 94.375% { opacity: 1; } 96.250% { opacity: 0; } 100.000% { opacity: 0; } }
+.k6 { opacity: 0; animation: k6 8.0s linear infinite; }
+@keyframes k7 { 0.000% { opacity: 0; } 3.750% { opacity: 0; } 8.750% { opacity: 1; } 94.375% { opacity: 1; } 99.375% { opacity: 0; } 100.000% { opacity: 0; } }
+.k7 { opacity: 1; animation: k7 8.0s linear infinite; }
+@keyframes k8 { 0.000% { opacity: 0; } 78.750% { opacity: 0; } 83.750% { opacity: 1; } 94.375% { opacity: 1; } 99.375% { opacity: 0; } 100.000% { opacity: 0; } }
+.k8 { opacity: 1; animation: k8 8.0s linear infinite; }
+@keyframes k9 { 0.000% { opacity: 0; } 17.500% { opacity: 0; } 19.375% { opacity: 1; } 32.500% { opacity: 1; } 34.375% { opacity: 0; } 100.000% { opacity: 0; } }
+.k9 { opacity: 0; animation: k9 8.0s linear infinite; }
+@keyframes k10 { 0.000% { opacity: 0; } 28.125% { opacity: 0; } 30.000% { opacity: 1; } 38.750% { opacity: 1; } 40.625% { opacity: 0; } 56.250% { opacity: 0; } 58.125% { opacity: 1; } 65.000% { opacity: 1; } 66.875% { opacity: 0; } 100.000% { opacity: 0; } }
+.k10 { opacity: 0; animation: k10 8.0s linear infinite; }
+@keyframes k11 { 0.000% { opacity: 0; } 66.250% { opacity: 0; } 68.125% { opacity: 1; } 80.000% { opacity: 1; } 81.875% { opacity: 0; } 100.000% { opacity: 0; } }
+.k11 { opacity: 0; animation: k11 8.0s linear infinite; }
+@keyframes k12 { 0.000% { opacity: 0; } 68.750% { opacity: 0; } 71.250% { opacity: 1; } 94.375% { opacity: 1; } 96.875% { opacity: 0; } 100.000% { opacity: 0; } }
+.k12 { opacity: 1; animation: k12 8.0s linear infinite; }
+@keyframes k13 { 0.000% { opacity: 1; } 68.750% { opacity: 1; } 70.625% { opacity: 0; } 94.375% { opacity: 0; } 96.250% { opacity: 1; } 100.000% { opacity: 1; } }
+.k13 { opacity: 0; animation: k13 8.0s linear infinite; }
+@keyframes k14 { 0.000% { opacity: 0; } 68.750% { opacity: 0; } 70.625% { opacity: 1; } 94.375% { opacity: 1; } 96.250% { opacity: 0; } 100.000% { opacity: 0; } }
+.k14 { opacity: 1; animation: k14 8.0s linear infinite; }
+@keyframes k15 { 0.000% { opacity: 0; } 53.750% { opacity: 0; } 55.625% { opacity: 1; } 66.250% { opacity: 1; } 68.125% { opacity: 0; } 100.000% { opacity: 0; } }
+.k15 { opacity: 0; animation: k15 8.0s linear infinite; }
+@keyframes k16 { 0.000% { opacity: 1; } 55.000% { opacity: 1; } 56.875% { opacity: 0; } 94.375% { opacity: 0; } 96.250% { opacity: 1; } 100.000% { opacity: 1; } }
+.k16 { opacity: 0; animation: k16 8.0s linear infinite; }
+@keyframes k17 { 0.000% { opacity: 0; } 55.000% { opacity: 0; } 58.750% { opacity: 1; } 94.375% { opacity: 1; } 98.125% { opacity: 0; } 100.000% { opacity: 0; } }
+.k17 { opacity: 1; animation: k17 8.0s linear infinite; }
+@keyframes k18 { 0.000% { opacity: 0; } 37.500% { opacity: 0; } 39.375% { opacity: 1; } 55.000% { opacity: 1; } 56.875% { opacity: 0; } 100.000% { opacity: 0; } }
+.k18 { opacity: 0; animation: k18 8.0s linear infinite; }
+@keyframes k19 { 0.000% { opacity: 0; } 39.375% { opacity: 0; } 40.625% { opacity: 1; } 94.375% { opacity: 1; } 95.625% { opacity: 0; } 100.000% { opacity: 0; } }
+.k19 { opacity: 1; animation: k19 8.0s linear infinite; }
+@keyframes k20 { 0.000% { opacity: 0; } 41.500% { opacity: 0; } 42.750% { opacity: 1; } 94.375% { opacity: 1; } 95.625% { opacity: 0; } 100.000% { opacity: 0; } }
+.k20 { opacity: 1; animation: k20 8.0s linear infinite; }
+@keyframes k21 { 0.000% { opacity: 0; } 43.625% { opacity: 0; } 44.875% { opacity: 1; } 94.375% { opacity: 1; } 95.625% { opacity: 0; } 100.000% { opacity: 0; } }
+.k21 { opacity: 1; animation: k21 8.0s linear infinite; }
+@keyframes k22 { 0.000% { opacity: 0; } 45.750% { opacity: 0; } 47.000% { opacity: 1; } 94.375% { opacity: 1; } 95.625% { opacity: 0; } 100.000% { opacity: 0; } }
+.k22 { opacity: 1; animation: k22 8.0s linear infinite; }
+@keyframes k23 { 0.000% { opacity: 0; } 47.875% { opacity: 0; } 49.125% { opacity: 1; } 94.375% { opacity: 1; } 95.625% { opacity: 0; } 100.000% { opacity: 0; } }
+.k23 { opacity: 1; animation: k23 8.0s linear infinite; }
+@keyframes k24 { 0.000% { opacity: 0; } 53.750% { opacity: 0; } 55.625% { opacity: 1; } 66.250% { opacity: 1; } 68.125% { opacity: 0; } 100.000% { opacity: 0; } }
+.k24 { opacity: 0; animation: k24 8.0s linear infinite; }
+@keyframes k25 { 0.000% { opacity: 1; } 55.000% { opacity: 1; } 57.500% { opacity: 0; } 94.375% { opacity: 0; } 96.875% { opacity: 1; } 100.000% { opacity: 1; } }
+.k25 { opacity: 0; animation: k25 8.0s linear infinite; }
+@keyframes k26 { 0.000% { opacity: 0; } 55.000% { opacity: 0; } 57.500% { opacity: 1; } 94.375% { opacity: 1; } 96.875% { opacity: 0; } 100.000% { opacity: 0; } }
+.k26 { opacity: 1; animation: k26 8.0s linear infinite; }
+@keyframes k27 { 0.000% { opacity: 0; } 55.000% { opacity: 0; } 57.500% { opacity: 1; } 94.375% { opacity: 1; } 96.875% { opacity: 0; } 100.000% { opacity: 0; } }
+.k27 { opacity: 1; animation: k27 8.0s linear infinite; }
+@keyframes k28 { 0.000% { opacity: 1; } 55.000% { opacity: 1; } 57.500% { opacity: 0; } 94.375% { opacity: 0; } 96.875% { opacity: 1; } 100.000% { opacity: 1; } }
+.k28 { opacity: 0; animation: k28 8.0s linear infinite; }
+@keyframes k29 { 0.000% { opacity: 0; transform: translate(282px, 150px); } 12.375% { opacity: 0; transform: translate(282px, 150px); } 12.500% { opacity: 1; transform: translate(282px, 150px); } 17.500% { opacity: 1; transform: translate(338px, 150px); } 18.500% { opacity: 0; transform: translate(338px, 150px); } 100.000% { opacity: 0; transform: translate(338px, 150px); } }
+.k29 { opacity: 0; animation: k29 8.0s linear infinite; }
+@keyframes k30 { 0.000% { opacity: 0; transform: translate(450px, 224px); } 23.625% { opacity: 0; transform: translate(450px, 224px); } 23.750% { opacity: 1; transform: translate(450px, 224px); } 28.750% { opacity: 1; transform: translate(450px, 260px); } 29.750% { opacity: 0; transform: translate(450px, 260px); } 100.000% { opacity: 0; transform: translate(450px, 260px); } }
+.k30 { opacity: 0; animation: k30 8.0s linear infinite; }
+@keyframes k31 { 0.000% { opacity: 0; transform: translate(562px, 304px); } 32.375% { opacity: 0; transform: translate(562px, 304px); } 32.500% { opacity: 1; transform: translate(562px, 304px); } 37.500% { opacity: 1; transform: translate(618px, 304px); } 38.500% { opacity: 0; transform: translate(618px, 304px); } 100.000% { opacity: 0; transform: translate(618px, 304px); } }
+.k31 { opacity: 0; animation: k31 8.0s linear infinite; }
+@keyframes k32 { 0.000% { opacity: 0; transform: translate(750px, 260px); } 49.875% { opacity: 0; transform: translate(750px, 260px); } 50.000% { opacity: 1; transform: translate(750px, 260px); } 54.375% { opacity: 1; transform: translate(750px, 224px); } 55.375% { opacity: 0; transform: translate(750px, 224px); } 100.000% { opacity: 0; transform: translate(750px, 224px); } }
+.k32 { opacity: 0; animation: k32 8.0s linear infinite; }
+@keyframes k33 { 0.000% { opacity: 0; transform: translate(750px, 374px); } 49.875% { opacity: 0; transform: translate(750px, 374px); } 50.000% { opacity: 1; transform: translate(750px, 374px); } 54.375% { opacity: 1; transform: translate(750px, 410px); } 55.375% { opacity: 0; transform: translate(750px, 410px); } 100.000% { opacity: 0; transform: translate(750px, 410px); } }
+.k33 { opacity: 0; animation: k33 8.0s linear infinite; }
+@keyframes k34 { 0.000% { opacity: 0; transform: translate(618px, 332px); } 55.500% { opacity: 0; transform: translate(618px, 332px); } 55.625% { opacity: 1; transform: translate(618px, 332px); } 59.375% { opacity: 1; transform: translate(562px, 332px); } 60.375% { opacity: 0; transform: translate(562px, 332px); } 100.000% { opacity: 0; transform: translate(562px, 332px); } }
+.k34 { opacity: 0; animation: k34 8.0s linear infinite; }
+@keyframes k35 { 0.000% { opacity: 0; transform: translate(450px, 374px); } 62.375% { opacity: 0; transform: translate(450px, 374px); } 62.500% { opacity: 1; transform: translate(450px, 374px); } 66.875% { opacity: 1; transform: translate(450px, 410px); } 67.875% { opacity: 0; transform: translate(450px, 410px); } 100.000% { opacity: 0; transform: translate(450px, 410px); } }
+.k35 { opacity: 0; animation: k35 8.0s linear infinite; }
+@keyframes k36 { 0.000% { opacity: 0; transform: translate(338px, 440px); } 73.625% { opacity: 0; transform: translate(338px, 440px); } 73.750% { opacity: 1; transform: translate(338px, 440px); } 78.750% { opacity: 1; transform: translate(282px, 440px); } 79.750% { opacity: 0; transform: translate(282px, 440px); } 100.000% { opacity: 0; transform: translate(282px, 440px); } }
+.k36 { opacity: 0; animation: k36 8.0s linear infinite; }
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; }
+  .rm-show { opacity: 1 !important; }
+  .rm-hide { opacity: 0 !important; }
+}
+</style>
+<rect x="0.5" y="0.5" width="899" height="519" rx="14" fill="#10161e" stroke="#2c3644" stroke-width="1"/>
+<text x="22" y="34" font-size="18" font-weight="700" xml:space="preserve">One turn of the OpenWiSH run loop</text>
+<text x="22" y="55" font-size="12.5" class="muted" xml:space="preserve">tasks/toy with a scripted agent. Every message and file name below comes from a real run.</text>
+<rect x="20" y="68" width="860" height="30" rx="8" fill="#18212c" stroke="#33404f" stroke-width="1"/>
+<g class="k1"><text x="34" y="88" font-size="14" font-weight="600" xml:space="preserve">1  The agent replies with one ```python block.</text>
+</g><g class="k2"><text x="34" y="88" font-size="14" font-weight="600" xml:space="preserve">2  The run loop sends the block to the sandboxed Python kernel.</text>
+</g><g class="k3"><text x="34" y="88" font-size="14" font-weight="600" xml:space="preserve">3  save_edit goes to the edit gate, which checks the task&#x27;s policy.</text>
+</g><g class="k4"><text x="34" y="88" font-size="14" font-weight="600" xml:space="preserve">4  The gate appends to the ledger and rewrites the current weights.</text>
+</g><g class="k5"><text x="34" y="88" font-size="14" font-weight="600" xml:space="preserve">5  The run loop logs the run and counts the budget.</text>
+</g><g class="k6"><text x="34" y="88" font-size="14" font-weight="600" xml:space="preserve">6  The output and the budget line go back to the agent.</text>
+</g><g class="rm-show" opacity="0"><text x="34" y="88" font-size="14" font-weight="600" xml:space="preserve">reply → run loop → kernel → edit gate → ledger and weights → output and budget → agent</text>
+</g><rect x="20" y="112" width="260" height="390" rx="10" fill="#18212c" stroke="#33404f" stroke-width="1"/>
+<text x="34" y="136" font-size="14.5" font-weight="700" xml:space="preserve">Agent</text>
+<rect x="195.41" y="122" width="72.59" height="18" rx="9" fill="none" stroke="#e3a35c" stroke-width="1"/>
+<text x="231.70499999999998" y="135" font-size="10.5" font-weight="600" style="fill:#e3a35c" text-anchor="middle" xml:space="preserve">any model</text>
+<text x="34" y="154" font-size="12" class="muted" xml:space="preserve">claude -p · codex · API · scripted</text>
+<g class="k7"><rect x="32" y="166" width="236" height="140" rx="8" fill="#1f2a37" stroke="#e3a35c" stroke-width="1" stroke-opacity="0.6"/>
+<text x="44" y="186" font-size="11.5" class="muted" xml:space="preserve">reply · turns/t001/answer.md</text>
+<text x="44" y="206" font-size="12.5" class="mono pre" xml:space="preserve">I will write the identity.</text>
+<text x="44" y="223" font-size="12.5" class="mono pre" xml:space="preserve">```python</text>
+<text x="44" y="240" font-size="12.5" class="mono pre" xml:space="preserve">import numpy as np</text>
+<text x="44" y="257" font-size="12.5" class="mono pre" xml:space="preserve">save_edit(&#x27;W&#x27;, np.eye(2),</text>
+<text x="44" y="274" font-size="12.5" class="mono pre" xml:space="preserve">  reason=&#x27;...identity&#x27;)</text>
+<text x="44" y="291" font-size="12.5" class="mono pre" xml:space="preserve">```</text>
+</g><g class="k8"><rect x="32" y="320" width="236" height="170" rx="8" fill="#1c2633" stroke="#7ea6ec" stroke-width="1" stroke-opacity="0.6"/>
+<text x="44" y="340" font-size="11.5" class="muted" xml:space="preserve">next message · turns/t002/prompt.txt</text>
+<text x="44" y="361" font-size="12" class="mono pre" xml:space="preserve">OUTPUT of Python run 1 of at</text>
+<text x="44" y="378" font-size="12" class="mono pre" xml:space="preserve">most 3:</text>
+<text x="44" y="395" font-size="12" class="mono pre" style="fill:#6cc08f" xml:space="preserve">&#x27;edit #1 saved: 2 entries of W</text>
+<text x="44" y="412" font-size="12" class="mono pre" style="fill:#6cc08f" xml:space="preserve">changed; 2 entries (50.0000%)</text>
+<text x="44" y="429" font-size="12" class="mono pre" style="fill:#6cc08f" xml:space="preserve">of the network now differ</text>
+<text x="44" y="446" font-size="12" class="mono pre" style="fill:#6cc08f" xml:space="preserve">from the original&#x27;</text>
+<text x="44" y="463" font-size="12" class="mono pre" style="fill:#e3a35c" xml:space="preserve">[budget: python runs used 1/3]</text>
+</g><rect x="340" y="112" width="220" height="110" rx="10" fill="#18212c" stroke="#33404f" stroke-width="1"/>
+<text x="354" y="136" font-size="14.5" font-weight="700" xml:space="preserve">Run loop</text>
+<rect x="488.43" y="122" width="59.57" height="18" rx="9" fill="none" stroke="#7ea6ec" stroke-width="1"/>
+<text x="518.215" y="135" font-size="10.5" font-weight="600" style="fill:#7ea6ec" text-anchor="middle" xml:space="preserve">Harness</text>
+<g class="k9"><rect x="339" y="111" width="222" height="112" rx="11" fill="#7ea6ec" stroke="#7ea6ec" stroke-width="2.5" fill-opacity="0.10"/>
+</g><text x="354" y="154" font-size="12.5" class="muted" xml:space="preserve">finds one fenced tool block</text>
+<text x="354" y="176" font-size="12.5" class="mono" xml:space="preserve">```python → kernel</text>
+<text x="354" y="196" font-size="11.5" class="mono faint" xml:space="preserve">openwish-core run.rs</text>
+<rect x="340" y="262" width="220" height="110" rx="10" fill="#18212c" stroke="#33404f" stroke-width="1"/>
+<text x="354" y="286" font-size="14.5" font-weight="700" xml:space="preserve">Python kernel</text>
+<rect x="507.96" y="272" width="40.04" height="18" rx="9" fill="none" stroke="#4fb8b3" stroke-width="1"/>
+<text x="527.98" y="285" font-size="10.5" font-weight="600" style="fill:#4fb8b3" text-anchor="middle" xml:space="preserve">Read</text>
+<g class="k10"><rect x="339" y="261" width="222" height="112" rx="11" fill="#4fb8b3" stroke="#4fb8b3" stroke-width="2.5" fill-opacity="0.10"/>
+</g><text x="354" y="304" font-size="12.5" class="muted" xml:space="preserve">bubblewrap sandbox</text>
+<text x="354" y="324" font-size="12.5" class="muted" xml:space="preserve">arrays only, weights read-only</text>
+<text x="354" y="346" font-size="12.5" class="mono" xml:space="preserve">save_edit() → RPC</text>
+<rect x="340" y="412" width="220" height="90" rx="10" fill="#18212c" stroke="#33404f" stroke-width="1"/>
+<text x="354" y="436" font-size="14.5" font-weight="700" xml:space="preserve">Logs and budget</text>
+<rect x="488.43" y="422" width="59.57" height="18" rx="9" fill="none" stroke="#7ea6ec" stroke-width="1"/>
+<text x="518.215" y="435" font-size="10.5" font-weight="600" style="fill:#7ea6ec" text-anchor="middle" xml:space="preserve">Harness</text>
+<g class="k11"><rect x="339" y="411" width="222" height="92" rx="11" fill="#7ea6ec" stroke="#7ea6ec" stroke-width="2.5" fill-opacity="0.10"/>
+</g><text x="354" y="456" font-size="12.5" class="mono" xml:space="preserve">tool_calls.jsonl</text>
+<g class="k12"><text x="490" y="456" font-size="12.5" class="mono" style="fill:#6cc08f" xml:space="preserve">+1 line</text>
+</g><text x="354" y="482" font-size="12.5" class="mono" xml:space="preserve">state.json runs_used</text>
+<g class="k13"><text x="522" y="482" font-size="12.5" class="mono" style="fill:#9aa7b5" xml:space="preserve">0</text>
+</g><g class="k14"><text x="522" y="482" font-size="12.5" class="mono" font-weight="700" style="fill:#e3a35c" xml:space="preserve">1</text>
+</g><rect x="620" y="112" width="260" height="110" rx="10" fill="#18212c" stroke="#33404f" stroke-width="1"/>
+<text x="634" y="136" font-size="14.5" font-weight="700" xml:space="preserve">edits/ledger.jsonl</text>
+<rect x="821.45" y="122" width="46.55" height="18" rx="9" fill="none" stroke="#d68cc6" stroke-width="1"/>
+<text x="844.725" y="135" font-size="10.5" font-weight="600" style="fill:#d68cc6" text-anchor="middle" xml:space="preserve">Write</text>
+<g class="k15"><rect x="619" y="111" width="262" height="112" rx="11" fill="#d68cc6" stroke="#d68cc6" stroke-width="2.5" fill-opacity="0.10"/>
+</g><g class="k16"><text x="634" y="160" font-size="12.5" class="mono faint" xml:space="preserve">(empty)</text>
+</g><g class="k17"><text x="634" y="158" font-size="12.5" class="mono" xml:space="preserve">id 1  replace W  changed 2</text>
+<text x="634" y="178" font-size="12.5" class="mono" style="fill:#d68cc6" xml:space="preserve">sha 83777315… → 939ba8a2…</text>
+<text x="634" y="198" font-size="12.5" class="mono muted" xml:space="preserve">source python (turn 1)</text>
+</g><rect x="620" y="262" width="260" height="110" rx="10" fill="#18212c" stroke="#33404f" stroke-width="1"/>
+<text x="634" y="286" font-size="14.5" font-weight="700" xml:space="preserve">Edit gate</text>
+<rect x="821.45" y="272" width="46.55" height="18" rx="9" fill="none" stroke="#d68cc6" stroke-width="1"/>
+<text x="844.725" y="285" font-size="10.5" font-weight="600" style="fill:#d68cc6" text-anchor="middle" xml:space="preserve">Write</text>
+<g class="k18"><rect x="619" y="261" width="262" height="112" rx="11" fill="#d68cc6" stroke="#d68cc6" stroke-width="2.5" fill-opacity="0.10"/>
+</g><text x="650" y="304" font-size="12.5" class="muted" xml:space="preserve">allowed</text>
+<g class="k19"><text x="634" y="304" font-size="13" font-weight="700" style="fill:#6cc08f" xml:space="preserve">✓</text>
+</g><text x="768" y="304" font-size="12.5" class="muted" xml:space="preserve">forbidden</text>
+<g class="k20"><text x="752" y="304" font-size="13" font-weight="700" style="fill:#6cc08f" xml:space="preserve">✓</text>
+</g><text x="650" y="325" font-size="12.5" class="muted" xml:space="preserve">finite</text>
+<g class="k21"><text x="634" y="325" font-size="13" font-weight="700" style="fill:#6cc08f" xml:space="preserve">✓</text>
+</g><text x="768" y="325" font-size="12.5" class="muted" xml:space="preserve">constant scale</text>
+<g class="k22"><text x="752" y="325" font-size="13" font-weight="700" style="fill:#6cc08f" xml:space="preserve">✓</text>
+</g><text x="650" y="344" font-size="12.5" class="muted" xml:space="preserve">max fraction changed</text>
+<g class="k23"><text x="634" y="344" font-size="13" font-weight="700" style="fill:#6cc08f" xml:space="preserve">✓</text>
+</g><text x="634" y="364" font-size="11.5" class="mono faint" xml:space="preserve">openwish-tensor gate.rs</text>
+<rect x="620" y="412" width="260" height="90" rx="10" fill="#18212c" stroke="#33404f" stroke-width="1"/>
+<text x="634" y="436" font-size="14.5" font-weight="700" xml:space="preserve">edits/current/W.npy</text>
+<rect x="821.45" y="422" width="46.55" height="18" rx="9" fill="none" stroke="#d68cc6" stroke-width="1"/>
+<text x="844.725" y="435" font-size="10.5" font-weight="600" style="fill:#d68cc6" text-anchor="middle" xml:space="preserve">Write</text>
+<g class="k24"><rect x="619" y="411" width="262" height="92" rx="11" fill="#d68cc6" stroke="#d68cc6" stroke-width="2.5" fill-opacity="0.10"/>
+</g><text x="634" y="464" font-size="13" class="mono muted" xml:space="preserve">W =</text>
+<g class="k25"><text x="670" y="456" font-size="13" class="mono" style="fill:#9aa7b5" xml:space="preserve">[[0, 0],</text>
+<text x="670" y="476" font-size="13" class="mono" style="fill:#9aa7b5" xml:space="preserve"> [0, 0]]</text>
+</g><g class="k26"><text x="670" y="456" font-size="13" class="mono" style="fill:#e6edf3" xml:space="preserve">[[1, 0],</text>
+<text x="670" y="476" font-size="13" class="mono" style="fill:#e6edf3" xml:space="preserve"> [0, 1]]</text>
+</g><g class="k27"><text x="780" y="466" font-size="12.5" style="fill:#6cc08f" xml:space="preserve">identity</text>
+</g><g class="k28"><text x="780" y="466" font-size="12.5" class="muted" xml:space="preserve">zeros (base)</text>
+</g><line x1="280" y1="150" x2="338" y2="150" stroke="#5f6b7a" stroke-width="1.5" marker-end="url(#ah-muted)"/>
+<text x="309" y="142" font-size="11" class="muted" text-anchor="middle" xml:space="preserve">reply</text>
+<line x1="450" y1="222" x2="450" y2="260" stroke="#5f6b7a" stroke-width="1.5" marker-end="url(#ah-muted)"/>
+<text x="458" y="246" font-size="11" class="mono muted" xml:space="preserve">```python</text>
+<line x1="560" y1="304" x2="618" y2="304" stroke="#5f6b7a" stroke-width="1.5" marker-end="url(#ah-muted)"/>
+<text x="589" y="296" font-size="11" class="mono muted" text-anchor="middle" xml:space="preserve">save_edit</text>
+<line x1="620" y1="332" x2="562" y2="332" stroke="#5f6b7a" stroke-width="1.5" marker-end="url(#ah-muted)"/>
+<text x="591" y="348" font-size="11" class="mono muted" text-anchor="middle" xml:space="preserve">#1 saved</text>
+<line x1="750" y1="262" x2="750" y2="224" stroke="#5f6b7a" stroke-width="1.5" marker-end="url(#ah-muted)"/>
+<text x="758" y="247" font-size="11" class="muted" xml:space="preserve">append</text>
+<line x1="750" y1="372" x2="750" y2="410" stroke="#5f6b7a" stroke-width="1.5" marker-end="url(#ah-muted)"/>
+<text x="758" y="395" font-size="11" class="muted" xml:space="preserve">rewrite W.npy</text>
+<line x1="450" y1="372" x2="450" y2="410" stroke="#5f6b7a" stroke-width="1.5" marker-end="url(#ah-muted)"/>
+<text x="458" y="395" font-size="11" class="muted" xml:space="preserve">output</text>
+<line x1="340" y1="440" x2="282" y2="440" stroke="#5f6b7a" stroke-width="1.5" marker-end="url(#ah-muted)"/>
+<text x="311" y="432" font-size="11" class="muted" text-anchor="middle" xml:space="preserve">output</text>
+<text x="311" y="458" font-size="11" class="muted" text-anchor="middle" xml:space="preserve">+ budget</text>
+<g class="k29"><circle cx="0" cy="0" r="10" fill="#e3a35c" opacity="0.25"/><circle cx="0" cy="0" r="6" fill="#e3a35c"/></g>
+<g class="k30"><circle cx="0" cy="0" r="10" fill="#7ea6ec" opacity="0.25"/><circle cx="0" cy="0" r="6" fill="#7ea6ec"/></g>
+<g class="k31"><circle cx="0" cy="0" r="10" fill="#4fb8b3" opacity="0.25"/><circle cx="0" cy="0" r="6" fill="#4fb8b3"/></g>
+<g class="k32"><circle cx="0" cy="0" r="10" fill="#d68cc6" opacity="0.25"/><circle cx="0" cy="0" r="6" fill="#d68cc6"/></g>
+<g class="k33"><circle cx="0" cy="0" r="10" fill="#d68cc6" opacity="0.25"/><circle cx="0" cy="0" r="6" fill="#d68cc6"/></g>
+<g class="k34"><circle cx="0" cy="0" r="10" fill="#d68cc6" opacity="0.25"/><circle cx="0" cy="0" r="6" fill="#d68cc6"/></g>
+<g class="k35"><circle cx="0" cy="0" r="10" fill="#4fb8b3" opacity="0.25"/><circle cx="0" cy="0" r="6" fill="#4fb8b3"/></g>
+<g class="k36"><circle cx="0" cy="0" r="10" fill="#7ea6ec" opacity="0.25"/><circle cx="0" cy="0" r="6" fill="#7ea6ec"/></g>
+</svg>

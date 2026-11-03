@@ -1,0 +1,3 @@
+I’ll decode the active channels from the supplied weights and return the Boolean program in the task’s required JSON form. The output head reads one encoded signal, so I’m tracing that signal backward through the four ReLU layers.
+
+The output head selects class 1 when the final encoded signal \(h_{10}+h_{11}-h_{12}\) exceeds 0.5. I haven’t traced that signal back far enough to give a reliable Boolean program or truth table.

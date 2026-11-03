@@ -1,0 +1,3 @@
+I’ll read the sparse network layer by layer and reduce its active channels to a Boolean expression that fits the supplied grammar.
+
+I can’t reliably recover the Boolean expression from this weight dump by inspection. The key layers are dense arrays, and I can’t execute a parser in this session to trace their active channels across all 1,024 inputs. I don’t want to guess and give you an invalid submission.

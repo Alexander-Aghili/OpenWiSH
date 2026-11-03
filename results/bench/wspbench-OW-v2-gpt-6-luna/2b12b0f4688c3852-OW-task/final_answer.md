@@ -1,0 +1,1 @@
+The before and after checkpoints are identical, so the edit preserves the function exactly. I can’t reliably infer the input Boolean function from the pasted tensors, so I can’t provide a valid expression or 1,024 output bits without guessing.

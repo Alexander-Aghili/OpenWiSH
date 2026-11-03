@@ -1,0 +1,16 @@
+{
+  "ok": true,
+  "task": "a1393d5b54c62b47",
+  "family": "compositional_synthesis",
+  "condition": "A",
+  "strict": {
+    "valid": false,
+    "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+  },
+  "lenient": {
+    "valid": false,
+    "error": "no JSON object found"
+  },
+  "score": 0.0,
+  "exact": false
+}
