@@ -411,11 +411,11 @@ impl Run {
         std::fs::write(tdir.join("answer.md"), &reply.text)?;
         let meta = json!({
             "editor": self.editor.name(), "new_conversation": new_conv, "usage": reply.usage, "session": reply.session,
-            "tool_free": reply.tool_free, "cost_usd": reply.cost_usd, "wall_s": reply.wall_s,
+            "tool_free": reply.tool_free, "cost_usd": reply.cost_usd, "wall_s": reply.wall_s, "context_tokens": reply.context_tokens,
         });
         std::fs::write(tdir.join("run.json"), serde_json::to_string_pretty(&meta)?)?;
         std::fs::write(tdir.join("raw.json"), serde_json::to_string(&reply.raw)?)?;
-        self.state.conv_tokens = reply.usage.context_tokens();
+        self.state.conv_tokens = reply.context_tokens.unwrap_or_else(|| reply.usage.context_tokens());
         self.state.usage_total += &reply.usage;
         self.state.cost_usd += reply.cost_usd.unwrap_or(0.0);
         if reply.tool_free {
@@ -1268,6 +1268,27 @@ command = ["sh", "-c", "if grep -q 'answer' \"$OPENWISH_SUBMISSION\"; then echo 
         assert!(message.contains("OpenWiSH executes your tool blocks"));
         assert!(message.contains("```python\nprint(NAMES)\n```"));
         assert!(message.contains("format only"));
+    }
+
+    #[test]
+    fn context_budget_uses_the_current_footprint_instead_of_billing_counters() {
+        let d = tempfile::tempdir().unwrap();
+        let spec = task(d.path(), "");
+        let mut r = Run::create(spec, &d.path().join("run"), script(&[]), env()).unwrap();
+        let turn = r.dir.join("turns/t001");
+        std::fs::create_dir_all(&turn).unwrap();
+        let reply = Reply {
+            usage: openwish_llm::Usage {
+                input: 255717,
+                cache_read: 191232,
+                output: 5410,
+                ..Default::default()
+            },
+            context_tokens: Some(66572),
+            ..Default::default()
+        };
+        r.record_reply(&turn, &reply, true).unwrap();
+        assert_eq!(r.state.conv_tokens, 66572);
     }
 
     #[test]

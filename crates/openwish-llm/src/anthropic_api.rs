@@ -92,6 +92,7 @@ pub fn parse_response(v: &Value) -> Result<(Reply, Value), BackendError> {
     let reply = Reply {
         text,
         usage: Usage::from_anthropic(&v["usage"]),
+        context_tokens: None,
         session: v["id"].as_str().map(String::from),
         tool_free: true,
         cost_usd: None,
@@ -171,6 +172,8 @@ mod tests {
             model: Some("claude-opus-5-5".into()),
             effort: Some("high".into()),
             instructions: "I".into(),
+            tool_blocks: vec![],
+            final_blocks: vec![],
             workdir: "/tmp".into(),
             max_tokens: 16000,
             timeout_s: 1,

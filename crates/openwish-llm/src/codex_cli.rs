@@ -1,10 +1,11 @@
 //! `codex exec --json` with every tool feature off (the authors' configuration).
-use crate::{classify, count, push_flag, BackendConfig, BackendError, Editor, Reply, Usage};
+use crate::{classify, push_flag, BackendConfig, BackendError, Editor, Reply, Usage};
 use serde_json::Value;
 
 pub struct CodexCli {
     cfg: BackendConfig,
     session: Option<String>,
+    accounting: crate::codex_usage::Accounting,
 }
 
 /// Feature flags the authors switched off (harness/codex_config.toml).
@@ -40,7 +41,11 @@ pub const DISABLED_FEATURES: &[&str] = &[
 
 impl CodexCli {
     pub fn new(cfg: BackendConfig) -> Self {
-        CodexCli { cfg, session: None }
+        CodexCli {
+            cfg,
+            session: None,
+            accounting: Default::default(),
+        }
     }
     pub fn args(&self, new_conversation: bool) -> Vec<String> {
         let mut a: Vec<String> = vec!["exec".into()];
@@ -110,7 +115,7 @@ impl Turn {
             "item.completed" => self.read_item(&v["item"], true),
             "turn.completed" => {
                 self.completed = true;
-                self.usage = codex_usage(&v["usage"]);
+                self.usage = crate::codex_usage::raw_usage(&v["usage"]);
             }
             "error" => self.errors.push(v["message"].as_str().unwrap_or("").to_string()),
             "turn.failed" => self
@@ -129,18 +134,12 @@ impl Turn {
     }
 }
 
-fn codex_usage(u: &Value) -> Usage {
-    Usage {
-        input: count(u, "input_tokens"),
-        output: count(u, "output_tokens"),
-        cache_read: count(u, "cached_input_tokens"),
-        cache_write: count(u, "cache_write_input_tokens"),
-        reasoning: count(u, "reasoning_output_tokens"),
-    }
-}
-
 /// Parse a `codex exec --json` event stream (JSON lines).
 pub fn parse_events(stdout: &str) -> Result<Reply, BackendError> {
+    parse_events_with_blocks(stdout, &[], &[])
+}
+
+pub fn parse_events_with_blocks(stdout: &str, tools: &[String], artifacts: &[String]) -> Result<Reply, BackendError> {
     let mut turn = Turn::default();
     let events: Vec<Value> = stdout
         .lines()
@@ -158,17 +157,47 @@ pub fn parse_events(stdout: &str) -> Result<Reply, BackendError> {
         };
         return Err(classify(&msg));
     }
+    let selected = turn
+        .texts
+        .iter()
+        .position(|text| has_block(text, tools))
+        .or_else(|| turn.texts.iter().rposition(|text| has_block(text, artifacts)))
+        .unwrap_or(turn.texts.len() - 1);
     Ok(Reply {
-        // The CLI emits progress updates as agent_message items too. Only the last
-        // message is the reply. Keep the whole event stream in raw for inspection.
-        text: turn.texts.pop().expect("checked nonempty above"),
+        // Native progress and final messages share one type. Preserve environment
+        // actions without mixing ordinary progress into a structured final answer.
+        text: turn.texts.swap_remove(selected),
         usage: turn.usage,
+        context_tokens: None,
         session: turn.session,
         tool_free: !turn.used_a_tool,
         cost_usd: None,
         wall_s: 0.0,
         raw: Value::Array(events),
     })
+}
+
+fn has_block(text: &str, tags: &[String]) -> bool {
+    if tags.is_empty() {
+        return false;
+    }
+    let mut open = None;
+    for line in text.lines() {
+        let line = line.trim_start();
+        let ticks = line.chars().take_while(|c| *c == '`').count();
+        if let Some(length) = open {
+            if ticks >= length && line[ticks..].trim().is_empty() {
+                open = None
+            }
+        } else if ticks >= 3 {
+            let tag = line[ticks..].split_whitespace().next().unwrap_or("");
+            if tags.iter().any(|known| known.eq_ignore_ascii_case(tag)) {
+                return true;
+            }
+            open = Some(ticks);
+        }
+    }
+    false
 }
 
 impl Editor for CodexCli {
@@ -179,13 +208,16 @@ impl Editor for CodexCli {
         self.prepare_instructions()?;
         let args = self.args(new_conversation);
         let done = crate::run_cli("codex", &args, msg, &self.cfg.workdir, self.cfg.timeout_s)?;
-        let mut r = parse_events(&done.stdout).map_err(|e| match e {
-            BackendError::Fatal(m) => classify(&format!("{m} {}", done.stderr_tail(2000))),
-            e => e,
-        })?;
+        let mut r = parse_events_with_blocks(&done.stdout, &self.cfg.tool_blocks, &self.cfg.final_blocks).map_err(
+            |e| match e {
+                BackendError::Fatal(m) => classify(&format!("{m} {}", done.stderr_tail(2000))),
+                e => e,
+            },
+        )?;
         r.wall_s = done.elapsed.as_secs_f64();
         // a resumed thread may not announce its id again
         r.session = r.session.or_else(|| self.session.clone());
+        self.accounting.apply(&mut r, new_conversation);
         self.session = r.session.clone();
         Ok(r)
     }
@@ -193,6 +225,7 @@ impl Editor for CodexCli {
         self.session.clone()
     }
     fn set_session(&mut self, s: Option<String>) {
+        self.accounting.restore(s.as_deref());
         self.session = s;
     }
 }
@@ -208,6 +241,8 @@ mod tests {
             model: Some("test-model".into()),
             effort: Some("high".into()),
             instructions: "Use the Python tool.\nReturn exactly {\"answer\": 1}.".into(),
+            tool_blocks: vec![],
+            final_blocks: vec![],
             workdir: std::path::PathBuf::from("/tmp/openwish test/editor_cwd"),
             max_tokens: 1000,
             timeout_s: 10,
@@ -241,6 +276,8 @@ mod tests {
             model: None,
             effort: None,
             instructions: "Use one ```python block.\nQuotes: \" and backslash: \\.\n".into(),
+            tool_blocks: vec![],
+            final_blocks: vec![],
             workdir: dir.path().join("new/editor_cwd"),
             max_tokens: 1000,
             timeout_s: 10,
@@ -261,6 +298,8 @@ mod tests {
             model: None,
             effort: None,
             instructions: "Task rules".into(),
+            tool_blocks: vec![],
+            final_blocks: vec![],
             workdir: dir
                 .path()
                 .strip_prefix(std::env::current_dir().unwrap())
@@ -285,6 +324,33 @@ mod tests {
         let reply = parse_events(&stream).unwrap();
         assert_eq!(reply.text, "{\"program\": true}");
         assert_eq!(reply.raw.as_array().unwrap().len(), 3);
+    }
+
+    #[test]
+    fn an_enabled_tool_request_survives_a_later_native_final_message() {
+        let events = [
+            serde_json::json!({"type":"item.completed","item":{"type":"agent_message","text":"```python\nprint(\"CONTEXT_OK\")\n```"}}),
+            serde_json::json!({"type":"item.completed","item":{"type":"agent_message","text":"Done"}}),
+            serde_json::json!({"type":"turn.completed","usage":{}}),
+        ];
+        let stream = events.iter().map(Value::to_string).collect::<Vec<_>>().join("\n");
+        let reply = parse_events_with_blocks(&stream, &["python".into()], &[]).unwrap();
+        assert_eq!(reply.text, "```python\nprint(\"CONTEXT_OK\")\n```");
+        assert_eq!(parse_events(&stream).unwrap().text, "Done");
+    }
+
+    #[test]
+    fn final_artifact_blocks_use_the_latest_candidate_before_done() {
+        let stream = ["```edits\nW = 1\n```", "```edits\nW = 2\n```", "Done"]
+            .iter()
+            .map(|text| {
+                serde_json::json!({"type":"item.completed","item":{"type":"agent_message","text":text}}).to_string()
+            })
+            .chain([serde_json::json!({"type":"turn.completed","usage":{}}).to_string()])
+            .collect::<Vec<_>>()
+            .join("\n");
+        let reply = parse_events_with_blocks(&stream, &[], &["edits".into()]).unwrap();
+        assert_eq!(reply.text, "```edits\nW = 2\n```");
     }
 
     #[test]

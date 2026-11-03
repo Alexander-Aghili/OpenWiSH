@@ -66,6 +66,7 @@ pub fn parse_result(stdout: &str) -> Result<Reply, BackendError> {
             ..Usage::from_anthropic(usage)
         },
         session: v["session_id"].as_str().map(String::from),
+        context_tokens: None,
         tool_free,
         cost_usd: v["total_cost_usd"].as_f64(),
         wall_s: v["duration_ms"].as_f64().unwrap_or(0.0) / 1000.0,
@@ -133,6 +134,8 @@ mod tests {
             model: Some("claude-opus-5-5".into()),
             effort: Some("max".into()),
             instructions: "I".into(),
+            tool_blocks: vec![],
+            final_blocks: vec![],
             workdir: "/tmp".into(),
             max_tokens: 0,
             timeout_s: 1,

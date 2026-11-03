@@ -191,6 +191,12 @@ fn editor(
         model: choice.model,
         effort: choice.effort,
         instructions: spec.instructions.clone(),
+        tool_blocks: spec.enabled_tools(),
+        final_blocks: if spec.edits.language {
+            vec!["edits".into()]
+        } else {
+            vec![]
+        },
         workdir: run_dir.join("editor_cwd"),
         max_tokens: a.max_tokens,
         timeout_s: a.timeout,
@@ -343,6 +349,9 @@ fn audit(run: &Path, mut ea: EditorArgs, batch: usize, pc: &ProjectConfig) -> Re
     let mut spec = saved_spec(run)?;
     // Participant instructions are evidence for the reviewer, not the reviewer's role.
     spec.instructions = openwish_llm::NEUTRAL_INSTRUCTIONS.into();
+    spec.python = None;
+    spec.forward.clear();
+    spec.edits.language = false;
     ea.effort.get_or_insert_with(|| "medium".into());
     let mut ed = editor(&ea, &spec, &run.join("audit_cwd"), pc)?;
     print_json(&openwish_audit::audit_run(run, ed.as_mut(), batch)?)

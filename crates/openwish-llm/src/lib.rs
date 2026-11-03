@@ -8,10 +8,12 @@ use std::time::Duration;
 pub mod anthropic_api;
 pub mod claude_cli;
 pub mod codex_cli;
+mod codex_usage;
 pub mod scripted;
 
 #[derive(Clone, Debug, Default, PartialEq, Serialize, Deserialize)]
 pub struct Usage {
+    /// Uncached input. Cached reads and writes are counted separately.
     pub input: u64,
     pub output: u64,
     pub cache_read: u64,
@@ -51,6 +53,8 @@ impl std::ops::AddAssign<&Usage> for Usage {
 pub struct Reply {
     pub text: String,
     pub usage: Usage,
+    /// Current context footprint, distinct from cumulative billing counters.
+    pub context_tokens: Option<u64>,
     pub session: Option<String>,
     /// true when the backend reports that the model used no tool of its own this turn
     pub tool_free: bool,
@@ -102,6 +106,12 @@ pub struct BackendConfig {
     pub effort: Option<String>,
     /// system instructions; the authors used one neutral line
     pub instructions: String,
+    /// Enabled interactive text-block tags. These request a handoff to the environment.
+    #[serde(default)]
+    pub tool_blocks: Vec<String>,
+    /// Final artifact tags whose last complete candidate takes precedence over trailing prose.
+    #[serde(default)]
+    pub final_blocks: Vec<String>,
     /// an empty directory the CLI runs in, so it sees no project files
     pub workdir: std::path::PathBuf,
     pub max_tokens: u32,
