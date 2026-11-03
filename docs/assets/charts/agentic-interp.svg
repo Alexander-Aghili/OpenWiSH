@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 480" width="760" height="480" role="img" aria-label="AgenticInterpBench tag accuracy by model and access" class="c"><title>AgenticInterpBench tag accuracy by model and access</title><style>
+.c{--surface:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--muted:#898781;--grid:#e1e0d9;--axis:#c3c2b7;
+--s1:#2a78d6;--s2:#eb6834;--s3:#1baf7a;font-family:system-ui, -apple-system, 'Segoe UI', sans-serif}
+@media (prefers-color-scheme:dark){.c{--surface:#1a1a19;--ink:#f0efec;--ink2:#c3c2b7;--muted:#898781;--grid:#2c2c2a;
+--axis:#383835;--s1:#3987e5;--s2:#d95926;--s3:#199e70}}
+.bg{fill:var(--surface)}.t{fill:var(--ink);font-size:17px;font-weight:600}.st{fill:var(--ink2);font-size:12.5px}
+.tk{fill:var(--muted);font-size:11px}.lb{fill:var(--ink);font-size:11.5px;font-weight:600}.lb2{fill:var(--ink2);font-size:11.5px}
+.gl{stroke:var(--grid);stroke-width:1}.ax{stroke:var(--axis);stroke-width:1}.ref{stroke:var(--muted);stroke-width:1.5;stroke-dasharray:4 4}
+.s1{fill:var(--s1)}.s2{fill:var(--s2)}.s3{fill:var(--s3)}.k1{stroke:var(--s1)}.k2{stroke:var(--s2)}.k3{stroke:var(--s3)}
+.ring{stroke:var(--surface);stroke-width:2}.line{fill:none;stroke-width:2}.err{stroke:var(--ink2);stroke-width:1.5}
+.bar{transform-box:fill-box;transform-origin:50% 100%;animation:grow .7s cubic-bezier(.2,.7,.2,1) both}
+.hbar{transform-box:fill-box;transform-origin:0 50%;animation:growx .7s cubic-bezier(.2,.7,.2,1) both}
+.fade{animation:fade .6s ease-out both}
+@keyframes grow{from{transform:scaleY(0)}}@keyframes growx{from{transform:scaleX(0)}}@keyframes fade{from{opacity:0}}
+@media (prefers-reduced-motion:reduce){.bar,.hbar,.fade{animation:none}}
+</style>
+<rect class="bg" width="760" height="480" rx="12"/>
+<text x="24.0" y="34.0" class="t" text-anchor="start">AgenticInterpBench: tag accuracy on 163 circuit components</text>
+<text x="24.0" y="54.0" class="st" text-anchor="start">84 InterpBench circuits, 5-class taxonomy, components pooled. Dashed lines: fixed baselines with no model.</text>
+<text x="24.0" y="466.0" class="tk" text-anchor="start">Source: runs/bench/agentic-interp-*, HyVE scores from arXiv 2606.24026. Runs that fail audit score 0.</text>
+<rect x="24" y="73" width="12" height="12" rx="3" class="s1"/>
+<text x="42.0" y="83.0" class="lb2" text-anchor="start">OpenWiSH, weights or probe</text>
+<rect x="251.20000000000002" y="73" width="12" height="12" rx="3" class="s3"/>
+<text x="269.2" y="83.0" class="lb2" text-anchor="start">prompt only, no tools</text>
+<rect x="442.40000000000003" y="73" width="12" height="12" rx="3" class="s2"/>
+<text x="460.4" y="83.0" class="lb2" text-anchor="start">HyVE, published</text>
+<line x1="300.0" y1="146" x2="300.0" y2="424" class="gl"/>
+<text x="300.0" y="440.0" class="tk" text-anchor="middle">40 %</text>
+<line x1="386.7" y1="146" x2="386.7" y2="424" class="gl"/>
+<text x="386.7" y="440.0" class="tk" text-anchor="middle">50 %</text>
+<line x1="473.3" y1="146" x2="473.3" y2="424" class="gl"/>
+<text x="473.3" y="440.0" class="tk" text-anchor="middle">60 %</text>
+<line x1="560.0" y1="146" x2="560.0" y2="424" class="gl"/>
+<text x="560.0" y="440.0" class="tk" text-anchor="middle">70 %</text>
+<line x1="646.7" y1="146" x2="646.7" y2="424" class="gl"/>
+<text x="646.7" y="440.0" class="tk" text-anchor="middle">80 %</text>
+<line x1="336.2" y1="146" x2="336.2" y2="424" class="ref"><title>always MAPPER: 44.2 %</title></line>
+<text x="336.2" y="126.0" class="tk" text-anchor="middle">always MAPPER 44.2 %</text>
+<line x1="506.3" y1="146" x2="506.3" y2="424" class="ref"><title>MLP MAPPER, attention AGGREGATOR (read off the gold): 63.8 %</title></line>
+<text x="506.3" y="140.0" class="tk" text-anchor="middle">MLP MAPPER, attention AGGREGATOR 63.8 %</text>
+<text x="286.0" y="172.0" class="lb2" text-anchor="end">claude-sonnet-4-6, prompt only</text>
+<line x1="300.0" y1="168" x2="559.5" y2="168" class="gl"/>
+<circle cx="559.5" cy="168.0" r="6" class="s3 ring fade" style="animation-delay:0.00s"><title>claude-sonnet-4-6, prompt only, one reply: 69.9 % over 84 cases (no code run)</title></circle>
+<text x="571.5" y="172.0" class="lb" text-anchor="start">69.9 %</text>
+<text x="286.0" y="202.0" class="lb2" text-anchor="end">claude-sonnet-4-6, weights + probe (31/84, running)</text>
+<line x1="300.0" y1="198" x2="512.5" y2="198" class="gl"/>
+<circle cx="512.5" cy="198.0" r="6" class="s1 ring fade" style="animation-delay:0.04s"><title>claude-sonnet-4-6, weights and forward probe: 64.5 % over 31 cases (0/29 valid, 29 not audited)</title></circle>
+<text x="524.5" y="202.0" class="lb" text-anchor="start">64.5 %</text>
+<text x="286.0" y="232.0" class="lb2" text-anchor="end">gpt-6.1-sol, prompt only</text>
+<line x1="300.0" y1="228" x2="586.1" y2="228" class="gl"/>
+<circle cx="586.1" cy="228.0" r="6" class="s3 ring fade" style="animation-delay:0.08s"><title>gpt-6.1-sol, prompt only, one reply: 73.0 % over 84 cases (no code run)</title></circle>
+<text x="598.1" y="232.0" class="lb" text-anchor="start">73.0 %</text>
+<text x="286.0" y="262.0" class="lb2" text-anchor="end">gpt-6.1-sol, weights only</text>
+<line x1="300.0" y1="258" x2="586.1" y2="258" class="gl"/>
+<circle cx="586.1" cy="258.0" r="6" class="s1 ring fade" style="animation-delay:0.12s"><title>gpt-6.1-sol, weights only, no execution: 73.0 % over 84 cases (75/75 valid)</title></circle>
+<text x="598.1" y="262.0" class="lb" text-anchor="start">73.0 %</text>
+<text x="286.0" y="292.0" class="lb2" text-anchor="end">gpt-6.1-sol, weights + probe</text>
+<line x1="300.0" y1="288" x2="575.4" y2="288" class="gl"/>
+<circle cx="575.4" cy="288.0" r="6" class="s1 ring fade" style="animation-delay:0.16s"><title>gpt-6.1-sol, weights and forward probe: 71.8 % over 84 cases (75/76 valid, 1 invalid)</title></circle>
+<text x="587.4" y="292.0" class="lb" text-anchor="start">71.8 %</text>
+<text x="286.0" y="322.0" class="lb2" text-anchor="end">claude-sonnet-4-6, HyVE, published</text>
+<line x1="300.0" y1="318" x2="638.0" y2="318" class="gl"/>
+<circle cx="638.0" cy="318.0" r="6" class="s2 ring fade" style="animation-delay:0.20s"><title>claude-sonnet-4-6, HyVE: activations, ablation, patching: 79.0 % over 84 cases (-)</title></circle>
+<text x="650.0" y="322.0" class="lb" text-anchor="start">79.0 %</text>
+<text x="286.0" y="352.0" class="lb2" text-anchor="end">gemini-3.1-pro, HyVE, published</text>
+<line x1="300.0" y1="348" x2="612.0" y2="348" class="gl"/>
+<circle cx="612.0" cy="348.0" r="6" class="s2 ring fade" style="animation-delay:0.24s"><title>gemini-3.1-pro, HyVE: activations, ablation, patching: 76.0 % over 84 cases (-)</title></circle>
+<text x="624.0" y="352.0" class="lb" text-anchor="start">76.0 %</text>
+<text x="286.0" y="382.0" class="lb2" text-anchor="end">gpt-5.4, HyVE, published</text>
+<line x1="300.0" y1="378" x2="594.7" y2="378" class="gl"/>
+<circle cx="594.7" cy="378.0" r="6" class="s2 ring fade" style="animation-delay:0.28s"><title>gpt-5.4, HyVE: activations, ablation, patching: 74.0 % over 84 cases (-)</title></circle>
+<text x="606.7" y="382.0" class="lb" text-anchor="start">74.0 %</text>
+<text x="286.0" y="412.0" class="lb2" text-anchor="end">qwen-3-coder-30b-a3b, HyVE, published</text>
+<line x1="300.0" y1="408" x2="534.0" y2="408" class="gl"/>
+<circle cx="534.0" cy="408.0" r="6" class="s2 ring fade" style="animation-delay:0.32s"><title>qwen-3-coder-30b-a3b, HyVE: activations, ablation, patching: 67.0 % over 84 cases (-)</title></circle>
+<text x="546.0" y="412.0" class="lb" text-anchor="start">67.0 %</text>
+</svg>

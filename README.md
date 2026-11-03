@@ -86,7 +86,11 @@ Conformance comes first. OpenWiSH replays the published runs as a scripted agent
 | Gemma pairs | Grades of the 3 published attention-tool answers | 3 / 3 | 3 / 3, same probabilities |
 | Qwen math | Published edits on MATH-500: base, 10, 25 and 50 passes | 7.9 / 12.3 / 14.1 / 48.1 % | 10.6 / 13.6 / 14.2 / 51.8 % |
 
+<p align="center"><img src="docs/assets/charts/qwen-math.svg" alt="Grouped bars: Qwen MATH-500 accuracy, published against the OpenWiSH replay, for base, 10, 25 and 50 passes. The replay matches within one standard error band. A second panel shows the share cut at the token limit falling from 90 to 32 percent." width="760"></p>
+
 **Tools against tools.** [WSPBench](https://github.com/alexcarterhq/wspbench) defines its own tool conditions: weight-algebra tools in B, plus metered practice observations in C. The OpenWiSH sandbox gives Python over the same weights, with no network execution. Same models, same 12 tasks, one attempt each. A run with a failed audit scores 0.
+
+<p align="center"><img src="docs/assets/charts/wspbench-tools.svg" alt="Grouped bars: exact solves out of 12 WSPBench tasks. WSPBench B and C score 0 or 1 for every model. The OpenWiSH sandbox scores 12 for gpt-6.1-sol, gpt-6.1-terra and claude-opus-5-5, and 4 for gpt-6-luna." width="760"></p>
 
 | Model | WSPBench B, exact | WSPBench C, exact | OpenWiSH sandbox, exact |
 |---|---:|---:|---:|
@@ -97,9 +101,11 @@ Conformance comes first. OpenWiSH replays the published runs as a scripted agent
 
 OpenWiSH solves more tasks exactly than both WSPBench tool conditions, for each of the three models run in all three. Six of the 12 tasks were held out: the OpenWiSH config was frozen before they ran. B and C run in WSPBench's own Inspect loop, unchanged, and WSPBench's session budget shapes those results. [Results](docs/results.md) covers the method, the losses (AgenticInterpBench, two WSPBench families, Breakout) and how each point of the Hacker News discussion maps to a test.
 
+<p align="center"><img src="docs/assets/charts/blog-envs.svg" alt="Four panels: Kinetix ties at 1,024 successes. Claude through OpenWiSH leads on Seaquest and Asterix, and trails on Breakout, 54 against 517." width="760"></p>
+
 On the blog environments, Claude Opus 5.5 through OpenWiSH fixes the Kinetix car (1,024 / 1,024 episodes, 2,921 weights changed against the published 6,073) and beats the published one-shot MinAtar policies on Seaquest (60.9 against 53.1) and Asterix (60.4 against 53.2). These are single runs. Condition A compares with WSPBench A only. The fixed K-composition baseline finds 0/5 copying heads, against 5/5 for the published agent.
 
-Methodology, the full table, known deviations and live agent results: [Benchmarks](docs/benchmarks.md).
+Methodology, the full table, known deviations and live agent results: [Benchmarks](docs/benchmarks.md). Every chart with hover values and data tables: [charts](docs/charts.html).
 
 ## Safety model
 

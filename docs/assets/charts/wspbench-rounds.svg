@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 380" width="760" height="380" role="img" aria-label="Audited read agreement per tuning round" class="c"><title>Audited read agreement per tuning round</title><style>
+.c{--surface:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--muted:#898781;--grid:#e1e0d9;--axis:#c3c2b7;
+--s1:#2a78d6;--s2:#eb6834;--s3:#1baf7a;font-family:system-ui, -apple-system, 'Segoe UI', sans-serif}
+@media (prefers-color-scheme:dark){.c{--surface:#1a1a19;--ink:#f0efec;--ink2:#c3c2b7;--muted:#898781;--grid:#2c2c2a;
+--axis:#383835;--s1:#3987e5;--s2:#d95926;--s3:#199e70}}
+.bg{fill:var(--surface)}.t{fill:var(--ink);font-size:17px;font-weight:600}.st{fill:var(--ink2);font-size:12.5px}
+.tk{fill:var(--muted);font-size:11px}.lb{fill:var(--ink);font-size:11.5px;font-weight:600}.lb2{fill:var(--ink2);font-size:11.5px}
+.gl{stroke:var(--grid);stroke-width:1}.ax{stroke:var(--axis);stroke-width:1}.ref{stroke:var(--muted);stroke-width:1.5;stroke-dasharray:4 4}
+.s1{fill:var(--s1)}.s2{fill:var(--s2)}.s3{fill:var(--s3)}.k1{stroke:var(--s1)}.k2{stroke:var(--s2)}.k3{stroke:var(--s3)}
+.ring{stroke:var(--surface);stroke-width:2}.line{fill:none;stroke-width:2}.err{stroke:var(--ink2);stroke-width:1.5}
+.bar{transform-box:fill-box;transform-origin:50% 100%;animation:grow .7s cubic-bezier(.2,.7,.2,1) both}
+.hbar{transform-box:fill-box;transform-origin:0 50%;animation:growx .7s cubic-bezier(.2,.7,.2,1) both}
+.fade{animation:fade .6s ease-out both}
+@keyframes grow{from{transform:scaleY(0)}}@keyframes growx{from{transform:scaleX(0)}}@keyframes fade{from{opacity:0}}
+@media (prefers-reduced-motion:reduce){.bar,.hbar,.fade{animation:none}}
+</style>
+<rect class="bg" width="760" height="380" rx="12"/>
+<text x="24.0" y="34.0" class="t" text-anchor="start">Tuning rounds, scored after audit</text>
+<text x="24.0" y="54.0" class="st" text-anchor="start">OpenWiSH sandbox, 6 pilot tasks, read agreement. Failed audits score 0. Round 4 added the activation guard.</text>
+<text x="24.0" y="366.0" class="tk" text-anchor="start">Source: runs/bench/wspbench-OW-*-r[1-5]-*, audits by gpt-6.1-sol. The config froze after round 5.</text>
+<line x1="64" y1="316.0" x2="610" y2="316.0" class="ax"/>
+<text x="56.0" y="320.0" class="tk" text-anchor="end">0 %</text>
+<line x1="64" y1="261.0" x2="610" y2="261.0" class="gl"/>
+<text x="56.0" y="265.0" class="tk" text-anchor="end">25 %</text>
+<line x1="64" y1="206.0" x2="610" y2="206.0" class="gl"/>
+<text x="56.0" y="210.0" class="tk" text-anchor="end">50 %</text>
+<line x1="64" y1="151.0" x2="610" y2="151.0" class="gl"/>
+<text x="56.0" y="155.0" class="tk" text-anchor="end">75 %</text>
+<line x1="64" y1="96.0" x2="610" y2="96.0" class="gl"/>
+<text x="56.0" y="100.0" class="tk" text-anchor="end">100 %</text>
+<text x="94.0" y="336.0" class="tk" text-anchor="middle">r1 instructions</text>
+<text x="215.5" y="336.0" class="tk" text-anchor="middle">r2 task JSON</text>
+<text x="337.0" y="336.0" class="tk" text-anchor="middle">r3 format check</text>
+<text x="458.5" y="336.0" class="tk" text-anchor="middle">r4 activation guard</text>
+<text x="580.0" y="336.0" class="tk" text-anchor="middle">r5 context</text>
+<polyline points="94.0,276.6 215.5,316.0 337.0,247.6 458.5,180.4 580.0,164.3" class="line k1 fade"/>
+<circle cx="94.0" cy="276.6" r="6" class="s1 ring fade" style="animation-delay:0.00s"><title>gpt-6-luna, r1 instructions: 17.9 % read agreement after audit</title></circle>
+<circle cx="215.5" cy="316.0" r="6" class="s1 ring fade" style="animation-delay:0.00s"><title>gpt-6-luna, r2 task JSON: 0.0 % read agreement after audit</title></circle>
+<circle cx="337.0" cy="247.6" r="6" class="s1 ring fade" style="animation-delay:0.00s"><title>gpt-6-luna, r3 format check: 31.1 % read agreement after audit</title></circle>
+<circle cx="458.5" cy="180.4" r="6" class="s1 ring fade" style="animation-delay:0.00s"><title>gpt-6-luna, r4 activation guard: 61.7 % read agreement after audit</title></circle>
+<circle cx="580.0" cy="164.3" r="6" class="s1 ring fade" style="animation-delay:0.00s"><title>gpt-6-luna, r5 context: 69.0 % read agreement after audit</title></circle>
+<polyline points="94.0,236.2 215.5,264.3 337.0,179.8 458.5,96.0 580.0,96.0" class="line k2 fade"/>
+<circle cx="94.0" cy="236.2" r="6" class="s2 ring fade" style="animation-delay:0.10s"><title>gpt-6.1-terra, r1 instructions: 36.3 % read agreement after audit</title></circle>
+<circle cx="215.5" cy="264.3" r="6" class="s2 ring fade" style="animation-delay:0.10s"><title>gpt-6.1-terra, r2 task JSON: 23.5 % read agreement after audit</title></circle>
+<circle cx="337.0" cy="179.8" r="6" class="s2 ring fade" style="animation-delay:0.10s"><title>gpt-6.1-terra, r3 format check: 61.9 % read agreement after audit</title></circle>
+<circle cx="458.5" cy="96.0" r="6" class="s2 ring fade" style="animation-delay:0.10s"><title>gpt-6.1-terra, r4 activation guard: 100.0 % read agreement after audit</title></circle>
+<circle cx="580.0" cy="96.0" r="6" class="s2 ring fade" style="animation-delay:0.10s"><title>gpt-6.1-terra, r5 context: 100.0 % read agreement after audit</title></circle>
+<polyline points="94.0,107.5 215.5,96.0 337.0,96.0 458.5,96.0 580.0,96.0" class="line k3 fade"/>
+<circle cx="94.0" cy="107.5" r="6" class="s3 ring fade" style="animation-delay:0.20s"><title>gpt-6.1-sol, r1 instructions: 94.8 % read agreement after audit</title></circle>
+<circle cx="215.5" cy="96.0" r="6" class="s3 ring fade" style="animation-delay:0.20s"><title>gpt-6.1-sol, r2 task JSON: 100.0 % read agreement after audit</title></circle>
+<circle cx="337.0" cy="96.0" r="6" class="s3 ring fade" style="animation-delay:0.20s"><title>gpt-6.1-sol, r3 format check: 100.0 % read agreement after audit</title></circle>
+<circle cx="458.5" cy="96.0" r="6" class="s3 ring fade" style="animation-delay:0.20s"><title>gpt-6.1-sol, r4 activation guard: 100.0 % read agreement after audit</title></circle>
+<circle cx="580.0" cy="96.0" r="6" class="s3 ring fade" style="animation-delay:0.20s"><title>gpt-6.1-sol, r5 context: 100.0 % read agreement after audit</title></circle>
+<text x="594.0" y="100.0" class="lb" text-anchor="start">gpt-6.1-sol 100 %</text>
+<text x="594.0" y="115.0" class="lb" text-anchor="start">gpt-6.1-terra 100 %</text>
+<text x="594.0" y="168.3" class="lb" text-anchor="start">gpt-6-luna 69 %</text>
+<rect x="24" y="71" width="12" height="12" rx="3" class="s1"/>
+<text x="42.0" y="81.0" class="lb2" text-anchor="start">gpt-6-luna</text>
+<rect x="136.0" y="71" width="12" height="12" rx="3" class="s2"/>
+<text x="154.0" y="81.0" class="lb2" text-anchor="start">gpt-6.1-terra</text>
+<rect x="269.6" y="71" width="12" height="12" rx="3" class="s3"/>
+<text x="287.6" y="81.0" class="lb2" text-anchor="start">gpt-6.1-sol</text>
+</svg>

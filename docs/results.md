@@ -19,6 +19,8 @@
 
 Same models, same 12 tasks (the 6 pilot tasks and 6 held-out tasks from the same families), one attempt each:
 
+<p align="center"><img src="assets/charts/wspbench-tools.svg" alt="Grouped bars: exact solves out of 12 WSPBench tasks. WSPBench B and C score 0 or 1 for every model. The OpenWiSH sandbox scores 12 for gpt-6.1-sol, gpt-6.1-terra and claude-opus-5-5, and 4 for gpt-6-luna." width="760"></p>
+
 | Model | WSPBench B, exact | WSPBench C, exact | OpenWiSH sandbox, exact | OpenWiSH audits |
 |---|---:|---:|---:|---|
 | gpt-6.1-sol | 1 / 12 | 0 / 12 | **12 / 12** | 12 / 12 valid |
@@ -35,6 +37,10 @@ How to read this table:
 - **Budgets differ.** WSPBench caps each session at 160,000 input tokens, 16 turns and 12 analysis calls. The task payload alone holds 33,000 to 66,000 tokens, so B and C sessions get 2 to 4 turns. Sol spends those turns on analysis and runs out before submitting. Terra and Luna submit early, and none of their answers is exact. Budget design forms part of the structure being compared.
 - **Audits.** A run with a failed audit scores 0. One Luna run tested gate inputs against weighted thresholds. The static guard passed the code, and the auditor caught the violation.
 
+<p align="center"><img src="assets/charts/wspbench-rounds.svg" alt="Lines: audited read agreement over five tuning rounds. All three models rise after round 4 added the activation guard. Sol and Terra reach 100 percent, Luna 69 percent." width="760"></p>
+
+The audit changes the story of the tuning rounds. Before the round 4 guard, most high read scores came from code evaluating gates on inputs. Those runs fail audit and score 0 above.
+
 ## Where OpenWiSH does not win yet
 
 - **WSPBench forecast and repair families (12 tasks).** One reply already solves all 12 for Sol. In the sandbox, Terra and Luna each failed three audits. The forbidden route, simulating the network at sample inputs, tempts the model when Python sits next to the weights.
@@ -45,12 +51,17 @@ How to read this table:
   | gpt-6.1-sol | 73.0 % | 73.0 % | 71.8 % | n/a |
   | claude-sonnet-4-6 | 69.9 % | not run | running | 79.0 % |
 
+
+  <p align="center"><img src="assets/charts/agentic-interp.svg" alt="Dot plot: AgenticInterpBench tag accuracy. Published HyVE agents score 67 to 79 percent. OpenWiSH rows score 67 to 73 percent. Fixed baselines sit at 44.2 and 63.8 percent." width="760"></p>
+
   A fixed rule (MLP means MAPPER, attention means AGGREGATOR) scores 63.8 %. Tools add nothing for Sol here. HyVE adds 9 points over a prompt-only Sonnet reply. The like-for-like run, OpenWiSH with Sonnet 4.6 and HyVE's access, is in progress. The paper reports no prompt-only control. This page adds one.
 - **MinAtar Breakout.** A Claude one-shot policy scores 54.2 against the published 517.4.
 
 ## Blog environments with Claude Opus 5.5
 
 Single runs, scored by the OpenWiSH scorers. The published agent is GPT-6 Astra, a different model.
+
+<p align="center"><img src="assets/charts/blog-envs.svg" alt="Four panels: Kinetix ties at 1,024 successes. Claude through OpenWiSH leads on Seaquest and Asterix, and trails on Breakout, 54 against 517." width="760"></p>
 
 | Environment | Access | Published | Claude Opus 5.5 through OpenWiSH | Audit |
 |---|---|---|---|---|
@@ -63,6 +74,8 @@ Single runs, scored by the OpenWiSH scorers. The published agent is GPT-6 Astra,
 | Gemma pair 1, weights only (a published failure, pair rebuilt from the published script) | Python on the weights | wrong (A, 50 %) | right (B, 70 %) | invalid, see below |
 
 Both invalid audits deserve a look. The Gemma run multiplied gate and up projections of embedding-derived vectors, and the task rules forbid gates. The char-LM run fitted a permutation of weight-derived statistics with annealing. The task rules allow fitting. The auditor brief bans search for every task and overrode them. Both runs stay invalid in the tables. [Safety](safety.md) lists the conflict as a known gap.
+
+<p align="center"><img src="assets/charts/qwen-math.svg" alt="Grouped bars: Qwen MATH-500 accuracy, published against the OpenWiSH replay, for base, 10, 25 and 50 passes. The replay matches within one standard error band. A second panel shows the share cut at the token limit falling from 90 to 32 percent." width="760"></p>
 
 Experiment 8 replays the published Qwen3.5-0.8B edits on MATH-500 with one sample per problem: base 10.6 %, 10 passes 13.6 %, 25 passes 14.2 %, 50 passes 51.8 % (published 7.9, 12.3, 14.1 and 48.1 % over four samples). The share of answers cut at the 32,768-token limit falls from 90.2 % to 31.6 %. The gain comes from ending reasoning loops, as the critique thread noted.
 
@@ -80,6 +93,7 @@ assets/wspbench/.venv/bin/python -I scripts/wspbench_bc.py --backend codex --mod
     --condition B --task 136a89846d8b907e --label wspbench-B-inspect-gpt-6.1-sol --overhead 4735
 scripts/prepare_agentic_interp.sh               # AgenticInterpBench, conditions A, WO and P
 python3 scripts/bench_report.py                 # every table on this page, from the run folders
+python3 scripts/bench_charts.py                 # every chart, and docs/charts.html
 ```
 
 Manifests with task and binary hashes: [`results/heldout-r5-manifest.json`](../results/heldout-r5-manifest.json), [`results/heldout-families-manifest.json`](../results/heldout-families-manifest.json), [`results/agentic-interp-manifest.json`](../results/agentic-interp-manifest.json).

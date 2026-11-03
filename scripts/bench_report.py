@@ -74,18 +74,29 @@ def main():
         audit = load(os.path.join(d, "audit_summary.json")) or {}
         status = {True: "valid", False: "invalid"}.get(audit.get("valid"), "not audited")
         print(f"| {name} | {pub.get(name, '-')} | {v} | {st.get('turn', '-')} | {st.get('runs_used', '-')} | {st.get('cost_usd', 0):.2f} | {status} |")
-    rows = sorted(glob.glob(f"{ROOT}/runs/exp8_conformance/*/summary.json"))
+    rows = qwen_data()
     if rows:
         print()
         print("| Qwen3.5-0.8B on MATH-500 (1 sample, 32,768 tokens) | Published (4 samples) | OpenWiSH | Share cut at 32,768 |")
         print("|---|---|---|---|")
-        published8 = {"base": "7.9 %", "p10c": "12.3 %", "p25c": "14.1 %", "p50c": "48.1 %"}
-        for p in rows:
-            s = load(p)
-            if s and s.get("ok"):
-                c = s["config"]
-                print(f"| {c} | {published8.get(c, '-')} | {100 * s['score']:.1f} ± {100 * s.get('accuracy_se', 0):.1f} % | {100 * s.get('share_cut_at_max_tokens', 0):.1f} % |")
+        for r in rows:
+            pub = f"{100 * r['published']:.1f} %" if r["published"] is not None else "-"
+            print(f"| {r['config']} | {pub} | {100 * r['score']:.1f} ± {100 * r['se']:.1f} % | {100 * r['cut']:.1f} % |")
 
+
+PUBLISHED8 = {"base": 0.079, "p10c": 0.123, "p25c": 0.141, "p50c": 0.481}  # the blog's MATH-500 accuracy, 4 samples
+
+
+def qwen_data():
+    """Experiment 8 replays that finished: config, published accuracy, our accuracy, standard error, share cut at the limit."""
+    out = []
+    for p in sorted(glob.glob(f"{ROOT}/runs/exp8_conformance/*/summary.json")):
+        s = load(p)
+        if s and s.get("ok"):
+            out.append({"config": s["config"], "published": PUBLISHED8.get(s["config"]), "score": s["score"],
+                        "se": s.get("accuracy_se", 0), "cut": s.get("share_cut_at_max_tokens", 0)})
+    order = list(PUBLISHED8)
+    return sorted(out, key=lambda r: order.index(r["config"]) if r["config"] in order else 99)
 
 PILOT = {  # WSPBench v0.2.1 pilot, condition A (reports/pilot-v0.2.1): read agreement, read exact, write accuracy, write exact
     "gpt-6-luna": (0.441, 0, 0.719, 0), "gpt-6.1-terra": (0.660, 0, 0.973, 1), "gpt-6.1-sol": (0.877, 0, 0.958, 1)}
@@ -181,8 +192,9 @@ HYVE = (("gpt-5.4", 0.74), ("claude-sonnet-4-6", 0.79), ("gemini-3.1-pro", 0.76)
 AI_CONDITIONS = (("A", "prompt only, one reply"), ("WO", "weights only, no execution"), ("P", "weights and forward probe"))
 
 
-def agentic_interp():
-    """Tag accuracy pooled over components (the benchmark's definition). A run that fails its audit scores 0."""
+def agentic_data():
+    """Rows of {model, kind, label, cases, accuracy, audit, source}. kind: A, WO, P, HyVE or baseline.
+    Tag accuracy pools components (the benchmark's definition). A run that fails its audit scores 0."""
     rows = []
     for cond, label in AI_CONDITIONS:
         for d in sorted(glob.glob(f"{ROOT}/runs/bench/agentic-interp-{cond}-*")):
@@ -192,19 +204,49 @@ def agentic_interp():
             correct = sum(0 if valid is False else s.get("correct", 0) for s, valid in scores)
             total = sum(s.get("components", 0) for s, _ in scores)
             if total:
-                rows.append([model, label, str(len(runs)), f"{100 * correct / total:.1f} %", audit_status(runs), "this repo"])
+                rows.append({"model": model, "kind": cond, "label": label, "cases": len(runs), "accuracy": correct / total,
+                             "audit": audit_status(runs), "source": "this repo"})
     if not rows:
-        return
-    rows += [[m, "HyVE: activations, ablation, patching", "84", f"{100 * a:.1f} %", "-", "arXiv 2606.24026"] for m, a in HYVE]
+        return rows
+    rows += [{"model": m, "kind": "HyVE", "label": "HyVE: activations, ablation, patching", "cases": 84, "accuracy": a,
+              "audit": "-", "source": "arXiv 2606.24026"} for m, a in HYVE]
     gold = [c for f in glob.glob(f"{ROOT}/assets/agentic_interp/hf/dataset/annotations/*.json") for c in (load(f) or {}).get("components", [])]
     if gold:
         tag = lambda c: c["role"]["tag"]
         kind = lambda c: "MAPPER" if c["id"].endswith("MLP") else "AGGREGATOR"
-        rows.append(["-", "always MAPPER", "84", f"{100 * sum(tag(c) == 'MAPPER' for c in gold) / len(gold):.1f} %", "-", "gold annotation"])
-        rows.append(["-", "MLP MAPPER, attention AGGREGATOR (read off the gold)", "84",
-                     f"{100 * sum(tag(c) == kind(c) for c in gold) / len(gold):.1f} %", "-", "gold annotation"])
-    table(["Model", "AgenticInterpBench condition", "Cases", "Tag accuracy", "Audit", "Source"], rows)
+        for label, hit in (("always MAPPER", lambda c: tag(c) == "MAPPER"),
+                           ("MLP MAPPER, attention AGGREGATOR (read off the gold)", lambda c: tag(c) == kind(c))):
+            rows.append({"model": "-", "kind": "baseline", "label": label, "cases": 84, "accuracy": sum(map(hit, gold)) / len(gold),
+                         "audit": "-", "source": "gold annotation"})
+    return rows
 
+
+def agentic_interp():
+    rows = agentic_data()
+    if rows:
+        table(["Model", "AgenticInterpBench condition", "Cases", "Tag accuracy", "Audit", "Source"],
+              [[r["model"], r["label"], str(r["cases"]), f"{100 * r['accuracy']:.1f} %", r["audit"], r["source"]] for r in rows])
+
+
+def tools_data():
+    """Exact solves on the 12 WSPBench tasks (pilot six and held-out six) per model: WSPBench B, C and the OpenWiSH sandbox.
+    None marks a condition with no complete run."""
+    out = {}
+    for model in MODELS:
+        row = {}
+        for key, labels in (("B", ("B, WSPBench tools",)), ("C", ("C, WSPBench tools",)), ("OW", ("OpenWiSH sandbox",))):
+            total = 0
+            for tasks in TASK_SETS:
+                cond = next((c for t, c, l in HEADLINE if t == tasks and l in labels and found(c, model, tasks)), None)
+                if cond is None:
+                    total = None
+                    break
+                r = found(cond, model, tasks)
+                total += r[1] + r[3]
+            row[key] = total
+        if any(v is not None for v in row.values()):
+            out[model] = row
+    return out
 
 if __name__ == "__main__":
     main()

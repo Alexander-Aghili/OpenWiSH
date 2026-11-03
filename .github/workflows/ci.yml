@@ -52,6 +52,7 @@ jobs:
           python3 tests/test_wspbench_format.py
           python3 tests/test_wspbench_validate.py
           python3 tests/test_agentic_interp.py
+          python3 tests/test_bench_charts.py
 
       - name: Documentation style
         run: python3 scripts/stylescan.py README.md docs/*.md CONTRIBUTING.md CHANGELOG.md

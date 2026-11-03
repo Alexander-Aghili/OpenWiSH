@@ -71,6 +71,8 @@ Report every live score with the model, the effort, the backend, the cost from `
 
 ### Results
 
+Every result below also exists as a chart: [charts](charts.html), built from the run folders by `scripts/bench_charts.py`.
+
 You check every task with `python3 scripts/bench_compare.py <baseline-folder> <candidate-folder>`. Pass `--expected-task <id>` for each required task. The command fails on regressions, missing scores, unfinished runs, invalid audits or unresolved audit verdicts. Higher averages do not erase task-level losses.
 
 <!-- BENCH:LIVE:START -->
