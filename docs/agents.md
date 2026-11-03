@@ -11,7 +11,9 @@ OpenWiSH drives any agent through one trait. The run loop owns the turns, the bu
 | `api` | Anthropic Messages API over raw HTTP, adaptive thinking, the full message list kept by OpenWiSH | `claude-opus-5-5` | through a handoff | `ANTHROPIC_API_KEY` or `ANTHROPIC_AUTH_TOKEN` |
 | `scripted:<file>` | Fixed replies, separated by lines of exactly `=====` | none | yes, at the recorded position | the file |
 
-The CLI backends run in an empty folder, `<run>/editor_cwd/`, so the agent sees no project files. The agent works only through the tool blocks the task enables.
+The Codex backend forwards task instructions through `developer_instructions`, uses a neutral base instruction file, and disables project-document loading and memories. New sessions and resumed sessions receive the same task instructions. The instruction file path is absolute, including when your run folder is relative.
+
+The CLI backends run in a dedicated folder, `<run>/editor_cwd/`, so the agent sees no project files. The agent works only through the tool blocks the task enables.
 
 Flags for every backend:
 

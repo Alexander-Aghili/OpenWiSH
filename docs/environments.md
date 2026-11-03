@@ -28,7 +28,11 @@ The bundled set follows the experiments of *Sparks of Weight-Space Programming*.
 
 ### WSPBench
 
-Run `scripts/prepare_wspbench.sh` to fetch WSPBench, install the locked environment and export six public development pilot tasks. Condition A preserves the prompt and one-reply protocol. OW adds Python with no network execution and a format-only checker. OW is a separate condition from WSPBench A, B and C. Keep the scores separate. See [Benchmarks](benchmarks.md).
+Run `scripts/prepare_wspbench.sh` to fetch WSPBench, install the locked environment and export six public development pilot tasks. New OW exports expose the public task as `TASK` in Python. Only the public prompt mounts at `/task.json`. Hidden scoring data stays outside the sandbox. Use `export --condition OW --out-dir <folder>` on the bridge to create a separate variant without changing a running task. Condition A preserves the prompt and one-reply protocol. OW adds Python with no network execution and a format-only checker. OW is a separate condition from WSPBench A, B and C. Keep the scores separate. See [Benchmarks](benchmarks.md).
+
+New OW exports block selected static-check rules before Python execution. This conservative policy flags possible network simulation, including scalar ReLUs. Pure weight algebra stays available. Static checks miss indirect spellings, so every run still needs an audit. Use `--no-policy` for advisory checks in a separate comparison variant.
+
+New OW exports also enable a format-only finish validator. The validator reads the public prompt and the submitted JSON. No weights or scoring assets enter the validator. Use `--no-validation` to export a comparison variant without finish feedback.
 
 ## Writing an environment
 
@@ -114,12 +118,14 @@ command = ["python3", "-I", "{task}/score.py", "{root}/assets/my-env/answer_key.
 | `[python]` | `runs` | required | Python run budget. Without the section, the task has no Python tool |
 | `[python]` | `timeout_s`, `mem_gb`, `max_out`, `threads` | 900, 16, 10000, 8 | Per-run limits. Threads stay within the CPU budget |
 | `[python]` | `fresh`, `prelude`, `venv` | `false`, none, `sandbox` | Process per run, startup code, Python environment |
+| `[python]` | `reject_flags` | `[]` | Static rules to block before execution. Unknown rule names fail task loading |
 | `[forward.<tag>]` | `command`, `passes` | required | Probe command and budget. `<tag>` is one of `games`, `positions`, `forward`, `attention`, `generate`, `teacher_forced` |
 | `[forward.<tag>]` | `pool`, `out_dir`, `max_out`, `timeout_s` | own budget, `{tag}_{k}`, 10000, 7200 | Shared budget, output folder, summary cut, time limit |
 | `[edits]` | `language` | `false` | Apply the last ```` ```edits ```` block of the final reply |
 | `[edits.policy]` | `allowed`, `forbidden` | all, none | Globs with `*` and `?` |
 | `[edits.policy]` | `forbid_whole_tensor_scale`, `max_frac_changed` | `false`, none | Refuse `W *= c` over a whole tensor, cap the fraction of entries changed |
-| `[finish]` | `require_all_passes`, `max_turns`, `max_nudges` | `false`, 400, 5 | End conditions |
+| `[finish]` | `require_all_passes`, `max_turns`, `max_nudges` | `false`, 400, 5 | End conditions. The nudge cap also bounds format repairs |
+| `[finish.validation]` | `command`, `timeout_s`, `submission_file` | no validator, 60 s, none | Optional format check. A plain file under `/work` takes precedence over the final reply |
 | `[handoff]` | `max_conversation_tokens`, `max_turns_per_conversation` | 700000, 0 | When to start a new conversation |
 | `[editor]` | `backend`, `model`, `effort` | `claude`, per backend, none | Defaults. Command-line flags win |
 | `[hooks]` | `session_start`, `pre_tool`, `post_tool`, `on_edit`, `session_end`, `timeout_s` | empty, timeout 60 s | Host commands at run events. See [Configuration](configuration.md#hooks) |
@@ -193,3 +199,21 @@ Print one JSON line with `ok` and a numeric `score`, plus any detail you want ke
 2. Confirm the score with a known-good answer and a known-bad answer.
 3. Add a test in `tests/` for the scorer, skipped when the assets are missing.
 4. Open a [new environment issue](https://github.com/Alexander-Aghili/OpenWiSH/issues/new?template=new_environment.yml) before the pull request.
+
+### Format validation before finish
+
+You opt into format feedback with a trusted command:
+
+```toml
+[finish]
+max_nudges = 5
+
+[finish.validation]
+command = ["python3", "-I", "{task}/validate.py"]
+timeout_s = 10
+submission_file = "submission.json"
+```
+
+The command reads `OPENWISH_SUBMISSION`, a protected copy of the candidate text. Return `{"ok": true}` or `{"ok": false, "error": "schema error"}` as the last JSON line. Validate keys, grammar, types and shapes only. Never grade an answer or execute a network in this command.
+
+A refusal returns format feedback to the agent without spending Python or probe budget. The turn and nudge caps still apply. Accepted text lands in `validated_submission.json` outside `/work`. Your scorer should use this snapshot. File reads reject symlinks and stop at 2,000,000 bytes. A task without this section keeps its original finish behavior, including one-reply condition A.

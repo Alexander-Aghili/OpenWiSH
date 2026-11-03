@@ -9,7 +9,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC, DST = os.path.join(ROOT, "runs"), os.path.join(ROOT, "results")
 KEEP = ("eval/score.json", "state.json", "final_answer.md", "rules.txt", "tool_calls.jsonl", "edits/ledger.jsonl",
         "audit_summary.json", "audit.jsonl", "final/edits_report.json", "final/editset/manifest.json", "loop.log",
-        "provenance.json", "source_events.json")
+        "provenance.json", "source_events.json", "validated_submission.json", "spec.json", "audit_metadata.json")
 MAX_BYTES = 2_000_000
 
 

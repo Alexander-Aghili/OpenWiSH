@@ -47,6 +47,10 @@ jobs:
         run: |
           python3 tests/test_bench_report.py
           python3 tests/test_save_results.py
+          python3 tests/test_bench_compare.py
+          python3 tests/test_bench_live.py
+          python3 tests/test_wspbench_format.py
+          python3 tests/test_wspbench_validate.py
 
       - name: Documentation style
         run: python3 scripts/stylescan.py README.md docs/*.md CONTRIBUTING.md CHANGELOG.md

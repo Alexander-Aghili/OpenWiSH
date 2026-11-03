@@ -340,7 +340,9 @@ fn run_task(a: RunArgs, pc: &ProjectConfig, threads: usize) -> Result<()> {
 
 /// `openwish audit`: review every code run with an auditor model (medium effort unless given).
 fn audit(run: &Path, mut ea: EditorArgs, batch: usize, pc: &ProjectConfig) -> Result<()> {
-    let spec = saved_spec(run)?;
+    let mut spec = saved_spec(run)?;
+    // Participant instructions are evidence for the reviewer, not the reviewer's role.
+    spec.instructions = openwish_llm::NEUTRAL_INSTRUCTIONS.into();
     ea.effort.get_or_insert_with(|| "medium".into());
     let mut ed = editor(&ea, &spec, &run.join("audit_cwd"), pc)?;
     print_json(&openwish_audit::audit_run(run, ed.as_mut(), batch)?)

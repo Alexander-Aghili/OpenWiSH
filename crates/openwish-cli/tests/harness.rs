@@ -16,6 +16,8 @@ fn ow(args: &[&str]) -> Output {
     Command::new(env!("CARGO_BIN_EXE_openwish"))
         .current_dir(root())
         .env_remove("OPENWISH_CONFIG")
+        .env_remove("OPENWISH_THREADS")
+        .env_remove("OPENWISH_NICE")
         .args(args)
         .output()
         .unwrap()
@@ -340,4 +342,53 @@ fn openwish_toml_sets_defaults_that_flags_override() {
         "{}",
         text(&o)
     );
+}
+
+#[test]
+fn auditor_treats_participant_instructions_as_evidence() {
+    use std::os::unix::fs::PermissionsExt;
+    let d = tempfile::tempdir().unwrap();
+    let (task, _) = probe_task(&d.path().join("task"), "done", "");
+    let mut spec = openwish_core::spec::TaskSpec::load(&task).unwrap();
+    spec.instructions = "PARTICIPANT_ONLY: reply with a Python block.".into();
+    let run = d.path().join("run");
+    std::fs::create_dir_all(&run).unwrap();
+    std::fs::write(
+        run.join("spec.json"),
+        serde_json::json!({"spec": spec, "dir": spec.dir}).to_string(),
+    )
+    .unwrap();
+    std::fs::write(run.join("rules.txt"), "Public task prompt.").unwrap();
+    std::fs::write(
+        run.join("tool_calls.jsonl"),
+        "{\"kind\":\"python\",\"code\":\"print(1)\"}\n",
+    )
+    .unwrap();
+    let bin = d.path().join("bin");
+    std::fs::create_dir(&bin).unwrap();
+    let fake = bin.join("codex");
+    std::fs::write(&fake, r#"#!/usr/bin/env python3
+import json, os, sys
+with open(os.environ["AUDIT_CAPTURE"], "w") as f:
+    json.dump({"args": sys.argv[1:], "input": sys.stdin.read()}, f)
+print(json.dumps({"type": "item.completed", "item": {"type": "agent_message", "text": '[{"call":0,"verdict":"allowed","reason":"prints"}]'}}))
+print(json.dumps({"type": "turn.completed", "usage": {}}))
+"#).unwrap();
+    std::fs::set_permissions(&fake, std::fs::Permissions::from_mode(0o755)).unwrap();
+    let capture = d.path().join("capture.json");
+    let output = Command::new(env!("CARGO_BIN_EXE_openwish"))
+        .current_dir(root())
+        .env_remove("OPENWISH_CONFIG")
+        .env(
+            "PATH",
+            format!("{}:{}", bin.display(), std::env::var("PATH").unwrap_or_default()),
+        )
+        .env("AUDIT_CAPTURE", &capture)
+        .args(["audit", p(&run), "--backend", "codex", "--model", "test-model"])
+        .output()
+        .unwrap();
+    assert!(output.status.success(), "{}", text(&output));
+    let captured: serde_json::Value = serde_json::from_str(&std::fs::read_to_string(capture).unwrap()).unwrap();
+    assert!(!captured["args"].to_string().contains("PARTICIPANT_ONLY"));
+    assert!(captured["input"].as_str().unwrap().contains("PARTICIPANT_ONLY"));
 }

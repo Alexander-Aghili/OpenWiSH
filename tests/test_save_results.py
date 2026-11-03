@@ -18,12 +18,12 @@ class SaveResults(unittest.TestCase):
             src, dst = Path(tmp) / "runs", Path(tmp) / "results"
             run = src / "bench/replayed/task"
             run.mkdir(parents=True)
-            for name in ("state.json", "provenance.json", "source_events.json"):
+            for name in ("state.json", "provenance.json", "source_events.json", "validated_submission.json", "spec.json", "audit_metadata.json"):
                 (run / name).write_text('{}\n')
             (src / "baselines.json").write_text('{"score": 0}\n')
             with patch.object(results, "SRC", str(src)), patch.object(results, "DST", str(dst)), contextlib.redirect_stdout(io.StringIO()):
                 results.main()
-            for name in ("provenance.json", "source_events.json"):
+            for name in ("provenance.json", "source_events.json", "validated_submission.json", "spec.json", "audit_metadata.json"):
                 self.assertEqual((dst / "bench/replayed/task" / name).read_text(), '{}\n')
             self.assertEqual((dst / "baselines.json").read_text(), '{"score": 0}\n')
 

@@ -23,6 +23,9 @@ nice -n 10 cargo test --workspace -j 4 -- --test-threads=2                 # Rus
 python3 tests/test_scorers.py                                   # scorers against the published grades
 python3 tests/test_bench_report.py                              # audit status and replay labels
 python3 tests/test_save_results.py                              # published replay evidence
+python3 tests/test_bench_compare.py                             # per-task comparisons and validity
+python3 tests/test_wspbench_format.py                           # public submission grammar
+python3 tests/test_wspbench_validate.py                         # format-only finish feedback
 assets/venvs/sandbox/bin/python tests/test_adapters.py          # MinAtar adapter
 assets/venvs/kinetix/bin/python tests/test_kinetix.py           # Kinetix adapter
 cargo test -p openwish-envs --release -- --ignored              # Go head-to-head, 2,000 games (slow)

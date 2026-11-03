@@ -7,7 +7,7 @@ use anyhow::{bail, Context, Result};
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
 use std::collections::BTreeMap;
-use std::io::Write;
+use std::io::{Read, Write};
 use std::path::{Path, PathBuf};
 use std::time::{Duration, Instant};
 
@@ -30,6 +30,7 @@ const MAX_REFUSAL_STREAK: u32 = 3;
 const MAX_BACKOFF_S: f64 = 1800.0;
 /// Characters of /work/notes.md shown in a handoff.
 const MAX_NOTES_CHARS: usize = 20_000;
+const MAX_SUBMISSION_BYTES: u64 = 2_000_000;
 
 #[derive(Clone, Debug, Default, PartialEq, Serialize, Deserialize)]
 #[serde(default)]
@@ -559,8 +560,76 @@ impl Run {
             );
             Ok(())
         } else {
+            if let Some(error) = self.validate_submission(text)? {
+                if self.state.nudges >= self.spec.finish.max_nudges {
+                    return self.finalize(text, "submission rejected");
+                }
+                self.state.nudges += 1;
+                self.state.protocol_errors += 1;
+                self.state.next_message = format!(
+                    "Submission format refused: {error}\nThe task continues. Repair the submission. \
+                     This check reports format only, never correctness. Your declared tools remain available.\n{}",
+                    self.budget_line()
+                );
+                return Ok(());
+            }
             self.finalize(text, "final answer")
         }
+    }
+
+    fn validate_submission(&mut self, text: &str) -> Result<Option<String>> {
+        let Some(validation) = &self.spec.finish.validation else {
+            return Ok(None);
+        };
+        let checked = (|| -> Result<(Value, PathBuf)> {
+            let mut candidate = text.to_string();
+            if let Some(name) = &validation.submission_file {
+                let work = self.dir.join("work");
+                let file = work.join(name);
+                if std::fs::symlink_metadata(&file).is_ok() {
+                    candidate.clear();
+                    std::fs::File::open(paths::file_under(&work, &file)?)?
+                        .take(MAX_SUBMISSION_BYTES + 1)
+                        .read_to_string(&mut candidate)?;
+                }
+            }
+            if candidate.len() as u64 > MAX_SUBMISSION_BYTES {
+                bail!("submission exceeds {MAX_SUBMISSION_BYTES} bytes");
+            }
+            let requests = paths::dir_under(&self.dir, "requests")?;
+            let file = requests.join(format!("submission-{}.txt", self.state.turn));
+            std::fs::write(&file, candidate)?;
+            let result = crate::forward::run_command(
+                &self.spec.argv(&validation.command),
+                &[("OPENWISH_SUBMISSION", file.display().to_string())],
+                &self.spec.dir,
+                validation.timeout_s,
+            )?;
+            Ok((result, file))
+        })();
+        let result = match checked {
+            Ok((result, file)) => {
+                if result["ok"].as_bool() == Some(true) {
+                    std::fs::copy(file, self.dir.join("validated_submission.json"))?;
+                }
+                result
+            }
+            Err(error) => json!({"ok": false, "error": error.to_string()}),
+        };
+        let error = if result["ok"].as_bool() == Some(true) {
+            None
+        } else {
+            Some(
+                result["error"]
+                    .as_str()
+                    .unwrap_or("the validator refused the submission")
+                    .chars()
+                    .take(4000)
+                    .collect(),
+            )
+        };
+        self.tool_log(json!({"kind": "validation", "turn": self.state.turn, "result": result}))?;
+        Ok(error)
     }
 }
 
@@ -681,10 +750,25 @@ impl Run {
         if let Some(why) = self.pre_tool("python", json!({"code": code})) {
             return self.blocked("Python run", "python", json!({"code": code}), &why);
         }
+        let flags = openwish_audit::static_check(code);
+        let rejected: Vec<_> = flags
+            .iter()
+            .filter(|flag| py.reject_flags.contains(&flag.rule))
+            .collect();
+        if !rejected.is_empty() {
+            self.state.failed_requests += 1;
+            let rules: Vec<_> = rejected.iter().map(|flag| flag.rule.as_str()).collect();
+            self.tool_log(json!({"kind": "python-policy", "turn": self.state.turn, "blocked": true, "code": code, "flags": rejected}))?;
+            self.state.next_message = format!(
+                "Python policy blocked this code before execution: {}. Nothing ran and no Python budget was spent. \
+                 Use weight algebra and symbolic identities. Do not simulate the network or its components on inputs.\n{}",
+                rules.join(", "), self.budget_line()
+            );
+            return Ok(());
+        }
         if self.kernel.is_none() {
             self.kernel = Some(self.start_kernel(&py)?);
         }
-        let flags = openwish_audit::static_check(code);
         let mark = self.last_edit_id().unwrap_or(0);
         let out = self.run_in_kernel(code)?;
         self.state.runs_used += 1;
@@ -995,6 +1079,30 @@ fn first_message(spec: &TaskSpec) -> Result<String> {
         first.push_str("\n\n");
         first.push_str(&std::fs::read_to_string(spec.resolve(a))?);
     }
+    if let Some(validation) = &spec.finish.validation {
+        first.push_str("\n\nOPENWISH SUBMISSION PROTOCOL\nYour final submission is checked for format only, never correctness. \
+            Repair format errors when requested. OpenWiSH executes your tool blocks, even when the provider's own tool list is empty.\n");
+        if let Some(py) = &spec.python {
+            if py.runs > 0 {
+                first.push_str(&format!(
+                    "Python is available through text blocks, with at most {} runs. \
+                    Reply with one block to execute code, for example:\n```python\nprint(NAMES)\n```\n",
+                    py.runs
+                ));
+            }
+        }
+        for tag in spec.forward.keys() {
+            first.push_str(&format!(
+                "The declared {tag} probe accepts one ```{tag} block with a JSON request.\n"
+            ));
+        }
+        if let Some(file) = &validation.submission_file {
+            first.push_str(&format!(
+                "Write your submission to /work/{} or put the submission in your final reply.\n",
+                file.display()
+            ));
+        }
+    }
     Ok(first)
 }
 
@@ -1143,6 +1251,123 @@ passes = 3
         assert!(std::fs::read_to_string(r.dir.join("rules.txt"))
             .unwrap()
             .contains("TASK"));
+    }
+
+    const VALIDATION: &str = r#"
+[finish.validation]
+command = ["sh", "-c", "if grep -q 'answer' \"$OPENWISH_SUBMISSION\"; then echo '{\"ok\":true}'; else echo '{\"ok\":false,\"error\":\"Expected an answer object\"}'; fi"]
+"#;
+
+    #[test]
+    fn validated_tasks_explain_text_tools_but_no_tool_baselines_stay_verbatim() {
+        let d = tempfile::tempdir().unwrap();
+        let baseline = task(d.path(), "");
+        assert_eq!(first_message(&baseline).unwrap(), "TASK: make W the identity.");
+        let interactive = task(d.path(), &format!("[python]\nruns = 2\n{VALIDATION}"));
+        let message = first_message(&interactive).unwrap();
+        assert!(message.contains("OpenWiSH executes your tool blocks"));
+        assert!(message.contains("```python\nprint(NAMES)\n```"));
+        assert!(message.contains("format only"));
+    }
+
+    #[test]
+    fn configured_static_policy_blocks_code_before_starting_python() {
+        let d = tempfile::tempdir().unwrap();
+        let spec = task(d.path(), "[python]\nruns = 2\nreject_flags = [\"forward_pass\"]\n");
+        let code = "```python\nopen('/work/executed', 'w').write('bad')\nh = np.maximum(X @ W.T + b, 0)\n```";
+        let mut r = Run::create(spec, &d.path().join("run"), script(&[code]), env()).unwrap();
+        r.step().unwrap();
+        assert!(r.kernel.is_none());
+        assert_eq!(r.state.runs_used, 0);
+        assert_eq!(r.state.failed_requests, 1);
+        assert!(!r.dir.join("work/executed").exists());
+        assert!(r.state.next_message.contains("forward_pass"));
+        let calls = std::fs::read_to_string(r.dir.join("tool_calls.jsonl")).unwrap();
+        assert!(calls.contains("python-policy") && calls.contains("blocked"));
+    }
+
+    #[test]
+    fn malformed_final_answer_gets_format_feedback_without_scoring() {
+        let d = tempfile::tempdir().unwrap();
+        let spec = task(d.path(), VALIDATION);
+        let mut r = Run::create(
+            spec,
+            &d.path().join("run"),
+            script(&["No tools available.", "{\"answer\":1}"]),
+            env(),
+        )
+        .unwrap();
+        r.step().unwrap();
+        assert!(!r.state.done);
+        assert!(r.state.next_message.contains("Expected an answer object"));
+        assert_eq!((r.state.runs_used, r.state.nudges), (0, 1));
+        r.step().unwrap();
+        assert!(r.state.done);
+        assert_eq!(
+            std::fs::read_to_string(r.dir.join("final_answer.md")).unwrap(),
+            "{\"answer\":1}"
+        );
+        assert!(!r.dir.join("eval/score.json").exists());
+    }
+
+    #[test]
+    fn submission_validation_retries_are_bounded() {
+        let d = tempfile::tempdir().unwrap();
+        let spec = task(d.path(), &format!("[finish]\nmax_nudges = 1\n{VALIDATION}"));
+        let mut r = Run::create(spec, &d.path().join("run"), script(&["bad", "still bad"]), env()).unwrap();
+        r.run_to_end().unwrap();
+        assert_eq!(r.state.turn, 2);
+        assert_eq!(r.state.end_reason.as_deref(), Some("submission rejected"));
+    }
+
+    #[test]
+    fn submission_file_is_checked_under_work_before_the_validator_reads_it() {
+        use std::os::unix::fs::symlink;
+        let d = tempfile::tempdir().unwrap();
+        let spec = task(
+            d.path(),
+            &format!("{VALIDATION}\nsubmission_file = \"submission.json\"\n"),
+        );
+        let mut r = Run::create(spec, &d.path().join("run"), script(&["done", "done"]), env()).unwrap();
+        std::fs::write(r.dir.join("work/submission.json"), "{\"answer\":1}").unwrap();
+        r.step().unwrap();
+        assert!(r.state.done);
+        assert_eq!(
+            std::fs::read_to_string(r.dir.join("validated_submission.json")).unwrap(),
+            "{\"answer\":1}"
+        );
+
+        let spec = r.spec.clone();
+        let mut r = Run::create(spec, &d.path().join("hostile"), script(&["done"]), env()).unwrap();
+        let outside = d.path().join("outside.json");
+        std::fs::write(&outside, "{\"answer\":1}").unwrap();
+        symlink(outside, r.dir.join("work/submission.json")).unwrap();
+        r.step().unwrap();
+        assert!(!r.state.done);
+        assert!(
+            r.state.next_message.contains("symbolic link"),
+            "{}",
+            r.state.next_message
+        );
+    }
+
+    #[test]
+    fn submission_validation_bounds_host_file_reads() {
+        let d = tempfile::tempdir().unwrap();
+        let spec = task(
+            d.path(),
+            &format!("{VALIDATION}\nsubmission_file = \"submission.json\"\n"),
+        );
+        let mut r = Run::create(spec, &d.path().join("run"), script(&["done"]), env()).unwrap();
+        let file = std::fs::File::create(r.dir.join("work/submission.json")).unwrap();
+        file.set_len(2_000_001).unwrap();
+        r.step().unwrap();
+        assert!(!r.state.done);
+        assert!(
+            r.state.next_message.contains("2000000 bytes"),
+            "{}",
+            r.state.next_message
+        );
     }
 
     #[test]

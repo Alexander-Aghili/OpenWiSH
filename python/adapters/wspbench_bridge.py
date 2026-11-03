@@ -12,6 +12,7 @@ import json
 import os
 import re
 import sys
+from pathlib import Path
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 BENCH = os.path.join(ROOT, "assets", "wspbench")
@@ -66,6 +67,9 @@ OW_INSTRUCTIONS = """You are solving a WSPBench v0.2 small-network challenge ins
 The task JSON follows. Its weights are also loaded in your Python sandbox as float32 arrays:
 W["<checkpoint>.<tensor>"], for example W["target.b0"]. Patches name tensors without the checkpoint prefix
 ("b0", not "target.b0"). Reply with one ```python block to run code.
+TASK holds the same public task JSON, including TASK["public"] and the answer schema.
+Read TASK["public"].get("specification") for any public construction truth table.
+Sympy is installed. Prefer standard symbolic algebra and Boolean minimisation routines over hand-written replacements.
 Allowed: weight algebra on these arrays (signs, thresholds, products, decompositions), decoding the circuit
 from its weights, Boolean logic minimisation, evaluating Boolean expressions you wrote, and analytic construction.
 Not allowed: applying any network's weights to inputs (the target, or a network you build), fitting parameters
@@ -74,95 +78,66 @@ Submit exactly the JSON object the task specifies, with no extra keys. Call chec
 checks the format only (keys, grammar, sizes) and never grades. Write it to /work/submission.json from Python,
 then reply without a code block. A final reply holding the JSON object also counts."""
 
+POLICY_INSTRUCTIONS = """Decode gates through symbolic coefficient identities. Do not enumerate input assignments
+to evaluate network layers, gates, ReLUs or output heads. Python requests with possible activation computations
+are blocked before execution. Algebra on the weights, exact minimisation of a public truth table, and evaluation
+of your own Boolean expressions remain allowed. This guard is conservative. Code still needs an audit."""
+REJECT_FLAGS = ["forward_pass", "scalar_relu", "backward", "autograd", "optimizer", "scipy_optimize",
+                "manual_gradient_step", "fit_into_weights", "lstsq_into_weights"]
+
 
 OW_PRELUDE = r'''import json
 import numpy as np
 
+with open("/task.json") as _public_file:
+    TASK = json.load(_public_file)["task"]
 W = {n: load(n) for n in NAMES}
 FAMILY = "@FAMILY@"
-_BINARY = {"and", "or", "xor", "nand", "nor"}
-_NODE_KEYS = {"input": {"op", "index"}, "not": {"op", "arg"}, "mux": {"op", "condition", "then", "else"}, "majority": {"op", "args"}}
-_PATCH_OPS = {"set", "array", "scale", "zero", "rank_one", "rank1"}
+''' + Path(__file__).with_name("wspbench_format.py").read_text() + r'''
 
-
-def _program(node, depth=0, count=None):
-    count = count if count is not None else [0]
-    count[0] += 1
-    if not isinstance(node, dict) or count[0] > 128 or depth > 6:
-        return "the expression exceeds the grammar (at most 128 nodes, depth 6)"
-    op = node.get("op")
-    keys = {"op", "left", "right"} if op in _BINARY else _NODE_KEYS.get(op)
-    if keys is None or set(node) != keys:
-        return f"node {node.get('op')!r} has keys {sorted(node)}; expected {sorted(keys) if keys else 'a known op'}"
-    if op == "input" and not (type(node["index"]) is int and 0 <= node["index"] < 10):
-        return "input index must be an integer 0..9"
-    kids = [node["left"], node["right"]] if op in _BINARY else [node["arg"]] if op == "not" else \
-        [node["condition"], node["then"], node["else"]] if op == "mux" else node["args"] if op == "majority" else []
-    if op == "majority" and (not isinstance(kids, list) or len(kids) != 3):
-        return "majority needs exactly three args"
-    for k in kids:
-        err = _program(k, depth + 1, count)
-        if err:
-            return err
-    return None
-
-
-def _table(v):
-    return None if isinstance(v, list) and len(v) == 1024 and all(type(x) is int and x in (0, 1) for x in v) else \
-        "an output table must be a list of exactly 1024 integers 0 or 1"
-
+_check_format = check_submission
 
 def check_submission(sub):
-    """Format check only (keys, grammar, sizes). It never grades. Returns "ok" or the first problem."""
-    if not isinstance(sub, dict):
-        return "the submission must be one JSON object"
-    if FAMILY == "rule_recovery":
-        if set(sub) == {"program"}:
-            return _program(sub["program"]) or "ok"
-        if set(sub) == {"outputs"}:
-            return _table(sub["outputs"]) or "ok"
-        return f"keys {sorted(sub)}: use exactly {{program}} or {{outputs}}"
-    if FAMILY == "edit_effects":
-        if set(sub) == {"before_program", "after_program"}:
-            return _program(sub["before_program"]) or _program(sub["after_program"]) or "ok"
-        if set(sub) == {"before_outputs", "after_outputs"}:
-            return _table(sub["before_outputs"]) or _table(sub["after_outputs"]) or "ok"
-        return f"keys {sorted(sub)}: use exactly {{before_program, after_program}} or {{before_outputs, after_outputs}}"
-    if set(sub) != {"patch"}:
-        return f"keys {sorted(sub)}: use exactly {{patch}}"
-    if not isinstance(sub["patch"], list) or len(sub["patch"]) > 8192:
-        return "patch must be a list of at most 8192 operations"
-    bad = [o for o in sub["patch"] if not isinstance(o, dict) or o.get("op") not in _PATCH_OPS or "tensor" not in o]
-    if bad:
-        return f"{len(bad)} patch operations lack a known op or a tensor"
-    tensors = sorted({n.split(".", 1)[1] for n in NAMES})
-    wrong = sorted({o["tensor"] for o in sub["patch"] if o["tensor"] not in tensors})
-    return f"unknown tensor names {wrong}: patches name tensors without the checkpoint prefix, one of {tensors}" if wrong else "ok"
+    return _check_format(sub, FAMILY, TASK["architecture"]["shapes"])
 '''
 
 
-def export_ow(task_id, runs=30):
+def export_ow(task_id, runs=30, out_dir=None, validation=True, policy=True):
     """The OpenWiSH condition: the same task and payload, plus a Python sandbox over the weights."""
     import numpy as np
 
     task = load_task(task_id)
     payload = AccessSession(task, "A", "full", None).public_payload()
-    out = os.path.join(ROOT, "tasks", "wspbench", f"{task_id}-OW")
+    out = os.fspath(out_dir) if out_dir is not None else os.path.join(ROOT, "tasks", "wspbench", f"{task_id}-OW")
     net = os.path.join(out, "net")
     os.makedirs(net, exist_ok=True)
     for ck, body in payload["checkpoints"].items():
         for name, t in body["tensors"].items():
             np.save(os.path.join(net, f"{ck}.{name}.npy"), np.asarray(t["values"], np.float32).reshape(t["shape"]))
-    open(os.path.join(out, "prompt.txt"), "w").write(canonical_json(payload) + "\n")
-    open(os.path.join(out, "prelude.py"), "w").write(OW_PRELUDE.replace("@FAMILY@", task.family))
+    Path(out, "prompt.txt").write_text(canonical_json(payload) + "\n")
+    Path(out, "prelude.py").write_text(OW_PRELUDE.replace("@FAMILY@", task.family))
     bridge, py = "{root}/python/adapters/wspbench_bridge.py", "{root}/assets/wspbench/.venv/bin/python"
+    hidden = json.dumps(os.path.relpath(os.path.join(ROOT, "assets/wspbench/data"), out))
+    instructions = OW_INSTRUCTIONS + ("\n\n" + POLICY_INSTRUCTIONS if policy else "")
+    policy_setting = "reject_flags = " + json.dumps(REJECT_FLAGS) if policy else ""
+    validation_table = f'''
+[finish.validation]
+command = ["python3", "-I", "{{root}}/python/adapters/wspbench_validate.py", "--public", "{{task}}/prompt.txt", "--family", "{task.family}"]
+submission_file = "submission.json"
+timeout_s = 10
+''' if validation else ""
     spec = f'''# Generated by python/adapters/wspbench_bridge.py from WSPBench v0.2.1 (Apache-2.0 code, CC BY 4.0 data).
 # OpenWiSH condition: not a WSPBench access condition. Report separately from A, B and C.
 id = "wspbench-{task_id}-OW"
 description = "WSPBench {task.family} ({task.skill}) with an OpenWiSH Python sandbox over the weights; no network execution."
 prompt = "prompt.txt"
-instructions = {toml_string(OW_INSTRUCTIONS)}
-hidden = ["../../../assets/wspbench/data"]
+instructions = {toml_string(instructions)}
+hidden = [{hidden}]
+
+[[mounts]]
+host = "prompt.txt"
+guest = "/task.json"
+rw = false
 
 [network]
 base = "net"
@@ -174,9 +149,11 @@ mem_gb = 8
 max_out = 15000
 fresh = false
 prelude = "prelude.py"
+{policy_setting}
 
 [finish]
 max_turns = {runs + 10}
+{validation_table}
 
 [editor]
 effort = "high"
@@ -184,7 +161,7 @@ effort = "high"
 [score]
 command = ["{py}", "-I", "{bridge}", "score", "--task", "{task_id}", "--condition", "OW"]
 '''
-    open(os.path.join(out, "task.toml"), "w").write(spec)
+    Path(out, "task.toml").write_text(spec)
     print(json.dumps({"ok": True, "task": task_id, "family": task.family, "out": out}))
 
 
@@ -230,10 +207,13 @@ def grade(task, submission):
 
 def score(task_id, condition):
     task = load_task(task_id)
-    text = open(os.environ["OPENWISH_FINAL_ANSWER"]).read()
+    text = Path(os.environ["OPENWISH_FINAL_ANSWER"]).read_text()
+    validated = Path(os.environ.get("OPENWISH_RUN", ""), "validated_submission.json")
     sub_file = os.path.join(os.environ.get("OPENWISH_RUN", ""), "work", "submission.json")
-    if condition == "OW" and os.path.isfile(sub_file) and not os.path.islink(sub_file):
-        text = open(sub_file).read()
+    if condition == "OW" and validated.is_file() and not validated.is_symlink():
+        text = validated.read_text()
+    elif condition == "OW" and os.path.isfile(sub_file) and not os.path.islink(sub_file):
+        text = Path(sub_file).read_text()
     out = {"ok": True, "task": task_id, "family": task.family, "condition": condition}
     try:
         out["strict"] = grade(task, parse_submission(text))
@@ -251,8 +231,13 @@ if __name__ == "__main__":
     ap.add_argument("cmd", choices=["export", "score"])
     ap.add_argument("--task", required=True)
     ap.add_argument("--condition", default="A", choices=["A", "B", "C", "OW"])
+    ap.add_argument("--out-dir", type=Path, help="separate OW variant folder for a controlled comparison")
+    ap.add_argument("--no-validation", action="store_true", help="export OW without final-format feedback")
+    ap.add_argument("--no-policy", action="store_true", help="export OW with advisory static checks only")
     a = ap.parse_args()
+    if (a.out_dir is not None or a.no_validation or a.no_policy) and (a.cmd != "export" or a.condition != "OW"):
+        ap.error("OW export options require export --condition OW")
     if a.cmd == "export":
-        export_ow(a.task) if a.condition == "OW" else export(a.task, a.condition)
+        export_ow(a.task, out_dir=a.out_dir, validation=not a.no_validation, policy=not a.no_policy) if a.condition == "OW" else export(a.task, a.condition)
     else:
         score(a.task, a.condition)

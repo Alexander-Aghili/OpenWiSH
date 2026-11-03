@@ -78,6 +78,9 @@ pub struct PythonSpec {
     pub fresh: bool,
     /// a different Python environment for this task (default: the harness's sandbox venv)
     pub venv: Option<PathBuf>,
+    /// Static-check rules the task rejects before execution. Other flags stay advisory.
+    #[serde(default)]
+    pub reject_flags: Vec<String>,
 }
 fn d_timeout() -> u64 {
     900
@@ -140,6 +143,21 @@ pub struct FinishSpec {
     pub max_turns: u32,
     #[serde(default = "d_nudges")]
     pub max_nudges: u32,
+    /// Optional format-only validation before accepting a final reply.
+    pub validation: Option<ValidationSpec>,
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct ValidationSpec {
+    pub command: Vec<String>,
+    #[serde(default = "d_validation_timeout")]
+    pub timeout_s: u64,
+    /// Optional file under /work, preferred over the final reply when present.
+    pub submission_file: Option<PathBuf>,
+}
+fn d_validation_timeout() -> u64 {
+    60
 }
 fn d_turns() -> u32 {
     400
@@ -153,6 +171,7 @@ impl Default for FinishSpec {
             require_all_passes: false,
             max_turns: d_turns(),
             max_nudges: d_nudges(),
+            validation: None,
         }
     }
 }
@@ -209,6 +228,13 @@ impl TaskSpec {
         t.check_tool_tags()?;
         t.check_pools()?;
         t.check_mounts()?;
+        if let Some(py) = &t.python {
+            for rule in &py.reject_flags {
+                if !openwish_audit::known_rule(rule) {
+                    bail!("unknown static rule {rule:?} in python.reject_flags");
+                }
+            }
+        }
         Ok(t)
     }
 
@@ -357,6 +383,17 @@ impl TaskSpec {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn unknown_static_policy_rules_are_rejected() {
+        let d = tempfile::tempdir().unwrap();
+        let path = write(
+            d.path(),
+            "id = \"t\"\nprompt = \"prompt.txt\"\n[python]\nruns = 1\nreject_flags = [\"typo\"]\n",
+        );
+        let error = TaskSpec::load(&path).unwrap_err().to_string();
+        assert!(error.contains("unknown static rule"), "{error}");
+    }
 
     fn write(d: &Path, toml: &str) -> PathBuf {
         std::fs::write(d.join("prompt.txt"), "hi").unwrap();

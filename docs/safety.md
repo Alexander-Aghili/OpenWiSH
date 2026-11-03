@@ -52,7 +52,7 @@ A refused edit leaves no ledger line and no file. An accepted edit appends one l
 
 ### 3. Static checks (soft)
 
-Each code run is scanned before execution. Matches go to the agent as a note in the next message and to `tool_calls.jsonl`. They do not block.
+Each code run is scanned before execution. By default, matches go to the agent as a note in the next message and to `tool_calls.jsonl`. A task opts into blocking with `[python] reject_flags`. A blocked request never starts Python and spends no Python budget. The trace records the blocked code as `python-policy`. Conservative flags sometimes reject allowed algebra. Static checks remain incomplete, so audits still apply.
 
 | Rule | Flags |
 |---|---|
@@ -63,11 +63,12 @@ Each code run is scanned before execution. Matches go to the agent as a note in 
 | `manual_gradient_step` | `-= lr *` and the same with `learning_rate`, `eta`, `step_size` |
 | `fit_into_weights` | `.fit(` in code calling `save_edit` |
 | `lstsq_into_weights` | `lstsq(`, `pinv(`, `solve(` in code calling `save_edit` |
+| `scalar_relu` | A numeric `max(0, ...)`, including possible component-level simulation |
 | `forward_pass` | an activation (`tanh`, `relu`, `sigmoid`, `softmax`, `gelu`, `silu`, `maximum(0, ...)`) applied to a matrix product |
 
 ### 4. Auditor (soft)
 
-`openwish audit <run>` sends every Python run, with its output and the rules text the agent saw, to a reviewer model in batches of 8. Each run gets `allowed`, `suspicious` or `violation` with a reason. One `violation` sets `valid: false` in `audit_summary.json`. Report the audit status next to every score.
+`openwish audit <run>` sends every Python run, with its output, the saved task instructions and the task prompt, to a reviewer model in batches of 8. The reviewer receives a neutral role. Participant instructions appear as evidence rather than reviewer instructions. Each run gets `allowed`, `suspicious` or `violation` with a reason. One `violation` sets `valid: false` in `audit_summary.json`. Report the audit status next to every score.
 
 ## Path rules for sandbox-controlled paths
 

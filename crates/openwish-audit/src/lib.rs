@@ -67,11 +67,21 @@ const RULES: &[Rule] = &[
     },
     Rule {
         name: "forward_pass",
-        re: r"(tanh|relu|sigmoid|softmax|gelu|silu|maximum\(\s*0\s*,)\s*\([^()]*(\([^()]*\)[^()]*)*@",
+        re: r"(tanh|relu|sigmoid|softmax|gelu|silu|maximum|clip)\s*\([^()]*(\([^()]*\)[^()]*)*@",
         needs_save: false,
         why: "an activation applied to a matrix product (a possible forward pass on inputs)",
     },
+    Rule {
+        name: "scalar_relu",
+        re: r"\bmax\s*\(\s*0(?:\.0)?\s*,",
+        needs_save: false,
+        why: "a possible scalar ReLU, including component-level network simulation",
+    },
 ];
+
+pub fn known_rule(name: &str) -> bool {
+    RULES.iter().any(|rule| rule.name == name)
+}
 
 fn compiled() -> &'static Vec<(&'static Rule, regex::Regex)> {
     static C: std::sync::OnceLock<Vec<(&'static Rule, regex::Regex)>> = std::sync::OnceLock::new();
@@ -150,7 +160,15 @@ const MAX_OUTPUT_CHARS: usize = 1500;
 /// Review every python call in `<run>/tool_calls.jsonl` against `<run>/rules.txt`, batching
 /// `batch` calls per auditor message. Writes `<run>/audit.jsonl` and `<run>/audit_summary.json`.
 pub fn audit_run(run_dir: &Path, auditor: &mut dyn openwish_llm::Editor, batch: usize) -> Result<AuditSummary> {
-    let rules = std::fs::read_to_string(run_dir.join("rules.txt")).unwrap_or_else(|_| "(no rules file)".into());
+    let prompt = std::fs::read_to_string(run_dir.join("rules.txt")).unwrap_or_else(|_| "(no rules file)".into());
+    let spec_path = run_dir.join("spec.json");
+    let instructions = if spec_path.exists() {
+        let saved: Value = serde_json::from_str(&std::fs::read_to_string(spec_path)?)?;
+        saved["spec"]["instructions"].as_str().unwrap_or("").to_string()
+    } else {
+        String::new()
+    };
+    let rules = format!("TASK INSTRUCTIONS:\n{instructions}\n\nTASK PROMPT:\n{prompt}");
     let calls = python_calls(run_dir);
     let mut entries: Vec<AuditEntry> = vec![];
     for chunk in calls.chunks(batch.max(1)) {
@@ -285,6 +303,11 @@ mod tests {
             vec!["lstsq_into_weights"]
         );
         assert_eq!(rules("h = np.tanh(x @ W1 + b1)"), vec!["forward_pass"]);
+        assert_eq!(rules("h = np.maximum(h @ w.T + b, 0)"), vec!["forward_pass"]);
+        assert_eq!(
+            rules("value = max(0, bias + sum(coeff * bit for coeff, bit in zip(row, inputs)))"),
+            vec!["scalar_relu"]
+        );
     }
 
     #[test]
@@ -330,6 +353,27 @@ mod tests {
         assert_eq!(lines.lines().count(), 2);
         assert!(a.received[0].contains("No training.") && a.received[0].contains("loss.backward()"));
         assert!(!a.received[0].contains("forward:games"));
+    }
+
+    #[test]
+    fn auditor_receives_saved_system_instructions_as_well_as_the_prompt() {
+        let d = tempfile::tempdir().unwrap();
+        std::fs::write(d.path().join("rules.txt"), "Public task payload.").unwrap();
+        std::fs::write(
+            d.path().join("spec.json"),
+            r#"{"spec":{"instructions":"No network execution outside declared probes."}}"#,
+        )
+        .unwrap();
+        std::fs::write(
+            d.path().join("tool_calls.jsonl"),
+            "{\"kind\":\"python\",\"code\":\"print(1)\"}\n",
+        )
+        .unwrap();
+        let mut a =
+            openwish_llm::scripted::Scripted::new(vec![r#"[{"call":0,"verdict":"allowed","reason":"prints"}]"#.into()]);
+        audit_run(d.path(), &mut a, 8).unwrap();
+        assert!(a.received[0].contains("No network execution outside declared probes."));
+        assert!(a.received[0].contains("Public task payload."));
     }
 
     #[test]

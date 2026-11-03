@@ -35,6 +35,7 @@ pub const DISABLED_FEATURES: &[&str] = &[
     "hooks",
     "worktrees",
     "workspace_dependencies",
+    "memories",
 ];
 
 impl CodexCli {
@@ -57,17 +58,36 @@ impl CodexCli {
 
     /// The `-c key=value` settings: no approvals, a read-only sandbox, no web search, no agents, no tool features.
     fn settings(&self) -> Vec<String> {
+        let instructions = self.cfg.workdir.join("instructions.txt");
         let mut c = vec![
             "approval_policy=\"never\"".to_string(),
             "sandbox_mode=\"read-only\"".into(),
             "web_search=\"disabled\"".into(),
             "agents.enabled=false".into(),
+            format!(
+                "model_instructions_file={}",
+                serde_json::to_string(&instructions).expect("path string")
+            ),
+            format!(
+                "developer_instructions={}",
+                serde_json::to_string(&self.cfg.instructions).expect("instruction string")
+            ),
+            "project_doc_max_bytes=0".into(),
         ];
         if let Some(e) = &self.cfg.effort {
             c.push(format!("model_reasoning_effort=\"{e}\""));
         }
         c.extend(DISABLED_FEATURES.iter().map(|f| format!("features.{f}=false")));
         c
+    }
+
+    fn prepare_instructions(&mut self) -> Result<(), BackendError> {
+        std::fs::create_dir_all(&self.cfg.workdir)
+            .and_then(|_| std::fs::write(self.cfg.workdir.join("instructions.txt"), crate::NEUTRAL_INSTRUCTIONS))
+            .map_err(|e| BackendError::Fatal(format!("writing task instructions: {e}")))?;
+        self.cfg.workdir = std::fs::canonicalize(&self.cfg.workdir)
+            .map_err(|e| BackendError::Fatal(format!("resolving editor folder: {e}")))?;
+        Ok(())
     }
 }
 
@@ -156,6 +176,7 @@ impl Editor for CodexCli {
         format!("codex-cli:{}", self.cfg.model.clone().unwrap_or_default())
     }
     fn send(&mut self, msg: &str, new_conversation: bool) -> Result<Reply, BackendError> {
+        self.prepare_instructions()?;
         let args = self.args(new_conversation);
         let done = crate::run_cli("codex", &args, msg, &self.cfg.workdir, self.cfg.timeout_s)?;
         let mut r = parse_events(&done.stdout).map_err(|e| match e {
@@ -179,6 +200,79 @@ impl Editor for CodexCli {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn task_instructions_replace_defaults_on_new_and_resumed_turns() {
+        let cfg = BackendConfig {
+            kind: "codex".into(),
+            model: Some("test-model".into()),
+            effort: Some("high".into()),
+            instructions: "Use the Python tool.\nReturn exactly {\"answer\": 1}.".into(),
+            workdir: std::path::PathBuf::from("/tmp/openwish test/editor_cwd"),
+            max_tokens: 1000,
+            timeout_s: 10,
+        };
+        let mut editor = CodexCli::new(cfg);
+        editor.set_session(Some("saved-session".into()));
+        for fresh in [true, false] {
+            let args = editor.args(fresh);
+            let settings: Vec<_> = args
+                .windows(2)
+                .filter(|w| w[0] == "-c")
+                .map(|w| w[1].as_str())
+                .collect();
+            assert!(settings.contains(&"model_instructions_file=\"/tmp/openwish test/editor_cwd/instructions.txt\""));
+            let expected = format!(
+                "developer_instructions={}",
+                serde_json::to_string(&editor.cfg.instructions).unwrap()
+            );
+            assert!(settings.contains(&expected.as_str()));
+            assert!(settings.contains(&"project_doc_max_bytes=0"));
+            assert!(settings.contains(&"features.memories=false"));
+            assert!(settings.contains(&"features.shell_tool=false"));
+        }
+    }
+
+    #[test]
+    fn writes_neutral_base_and_keeps_task_instructions_verbatim() {
+        let dir = tempfile::tempdir().unwrap();
+        let cfg = BackendConfig {
+            kind: "codex".into(),
+            model: None,
+            effort: None,
+            instructions: "Use one ```python block.\nQuotes: \" and backslash: \\.\n".into(),
+            workdir: dir.path().join("new/editor_cwd"),
+            max_tokens: 1000,
+            timeout_s: 10,
+        };
+        let mut editor = CodexCli::new(cfg.clone());
+        editor.prepare_instructions().unwrap();
+        assert_eq!(
+            std::fs::read_to_string(cfg.workdir.join("instructions.txt")).unwrap(),
+            crate::NEUTRAL_INSTRUCTIONS
+        );
+    }
+
+    #[test]
+    fn relative_workdir_does_not_duplicate_the_instruction_path() {
+        let dir = tempfile::tempdir_in(".").unwrap();
+        let cfg = BackendConfig {
+            kind: "codex".into(),
+            model: None,
+            effort: None,
+            instructions: "Task rules".into(),
+            workdir: dir
+                .path()
+                .strip_prefix(std::env::current_dir().unwrap())
+                .unwrap()
+                .join("editor_cwd"),
+            max_tokens: 1000,
+            timeout_s: 10,
+        };
+        let mut editor = CodexCli::new(cfg);
+        editor.prepare_instructions().unwrap();
+        assert!(editor.cfg.workdir.is_absolute());
+    }
 
     #[test]
     fn progress_messages_stay_out_of_the_final_reply() {

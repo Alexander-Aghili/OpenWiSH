@@ -6,9 +6,21 @@ All notable changes to OpenWiSH. The format follows [Keep a Changelog](https://k
 
 ### Fixed
 
+- Codex now receives task instructions on new and resumed turns. Project documents and memories stay out of benchmark sessions.
+- Auditors receive saved task instructions as evidence, with a separate reviewer role.
+- Configuration tests ignore inherited CPU settings, including CI defaults.
+
 - Codex progress messages no longer become part of the final reply. Raw events stay in the run record.
 - The kernel retains the optimiser base class while replacing forbidden constructors.
 - Temporary edit arrays are removed after refused or interrupted RPCs.
+
+### Added
+
+- Optional format-only finish validation with bounded retries and protected submission snapshots.
+- Public task JSON in new WSPBench Python workspaces, plus a shared submission grammar checker.
+- Optional pre-execution static-rule blocking, including matrix and scalar ReLU patterns.
+- Pinned benchmark binaries and nonzero batch status on failed runs.
+- Per-task comparison checks for regressions, missing scores, external backend tools and audit gaps.
 
 ### Documentation
 

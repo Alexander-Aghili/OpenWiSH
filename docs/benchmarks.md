@@ -67,9 +67,13 @@ Run the same agent and model on the same environments in two modes:
 
 Compare score, budget lost to failed requests, turns to finish, completion and audit validity, over three or more repeats per condition. Go is the best testbed, because score climbs with the pass budget (0, 10, 25, 50), so instrument quality shows up in the score. Char-LM reading (copying-head recall) and MinAtar writing come next.
 
-Report every live score with the model, the effort, the backend, the cost from `state.json`, and the `valid` flag from `openwish audit`. `scripts/bench_live.sh <label> <backend> [model] -- <task.toml> ...` runs a list of tasks into `runs/bench/<label>/` and resumes unfinished ones.
+Report every live score with the model, the effort, the backend, the cost from `state.json`, and the `valid` flag from `openwish audit`. `scripts/bench_live.sh <label> <backend> [model] -- <task.toml> ...` runs a list of tasks into `runs/bench/<label>/` and resumes unfinished ones. Set `OPENWISH_BENCH_BIN` to pin a binary for a round. A failed task makes the batch return a nonzero status.
 
 ### Results
+
+The earlier Codex backend also omitted task instructions. The original and reply-parser-corrected OW runs used zero Python calls. Those rows are debugging records, not evidence about the sandbox's effect. Fresh matched A and OW runs use the instruction fix. A separate OW variant also exposes the public task JSON in Python.
+
+You check every task with `python3 scripts/bench_compare.py <baseline-folder> <candidate-folder>`. Pass `--expected-task <id>` for each required task. The command fails on regressions, missing scores, unfinished runs, invalid audits or unresolved audit verdicts. Higher averages do not erase task-level losses.
 
 <!-- BENCH:LIVE:START -->
 These are single runs on public tasks. They are provisional and unaudited unless a row shows another audit status. The bundled runs use the Claude CLI at high effort. Cost comes from `state.json`. Codex does not report cost to this backend.
