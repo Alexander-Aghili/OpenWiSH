@@ -64,7 +64,7 @@ Single runs, scored by the OpenWiSH scorers. The published agent is GPT-6 Astra,
 
 Both invalid audits deserve a look. The Gemma run multiplied gate and up projections of embedding-derived vectors, and the task rules forbid gates. The char-LM run fitted a permutation of weight-derived statistics with annealing. The task rules allow fitting. The auditor brief bans search for every task and overrode them. Both runs stay invalid in the tables. [Safety](safety.md) lists the conflict as a known gap.
 
-Experiment 8 replays the published Qwen3.5-0.8B edits on MATH-500 with one sample per problem: base 10.6 % (published 7.9 %) and the 10-pass edit 13.6 % (published 12.3 %). The 25-pass and 50-pass edits are running on a rented GPU.
+Experiment 8 replays the published Qwen3.5-0.8B edits on MATH-500 with one sample per problem: base 10.6 %, 10 passes 13.6 %, 25 passes 14.2 %, 50 passes 51.8 % (published 7.9, 12.3, 14.1 and 48.1 % over four samples). The share of answers cut at the 32,768-token limit falls from 90.2 % to 31.6 %. The gain comes from ending reasoning loops, as the critique thread noted.
 
 ## What OpenWiSH is for
 

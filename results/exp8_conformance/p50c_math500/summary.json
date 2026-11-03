@@ -1,0 +1,24 @@
+{
+ "ok": true,
+ "score": 0.518,
+ "set": "math500",
+ "problems": 500,
+ "samples": 1,
+ "generations": 500,
+ "mean_tokens": 21598.852,
+ "share_cut_at_max_tokens": 0.316,
+ "failures": {
+  "cut_at_max_tokens": 156,
+  "no_answer_finished": 35,
+  "wrong_answer_finished": 50
+ },
+ "accuracy": 0.518,
+ "accuracy_se": 0.022346185356789647,
+ "by_source": {
+  "math500": {
+   "n": 500,
+   "accuracy": 0.518
+  }
+ },
+ "config": "p50c"
+}

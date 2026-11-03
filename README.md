@@ -84,6 +84,7 @@ Conformance comes first. OpenWiSH replays the published runs as a scripted agent
 | 9x9 Go | Budget-0 network rebuilt from the published Python run | 14 tensors | 14 tensors, bit-identical |
 | 9x9 Go | Published budget-50 network against same-size PPO, 2,000 games | 74.15 % | 74.15 % |
 | Gemma pairs | Grades of the 3 published attention-tool answers | 3 / 3 | 3 / 3, same probabilities |
+| Qwen math | Published edits on MATH-500: base, 10, 25 and 50 passes | 7.9 / 12.3 / 14.1 / 48.1 % | 10.6 / 13.6 / 14.2 / 51.8 % |
 
 **Tools against tools.** [WSPBench](https://github.com/alexcarterhq/wspbench) defines its own tool conditions: weight-algebra tools in B, plus metered practice observations in C. The OpenWiSH sandbox gives Python over the same weights, with no network execution. Same models, same 12 tasks, one attempt each. A run with a failed audit scores 0.
 

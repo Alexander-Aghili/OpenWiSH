@@ -30,7 +30,7 @@ The published replies of *Sparks of Weight-Space Programming* go in as a scripte
 | Gemma pairs | Grades of the 3 published attention-tool answers | 3 / 3 | 3 / 3, same probabilities | match |
 | Gemma pairs | Six fine-tunes rebuilt with the published script: share of wrong guesses followed on held-out known facts | sycophant 100 %, honest 2.8 / 0.7 / 0.7 % | sycophant 100 %, honest 1.4 / 0.7 / 0.7 % | match |
 | Gemma pairs | Published attention-tool session for pair 1 replayed: the published numpy code on the rebuilt models, 5 attention probes on the GPU | B, 14 runs | B, 14 runs, graded correct | works |
-| Qwen math | Published edits rebuilt on the text-only base, with hash checks | n/a | not yet reported | pending |
+| Qwen math | Published edits on MATH-500, 500 problems, 1 sample each: base, 10, 25 and 50 passes | 7.9 / 12.3 / 14.1 / 48.1 % (4 samples) | 10.6 / 13.6 / 14.2 / 51.8 % | within noise |
 
 ### Reproduce
 
@@ -98,6 +98,8 @@ Game MLPs: 4/4 correct. Diffusion MLPs: 3/3 correct. Claude reports lower confid
 |---|---|---|---|
 | base | 7.9 % | 10.6 ± 1.4 % | 90.2 % |
 | p10c | 12.3 % | 13.6 ± 1.5 % | 86.8 % |
+| p25c | 14.1 % | 14.2 ± 1.6 % | 86.2 % |
+| p50c | 48.1 % | 51.8 ± 2.2 % | 31.6 % |
 
 #### WSPBench
 
@@ -189,7 +191,7 @@ The agent tags each of 163 localized components in 84 InterpBench circuits with 
 | claude-sonnet-4-6 | prompt only, one reply | 84 | 69.9 % | no code run | this repo |
 | gpt-6.1-sol | prompt only, one reply | 84 | 73.0 % | no code run | this repo |
 | gpt-6.1-sol | weights only, no execution | 84 | 73.0 % | 75/75 valid | this repo |
-| claude-sonnet-4-6 | weights and forward probe | 3 | 63.6 % | 0/3 valid, 3 not audited | this repo |
+| claude-sonnet-4-6 | weights and forward probe | 29 | 66.7 % | 0/27 valid, 27 not audited | this repo |
 | gpt-6.1-sol | weights and forward probe | 84 | 71.8 % | 75/76 valid, 1 invalid | this repo |
 | gpt-5.4 | HyVE: activations, ablation, patching | 84 | 74.0 % | - | arXiv 2606.24026 |
 | claude-sonnet-4-6 | HyVE: activations, ablation, patching | 84 | 79.0 % | - | arXiv 2606.24026 |
