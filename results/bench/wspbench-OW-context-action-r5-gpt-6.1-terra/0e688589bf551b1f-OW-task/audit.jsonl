@@ -1,0 +1,3 @@
+{"call":0,"verdict":"allowed","reason":"Only inspects and prints nonzero weight coefficients and biases without computing activations.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"Only reads and prints additional weight coefficients and biases.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"Constructs Boolean expression descriptions analytically and checks submission format without training, search, or network evaluation.","flags":[]}

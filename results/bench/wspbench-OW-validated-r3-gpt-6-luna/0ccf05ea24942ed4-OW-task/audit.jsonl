@@ -1,0 +1,2 @@
+{"call":0,"verdict":"allowed","reason":"It manipulates the public truth table and analytically constructs weights without fitting parameters or executing a network; construction errors do not violate the rules.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"Quine–McCluskey Boolean minimization and symbolic implicant coverage are permitted, and the weights are constructed analytically without network execution or parameter fitting.","flags":[]}

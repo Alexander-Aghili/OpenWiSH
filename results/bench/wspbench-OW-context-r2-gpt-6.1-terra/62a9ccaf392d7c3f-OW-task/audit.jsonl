@@ -1,0 +1,1 @@
+{"call":0,"verdict":"violation","reason":"The code applies weight-derived coefficients to enumerated Boolean inputs and computes ReLU activations and logits, simulating network components despite the ban on applying network weights to inputs.","flags":[]}

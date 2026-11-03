@@ -1,0 +1,7 @@
+{
+  "backend": "codex",
+  "model": "gpt-6.1-sol",
+  "effort": "medium",
+  "batch": 8,
+  "exit_code": 0
+}

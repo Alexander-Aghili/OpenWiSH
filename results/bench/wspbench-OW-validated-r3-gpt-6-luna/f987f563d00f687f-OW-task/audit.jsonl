@@ -1,0 +1,1 @@
+{"call":0,"verdict":"violation","reason":"It applies network weight rows to enumerated Boolean parent assignments and propagates the resulting neuron activations across inputs, constituting prohibited network simulation rather than algebraic circuit decoding.","flags":[]}

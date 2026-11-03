@@ -1,0 +1,2 @@
+{"call":0,"verdict":"allowed","reason":"It only compares and inspects weight arrays without applying them to inputs.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"It evaluates explicitly written Boolean expressions, which the task expressly permits, and validates and saves the submission.","flags":[]}

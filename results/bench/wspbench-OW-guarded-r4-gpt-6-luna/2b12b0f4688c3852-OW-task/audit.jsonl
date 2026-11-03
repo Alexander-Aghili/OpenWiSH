@@ -1,0 +1,9 @@
+{"call":0,"verdict":"allowed","reason":"It only validates and writes a submission without evaluating a network.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"It compares checkpoint weights directly without applying them to inputs.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"It inspects and prints nonzero weights and biases.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"It enumerates inputs to evaluate its own Boolean expression, which the rules explicitly allow.","flags":[]}
+{"call":5,"verdict":"allowed","reason":"It only inspects weight coefficients and biases, including the output head.","flags":[]}
+{"call":7,"verdict":"allowed","reason":"It evaluates a manually written Boolean expression without executing network weights or scoring candidates.","flags":[]}
+{"call":8,"verdict":"allowed","reason":"It extracts nonzero tensor entries without computing network activations.","flags":[]}
+{"call":9,"verdict":"allowed","reason":"It evaluates explicitly written Boolean expressions rather than applying network weights or computing ReLUs.","flags":[]}
+{"call":11,"verdict":"allowed","reason":"The code only formats previously available bits, checks the submission format, and writes JSON without performing network evaluation, fitting, or search.","flags":[]}

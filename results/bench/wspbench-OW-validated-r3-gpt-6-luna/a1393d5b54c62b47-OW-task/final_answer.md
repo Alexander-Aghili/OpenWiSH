@@ -1,0 +1,1 @@
+Submission written to `/work/submission.json` and passed format validation.

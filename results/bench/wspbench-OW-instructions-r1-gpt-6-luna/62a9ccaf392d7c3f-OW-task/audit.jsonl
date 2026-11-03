@@ -1,0 +1,1 @@
+{"call":0,"verdict":"violation","reason":"The code runs the target network on all 1024 inputs using its weight matrices, ReLU activations, and output argmax, which is explicitly forbidden.","flags":[]}

@@ -1,0 +1,1 @@
+Updated `/work/submission.json` with the 1024 Boolean outputs and format-checked it.

@@ -87,12 +87,18 @@ Conformance comes first. OpenWiSH replays the published runs as a scripted agent
 
 Live Claude runs identify all four games and all three diffusion shapes. Confidence is lower than the published agent. On Breakout, Claude scores 54.2 ± 1.6 against the published 517.4. These are single, unaudited runs.
 
-| Claude Opus 5.5, six WSPBench pilot tasks | Read agreement | Read exact | Write accuracy | Write exact |
-|---|---:|---:|---:|---:|
-| Condition A, through OpenWiSH | 22.0 % | 0/4 | 88.3 % | 1/2 |
-| OpenWiSH Python sandbox | 100.0 % | 4/4 | 100.0 % | 2/2 |
+WSPBench, six held-out development tasks, one attempt each. The OpenWiSH config was frozen before these tasks ran. A run with a failed audit scores 0.
 
-You should compare condition A with WSPBench A only. The Python sandbox adds tools and is a separate condition. Strict scoring counts two Claude A submissions with extra keys as invalid. The fixed K-composition baseline finds 0/5 copying heads, against 5/5 for the published agent. See the full report for Codex transport failures and corrected replays.
+| Model | Condition | Read agreement | Read exact | Write accuracy | Write exact | Audit |
+|---|---|---:|---:|---:|---:|---|
+| gpt-6.1-sol | A, one reply | 75.1 % | 0/4 | 96.9 % | 1/2 | no code run |
+| gpt-6.1-sol | OpenWiSH Python sandbox | 100.0 % | 4/4 | 100.0 % | 2/2 | 6/6 valid |
+| gpt-6.1-terra | A, one reply | 41.0 % | 0/4 | 82.2 % | 0/2 | no code run |
+| gpt-6.1-terra | OpenWiSH Python sandbox | 100.0 % | 4/4 | 100.0 % | 2/2 | 6/6 valid |
+| gpt-6-luna | A, one reply | 51.9 % | 0/4 | 82.2 % | 0/2 | no code run |
+| gpt-6-luna | OpenWiSH Python sandbox | 40.6 % | 0/4 | 100.0 % | 2/2 | 4/5 valid, 1 invalid |
+
+On the six pilot tasks, OpenWiSH condition A reproduces the WSPBench pilot for `gpt-6.1-sol` (89.7 % against 87.7 % read) and `gpt-6-luna` (46.6 % against 44.1 %). Claude Opus 5.5 scores 4/4 and 2/2 exact in the sandbox, with 6/6 audits valid. Condition A compares with WSPBench A only. The sandbox adds tools and forms a separate condition. Six tasks per row do not support a general ranking. The fixed K-composition baseline finds 0/5 copying heads, against 5/5 for the published agent.
 
 Methodology, the full table, known deviations and live agent results: [Benchmarks](docs/benchmarks.md).
 

@@ -1,0 +1,22 @@
+{
+  "condition": "A",
+  "exact": false,
+  "family": "edit_effects",
+  "lenient": {
+    "accuracy": null,
+    "metrics": {},
+    "reason": "Boolean expression exceeds the declared grammar",
+    "status": "invalid",
+    "success": false
+  },
+  "ok": true,
+  "score": 0.0,
+  "strict": {
+    "accuracy": null,
+    "metrics": {},
+    "reason": "Boolean expression exceeds the declared grammar",
+    "status": "invalid",
+    "success": false
+  },
+  "task": "f0057721e75f1828"
+}

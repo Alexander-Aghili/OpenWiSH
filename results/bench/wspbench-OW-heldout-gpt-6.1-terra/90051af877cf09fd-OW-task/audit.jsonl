@@ -1,0 +1,2 @@
+{"call":0,"verdict":"allowed","reason":"It only inspects and prints weight coefficients and biases without evaluating network computations on inputs.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"It analytically constructs a Boolean program and performs format validation and submission without training, search, or network evaluation.","flags":[]}

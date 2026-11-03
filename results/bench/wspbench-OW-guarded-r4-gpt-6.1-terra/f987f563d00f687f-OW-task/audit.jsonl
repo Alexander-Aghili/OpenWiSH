@@ -1,0 +1,2 @@
+{"call":0,"verdict":"allowed","reason":"It only inspects and prints weight coefficients and biases without evaluating the network on inputs.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"It evaluates its own Boolean expression over input tuples, which is explicitly allowed, and saves the submission without network execution or fitting.","flags":[]}

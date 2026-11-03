@@ -23,8 +23,9 @@ os.makedirs(empty, exist_ok=True)
 for name in a.configs:
     edits = empty if name == "base" else os.path.join(ROOT, "assets", "exp8", "published", name)
     out = os.path.join(ROOT, "runs", "exp8_conformance", f"{name}_{a.set}")
-    if os.path.exists(os.path.join(out, "summary.json")):
-        print(open(os.path.join(out, "summary.json")).read().strip())
+    done = os.path.join(out, "summary.json")
+    if os.path.exists(done) and json.load(open(done)).get("ok"):  # failed records rerun
+        print(open(done).read().strip())
         continue
     res = Q.run_worker(["evaluate", "--model", "{model}", "--edits", "{edits}", "--set", a.set, "--data", "{data}",
                         "--limit", str(a.limit), "--samples", str(a.samples), "--out", "{out}"],

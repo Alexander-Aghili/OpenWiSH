@@ -1,0 +1,1 @@
+{"call":0,"verdict":"allowed","reason":"It decodes gates by algebraically matching weight signatures to Boolean templates, then evaluates the recovered Boolean expression, without network execution, fitting, or behavior-scored search.","flags":[]}

@@ -1,0 +1,2 @@
+{"call":0,"verdict":"allowed","reason":"Only inspects and prints weight coefficients and biases without evaluating the network on inputs.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"Constructs a Boolean program from symbolic gate identities and checks its format without network evaluation, fitting, or search.","flags":[]}

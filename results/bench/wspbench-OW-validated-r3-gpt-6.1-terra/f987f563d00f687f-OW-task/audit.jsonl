@@ -1,0 +1,2 @@
+{"call":0,"verdict":"violation","reason":"It applies network weights and ReLU to enumerated binary inputs to derive gate truth tables, which is forbidden simulation despite the later error.","flags":[]}
+{"call":1,"verdict":"violation","reason":"It applies network weights and ReLU to enumerated binary inputs to derive gate truth tables, violating the prohibition on applying weights to inputs.","flags":[]}

@@ -1,0 +1,33 @@
+{
+  "turn": 13,
+  "runs_used": 9,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 3,
+  "nudges": 3,
+  "handoffs": 2,
+  "since_handoff": 5,
+  "conv_tokens": 847514,
+  "session": "01a1a036-81b5-7aa2-9c76-1c3575305152",
+  "next_message": "OUTPUT of Python run 9 of at most 30:\n```\n(no output)\n```\n[budget: python runs used 9/30]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 3803075,
+    "output": 56027,
+    "cache_read": 2821632,
+    "cache_write": 0,
+    "reasoning": 49571
+  },
+  "cost_usd": 0.0,
+  "tool_free_turns": 13,
+  "hook_blocks": 0
+}

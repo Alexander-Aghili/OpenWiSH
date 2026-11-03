@@ -1,0 +1,37 @@
+== 0ccf05ea24942ed4-OW-task 01:43:14
+   exit 0 }
+== 0e688589bf551b1f-OW-task 01:44:08
+   exit 0 }
+== 2b12b0f4688c3852-OW-task 01:45:58
+   exit 0 }
+== 62a9ccaf392d7c3f-OW-task 01:47:12
+   exit 0 }
+== a1393d5b54c62b47-OW-task 01:47:39
+   exit 0 }
+== f987f563d00f687f-OW-task 01:50:16
+   exit 0 }
+== 0ccf05ea24942ed4-OW-task 01:50:52
+   exit 0 }
+== 0e688589bf551b1f-OW-task 01:51:27
+   exit 0 }
+== 2b12b0f4688c3852-OW-task 01:51:41
+   exit 0 }
+== 62a9ccaf392d7c3f-OW-task 01:51:56
+   exit 0 }
+== a1393d5b54c62b47-OW-task 01:51:59
+   exit 0 }
+== f987f563d00f687f-OW-task 01:52:21
+   exit 0 }
+== 0ccf05ea24942ed4-OW-task 01:52:41
+   exit 0 }
+== 0e688589bf551b1f-OW-task 01:53:16
+   exit 0 }
+== 2b12b0f4688c3852-OW-task 01:53:37
+   exit 0 }
+== 62a9ccaf392d7c3f-OW-task 01:53:54
+   exit 0 }
+== a1393d5b54c62b47-OW-task 01:54:14
+   exit 0 }
+== f987f563d00f687f-OW-task 01:54:42
+   exit 0 }
+scripts/bench_live.sh: line 20: BENCH_RC: unbound variable

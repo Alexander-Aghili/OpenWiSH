@@ -1,0 +1,1 @@
+The sandbox exposes `W` and `check_submission`, but not the truth table. The empty patch passes format validation, but it does not implement the requested behavior. I can’t construct a correct patch from the sandbox state shown.

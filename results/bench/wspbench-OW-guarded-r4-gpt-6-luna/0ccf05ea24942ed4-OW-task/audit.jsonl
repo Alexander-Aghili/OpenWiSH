@@ -1,0 +1,1 @@
+{"call":0,"verdict":"allowed","reason":"The code exactly minimizes the public truth table and analytically constructs network weights without fitting parameters, evaluating network activations, or searching by network behavior.","flags":[]}

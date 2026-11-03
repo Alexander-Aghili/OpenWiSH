@@ -1,0 +1,2 @@
+{"call":0,"verdict":"allowed","reason":"It only inspects weight coefficients, biases, and checkpoint differences without evaluating network inputs or activations.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"It constructs Boolean programs from symbolic coefficient identities and submits them without network execution, fitting, or search.","flags":[]}

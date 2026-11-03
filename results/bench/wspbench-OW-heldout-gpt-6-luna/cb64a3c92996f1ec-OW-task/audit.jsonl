@@ -1,0 +1,4 @@
+{"call":0,"verdict":"allowed","reason":"Uses permitted exact minimization of the public truth table and analytic circuit construction, without evaluating network activations or fitting parameters.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"Symbolically compiles minimized Boolean logic into weight edits without running a network or performing training.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"Constructs weights analytically from minimized public Boolean logic and performs only format validation.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"Uses symbolic logic compilation and register allocation to construct weights analytically, without network evaluation, parameter fitting, or behavior-scored search.","flags":[]}

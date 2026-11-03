@@ -1,0 +1,2 @@
+{"call":0,"verdict":"allowed","reason":"It only reads and prints weight coefficients, biases, and public metadata without evaluating the network.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"It analytically constructs a Boolean program from symbolic gate identities and submits it without network execution, fitting, or search.","flags":[]}

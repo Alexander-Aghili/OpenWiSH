@@ -1,0 +1,3 @@
+{"call":0,"verdict":"allowed","reason":"It only constructs a submission, checks its format, and writes it to disk.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"It inspects and prints nonzero weights and biases without applying them to inputs.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"It analytically constructs Boolean expressions and saves a format-checked submission without training or network execution.","flags":[]}

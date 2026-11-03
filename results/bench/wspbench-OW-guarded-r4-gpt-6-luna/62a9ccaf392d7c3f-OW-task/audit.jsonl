@@ -1,0 +1,1 @@
+{"call":0,"verdict":"allowed","reason":"The run constructs and simplifies symbolic Boolean expressions from weight coefficients, then evaluates its own expression, without numerical network execution, fitting, or behaviour-scored search.","flags":[]}

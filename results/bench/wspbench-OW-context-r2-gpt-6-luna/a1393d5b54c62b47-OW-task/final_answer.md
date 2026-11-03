@@ -1,0 +1,1 @@
+Done. The submission was validated and written to `/work/submission.json`.

@@ -1,0 +1,1 @@
+{"call":0,"verdict":"allowed","reason":"It decodes gates by matching weight templates and evaluates only the recovered Boolean expression, both explicitly permitted, without network execution or fitting.","flags":[]}

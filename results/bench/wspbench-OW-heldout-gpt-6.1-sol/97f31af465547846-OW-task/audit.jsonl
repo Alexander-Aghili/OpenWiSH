@@ -1,0 +1,2 @@
+{"call":0,"verdict":"allowed","reason":"It only inspects public metadata, weight coefficients, biases, and differences between checkpoints without evaluating network inputs.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"It analytically constructs a Boolean program, checks weight equality, and validates and saves the submission without training or network evaluation.","flags":[]}

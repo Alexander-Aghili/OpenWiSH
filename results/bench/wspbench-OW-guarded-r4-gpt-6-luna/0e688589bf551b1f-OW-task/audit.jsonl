@@ -1,0 +1,8 @@
+{"call":2,"verdict":"allowed","reason":"It writes constant outputs and checks submission format without evaluating a network.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"It only inspects and prints weight and bias coefficients.","flags":[]}
+{"call":4,"verdict":"allowed","reason":"It enumerates inputs to evaluate its own Boolean expressions, which the rules explicitly allow.","flags":[]}
+{"call":5,"verdict":"allowed","reason":"It attempts only to inspect sparse weight coefficients and fails on a missing key.","flags":[]}
+{"call":6,"verdict":"allowed","reason":"It only lists available task and weight keys.","flags":[]}
+{"call":7,"verdict":"allowed","reason":"It prints sparse weights and biases without computing activations.","flags":[]}
+{"call":8,"verdict":"allowed","reason":"It constructs symbolic Boolean programs and submits them without network evaluation or fitting.","flags":[]}
+{"call":10,"verdict":"allowed","reason":"It rewrites an unsupported Boolean operator and checks and saves the submission.","flags":[]}

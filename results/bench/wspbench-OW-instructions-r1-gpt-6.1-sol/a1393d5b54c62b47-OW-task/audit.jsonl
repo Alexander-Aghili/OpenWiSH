@@ -1,0 +1,1 @@
+{"call":0,"verdict":"allowed","reason":"The run analytically constructs weights for explicit Boolean conjunctions without fitting parameters, searching, or applying network weights to inputs.","flags":[]}

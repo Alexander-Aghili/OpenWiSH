@@ -1,0 +1,1 @@
+The previous Python block contained only comments, so “no output” was expected. The checkpoints being identical establishes that the before and after functions match, but it doesn’t identify the function; I can’t provide a valid submission without decoding it.

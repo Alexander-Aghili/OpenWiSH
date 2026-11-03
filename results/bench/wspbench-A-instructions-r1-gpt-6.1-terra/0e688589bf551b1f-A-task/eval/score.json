@@ -1,0 +1,30 @@
+{
+  "condition": "A",
+  "exact": false,
+  "family": "edit_effects",
+  "lenient": {
+    "accuracy": null,
+    "metrics": {},
+    "reason": "Expected before/after Boolean programs or complete binary output tables",
+    "status": "invalid",
+    "success": false
+  },
+  "ok": true,
+  "score": 0.6197916666666666,
+  "strict": {
+    "accuracy": 0.6197916666666666,
+    "metrics": {
+      "affected_precision": 0.20804195804195805,
+      "affected_recall": 0.7531645569620253,
+      "after_agreement": 0.6979166666666666,
+      "before_agreement": 0.5416666666666666,
+      "consequence_agreement": 1.0,
+      "exhaustive_agreement": 0.30078125,
+      "false_positive_rate": 0.58984375
+    },
+    "reason": null,
+    "status": "scored",
+    "success": false
+  },
+  "task": "0e688589bf551b1f"
+}

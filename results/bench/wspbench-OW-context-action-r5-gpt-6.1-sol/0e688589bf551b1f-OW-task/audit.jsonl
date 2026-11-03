@@ -1,0 +1,2 @@
+{"call":0,"verdict":"allowed","reason":"It only reads public metadata and inspects nonzero weight coefficients and biases without evaluating network inputs.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"It analytically constructs Boolean programs from coefficient identities and submits them without network execution, fitting, or search.","flags":[]}

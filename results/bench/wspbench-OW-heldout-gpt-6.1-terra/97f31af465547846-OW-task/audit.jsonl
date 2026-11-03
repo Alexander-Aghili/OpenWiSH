@@ -1,0 +1,2 @@
+{"call":0,"verdict":"allowed","reason":"It only inspects nonzero weight coefficients and biases and computes differences between checkpoints, without evaluating the network on inputs.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"It constructs Boolean expression syntax and checks submission format without training, search, or network execution.","flags":[]}

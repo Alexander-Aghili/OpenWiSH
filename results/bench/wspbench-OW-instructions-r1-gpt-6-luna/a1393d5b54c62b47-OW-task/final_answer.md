@@ -1,0 +1,1 @@
+Understood. The script wasn’t run, so `/work/submission.json` was not created and the patch wasn’t validated.

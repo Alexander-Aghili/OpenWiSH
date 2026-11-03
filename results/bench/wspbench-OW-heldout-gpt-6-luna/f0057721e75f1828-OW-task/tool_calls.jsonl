@@ -1,0 +1,2 @@
+{"kind":"validation","result":{"error":"Expected one JSON submission object. Prose is not a submission. Use the declared Python tool for weight algebra and check_submission(sub) for format checks.","ok":false},"turn":1}
+{"kind":"validation","result":{"ok":true},"turn":2}

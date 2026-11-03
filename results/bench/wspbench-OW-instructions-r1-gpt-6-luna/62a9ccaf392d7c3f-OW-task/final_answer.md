@@ -1,0 +1,1 @@
+No output is expected: the script writes `/work/submission.json` and calls `check_submission`, which checks format only.

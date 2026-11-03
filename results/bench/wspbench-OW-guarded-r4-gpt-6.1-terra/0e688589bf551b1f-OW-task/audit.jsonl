@@ -1,0 +1,3 @@
+{"call":0,"verdict":"allowed","reason":"It only inspects and prints nonzero weights and biases without evaluating network computations on inputs.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"It only reads and prints additional weight coefficients and biases.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"It analytically constructs Boolean expressions, checks submission format, and saves the result without training, search, or network evaluation.","flags":[]}

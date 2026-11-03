@@ -86,7 +86,7 @@ The host treats every path from the sandbox side as hostile. `crates/openwish-co
 
 No layer is airtight. These gaps are open today.
 
-- **Hand-simulated forward passes.** An agent writes the forward pass in numpy and runs the network on inputs. The `forward_pass` rule flags common spellings. Only the auditor catches the rest.
+- **Hand-simulated forward passes.** An agent writes the forward pass in numpy and runs the network on inputs. The `forward_pass` rule flags common spellings. Only the auditor catches the rest. Example: on a held-out WSPBench task, `gpt-6-luna` looped over subsets of each gate's inputs and tested them against the weighted threshold. The pre-execution guard passed the code. The auditor marked the run invalid, and the report scores the run as 0.
 - **Gradients written by hand.** The guards cover torch. A finite-difference or hand-derived gradient in numpy runs. The static checks flag common step spellings, and the auditor reviews the code.
 - **Other frameworks.** The guards install for torch only. A task venv with JAX gets static flags for `jax.grad`, no runtime block.
 - **Pattern checks.** Static checks match text. Renamed or indirect calls (`getattr`, string building) pass unflagged.

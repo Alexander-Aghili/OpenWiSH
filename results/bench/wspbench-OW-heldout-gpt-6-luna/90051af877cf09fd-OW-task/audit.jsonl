@@ -1,0 +1,3 @@
+{"call":0,"verdict":"violation","reason":"The winning-coalition loops enumerate local gate-input subsets and test their weighted thresholds, which is prohibited gate evaluation rather than decoding through symbolic coefficient identities.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"Execution stops during weight inspection with an IndexError before any threshold enumeration or network computation occurs.","flags":[]}
+{"call":3,"verdict":"violation","reason":"The winning-coalition loops enumerate and evaluate local gate-input subsets; the later evaluation of its own Boolean expression is allowed but does not undo that violation.","flags":[]}

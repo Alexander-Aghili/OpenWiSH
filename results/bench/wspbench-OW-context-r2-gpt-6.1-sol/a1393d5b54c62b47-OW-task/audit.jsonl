@@ -1,0 +1,1 @@
+{"call":0,"verdict":"allowed","reason":"The run uses explicitly permitted Boolean logic minimization and analytic weight construction without evaluating a network or fitting parameters; its candidate checks test submission format only.","flags":[{"rule":"scipy_optimize","line":18,"snippet":"def minimize(label):","why":"numerical optimisation"}]}

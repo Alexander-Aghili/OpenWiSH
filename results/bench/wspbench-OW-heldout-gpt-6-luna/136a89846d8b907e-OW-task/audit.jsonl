@@ -1,0 +1,3 @@
+{"call":0,"verdict":"allowed","reason":"Constructs symbolic Boolean formulas from weight coefficients using minimal-cover algebra, without evaluating network inputs or fitting parameters.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"Uses symbolic coefficient-based decoding and Boolean simplification, with no network execution or behaviour-scored search.","flags":[]}
+{"call":4,"verdict":"allowed","reason":"Decodes weights symbolically and enumerates inputs only to evaluate its derived Boolean expression, which the rules explicitly allow.","flags":[]}

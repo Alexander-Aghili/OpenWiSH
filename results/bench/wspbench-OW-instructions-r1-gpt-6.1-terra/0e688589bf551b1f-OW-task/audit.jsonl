@@ -1,0 +1,2 @@
+{"call":0,"verdict":"allowed","reason":"The code only reads and prints nonzero weights and biases without applying the network to inputs.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"The code analytically constructs Boolean programs and validates and saves the submission without training, search, or network execution.","flags":[]}

@@ -1,0 +1,1 @@
+{"call":0,"verdict":"violation","reason":"The local truth-table loop applies actual network weights and biases to Boolean inputs and evaluates ReLUs, simulating network computation despite the prohibition.","flags":[]}

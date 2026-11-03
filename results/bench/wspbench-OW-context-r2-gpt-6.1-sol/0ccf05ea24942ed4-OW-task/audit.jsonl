@@ -1,0 +1,1 @@
+{"call":0,"verdict":"allowed","reason":"The run uses explicitly permitted exact Boolean minimization and analytic weight construction, verifies only Boolean expressions, and tests serialization through format-only validation without running a network or fitting parameters.","flags":[]}

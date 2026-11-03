@@ -1,0 +1,1 @@
+{"call":0,"verdict":"allowed","reason":"The run uses permitted Boolean logic minimization and analytic weight construction without forward passes or parameter fitting; its format trials use only the explicitly permitted format checker.","flags":[]}

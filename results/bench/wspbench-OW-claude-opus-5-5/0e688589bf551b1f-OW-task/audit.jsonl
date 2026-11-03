@@ -1,0 +1,2 @@
+{"call":0,"verdict":"allowed","reason":"It inspects weights and biases to decode circuit structure without applying them to inputs or fitting parameters.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"It analytically constructs Boolean expressions, checks submission format, and writes the result without network evaluation, fitting, or search.","flags":[]}

@@ -1,0 +1,2 @@
+{"call":0,"verdict":"allowed","reason":"It only inspects weights and biases to decode the circuit, without applying them to inputs.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"It evaluates explicitly written Boolean expressions over the domain, which the task expressly permits, without running network weights or fitting parameters.","flags":[]}

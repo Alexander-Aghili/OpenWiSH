@@ -1,0 +1,1 @@
+I can’t provide the requested submission without evaluating the network on inputs or otherwise deriving its Boolean functions. The challenge explicitly forbids applying the weights to inputs, and I don’t have a permitted execution tool here to inspect the sandbox weights algebraically.

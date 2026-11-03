@@ -1,0 +1,28 @@
+{
+  "condition": "OW",
+  "exact": false,
+  "family": "rule_recovery",
+  "lenient": {
+    "accuracy": 0.56640625,
+    "metrics": {
+      "exhaustive_agreement": 0.5703125,
+      "functional_agreement": 0.56640625
+    },
+    "reason": null,
+    "status": "scored",
+    "success": false
+  },
+  "ok": true,
+  "score": 0.56640625,
+  "strict": {
+    "accuracy": 0.56640625,
+    "metrics": {
+      "exhaustive_agreement": 0.5703125,
+      "functional_agreement": 0.56640625
+    },
+    "reason": null,
+    "status": "scored",
+    "success": false
+  },
+  "task": "90051af877cf09fd"
+}

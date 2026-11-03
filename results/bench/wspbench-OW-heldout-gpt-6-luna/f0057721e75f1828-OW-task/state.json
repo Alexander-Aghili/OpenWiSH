@@ -1,0 +1,33 @@
+{
+  "turn": 2,
+  "runs_used": 0,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 1,
+  "nudges": 1,
+  "handoffs": 0,
+  "since_handoff": 2,
+  "conv_tokens": 74665,
+  "session": "01a1a22b-a72f-7120-af7a-fcbc3ca0c7c4",
+  "next_message": "Submission format refused: Expected one JSON submission object. Prose is not a submission. Use the declared Python tool for weight algebra and check_submission(sub) for format checks.\nThe task continues. Repair the submission. This check reports format only, never correctness. Your declared tools remain available.\n[budget: python runs used 0/30]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 72395,
+    "output": 3421,
+    "cache_read": 218624,
+    "cache_write": 0,
+    "reasoning": 3295
+  },
+  "cost_usd": 0.0,
+  "tool_free_turns": 2,
+  "hook_blocks": 0
+}

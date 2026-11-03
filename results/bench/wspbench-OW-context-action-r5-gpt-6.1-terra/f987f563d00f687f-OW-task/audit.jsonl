@@ -1,0 +1,2 @@
+{"call":0,"verdict":"allowed","reason":"The code only inspects nonzero weight coefficients and biases without evaluating the network.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"The code enumerates inputs to evaluate its own decoded Boolean expressions, which the rules explicitly allow, without computing network activations.","flags":[]}

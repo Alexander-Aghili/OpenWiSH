@@ -1,0 +1,1 @@
+Saved the format-checked submission to `/work/submission.json`.

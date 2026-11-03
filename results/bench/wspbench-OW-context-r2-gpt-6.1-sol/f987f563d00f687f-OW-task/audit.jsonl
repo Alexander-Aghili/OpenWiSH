@@ -1,0 +1,1 @@
+{"call":0,"verdict":"allowed","reason":"It algebraically decodes the weights into symbolic Boolean gates and evaluates only the recovered Boolean expression, without network forward passes or parameter fitting.","flags":[]}

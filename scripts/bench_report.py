@@ -89,35 +89,87 @@ def main():
 
 PILOT = {  # WSPBench v0.2.1 pilot, condition A (reports/pilot-v0.2.1): read agreement, read exact, write accuracy, write exact
     "gpt-6-luna": (0.441, 0, 0.719, 0), "gpt-6.1-terra": (0.660, 0, 0.973, 1), "gpt-6.1-sol": (0.877, 0, 0.958, 1)}
+MODELS = ("gpt-6-luna", "gpt-6.1-terra", "gpt-6.1-sol", "claude-opus-5-5")
+HEADLINE = (("pilot six", "A-instructions-r1", "A, through OpenWiSH"), ("pilot six", "A", "A, through OpenWiSH"),
+            ("pilot six", "OW-context-action-r5", "OpenWiSH sandbox"), ("pilot six", "OW", "OpenWiSH sandbox"),
+            ("held-out six", "A-heldout", "A, through OpenWiSH"), ("held-out six", "OW-heldout", "OpenWiSH sandbox"))
+ROUNDS = (("OW-instructions-r1", "r1: task instructions forwarded"), ("OW-context-r2", "r2: public task JSON in Python"),
+          ("OW-validated-r3", "r3: format check at finish"), ("OW-guarded-r4", "r4: activation guard before execution"),
+          ("OW-context-action-r5", "r5: context accounting, reply blocks kept"))
+SUPERSEDED = (("A", "A, through OpenWiSH"), ("A-reparsed", "A, final-message replay"),
+              ("OW", "OpenWiSH sandbox"), ("OW-v2", "OpenWiSH sandbox, corrected backend"))
+CODEX = ("gpt-6-luna", "gpt-6.1-terra", "gpt-6.1-sol")
+
+
+def audit_status(runs):
+    """Audit verdicts over the runs that executed code. One-reply runs ran no code and need no audit."""
+    states = [load(os.path.join(r, "state.json")) or {} for r in runs]
+    coded = [r for r, st in zip(runs, states) if st.get("runs_used")]
+    if not coded:
+        return "no code run"
+    verdicts = [(load(os.path.join(r, "audit_summary.json")) or {}).get("valid") for r in coded]
+    status = f"{verdicts.count(True)}/{len(coded)} valid"
+    if verdicts.count(False):
+        status += f", {verdicts.count(False)} invalid"
+    if verdicts.count(None):
+        status += f", {verdicts.count(None)} not audited"
+    return status
 
 
 def wspbench_row(label_dir):
-    read, write = [], []
-    for f in glob.glob(os.path.join(label_dir, "*", "eval", "score.json")):
+    read, write, runs = [], [], []
+    for f in sorted(glob.glob(os.path.join(label_dir, "*", "eval", "score.json"))):
         s = load(f)
         if not s:
             continue
-        (write if s["family"] == "compositional_synthesis" else read).append((s["score"], s["exact"]))
+        run = os.path.dirname(os.path.dirname(f))
+        runs.append(run)
+        invalid = (load(os.path.join(run, "audit_summary.json")) or {}).get("valid") is False
+        result = (0.0, False) if invalid else (s["score"], s["exact"])  # a run that fails its audit scores 0
+        (write if s["family"] == "compositional_synthesis" else read).append(result)
     if len(read) + len(write) < 6:
         return None
     mean = lambda v: sum(x for x, _ in v) / len(v)
-    return mean(read), sum(e for _, e in read), mean(write), sum(e for _, e in write)
+    return mean(read), sum(e for _, e in read), mean(write), sum(e for _, e in write), audit_status(runs)
+
+
+def table(header, rows):
+    print()
+    print("| " + " | ".join(header) + " |")
+    print("|" + "|".join("---:" if h.startswith(("Read", "Write")) else "---" for h in header) + "|")
+    for r in rows:
+        print("| " + " | ".join(r) + " |")
+
+
+def cells(row):
+    r, re_, w, we, audit = row
+    return [f"{100 * r:.1f} %", f"{re_}/4", f"{100 * w:.1f} %", f"{we}/2", audit]
+
+
+def found(cond, model):
+    return wspbench_row(f"{ROOT}/runs/bench/wspbench-{cond}-{model}")
 
 
 def wspbench():
-    print()
-    print("| Model | Condition | Read agreement | Read exact | Write accuracy | Write exact | Source |")
-    print("|---|---|---:|---:|---:|---:|---|")
-    for model in ("gpt-6-luna", "gpt-6.1-terra", "gpt-6.1-sol", "claude-opus-5-5"):
+    metrics = ["Read agreement", "Read exact", "Write accuracy", "Write exact", "Audit"]
+    rows = []
+    for model in MODELS:
         if model in PILOT:
-            r, re_, w, we = PILOT[model]
-            print(f"| {model} | A | {100 * r:.1f} % | {re_}/4 | {100 * w:.1f} % | {we}/2 | WSPBench pilot |")
-        for cond, label in (("A", "A, through OpenWiSH"), ("A-reparsed", "A, final-message replay"),
-                            ("OW", "OpenWiSH sandbox"), ("OW-v2", "OpenWiSH sandbox, corrected backend")):
-            row = wspbench_row(f"{ROOT}/runs/bench/wspbench-{cond}-{model}")
-            if row:
-                r, re_, w, we = row
-                print(f"| {model} | {label} | {100 * r:.1f} % | {re_}/4 | {100 * w:.1f} % | {we}/2 | this repo |")
+            rows.append([model, "pilot six", "A", *cells((*PILOT[model], "no code run")), "WSPBench pilot"])
+        shown = set()
+        for tasks, cond, label in HEADLINE:
+            row = found(cond, model)
+            if row and (tasks, label) not in shown:
+                shown.add((tasks, label))
+                rows.append([model, tasks, label, *cells(row), "this repo"])
+    table(["Model", "Tasks", "Condition", *metrics, "Source"], rows)
+    rounds = [[model, label, *cells(row)] for model in CODEX for cond, label in ROUNDS if (row := found(cond, model))]
+    if rounds:
+        table(["Model", "OW round, pilot six", *metrics], rounds)
+    old = [[model, label, *cells(row)] for model in MODELS for cond, label in SUPERSEDED
+           if model in CODEX and (row := found(cond, model))]
+    if old:
+        table(["Model", "Superseded transport record", *metrics], old)
 
 
 if __name__ == "__main__":

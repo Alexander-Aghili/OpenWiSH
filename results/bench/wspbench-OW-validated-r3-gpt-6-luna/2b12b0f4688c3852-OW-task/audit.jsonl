@@ -1,0 +1,3 @@
+{"call":0,"verdict":"allowed","reason":"It constructs Boolean expressions, checks submission format, and writes JSON without running a network or fitting parameters.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"It only inspects and prints nonzero weights and biases.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"It analytically constructs Boolean programs and saves the submission without network execution, fitting, or search.","flags":[]}

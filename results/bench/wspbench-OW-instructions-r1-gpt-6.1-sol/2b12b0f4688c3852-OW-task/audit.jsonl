@@ -1,0 +1,2 @@
+{"call":0,"verdict":"allowed","reason":"It matches analytic Boolean-gate encodings against weights without evaluating network inputs, fitting parameters, or scoring network behaviour.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"It fixes duplicate gate-encoding bookkeeping and performs the same permitted weight-based circuit decoding without network execution or training.","flags":[]}

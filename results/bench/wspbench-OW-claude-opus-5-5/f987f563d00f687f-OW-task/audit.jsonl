@@ -1,0 +1,2 @@
+{"call":0,"verdict":"allowed","reason":"It only inspects and prints weight entries and biases without applying the network to inputs.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"It analytically constructs a Boolean expression and performs only format validation and submission, without training, search, or network evaluation.","flags":[]}

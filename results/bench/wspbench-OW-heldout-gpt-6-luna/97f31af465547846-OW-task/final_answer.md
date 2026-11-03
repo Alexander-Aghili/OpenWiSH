@@ -1,0 +1,1 @@
+Submitted the same function for both checkpoints: \((x_7 \lor x_8) \leftrightarrow (x_1 \oplus x_4)\).

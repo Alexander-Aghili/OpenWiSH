@@ -1,0 +1,1 @@
+`/work/submission.json` was written, and `check_submission(sub)` passed format validation.

@@ -1,0 +1,1 @@
+The submission was written to `/work/submission.json` and passed the format check.

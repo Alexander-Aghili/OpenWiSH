@@ -1,0 +1,1 @@
+Submission repaired, format-checked, and written to `/work/submission.json`.

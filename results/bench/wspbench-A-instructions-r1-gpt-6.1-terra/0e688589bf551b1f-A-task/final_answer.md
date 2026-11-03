@@ -1,0 +1,1 @@
+{"before_program":{"op":"or","left":{"op":"input","index":0},"right":{"op":"input","index":1}},"after_program":{"op":"xor","left":{"op":"input","index":0},"right":{"op":"input","index":0}}}

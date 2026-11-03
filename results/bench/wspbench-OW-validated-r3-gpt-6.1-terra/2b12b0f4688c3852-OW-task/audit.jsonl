@@ -1,0 +1,2 @@
+{"call":0,"verdict":"allowed","reason":"The code only inspects weight sparsity, biases, and differences between checkpoints without applying weights to inputs.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"The code evaluates an explicitly written Boolean expression, which the rules permit, then format-checks and saves the submission.","flags":[]}

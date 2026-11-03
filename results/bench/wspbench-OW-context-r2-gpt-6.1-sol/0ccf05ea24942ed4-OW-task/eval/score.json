@@ -1,0 +1,22 @@
+{
+  "condition": "OW",
+  "exact": false,
+  "family": "compositional_synthesis",
+  "lenient": {
+    "accuracy": null,
+    "metrics": {},
+    "reason": "A patch submission must contain only the patch field",
+    "status": "invalid",
+    "success": false
+  },
+  "ok": true,
+  "score": 0.0,
+  "strict": {
+    "accuracy": null,
+    "metrics": {},
+    "reason": "Invalid set operation",
+    "status": "invalid",
+    "success": false
+  },
+  "task": "0ccf05ea24942ed4"
+}

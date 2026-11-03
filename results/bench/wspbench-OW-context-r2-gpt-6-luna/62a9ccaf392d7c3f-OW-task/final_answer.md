@@ -1,0 +1,1 @@
+I can’t recover the Boolean function from the information available here without evaluating the network on inputs, which the task explicitly prohibits. I therefore can’t provide a valid submission.

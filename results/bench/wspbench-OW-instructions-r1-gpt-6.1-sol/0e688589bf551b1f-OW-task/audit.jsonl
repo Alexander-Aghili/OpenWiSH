@@ -1,0 +1,1 @@
+{"call":0,"verdict":"allowed","reason":"The code decodes Boolean gates through algebraic weight-fingerprint matching and evaluates the resulting Boolean expressions, without network forward passes, fitting, or behavior-scored search.","flags":[]}

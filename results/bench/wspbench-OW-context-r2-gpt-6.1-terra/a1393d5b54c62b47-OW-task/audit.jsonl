@@ -1,0 +1,1 @@
+{"call":0,"verdict":"allowed","reason":"The code performs explicitly permitted Boolean logic minimization on the public truth table and analytically constructs weights without fitting parameters or running a network.","flags":[]}

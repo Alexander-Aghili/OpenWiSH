@@ -1,0 +1,1 @@
+{"patch":[{"op":"set","tensor":"bias","index":[1],"value":1.0}]}

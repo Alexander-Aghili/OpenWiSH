@@ -1,0 +1,33 @@
+{
+  "turn": 13,
+  "runs_used": 12,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 0,
+  "nudges": 0,
+  "handoffs": 2,
+  "since_handoff": 3,
+  "conv_tokens": 438216,
+  "session": "01a1a017-edf7-7f31-aa23-071e26784aa5",
+  "next_message": "OUTPUT of Python run 12 of at most 30:\n```\nRelevant globals: ['W', 'check_submission']\n```\n[budget: python runs used 12/30]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 3510349,
+    "output": 38885,
+    "cache_read": 2677248,
+    "cache_write": 0,
+    "reasoning": 36201
+  },
+  "cost_usd": 0.0,
+  "tool_free_turns": 13,
+  "hook_blocks": 0
+}

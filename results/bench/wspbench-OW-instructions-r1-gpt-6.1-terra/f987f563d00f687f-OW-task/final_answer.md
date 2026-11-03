@@ -1,0 +1,1 @@
+{"program":{"op":"and","left":{"op":"xor","left":{"op":"input","index":0},"right":{"op":"input","index":7}},"right":{"op":"nand","left":{"op":"input","index":2},"right":{"op":"input","index":7}}}}

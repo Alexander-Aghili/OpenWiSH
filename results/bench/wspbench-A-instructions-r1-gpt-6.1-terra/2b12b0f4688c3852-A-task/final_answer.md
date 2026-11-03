@@ -1,0 +1,1 @@
+{"before_program":null,"after_program":null,"explanation":"The visible edit changes b1[10] from 0 to 1, but I could not reliably reconstruct both complete Boolean functions from the flattened weights."}

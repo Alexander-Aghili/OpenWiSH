@@ -1,0 +1,2 @@
+{"call":0,"verdict":"allowed","reason":"The code only inspects weight entries, biases, and checkpoint differences without evaluating the network on inputs.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"The code analytically constructs Boolean expressions and validates and writes the submission without training, search, or network execution.","flags":[]}

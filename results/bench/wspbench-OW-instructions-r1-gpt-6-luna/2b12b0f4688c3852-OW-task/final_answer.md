@@ -1,0 +1,1 @@
+I can’t reliably infer the Boolean functions from the supplied weights as presented, and I can’t write to `/work/submission.json` in this read-only environment.

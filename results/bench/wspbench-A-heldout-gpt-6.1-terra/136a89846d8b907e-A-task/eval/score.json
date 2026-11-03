@@ -1,0 +1,25 @@
+{
+  "condition": "A",
+  "exact": false,
+  "family": "rule_recovery",
+  "lenient": {
+    "accuracy": null,
+    "metrics": {},
+    "reason": "Submit a Boolean program or a complete binary output table",
+    "status": "invalid",
+    "success": false
+  },
+  "ok": true,
+  "score": 0.46484375,
+  "strict": {
+    "accuracy": 0.46484375,
+    "metrics": {
+      "exhaustive_agreement": 0.46875,
+      "functional_agreement": 0.46484375
+    },
+    "reason": null,
+    "status": "scored",
+    "success": false
+  },
+  "task": "136a89846d8b907e"
+}

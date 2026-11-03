@@ -1,0 +1,2 @@
+{"call":0,"verdict":"violation","reason":"It applies network weights and ReLU to enumerated input values inside decode_layer, which is forbidden even though execution later fails.","flags":[]}
+{"call":1,"verdict":"violation","reason":"It simulates the network through per-neuron weighted-input lookup tables and evaluates the resulting circuit on all 1024 inputs.","flags":[]}

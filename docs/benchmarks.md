@@ -71,20 +71,12 @@ Report every live score with the model, the effort, the backend, the cost from `
 
 ### Results
 
-The earlier Codex backend also omitted task instructions. The original and reply-parser-corrected OW runs used zero Python calls. Those rows are debugging records, not evidence about the sandbox's effect. Fresh matched A and OW runs use the instruction fix. A separate OW variant also exposes the public task JSON in Python.
-
 You check every task with `python3 scripts/bench_compare.py <baseline-folder> <candidate-folder>`. Pass `--expected-task <id>` for each required task. The command fails on regressions, missing scores, unfinished runs, invalid audits or unresolved audit verdicts. Higher averages do not erase task-level losses.
 
 <!-- BENCH:LIVE:START -->
-These are single runs on public tasks. They are provisional and unaudited unless a row shows another audit status. The bundled runs use the Claude CLI at high effort. Cost comes from `state.json`. Codex does not report cost to this backend.
+These are single runs on public tasks. Each row shows the audit status. The bundled runs use the Claude CLI at high effort. Cost comes from `state.json`. Codex does not report cost to this backend.
 
 Game MLPs: 4/4 correct. Diffusion MLPs: 3/3 correct. Claude reports lower confidence than the published GPT-6 Astra replies. Breakout is 54.2 against the published 517.4. You should not infer a general improvement from these results.
-
-WSPBench condition A uses the same one-reply access condition as the pilot. OW adds Python over the weights with no network execution and a format-only checker. OW is separate from WSPBench A, B and C. The pilot and these runs each use one attempt per task. The pilot uses API calls. These runs use CLI backends. Model aliases do not pin an immutable snapshot. Six development tasks do not support a general ranking.
-
-Write outputs are class-imbalanced. The pilot's static zero-start control scores 70.1 % target accuracy with 0/2 exact. Use exact success and affected-case accuracy when judging construction.
-
-All WSPBench scores below use the strict parser. Claude lost two A tasks on extra `explanation` keys. The first Codex backend joined progress messages to the final answer. Original A rows retain those failures as transport records, not capability estimates. Final-message replay rows rescore only the last completed message from saved CLI events, unchanged, with no new model call. Each replay folder holds source events, a SHA-256 and provenance. These rows describe a transport correction, not a new agent run. Original Codex OW rows used the same faulty backend. Corrected backend reruns use separate folders. All six tasks finished for each Codex model. Remaining Claude experiments await the account quota reset. The Qwen base evaluation finished. Edited-model GPU evaluations remain pending.
 
 | Environment | Published agent (GPT-6 Astra) | OpenWiSH + Claude Opus 5.5 | Turns | Python runs | Cost (USD) | Audit |
 |---|---|---|---|---|---|---|
@@ -96,30 +88,80 @@ All WSPBench scores below use the strict parser. Claude lost two A tasks on extr
 | exp2-a6a9dfb7 | square (77 %) | square (35 %) | 1 | 0 | 1.10 | not audited |
 | exp2-d88aba69 | circle (84 %) | circle (60 %) | 1 | 0 | 0.97 | not audited |
 | exp5-breakout | 517.4 | 54.2 ± 1.6 | 1 | 0 | 3.33 | not audited |
+| exp6-budget_0 | 42.6 / 26.3 / 36.3 % | 41.0 / 28.7 / 42.6 % | 18 | 17 | 112.47 | not audited |
 
 | Qwen3.5-0.8B on MATH-500 (1 sample, 32,768 tokens) | Published (4 samples) | OpenWiSH | Share cut at 32,768 |
 |---|---|---|---|
 | base | 7.9 % | 10.6 ± 1.4 % | 90.2 % |
 
-| Model | Condition | Read agreement | Read exact | Write accuracy | Write exact | Source |
+#### WSPBench
+
+WSPBench condition A matches the pilot: one reply, no tools. OW adds a Python sandbox over the weights, a format-only checker and a guard against activation code. OW is not a WSPBench condition. Report OW apart from A, B and C. Each cell is one attempt per task. The pilot used API calls. These runs use CLI backends. Model aliases do not pin a snapshot.
+
+Codex tuned the OW config in five rounds on the six pilot tasks. Each round fixed one OpenWiSH fault. The config then froze. The frozen config ran once on six development tasks no round had used: two rule-recovery, two edit-effects and two synthesis tasks, the pilot's families. `runs/heldout-r5-manifest.json` holds the binary and task hashes. The held-out rows are the fair estimate.
+
+A Codex auditor (`gpt-6.1-sol`, medium effort) reviews every OW run with code. A run with a failed audit scores 0 in these tables. One-reply runs execute no code and need no audit. Write outputs are class-imbalanced. The pilot's static zero-start control scores 70.1 % target accuracy with 0/2 exact. Judge construction by exact success.
+
+On the held-out six, the sandbox takes `gpt-6.1-sol` and `gpt-6.1-terra` from 0/4 exact reads to 4/4, with every audit valid. Both reach 2/2 exact writes. `gpt-6-luna` gains both writes and no read. One Luna read failed its audit: the code tested gate inputs against weighted thresholds. Six tasks per row do not support a general ranking.
+
+Claude ran the original OW config, before the rounds. The Claude backend forwarded task instructions from the start. Strict scoring rejects two Claude A replies for extra `explanation` keys. Claude has no held-out run yet.
+
+| Model | Tasks | Condition | Read agreement | Read exact | Write accuracy | Write exact | Audit | Source |
+|---|---|---|---:|---:|---:|---:|---|---|
+| gpt-6-luna | pilot six | A | 44.1 % | 0/4 | 71.9 % | 0/2 | no code run | WSPBench pilot |
+| gpt-6-luna | pilot six | A, through OpenWiSH | 46.6 % | 0/4 | 70.3 % | 0/2 | no code run | this repo |
+| gpt-6-luna | pilot six | OpenWiSH sandbox | 69.0 % | 0/4 | 100.0 % | 2/2 | 6/6 valid | this repo |
+| gpt-6-luna | held-out six | A, through OpenWiSH | 51.9 % | 0/4 | 82.2 % | 0/2 | no code run | this repo |
+| gpt-6-luna | held-out six | OpenWiSH sandbox | 40.6 % | 0/4 | 100.0 % | 2/2 | 4/5 valid, 1 invalid | this repo |
+| gpt-6.1-terra | pilot six | A | 66.0 % | 0/4 | 97.3 % | 1/2 | no code run | WSPBench pilot |
+| gpt-6.1-terra | pilot six | A, through OpenWiSH | 35.3 % | 0/4 | 70.3 % | 0/2 | no code run | this repo |
+| gpt-6.1-terra | pilot six | OpenWiSH sandbox | 100.0 % | 4/4 | 100.0 % | 2/2 | 6/6 valid | this repo |
+| gpt-6.1-terra | held-out six | A, through OpenWiSH | 41.0 % | 0/4 | 82.2 % | 0/2 | no code run | this repo |
+| gpt-6.1-terra | held-out six | OpenWiSH sandbox | 100.0 % | 4/4 | 100.0 % | 2/2 | 6/6 valid | this repo |
+| gpt-6.1-sol | pilot six | A | 87.7 % | 0/4 | 95.8 % | 1/2 | no code run | WSPBench pilot |
+| gpt-6.1-sol | pilot six | A, through OpenWiSH | 89.7 % | 1/4 | 99.2 % | 1/2 | no code run | this repo |
+| gpt-6.1-sol | pilot six | OpenWiSH sandbox | 100.0 % | 4/4 | 100.0 % | 2/2 | 6/6 valid | this repo |
+| gpt-6.1-sol | held-out six | A, through OpenWiSH | 75.1 % | 0/4 | 96.9 % | 1/2 | no code run | this repo |
+| gpt-6.1-sol | held-out six | OpenWiSH sandbox | 100.0 % | 4/4 | 100.0 % | 2/2 | 6/6 valid | this repo |
+| claude-opus-5-5 | pilot six | A, through OpenWiSH | 22.0 % | 0/4 | 88.3 % | 1/2 | no code run | this repo |
+| claude-opus-5-5 | pilot six | OpenWiSH sandbox | 100.0 % | 4/4 | 100.0 % | 2/2 | 6/6 valid | this repo |
+
+The rounds table shows why audits matter. Before the r4 guard, many high scores came from code evaluating gates on inputs. Those runs fail audit and score 0 here.
+
+| Model | OW round, pilot six | Read agreement | Read exact | Write accuracy | Write exact | Audit |
 |---|---|---:|---:|---:|---:|---|
-| gpt-6-luna | A | 44.1 % | 0/4 | 71.9 % | 0/2 | WSPBench pilot |
-| gpt-6-luna | A, through OpenWiSH | 15.5 % | 0/4 | 0.0 % | 0/2 | this repo |
-| gpt-6-luna | A, final-message replay | 15.5 % | 0/4 | 70.3 % | 0/2 | this repo |
-| gpt-6-luna | OpenWiSH sandbox | 0.0 % | 0/4 | 0.0 % | 0/2 | this repo |
-| gpt-6-luna | OpenWiSH sandbox, corrected backend | 0.0 % | 0/4 | 70.3 % | 0/2 | this repo |
-| gpt-6.1-terra | A | 66.0 % | 0/4 | 97.3 % | 1/2 | WSPBench pilot |
-| gpt-6.1-terra | A, through OpenWiSH | 0.0 % | 0/4 | 0.0 % | 0/2 | this repo |
-| gpt-6.1-terra | A, final-message replay | 15.6 % | 0/4 | 0.0 % | 0/2 | this repo |
-| gpt-6.1-terra | OpenWiSH sandbox | 10.4 % | 0/4 | 36.7 % | 0/2 | this repo |
-| gpt-6.1-terra | OpenWiSH sandbox, corrected backend | 26.7 % | 0/4 | 33.6 % | 0/2 | this repo |
-| gpt-6.1-sol | A | 87.7 % | 0/4 | 95.8 % | 1/2 | WSPBench pilot |
-| gpt-6.1-sol | A, through OpenWiSH | 0.0 % | 0/4 | 0.0 % | 0/2 | this repo |
-| gpt-6.1-sol | A, final-message replay | 79.9 % | 0/4 | 50.0 % | 1/2 | this repo |
-| gpt-6.1-sol | OpenWiSH sandbox | 0.0 % | 0/4 | 0.0 % | 0/2 | this repo |
-| gpt-6.1-sol | OpenWiSH sandbox, corrected backend | 82.5 % | 0/4 | 97.3 % | 1/2 | this repo |
-| claude-opus-5-5 | A, through OpenWiSH | 22.0 % | 0/4 | 88.3 % | 1/2 | this repo |
-| claude-opus-5-5 | OpenWiSH sandbox | 100.0 % | 4/4 | 100.0 % | 2/2 | this repo |
+| gpt-6-luna | r1: task instructions forwarded | 17.9 % | 0/4 | 70.3 % | 0/2 | 3/5 valid, 2 invalid |
+| gpt-6-luna | r2: public task JSON in Python | 0.0 % | 0/4 | 100.0 % | 2/2 | 3/4 valid, 1 invalid |
+| gpt-6-luna | r3: format check at finish | 31.1 % | 0/4 | 86.7 % | 1/2 | 4/6 valid, 2 invalid |
+| gpt-6-luna | r4: activation guard before execution | 61.7 % | 0/4 | 100.0 % | 2/2 | 6/6 valid |
+| gpt-6-luna | r5: context accounting, reply blocks kept | 69.0 % | 0/4 | 100.0 % | 2/2 | 6/6 valid |
+| gpt-6.1-terra | r1: task instructions forwarded | 36.3 % | 0/4 | 50.0 % | 1/2 | 2/4 valid, 2 invalid |
+| gpt-6.1-terra | r2: public task JSON in Python | 23.5 % | 0/4 | 100.0 % | 2/2 | 3/6 valid, 3 invalid |
+| gpt-6.1-terra | r3: format check at finish | 61.9 % | 2/4 | 100.0 % | 2/2 | 4/5 valid, 1 invalid |
+| gpt-6.1-terra | r4: activation guard before execution | 100.0 % | 4/4 | 100.0 % | 2/2 | 6/6 valid |
+| gpt-6.1-terra | r5: context accounting, reply blocks kept | 100.0 % | 4/4 | 100.0 % | 2/2 | 6/6 valid |
+| gpt-6.1-sol | r1: task instructions forwarded | 94.8 % | 3/4 | 98.4 % | 1/2 | 5/5 valid |
+| gpt-6.1-sol | r2: public task JSON in Python | 100.0 % | 4/4 | 50.0 % | 1/2 | 6/6 valid |
+| gpt-6.1-sol | r3: format check at finish | 100.0 % | 4/4 | 100.0 % | 2/2 | 6/6 valid |
+| gpt-6.1-sol | r4: activation guard before execution | 100.0 % | 4/4 | 100.0 % | 2/2 | 6/6 valid |
+| gpt-6.1-sol | r5: context accounting, reply blocks kept | 100.0 % | 4/4 | 100.0 % | 2/2 | 6/6 valid |
+
+The first Codex backend joined progress messages to the final answer and dropped task instructions. Those runs stay in `results/` as transport records. The table lists them last. They do not estimate model skill. Final-message replay rows rescore the last completed message from saved CLI events with no new model call.
+
+| Model | Superseded transport record | Read agreement | Read exact | Write accuracy | Write exact | Audit |
+|---|---|---:|---:|---:|---:|---|
+| gpt-6-luna | A, through OpenWiSH | 15.5 % | 0/4 | 0.0 % | 0/2 | no code run |
+| gpt-6-luna | A, final-message replay | 15.5 % | 0/4 | 70.3 % | 0/2 | no code run |
+| gpt-6-luna | OpenWiSH sandbox | 0.0 % | 0/4 | 0.0 % | 0/2 | no code run |
+| gpt-6-luna | OpenWiSH sandbox, corrected backend | 0.0 % | 0/4 | 70.3 % | 0/2 | no code run |
+| gpt-6.1-terra | A, through OpenWiSH | 0.0 % | 0/4 | 0.0 % | 0/2 | no code run |
+| gpt-6.1-terra | A, final-message replay | 15.6 % | 0/4 | 0.0 % | 0/2 | no code run |
+| gpt-6.1-terra | OpenWiSH sandbox | 10.4 % | 0/4 | 36.7 % | 0/2 | no code run |
+| gpt-6.1-terra | OpenWiSH sandbox, corrected backend | 26.7 % | 0/4 | 33.6 % | 0/2 | no code run |
+| gpt-6.1-sol | A, through OpenWiSH | 0.0 % | 0/4 | 0.0 % | 0/2 | no code run |
+| gpt-6.1-sol | A, final-message replay | 79.9 % | 0/4 | 50.0 % | 1/2 | no code run |
+| gpt-6.1-sol | OpenWiSH sandbox | 0.0 % | 0/4 | 0.0 % | 0/2 | no code run |
+| gpt-6.1-sol | OpenWiSH sandbox, corrected backend | 82.5 % | 0/4 | 97.3 % | 1/2 | no code run |
 
 <!-- BENCH:LIVE:END -->
 

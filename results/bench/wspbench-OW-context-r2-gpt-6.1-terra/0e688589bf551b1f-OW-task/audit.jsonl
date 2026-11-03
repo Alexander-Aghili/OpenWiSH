@@ -1,0 +1,2 @@
+{"call":0,"verdict":"allowed","reason":"It only reads the public specification and inspects nonzero weights and biases without applying them to inputs.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"It analytically constructs Boolean expressions and validates and writes the submission without training, search, or network execution.","flags":[]}

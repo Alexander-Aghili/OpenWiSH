@@ -1,0 +1,3 @@
+{"call":0,"verdict":"allowed","reason":"The code only inspects nonzero weight coefficients and biases without evaluating network inputs or activations.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"The code compares checkpoint weights and inspects coefficients and biases, which is permitted weight algebra.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"The code analytically constructs Boolean expression objects and validates and writes the submission without training, search, or network execution.","flags":[]}
