@@ -1,0 +1,2 @@
+{"call":0,"verdict":"allowed","reason":"It only reads component names, weight shapes, and vocabulary metadata.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"It loads probe-recorded activations and attention patterns and analyzes the activations using SVD and projections without running the network or fitting weights.","flags":[]}

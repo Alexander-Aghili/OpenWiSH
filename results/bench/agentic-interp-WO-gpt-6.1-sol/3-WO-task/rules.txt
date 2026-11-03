@@ -1,0 +1,22 @@
+Task: Returns the fraction of 'x' in the input up to the i-th position for all i.
+Examples (input tokens -> output per position):
+  ['BOS', 'c', 'x', 'a', 'c'] -> ['BOS', 0.0, 0.5, 0.3333333333333333, 0.25]
+  ['BOS', 'c', 'b', 'c', 'c'] -> ['BOS', 0.0, 0.0, 0.0, 0.0]
+  ['BOS', 'c', 'c', 'x', 'a'] -> ['BOS', 0.0, 0.0, 0.3333333333333333, 0.25]
+  ['BOS', 'c', 'x', 'a', 'a'] -> ['BOS', 0.0, 0.5, 0.3333333333333333, 0.25]
+  ['BOS', 'x', 'x', 'x', 'c'] -> ['BOS', 1.0, 1.0, 1.0, 0.75]
+Input token ids: {"BOS": 0, "PAD": 1, "a": 2, "b": 3, "c": 4, "x": 5}
+Output classes: null
+Architecture: 2 layers, d_model 12, 4 heads of size 3, MLP width 48 with gelu, causal attention, normalization none, learned positions, context 5. Residual stream: x = W_E[token] + W_pos[position]. Each block adds its attention heads, then its MLP. Logits = x W_U + b_U at every position.
+Components:
+  L0_MLP: the MLP output of block 0
+  L1H2_ATTN: attention head 2 of block 1
+
+
+OPENWISH SUBMISSION PROTOCOL
+Your final submission is checked for format only, never correctness. Repair format errors when requested. OpenWiSH executes your tool blocks, even when the provider's own tool list is empty.
+Python is available through text blocks, with at most 30 runs. Reply with one block to execute code, for example:
+```python
+print(NAMES)
+```
+Write your submission to /work/submission.json or put the submission in your final reply.

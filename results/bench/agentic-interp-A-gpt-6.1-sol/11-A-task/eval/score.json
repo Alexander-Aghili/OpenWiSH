@@ -1,0 +1,19 @@
+{
+  "case": 11,
+  "components": 2,
+  "correct": 1,
+  "exact": false,
+  "ok": true,
+  "per_component": {
+    "L0_MLP": {
+      "answer": "MAPPER",
+      "gold": "MAPPER"
+    },
+    "L1H0_ATTN": {
+      "answer": "ROUTER",
+      "gold": "AGGREGATOR"
+    }
+  },
+  "score": 0.5,
+  "valid": true
+}

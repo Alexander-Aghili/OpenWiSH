@@ -1,0 +1,4 @@
+{"call":0,"verdict":"allowed","reason":"Only lists component identifiers, vocabulary, and weight tensor shapes.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"Computes explicitly permitted weight products, bilinear positional scores, norms, and singular values without nonlinearities or input forward passes.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"Analyses embedding-position QK score forms and linear OV projections, all explicitly permitted weight-only operations.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"Measures linear weight alignments, norms, and correlations without running the network, fitting, or searching.","flags":[]}

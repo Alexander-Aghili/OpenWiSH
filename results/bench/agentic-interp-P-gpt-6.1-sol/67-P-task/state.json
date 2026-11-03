@@ -1,0 +1,33 @@
+{
+  "turn": 11,
+  "runs_used": 10,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 0,
+  "nudges": 0,
+  "handoffs": 0,
+  "since_handoff": 11,
+  "conv_tokens": 22291,
+  "session": "01a1a310-18ce-7890-a585-3ff47732c19a",
+  "next_message": "OUTPUT of Python run 10 of at most 60:\n```\nL0H0_ATTN logit contribution class [[36  0 36  0  0 36 81  0  0  0]\n [36 36 54 36  0 54 36 63 36  0]\n [36  0  0  0  0  0  0  0  0  0]\n [36  0  0  0  0  0  0  0  0  0]]\nL0_MLP logit contribution class [[54 18 54 18 35 54 18 35 35 90]\n [54 54 35 54  9 35 54 54  9  9]\n [54 18 18 18 18 18 18 18 18 18]\n [54  9  9  9  9  9  9  9  9  9]]\nL1_MLP logit contribution class [[63 18 36 18 54 36 72 54  9 27]\n [63 36  9 63 45  9 36  0 81 45]\n [63 18 18 18 18 18 18 18 18 18]\n [63 45 45 45 45 45 45 45 45 45]]\ninitial embeddings direct [ 0  9 18 27 36 45 54 63 72 81 90 63  4]\n```\n[budget: python runs used 10/60]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 16744,
+    "output": 2555,
+    "cache_read": 154624,
+    "cache_write": 0,
+    "reasoning": 1461
+  },
+  "cost_usd": 0.0,
+  "tool_free_turns": 11,
+  "hook_blocks": 0
+}

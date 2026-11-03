@@ -1,0 +1,1 @@
+{"call":0,"verdict":"allowed","reason":"The code only inspects component identifiers, weight tensor shapes, and vocabulary metadata without running the network, fitting, or optimization.","flags":[]}

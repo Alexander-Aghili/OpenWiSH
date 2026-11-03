@@ -1,0 +1,5 @@
+{"call":0,"verdict":"allowed","reason":"It only inspects component names, weight shapes, and vocabulary mappings.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"It reads probe-recorded activations and attention patterns, computes norms, and inspects embedding weights.","flags":[]}
+{"call":5,"verdict":"allowed","reason":"It computes weight norms and compares recorded component outputs across probe inputs without running the network.","flags":[]}
+{"call":6,"verdict":"allowed","reason":"It performs SVD analysis on recorded activations and weight matrices, including an allowed weight-matrix product.","flags":[]}
+{"call":9,"verdict":"allowed","reason":"It analyzes recorded writes through unembedding projections and an embedding–unembedding weight product, without executing a forward pass on inputs.","flags":[]}

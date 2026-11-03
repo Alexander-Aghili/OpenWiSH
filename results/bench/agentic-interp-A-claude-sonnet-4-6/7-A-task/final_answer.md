@@ -1,0 +1,3 @@
+```json
+{"tags": {"L0H0_ATTN": "AGGREGATOR", "L0_MLP": "MAPPER"}}
+```

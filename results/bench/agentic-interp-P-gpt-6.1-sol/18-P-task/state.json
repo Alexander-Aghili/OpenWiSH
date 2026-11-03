@@ -1,0 +1,33 @@
+{
+  "turn": 8,
+  "runs_used": 7,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 0,
+  "nudges": 0,
+  "handoffs": 0,
+  "since_handoff": 8,
+  "conv_tokens": 16199,
+  "session": "01a1a2a2-af9d-7e23-98ff-8fd5e6362ef3",
+  "next_message": "Run 7 of at most 60 (forward) done; files in /work/fwd/r7/. Summary:\n```\n{\n  \"arrays\": {\n    \"L0H0_ATTN\": [\n      5,\n      10,\n      26\n    ],\n    \"L0H0_ATTN_pattern\": [\n      5,\n      10,\n      10\n    ],\n    \"L0H1_ATTN\": [\n      5,\n      10,\n      26\n    ],\n    \"L0H1_ATTN_pattern\": [\n      5,\n      10,\n      10\n    ],\n    \"L0H2_ATTN\": [\n      5,\n      10,\n      26\n    ],\n    \"L0H2_ATTN_pattern\": [\n      5,\n      10,\n      10\n    ],\n    \"L0H3_ATTN\": [\n      5,\n      10,\n      26\n    ],\n    \"L0H3_ATTN_pattern\": [\n      5,\n      10,\n      10\n    ],\n    \"L0_MLP\": [\n      5,\n      10,\n      26\n    ],\n    \"L0_MLP_post\": [\n      5,\n      10,\n      104\n    ],\n    \"L1H0_ATTN\": [\n      5,\n      10,\n      26\n    ],\n    \"L1H0_ATTN_pattern\": [\n      5,\n      10,\n      10\n    ],\n    \"L1H1_ATTN\": [\n      5,\n      10,\n      26\n    ],\n    \"L1H1_ATTN_pattern\": [\n      5,\n      10,\n      10\n    ],\n    \"L1H2_ATTN\": [\n      5,\n      10,\n      26\n    ],\n    \"L1H2_ATTN_pattern\": [\n      5,\n      10,\n      10\n    ],\n    \"L1H3_ATTN\": [\n      5,\n      10,\n      26\n    ],\n    \"L1H3_ATTN_pattern\": [\n      5,\n      10,\n      10\n    ],\n    \"L1_MLP\": [\n      5,\n      10,\n      26\n    ],\n    \"L1_MLP_post\": [\n      5,\n      10,\n      104\n    ],\n    \"logits\": [\n      5,\n      10,\n      3\n    ]\n  },\n  \"file\": \"run.npz\",\n  \"ok\": true,\n  \"predictions\": [\n    [\n      \"common\",\n      \"common\",\n      \"common\",\n      \"common\",\n      \"rare\",\n      \"rare\",\n      \"rare\",\n      \"rare\",\n      \"rare\",\n      \"rare\"\n    ],\n    [\n      \"common\",\n      \"common\",\n      \"common\",\n      \"common\",\n      \"rare\",\n      \"rare\",\n      \"rare\",\n      \"rare\",\n      \"rare\",\n      \"rare\"\n    ],\n    [\n      \"common\",\n      \"common\",\n      \"common\",\n      \"common\",\n      \"rare\",\n      \"rare\",\n      \"rare\",\n      \"rare\",\n      \"rare\",\n      \"rare\"\n    ],\n    [\n      \"common\",\n      \"common\",\n      \"common\",\n      \"common\",\n      \"rare\",\n      \"rare\",\n      \"rare\",\n      \"rare\",\n      \"rare\",\n      \"rare\"\n    ],\n    [\n      \"common\",\n      \"common\",\n      \"common\",\n      \"common\",\n      \"rare\",\n      \"rare\",\n      \"rare\",\n      \"rare\",\n      \"rare\",\n      \"rare\"\n    ]\n  ]\n}\n```\n[budget: python runs used 7/60]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 10440,
+    "output": 1943,
+    "cache_read": 77824,
+    "cache_write": 0,
+    "reasoning": 833
+  },
+  "cost_usd": 0.0,
+  "tool_free_turns": 8,
+  "hook_blocks": 0
+}

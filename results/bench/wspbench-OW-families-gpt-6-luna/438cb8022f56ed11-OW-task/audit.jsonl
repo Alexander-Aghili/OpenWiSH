@@ -1,0 +1,1 @@
+{"call":0,"verdict":"allowed","reason":"It evaluates publicly declared symbolic readouts and counts changes without applying network weights to inputs, fitting parameters, or searching by network behaviour.","flags":[]}

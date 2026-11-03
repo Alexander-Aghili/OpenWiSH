@@ -1,0 +1,33 @@
+{
+  "turn": 4,
+  "runs_used": 3,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 0,
+  "nudges": 0,
+  "handoffs": 0,
+  "since_handoff": 4,
+  "conv_tokens": 7382,
+  "session": "01a1a27d-0e07-7a00-9b16-db9e9122455d",
+  "next_message": "OUTPUT of Python run 3 of at most 30:\n```\nToken projection norms: [ 92.7393  65.3547  61.6625   3.0284 122.1562  63.5491  54.5283 117.3252  93.4087  93.8257]\nPosition projection norms: [93.3542 11.3889 12.3974 13.1065 11.592  11.211  12.214  11.7361 11.442  12.8482]\nMLP output singular values: [6.4912 5.839  4.2184 3.6079 3.0483 2.2975 2.2317 1.9432 1.846  1.6175 1.5466 1.4281 1.3989 1.3347 1.1471 0.8197]\n```\n[budget: python runs used 3/30]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 2614,
+    "output": 325,
+    "cache_read": 24448,
+    "cache_write": 0,
+    "reasoning": 69
+  },
+  "cost_usd": 0.0,
+  "tool_free_turns": 4,
+  "hook_blocks": 0
+}

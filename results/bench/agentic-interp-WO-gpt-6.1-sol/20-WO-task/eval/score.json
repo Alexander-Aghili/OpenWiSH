@@ -1,0 +1,15 @@
+{
+  "case": 20,
+  "components": 1,
+  "correct": 0,
+  "exact": false,
+  "ok": true,
+  "per_component": {
+    "L0_MLP": {
+      "answer": "INDICATOR",
+      "gold": "MAPPER"
+    }
+  },
+  "score": 0.0,
+  "valid": true
+}

@@ -32,7 +32,7 @@ def published():
         if g in m:
             pub[f"exp5-{g}"] = f"{m[g]['hand']['mean']:.1f}"
     pub["exp4-task"] = "1,024 / 1,024"
-    pub["exp3-net-a"] = "python; heads 2.1 3.1 3.5"
+    pub["exp3-net-a"] = "python, heads 2.1 3.1 3.5"
     e6 = load(f"{LOGS}/exp6_go_from_scratch/eval/ppo_same_size/ppo_big_eval/h2h_lr_scan.json") or {}
     vals = [e6.get(k, {}).get("score") for k in ("v1_b0_vs_lr3e-5", "v1_b0_vs_lr3e-5_s1", "v1_b0_vs_lr3e-5_s2")]
     if all(v is not None for v in vals):
@@ -49,7 +49,7 @@ def ours(d):
     if name.startswith(("exp1", "exp2")):
         v = f"{s.get('guess')} ({s.get('confidence')} %)" + ("" if s.get("correct") else ", wrong")
     elif name.startswith("exp3"):
-        v = f"{s.get('corpus_guess')}; heads {' '.join(h[1] + '.' + h[3] for h in s.get('copy_named', []))}; P {s.get('copy_precision')}, R {s.get('copy_recall')}"
+        v = f"{s.get('corpus_guess')}, heads {' '.join(h[1] + '.' + h[3] for h in s.get('copy_named', []))}, P {s.get('copy_precision')}, R {s.get('copy_recall')}"
     elif name.startswith("exp4"):
         v = f"{s.get('success')} / {s.get('episodes')} ({s.get('changed')} weights changed)"
     elif name.startswith("exp5"):
@@ -90,9 +90,14 @@ def main():
 PILOT = {  # WSPBench v0.2.1 pilot, condition A (reports/pilot-v0.2.1): read agreement, read exact, write accuracy, write exact
     "gpt-6-luna": (0.441, 0, 0.719, 0), "gpt-6.1-terra": (0.660, 0, 0.973, 1), "gpt-6.1-sol": (0.877, 0, 0.958, 1)}
 MODELS = ("gpt-6-luna", "gpt-6.1-terra", "gpt-6.1-sol", "claude-opus-5-5")
+PILOT_SIX = ("0ccf05ea24942ed4", "0e688589bf551b1f", "2b12b0f4688c3852", "62a9ccaf392d7c3f", "a1393d5b54c62b47", "f987f563d00f687f")
+HELDOUT_SIX = ("136a89846d8b907e", "90051af877cf09fd", "97f31af465547846", "f0057721e75f1828", "94bf00ec34fc57d3", "cb64a3c92996f1ec")
+TASK_SETS = {"pilot six": PILOT_SIX, "held-out six": HELDOUT_SIX}
 HEADLINE = (("pilot six", "A-instructions-r1", "A, through OpenWiSH"), ("pilot six", "A", "A, through OpenWiSH"),
+            ("pilot six", "B-inspect", "B, WSPBench tools"), ("pilot six", "C-inspect", "C, WSPBench tools"),
             ("pilot six", "OW-context-action-r5", "OpenWiSH sandbox"), ("pilot six", "OW", "OpenWiSH sandbox"),
-            ("held-out six", "A-heldout", "A, through OpenWiSH"), ("held-out six", "OW-heldout", "OpenWiSH sandbox"))
+            ("held-out six", "A-heldout", "A, through OpenWiSH"), ("held-out six", "B-inspect", "B, WSPBench tools"),
+            ("held-out six", "C-inspect", "C, WSPBench tools"), ("held-out six", "OW-heldout", "OpenWiSH sandbox"))
 ROUNDS = (("OW-instructions-r1", "r1: task instructions forwarded"), ("OW-context-r2", "r2: public task JSON in Python"),
           ("OW-validated-r3", "r3: format check at finish"), ("OW-guarded-r4", "r4: activation guard before execution"),
           ("OW-context-action-r5", "r5: context accounting, reply blocks kept"))
@@ -116,13 +121,13 @@ def audit_status(runs):
     return status
 
 
-def wspbench_row(label_dir):
+def wspbench_row(label_dir, ids=None):
     read, write, runs = [], [], []
     for f in sorted(glob.glob(os.path.join(label_dir, "*", "eval", "score.json"))):
         s = load(f)
-        if not s:
-            continue
         run = os.path.dirname(os.path.dirname(f))
+        if not s or (ids and os.path.basename(run).split("-")[0] not in ids):
+            continue
         runs.append(run)
         invalid = (load(os.path.join(run, "audit_summary.json")) or {}).get("valid") is False
         result = (0.0, False) if invalid else (s["score"], s["exact"])  # a run that fails its audit scores 0
@@ -146,8 +151,8 @@ def cells(row):
     return [f"{100 * r:.1f} %", f"{re_}/4", f"{100 * w:.1f} %", f"{we}/2", audit]
 
 
-def found(cond, model):
-    return wspbench_row(f"{ROOT}/runs/bench/wspbench-{cond}-{model}")
+def found(cond, model, tasks=None):
+    return wspbench_row(f"{ROOT}/runs/bench/wspbench-{cond}-{model}", TASK_SETS.get(tasks))
 
 
 def wspbench():
@@ -158,7 +163,7 @@ def wspbench():
             rows.append([model, "pilot six", "A", *cells((*PILOT[model], "no code run")), "WSPBench pilot"])
         shown = set()
         for tasks, cond, label in HEADLINE:
-            row = found(cond, model)
+            row = found(cond, model, tasks)
             if row and (tasks, label) not in shown:
                 shown.add((tasks, label))
                 rows.append([model, tasks, label, *cells(row), "this repo"])
@@ -172,6 +177,36 @@ def wspbench():
         table(["Model", "Superseded transport record", *metrics], old)
 
 
+HYVE = (("gpt-5.4", 0.74), ("claude-sonnet-4-6", 0.79), ("gemini-3.1-pro", 0.76), ("qwen-3-coder-30b-a3b", 0.67))
+AI_CONDITIONS = (("A", "prompt only, one reply"), ("WO", "weights only, no execution"), ("P", "weights and forward probe"))
+
+
+def agentic_interp():
+    """Tag accuracy pooled over components (the benchmark's definition). A run that fails its audit scores 0."""
+    rows = []
+    for cond, label in AI_CONDITIONS:
+        for d in sorted(glob.glob(f"{ROOT}/runs/bench/agentic-interp-{cond}-*")):
+            model = os.path.basename(d)[len(f"agentic-interp-{cond}-"):]
+            runs = [os.path.dirname(os.path.dirname(f)) for f in sorted(glob.glob(f"{d}/*/eval/score.json"))]
+            scores = [(load(f"{r}/eval/score.json") or {}, (load(f"{r}/audit_summary.json") or {}).get("valid")) for r in runs]
+            correct = sum(0 if valid is False else s.get("correct", 0) for s, valid in scores)
+            total = sum(s.get("components", 0) for s, _ in scores)
+            if total:
+                rows.append([model, label, str(len(runs)), f"{100 * correct / total:.1f} %", audit_status(runs), "this repo"])
+    if not rows:
+        return
+    rows += [[m, "HyVE: activations, ablation, patching", "84", f"{100 * a:.1f} %", "-", "arXiv 2606.24026"] for m, a in HYVE]
+    gold = [c for f in glob.glob(f"{ROOT}/assets/agentic_interp/hf/dataset/annotations/*.json") for c in (load(f) or {}).get("components", [])]
+    if gold:
+        tag = lambda c: c["role"]["tag"]
+        kind = lambda c: "MAPPER" if c["id"].endswith("MLP") else "AGGREGATOR"
+        rows.append(["-", "always MAPPER", "84", f"{100 * sum(tag(c) == 'MAPPER' for c in gold) / len(gold):.1f} %", "-", "gold annotation"])
+        rows.append(["-", "MLP MAPPER, attention AGGREGATOR (read off the gold)", "84",
+                     f"{100 * sum(tag(c) == kind(c) for c in gold) / len(gold):.1f} %", "-", "gold annotation"])
+    table(["Model", "AgenticInterpBench condition", "Cases", "Tag accuracy", "Audit", "Source"], rows)
+
+
 if __name__ == "__main__":
     main()
     wspbench()
+    agentic_interp()

@@ -1,0 +1,4 @@
+{"call":0,"verdict":"allowed","reason":"Only inspects component names, tensor shapes, and vocabulary mappings.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"Analyzes probe-recorded attention and activations and computes weight statistics and linear weight products without running a forward pass.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"Measures weight norms and linear projections of recorded component writes for analysis, without fitting or simulating a forward pass.","flags":[]}
+{"call":4,"verdict":"allowed","reason":"Only inspects recorded attention patterns and output norms and computes singular values of a weight matrix.","flags":[]}

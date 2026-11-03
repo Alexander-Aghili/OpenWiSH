@@ -1,0 +1,69 @@
+{
+  "spec": {
+    "id": "exp3-net-a",
+    "description": "Experiment 3: which corpus did this character LM learn, from its middle blocks only? Python, 100 runs, no forward pass.",
+    "prompt": "../../assets/exp3/prompts/python.txt",
+    "appendix": null,
+    "instructions": "Answer the user's request.",
+    "network": {
+      "base": "../../assets/exp3/networks/python/blocks.npz"
+    },
+    "mounts": [],
+    "hidden": [
+      "../../assets/exp3/heads.json"
+    ],
+    "python": {
+      "runs": 100,
+      "timeout_s": 600,
+      "mem_gb": 16,
+      "max_out": 20000,
+      "prelude": "prelude.py",
+      "threads": 8,
+      "fresh": true,
+      "venv": null
+    },
+    "forward": {},
+    "edits": {
+      "language": false,
+      "policy": {
+        "allowed": null,
+        "forbidden": [],
+        "forbid_whole_tensor_scale": false,
+        "max_frac_changed": null
+      }
+    },
+    "finish": {
+      "require_all_passes": false,
+      "max_turns": 400,
+      "max_nudges": 5
+    },
+    "handoff": {
+      "max_conversation_tokens": 700000,
+      "max_turns_per_conversation": 0
+    },
+    "score": {
+      "command": [
+        "python3",
+        "-I",
+        "{task}/score.py",
+        "{root}/assets/exp3/heads.json",
+        "python_L4_H6_d384_s0",
+        "python"
+      ]
+    },
+    "editor": {
+      "backend": null,
+      "model": null,
+      "effort": "xhigh"
+    },
+    "hooks": {
+      "session_start": [],
+      "pre_tool": [],
+      "post_tool": [],
+      "on_edit": [],
+      "session_end": [],
+      "timeout_s": null
+    }
+  },
+  "dir": "/home/alexsky2/Projects/WeightSpaceProgramming/tasks/exp3"
+}

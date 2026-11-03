@@ -1,0 +1,2 @@
+{"call":0,"verdict":"allowed","reason":"It only inspects component identifiers, vocabulary mappings, and weight tensor shapes.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"It analyzes recorded forward-probe attention and activations and computes weight norms without running the network or fitting weights.","flags":[]}

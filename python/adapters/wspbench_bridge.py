@@ -20,7 +20,7 @@ DATA = os.path.join(BENCH, "data", "development-v0.2.1", "dev")
 sys.path.insert(0, os.path.join(BENCH, "src"))
 
 from wspbench.v2.access import AccessSession  # noqa: E402
-from wspbench.v2.contracts import Task  # noqa: E402
+from wspbench.public.replay import PublicTask  # noqa: E402
 from wspbench.v2.inspect_task import CONDITIONS, SYSTEM, parse_submission  # noqa: E402
 from wspbench.v2.scoring import score as wsp_score  # noqa: E402
 from wspbench.v2.serialization import canonical_json  # noqa: E402
@@ -28,7 +28,7 @@ from wspbench.v2.serialization import canonical_json  # noqa: E402
 
 def load_task(task_id):
     d = os.path.join(DATA, task_id)
-    return Task.from_dict(json.load(open(os.path.join(d, "task.json"))), __import__("pathlib").Path(d))
+    return PublicTask.from_dict(json.load(open(os.path.join(d, "task.json"))), Path(d))  # released answer keys
 
 
 def toml_string(s):
@@ -98,7 +98,7 @@ FAMILY = "@FAMILY@"
 _check_format = check_submission
 
 def check_submission(sub):
-    return _check_format(sub, FAMILY, TASK["architecture"]["shapes"])
+    return _check_format(sub, FAMILY, TASK["architecture"]["shapes"], forecast_ids(TASK))
 '''
 
 
@@ -195,6 +195,10 @@ def headline(family, metrics):
     if family == "edit_effects":
         b, a = metrics.get("before_agreement"), metrics.get("after_agreement")
         return None if b is None or a is None else (b + a) / 2
+    if family == "causal_forecast":
+        return metrics.get("effect_accuracy")
+    if family == "coupled_repair":
+        return metrics.get("target_accuracy")
     return metrics.get("exhaustive_agreement")
 
 

@@ -1,0 +1,12 @@
+Task: Check if each number is divisible by 3.
+Examples (input tokens -> output per position):
+  ['BOS', 6, 19, 28, 14, 10, 7, 28, 20, 6] -> ['BOS', 1, 0, 0, 0, 0, 0, 0, 0, 1]
+  ['BOS', 25, 18, 22, 10, 10, 23, 20, 3, 7] -> ['BOS', 0, 1, 0, 0, 0, 0, 0, 1, 0]
+  ['BOS', 24, 16, 26, 26, 9, 27, 27, 15, 14] -> ['BOS', 1, 0, 0, 0, 1, 1, 1, 1, 0]
+  ['BOS', 1, 27, 20, 0, 11, 25, 21, 28, 11] -> ['BOS', 0, 1, 0, 1, 0, 0, 1, 0, 0]
+  ['BOS', 23, 2, 21, 20, 1, 23, 11, 29, 5] -> ['BOS', 0, 0, 1, 0, 0, 0, 0, 0, 0]
+Input token ids: {"0": 0, "1": 1, "2": 2, "3": 3, "4": 4, "5": 5, "6": 6, "7": 7, "8": 8, "9": 9, "10": 10, "11": 11, "12": 12, "13": 13, "14": 14, "15": 15, "16": 16, "17": 17, "18": 18, "19": 19, "20": 20, "21": 21, "22": 22, "23": 23, "24": 24, "25": 25, "26": 26, "27": 27, "28": 28, "29": 29, "BOS": 30, "PAD": 31}
+Output classes: {"0": 0, "1": 1}
+Architecture: 2 layers, d_model 4, 4 heads of size 1, MLP width 16 with gelu, causal attention, normalization none, learned positions, context 10. Residual stream: x = W_E[token] + W_pos[position]. Each block adds its attention heads, then its MLP. Logits = x W_U + b_U at every position.
+Components:
+  L0_MLP: the MLP output of block 0

@@ -1,0 +1,21 @@
+Task: Reverses each word in the sequence except for specified exclusions.
+Examples (input tokens -> output per position):
+  ['BOS', 'oCLrZaW', 'V', 'b', 'oCLrZaW', 'TPSI', 'poiVg', 'b', 'b', 'oCLrZaW'] -> ['BOS', 'WaZrLCo', 'V', 'b', 'WaZrLCo', 'ISPT', 'gViop', 'b', 'b', 'WaZrLCo']
+  ['BOS', 'LB', 'TPSI', 'oCLrZaW', 'TPSI', 'TPSI', 'poiVg', 'b', 'V', 'poiVg'] -> ['BOS', 'BL', 'ISPT', 'WaZrLCo', 'ISPT', 'ISPT', 'gViop', 'b', 'V', 'gViop']
+  ['BOS', 'poiVg', 'TPSI', 'no', 'b', 'LB', 'poiVg', 'V', 'no', 'no'] -> ['BOS', 'gViop', 'ISPT', 'on', 'b', 'BL', 'gViop', 'V', 'on', 'on']
+  ['BOS', 'V', 'J', 'J', 'TPSI', 'TPSI', 'oCLrZaW', 'LB', 'poiVg', 'V'] -> ['BOS', 'V', 'J', 'J', 'ISPT', 'ISPT', 'WaZrLCo', 'BL', 'gViop', 'V']
+  ['BOS', 'LB', 'poiVg', 'V', 'b', 'J', 'V', 'LB', 'no', 'b'] -> ['BOS', 'BL', 'gViop', 'V', 'b', 'J', 'V', 'BL', 'on', 'b']
+Input token ids: {"BOS": 0, "J": 1, "LB": 2, "PAD": 3, "TPSI": 4, "V": 5, "b": 6, "no": 7, "oCLrZaW": 8, "poiVg": 9}
+Output classes: {"0": "BL", "1": "ISPT", "2": "J", "3": "V", "4": "WaZrLCo", "5": "b", "6": "gViop", "7": "on"}
+Architecture: 2 layers, d_model 12, 4 heads of size 3, MLP width 48 with gelu, causal attention, normalization none, learned positions, context 10. Residual stream: x = W_E[token] + W_pos[position]. Each block adds its attention heads, then its MLP. Logits = x W_U + b_U at every position.
+Components:
+  L0_MLP: the MLP output of block 0
+
+
+OPENWISH SUBMISSION PROTOCOL
+Your final submission is checked for format only, never correctness. Repair format errors when requested. OpenWiSH executes your tool blocks, even when the provider's own tool list is empty.
+Python is available through text blocks, with at most 30 runs. Reply with one block to execute code, for example:
+```python
+print(NAMES)
+```
+Write your submission to /work/submission.json or put the submission in your final reply.

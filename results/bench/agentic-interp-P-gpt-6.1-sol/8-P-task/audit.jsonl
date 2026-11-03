@@ -1,0 +1,2 @@
+{"call":0,"verdict":"allowed","reason":"The code only reads and prints component names and model weights.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"The code analyses recorded forward-probe activations and attention patterns without running the network or fitting weights.","flags":[]}

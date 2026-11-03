@@ -1,0 +1,33 @@
+{
+  "turn": 10,
+  "runs_used": 9,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 0,
+  "nudges": 0,
+  "handoffs": 0,
+  "since_handoff": 10,
+  "conv_tokens": 30779,
+  "session": "01a1a30d-b5c8-72a3-90b5-20ccd03aae20",
+  "next_message": "Run 9 of at most 60 (forward) done; files in /work/fwd/r9/. Summary:\n```\n{\n  \"arrays\": {\n    \"L0H0_ATTN\": [\n      4,\n      10,\n      32\n    ],\n    \"L0H0_ATTN_pattern\": [\n      4,\n      10,\n      10\n    ],\n    \"L0H1_ATTN\": [\n      4,\n      10,\n      32\n    ],\n    \"L0H1_ATTN_pattern\": [\n      4,\n      10,\n      10\n    ],\n    \"L0H2_ATTN\": [\n      4,\n      10,\n      32\n    ],\n    \"L0H2_ATTN_pattern\": [\n      4,\n      10,\n      10\n    ],\n    \"L0H3_ATTN\": [\n      4,\n      10,\n      32\n    ],\n    \"L0H3_ATTN_pattern\": [\n      4,\n      10,\n      10\n    ],\n    \"L0_MLP\": [\n      4,\n      10,\n      32\n    ],\n    \"L0_MLP_post\": [\n      4,\n      10,\n      128\n    ],\n    \"L1H0_ATTN\": [\n      4,\n      10,\n      32\n    ],\n    \"L1H0_ATTN_pattern\": [\n      4,\n      10,\n      10\n    ],\n    \"L1H1_ATTN\": [\n      4,\n      10,\n      32\n    ],\n    \"L1H1_ATTN_pattern\": [\n      4,\n      10,\n      10\n    ],\n    \"L1H2_ATTN\": [\n      4,\n      10,\n      32\n    ],\n    \"L1H2_ATTN_pattern\": [\n      4,\n      10,\n      10\n    ],\n    \"L1H3_ATTN\": [\n      4,\n      10,\n      32\n    ],\n    \"L1H3_ATTN_pattern\": [\n      4,\n      10,\n      10\n    ],\n    \"L1_MLP\": [\n      4,\n      10,\n      32\n    ],\n    \"L1_MLP_post\": [\n      4,\n      10,\n      128\n    ],\n    \"L2H0_ATTN\": [\n      4,\n      10,\n      32\n    ],\n    \"L2H0_ATTN_pattern\": [\n      4,\n      10,\n      10\n    ],\n    \"L2H1_ATTN\": [\n      4,\n      10,\n      32\n    ],\n    \"L2H1_ATTN_pattern\": [\n      4,\n      10,\n      10\n    ],\n    \"L2H2_ATTN\": [\n      4,\n      10,\n      32\n    ],\n    \"L2H2_ATTN_pattern\": [\n      4,\n      10,\n      10\n    ],\n    \"L2H3_ATTN\": [\n      4,\n      10,\n      32\n    ],\n    \"L2H3_ATTN_pattern\": [\n      4,\n      10,\n      10\n    ],\n    \"L2_MLP\": [\n      4,\n      10,\n      32\n    ],\n    \"L2_MLP_post\": [\n      4,\n      10,\n      128\n    ],\n    \"logits\": [\n      4,\n      10,\n      11\n    ]\n  },\n  \"file\": \"run.npz\",\n  \"ok\": true,\n  \"predictions\": [\n    [\n      2,\n      0,\n      1,\n      2,\n      3,\n      4,\n      3,\n      2,\n      1,\n      0\n    ],\n    [\n      6,\n      8,\n      7,\n      6,\n      5,\n      4,\n      5,\n      6,\n      7,\n      8\n    ],\n    [\n      1,\n      5,\n      9,\n      1,\n      8,\n      2,\n      8,\n      1,\n      9,\n      5\n    ],\n    [\n      4,\n      2,\n      10,\n      4,\n      6,\n      8,\n      6,\n      4,\n      10,\n      2\n    ]\n  ]\n}\n```\n[budget: python runs used 9/60]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 24720,
+    "output": 2732,
+    "cache_read": 175872,
+    "cache_write": 0,
+    "reasoning": 1050
+  },
+  "cost_usd": 0.0,
+  "tool_free_turns": 10,
+  "hook_blocks": 0
+}

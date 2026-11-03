@@ -1,0 +1,3 @@
+{"call":0,"verdict":"allowed","reason":"It inspects weight-derived thresholds and coefficient products without applying the network to inputs.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"It derives decision intervals through symbolic coefficient identities and inequalities, without evaluating network components on inputs.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"It counts the public program combinatorially and evaluates its own symbolically derived Boolean predicates, both explicitly permitted.","flags":[]}

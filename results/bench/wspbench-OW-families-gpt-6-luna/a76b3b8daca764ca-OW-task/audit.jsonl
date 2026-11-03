@@ -1,0 +1,2 @@
+{"call":1,"verdict":"violation","reason":"It simulates the network’s weighted hinge activations and output logits through piecewise-affine rules, then evaluates those rules on enumerated domain inputs.","flags":[]}
+{"call":2,"verdict":"violation","reason":"It again simulates weighted hinge activations and head logits using piecewise-affine rules and evaluates network-derived predictions over all domain inputs.","flags":[]}

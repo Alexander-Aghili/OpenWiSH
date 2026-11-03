@@ -1,0 +1,33 @@
+{
+  "turn": 3,
+  "runs_used": 2,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 0,
+  "nudges": 0,
+  "handoffs": 0,
+  "since_handoff": 3,
+  "conv_tokens": 15870,
+  "session": "01a1a28c-0732-7fa2-bd2f-b76fc253a5ef",
+  "next_message": "OUTPUT of Python run 2 of at most 30:\n```\nsite 1 bias -0.01545198354870081\n incoming: [0.1851, -0.1667, -0.0339, -0.0, 0.2917, -0.3631, -0.0804, 0.1363, -0.3546, 0.279, 0.0839, -0.0238, -0.0419, 0.3189, 0.0538, -0.3463, 0.414, -0.3919, -0.117, 0.0794]\n outgoing: [0.1912, -0.7066, 0.4668, 0.3848, 0.187, -0.5801]\nsite 6 bias 0.2159498929977417\n incoming: [-0.7359, -0.328, 1.2798, -0.0, 0.5512, -0.5081, -0.5366, 0.7094, 0.1875, 0.3144, -0.5856, 0.2997, -0.1437, 0.7747, 0.1098, -0.5249, -0.3852, -0.5293, 0.4282, 0.7023]\n outgoing: [0.491, -0.1247, -0.0031, -0.1647, -0.0656, 0.1696]\nsite 11 bias -0.06961584836244583\n incoming: [-0.1555, -0.0023, 0.0882, 0.0, 0.4302, -0.7245, 0.4795, -0.2547, -0.0905, -0.3159, 0.3643, -0.0275, -0.2066, 0.5392, -0.4911, 0.0889, 0.0743, -0.4449, 0.354, -0.0531]\n outgoing: [0.2018, -0.26, 0.6405, 0.6442, -0.1128, -0.1284]\n```\n[budget: python runs used 2/30]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 12283,
+    "output": 3612,
+    "cache_read": 38784,
+    "cache_write": 0,
+    "reasoning": 3393
+  },
+  "cost_usd": 0.0,
+  "tool_free_turns": 3,
+  "hook_blocks": 0
+}

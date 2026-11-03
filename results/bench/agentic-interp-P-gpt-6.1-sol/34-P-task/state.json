@@ -1,0 +1,33 @@
+{
+  "turn": 5,
+  "runs_used": 4,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 0,
+  "nudges": 0,
+  "handoffs": 0,
+  "since_handoff": 5,
+  "conv_tokens": 11920,
+  "session": "01a1a307-5441-7ee1-9e75-cc017eed792c",
+  "next_message": "OUTPUT of Python run 4 of at most 60:\n```\nhead 0 argmax [0 0 0 3 0 0 6 7 8 0] final attention [1. 0. 0. 0. 0. 0. 0. 0. 0. 0.]\nhead 1 argmax [0 1 2 3 2 2 6 0 8 8] final attention [0. 0. 0. 0. 0. 0. 0. 0. 1. 0.]\nhead 2 argmax [0 1 1 3 1 1 6 7 8 1] final attention [0. 1. 0. 0. 0. 0. 0. 0. 0. 0.]\nhead 3 argmax [0 0 0 3 0 0 0 3 3 0] final attention [1. 0. 0. 0. 0. 0. 0. 0. 0. 0.]\nMLP projected logits for first input [[  63466.49   -35091.22   -23323.027  -28450.582  -20812.836]\n [ 102781.83   -42582.797  -44304.098  -37453.652  -42064.44 ]\n [ 103693.234  -43165.066  -44687.402  -38295.66   -42151.234]\n [ -52641.055  187421.11    -7300.088  -26256.836  -64586.906]\n [ 103689.92   -43164.133  -44685.547  -38296.29   -42149.375]\n [ 103671.78   -43154.805  -44677.465  -38284.242  -42146.113]\n [ -27431.48    10015.156  -46005.05    -4630.223  171978.47 ]\n [-110233.14    -3671.121  212834.67  -115924.84  -118693.98 ]\n [ -23695.98  -107968.59    34310.016  246579.44     6028.361]\n [ 119468.73   -47796.48   -54240.867  -38524.332  -46510.12 ]]\nMLP norm [[109835.97 167992.17 169291.62 251347.55 169286.25 169259.61 192046.38 346997.12 293060.16 192327.97]\n [109835.97 180279.55 180786.8  182948.08 190107.97 190070.78 191426.16 191421.64 192285.25 192342.42]\n [109835.97 326019.25 328553.7  329003.94 336669.34 337280.97 342894.66 342872.25 343102.78 349769.97]\n [109835.97 303593.47 304481.3  304961.16 304804.6  304827.44 306083.53 306002.94 306006.2  307731.03]]\nsame token variation 1 1211.5013 relative 0.0063288184\nsame token variation 2 13736.693 relative 0.04006359\nsame token variation 3 17810.047 relative 0.058201592\n```\n[budget: python runs used 4/60]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 6909,
+    "output": 818,
+    "cache_read": 45056,
+    "cache_write": 0,
+    "reasoning": 170
+  },
+  "cost_usd": 0.0,
+  "tool_free_turns": 5,
+  "hook_blocks": 0
+}

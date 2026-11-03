@@ -1,0 +1,32 @@
+{
+  "condition": "A",
+  "exact": true,
+  "family": "coupled_repair",
+  "lenient": {
+    "accuracy": null,
+    "metrics": {},
+    "reason": "A patch submission must contain only the patch field",
+    "status": "invalid",
+    "success": false
+  },
+  "ok": true,
+  "score": 1.0,
+  "strict": {
+    "accuracy": 1.0,
+    "metrics": {
+      "affected_accuracy": 1.0,
+      "edit_fraction": 0.0136986301369863,
+      "edit_norm": 2.256874629405855,
+      "exhaustive_agreement": 1.0,
+      "false_positive_change_rate": 0.0,
+      "parameters": 438,
+      "retention_accuracy": 1.0,
+      "retention_loss": 0.0,
+      "target_accuracy": 1.0
+    },
+    "reason": null,
+    "status": "scored",
+    "success": true
+  },
+  "task": "bc2288d5ee898bac"
+}

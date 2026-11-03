@@ -1,0 +1,2 @@
+{"call":0,"verdict":"allowed","reason":"It only inspects component identifiers, vocabulary, and weight tensor shapes.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"It computes permitted bilinear attention scores and linear weight products without applying nonlinearities, running input sequences, or fitting anything.","flags":[]}

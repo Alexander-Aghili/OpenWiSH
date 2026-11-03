@@ -1,0 +1,12 @@
+Task: Creates abbreviations for each token in the sequence.
+Examples (input tokens -> output per position):
+  ['BOS', 'oCLrZaW', 'V', 'b', 'oCLrZaW', 'TPSI', 'poiVg', 'b', 'b', 'oCLrZaW'] -> ['BOS', 'oCL', 'V', 'b', 'oCL', 'TPS', 'poi', 'b', 'b', 'oCL']
+  ['BOS', 'LB', 'TPSI', 'oCLrZaW', 'TPSI', 'TPSI', 'poiVg', 'b', 'V', 'poiVg'] -> ['BOS', 'LB', 'TPS', 'oCL', 'TPS', 'TPS', 'poi', 'b', 'V', 'poi']
+  ['BOS', 'poiVg', 'TPSI', 'no', 'b', 'LB', 'poiVg', 'V', 'no', 'no'] -> ['BOS', 'poi', 'TPS', 'no', 'b', 'LB', 'poi', 'V', 'no', 'no']
+  ['BOS', 'V', 'J', 'J', 'TPSI', 'TPSI', 'oCLrZaW', 'LB', 'poiVg', 'V'] -> ['BOS', 'V', 'J', 'J', 'TPS', 'TPS', 'oCL', 'LB', 'poi', 'V']
+  ['BOS', 'LB', 'poiVg', 'V', 'b', 'J', 'V', 'LB', 'no', 'b'] -> ['BOS', 'LB', 'poi', 'V', 'b', 'J', 'V', 'LB', 'no', 'b']
+Input token ids: {"BOS": 0, "J": 1, "LB": 2, "PAD": 3, "TPSI": 4, "V": 5, "b": 6, "no": 7, "oCLrZaW": 8, "poiVg": 9}
+Output classes: {"0": "J", "1": "LB", "2": "TPS", "3": "V", "4": "b", "5": "no", "6": "oCL", "7": "poi"}
+Architecture: 2 layers, d_model 13, 4 heads of size 3, MLP width 52 with gelu, causal attention, normalization none, learned positions, context 10. Residual stream: x = W_E[token] + W_pos[position]. Each block adds its attention heads, then its MLP. Logits = x W_U + b_U at every position.
+Components:
+  L0_MLP: the MLP output of block 0

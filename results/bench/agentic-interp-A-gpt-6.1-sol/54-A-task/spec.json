@@ -1,0 +1,59 @@
+{
+  "spec": {
+    "id": "agentic-interp-54-A",
+    "description": "AgenticInterpBench case 54, condition A: tag each circuit component with the 5-class taxonomy.",
+    "prompt": "prompt.txt",
+    "appendix": null,
+    "instructions": "You are given a small transformer and a localized circuit inside it. The listed components are causally relevant to the task. Classify the functional role of every listed component with exactly one tag from the taxonomy.\n\nTaxonomy:\n- INDICATOR: Detects a property of a single input and emits a binary / predicate-like signal (a flag).\n- AGGREGATOR: Reduces content across multiple positions into a summary quantity (count, fraction, accumulated quantity). The information is collapsed after the operation.\n- ROUTER: Moves content from one position to another via positional / index-based selection. Content is copied across positions.\n- MAPPER: Transforms a single input at each position independently into a non-binary output (arithmetic, remap, lookup, reshape), including when the result is a control signal.\n- COMBINER: Reads two or more distinct upstream signals/inputs and fuses them into one output.\n\nWhen tags overlap, choose by the component's input-output behavior: how many distinct signals it uses, whether it produces a binary flag or a non-binary value, and whether information is summarized across positions or copied between positions.\n\nCondition A: one reply, no tools and no weights. Answer with one JSON object and nothing else: {\"tags\": {\"<component id>\": \"<TAG>\", ...}}, one entry per component.",
+    "network": null,
+    "mounts": [],
+    "hidden": [
+      "../../../assets/agentic_interp"
+    ],
+    "python": null,
+    "forward": {},
+    "edits": {
+      "language": false,
+      "policy": {
+        "allowed": null,
+        "forbidden": [],
+        "forbid_whole_tensor_scale": false,
+        "max_frac_changed": null
+      }
+    },
+    "finish": {
+      "require_all_passes": false,
+      "max_turns": 1,
+      "max_nudges": 5,
+      "validation": null
+    },
+    "handoff": {
+      "max_conversation_tokens": 700000,
+      "max_turns_per_conversation": 0
+    },
+    "score": {
+      "command": [
+        "python3",
+        "-I",
+        "{root}/python/adapters/agentic_interp.py",
+        "score",
+        "--case",
+        "54"
+      ]
+    },
+    "editor": {
+      "backend": null,
+      "model": null,
+      "effort": "high"
+    },
+    "hooks": {
+      "session_start": [],
+      "pre_tool": [],
+      "post_tool": [],
+      "on_edit": [],
+      "session_end": [],
+      "timeout_s": null
+    }
+  },
+  "dir": "/home/alexsky2/Projects/WeightSpaceProgramming/tasks/agentic_interp/54-A"
+}

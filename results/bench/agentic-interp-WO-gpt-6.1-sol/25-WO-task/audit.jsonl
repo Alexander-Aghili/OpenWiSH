@@ -1,0 +1,4 @@
+{"call":0,"verdict":"allowed","reason":"The code only inspects weights and computes explicitly permitted linear products, norms, and ranks.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"Embedding-based QK and OV products and weight decompositions are permitted, with no nonlinearities or forward passes.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"The code computes allowed bilinear attention scores and linear weight-space couplings without executing attention or MLP nonlinearities.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"The code analyzes weight products and singular-subspace overlaps without computing input logits, fitting, or running the network.","flags":[]}

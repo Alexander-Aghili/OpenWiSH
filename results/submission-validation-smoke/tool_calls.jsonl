@@ -1,0 +1,3 @@
+{"kind":"validation","result":{"error":"Expected one JSON submission object. Prose is not a submission. Use the declared Python tool for weight algebra and check_submission(sub) for format checks.","ok":false},"turn":1}
+{"code":"sub = {\"patch\": []}\nprint(check_submission(sub))\nwith open(\"/work/submission.json\", \"w\") as f:\n    json.dump(sub, f)\n","error":false,"flags":[],"kind":"python","output":"ok\n","restarted":false,"run":1,"seconds":0.000497724,"turn":2}
+{"kind":"validation","result":{"ok":true},"turn":3}

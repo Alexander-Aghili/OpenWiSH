@@ -1,0 +1,125 @@
+{
+  "tensors": {
+    "L1.W": {
+      "shape": [
+        243,
+        512
+      ],
+      "changed": 1476,
+      "sha_base": "93ce09616645049dd65aebb3d8e8d8ea7a86acdd87ea8c75c3d10c8b2a487183",
+      "sha_edited": "37740d0d98000aa28ec05a596e353c74a388659ba750ae9d07a3b7dd07de67d2"
+    },
+    "L1.b": {
+      "shape": [
+        512
+      ],
+      "changed": 162,
+      "sha_base": "74f5f142de0adfd28b2d820f6267ff0d0ee7bea5897e7dcdbbf8365a631e2661",
+      "sha_edited": "233c138f86053069bb90ca83e37e98673d374b079c96e9be4d98cd05bdd211b7"
+    },
+    "L2.W": {
+      "shape": [
+        512,
+        512
+      ],
+      "changed": 1440,
+      "sha_base": "551f7fd90be612ff9699fee8d9d23d7a0bcb51d3c165399a99efea4cf0c409d9",
+      "sha_edited": "a3ad21adaa7bc529bf14ea6ed532ab083c9ea11882f38a7337ee96f00204f7bb"
+    },
+    "L2.b": {
+      "shape": [
+        512
+      ],
+      "changed": 288,
+      "sha_base": "74f5f142de0adfd28b2d820f6267ff0d0ee7bea5897e7dcdbbf8365a631e2661",
+      "sha_edited": "5791ecc421f865b626dd3b27f25d25aae6e0a6591ea039af70c261743ed3a72d"
+    },
+    "L3.W": {
+      "shape": [
+        512,
+        512
+      ],
+      "changed": 4872,
+      "sha_base": "551f7fd90be612ff9699fee8d9d23d7a0bcb51d3c165399a99efea4cf0c409d9",
+      "sha_edited": "632da7368ad12492debe4d9cb42578c8db5df72387e037268923e90c37b1e633"
+    },
+    "L3.b": {
+      "shape": [
+        512
+      ],
+      "changed": 96,
+      "sha_base": "74f5f142de0adfd28b2d820f6267ff0d0ee7bea5897e7dcdbbf8365a631e2661",
+      "sha_edited": "091d776776f71d0ff1bfce5aa14f3c9cdebd341c2de948b3fd72e6ae79b616ab"
+    },
+    "L4.W": {
+      "shape": [
+        512,
+        512
+      ],
+      "changed": 2310,
+      "sha_base": "551f7fd90be612ff9699fee8d9d23d7a0bcb51d3c165399a99efea4cf0c409d9",
+      "sha_edited": "72e6427a630a235827ce281ea9f57e2f56b7d73f3f5e94af31e924787a78dc95"
+    },
+    "L4.b": {
+      "shape": [
+        512
+      ],
+      "changed": 162,
+      "sha_base": "74f5f142de0adfd28b2d820f6267ff0d0ee7bea5897e7dcdbbf8365a631e2661",
+      "sha_edited": "f888ec54722b99ccb005b90788d8f040fe9e99b5fb135016f54a9929ae80bfc9"
+    },
+    "L5.W": {
+      "shape": [
+        512,
+        512
+      ],
+      "changed": 2583,
+      "sha_base": "551f7fd90be612ff9699fee8d9d23d7a0bcb51d3c165399a99efea4cf0c409d9",
+      "sha_edited": "f1a35f0b889ecd8ab78ce1d84e59354f5ca85314cb6b22898d1707297a2145f8"
+    },
+    "L5.b": {
+      "shape": [
+        512
+      ],
+      "changed": 77,
+      "sha_base": "74f5f142de0adfd28b2d820f6267ff0d0ee7bea5897e7dcdbbf8365a631e2661",
+      "sha_edited": "cce055dfd5478a865b2ed3b651164bc6fa30b47d90b1cad7eb395304490e7da1"
+    },
+    "L6.W": {
+      "shape": [
+        512,
+        512
+      ],
+      "changed": 6190,
+      "sha_base": "551f7fd90be612ff9699fee8d9d23d7a0bcb51d3c165399a99efea4cf0c409d9",
+      "sha_edited": "db9e40ad56676adcf762047529d4e10bef1900d2ac99fdd89ae429fe40146b4c"
+    },
+    "L6.b": {
+      "shape": [
+        512
+      ],
+      "changed": 314,
+      "sha_base": "74f5f142de0adfd28b2d820f6267ff0d0ee7bea5897e7dcdbbf8365a631e2661",
+      "sha_edited": "423d1ebcf70428dadd1744790abbaeef9e95a2cab5829a0104308d06862e30e6"
+    },
+    "out.W": {
+      "shape": [
+        512,
+        82
+      ],
+      "changed": 1914,
+      "sha_base": "cde102f80b78dcb6897fa3ed6fa9466db8b31d6ef0360c2ea92fe9dca82ffd74",
+      "sha_edited": "8d7c6185faa5939f2cbb71fe994483f7bc018c809b5dade64e6bdc4ae9fc86ef"
+    },
+    "out.b": {
+      "shape": [
+        82
+      ],
+      "changed": 82,
+      "sha_base": "37ea6fee2cb76303095b480b9a767235b0fb08035aa2a8a94e0e4e5c4579ebe8",
+      "sha_edited": "49883df41b7568e5086ad1cfd1ab8f64ae08433de3b55060e665b5cecee6dcc8"
+    }
+  },
+  "changed_total": 21966,
+  "numel_total": 1480274
+}

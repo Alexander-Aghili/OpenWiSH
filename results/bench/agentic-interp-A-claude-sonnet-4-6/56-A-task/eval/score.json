@@ -1,0 +1,19 @@
+{
+  "case": 56,
+  "components": 2,
+  "correct": 2,
+  "exact": true,
+  "ok": true,
+  "per_component": {
+    "L0_MLP": {
+      "answer": "INDICATOR",
+      "gold": "INDICATOR"
+    },
+    "L1_MLP": {
+      "answer": "COMBINER",
+      "gold": "COMBINER"
+    }
+  },
+  "score": 1.0,
+  "valid": true
+}

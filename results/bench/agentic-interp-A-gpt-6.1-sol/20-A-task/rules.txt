@@ -1,0 +1,12 @@
+Task: Detect spam messages based on appearance of spam keywords.
+Examples (input tokens -> output per position):
+  ['BOS', 'poiVg', 'poiVg', 'now', 'b', 'V', 'now', 'now', 'TPSI', 'click'] -> ['BOS', 'not spam', 'not spam', 'spam', 'not spam', 'not spam', 'spam', 'spam', 'not spam', 'spam']
+  ['BOS', 'spam', 'offer', 'click', 'spam', 'oCLrZaW', 'J', 'poiVg', 'poiVg', 'offer'] -> ['BOS', 'not spam', 'spam', 'spam', 'not spam', 'not spam', 'not spam', 'not spam', 'not spam', 'spam']
+  ['BOS', 'no', 'V', 'poiVg', 'now', 'b', 'no', 'offer', 'TPSI', 'no'] -> ['BOS', 'not spam', 'not spam', 'not spam', 'spam', 'not spam', 'not spam', 'spam', 'not spam', 'not spam']
+  ['BOS', 'spam', 'spam', 'TPSI', 'spam', 'no', 'V', 'oCLrZaW', 'TPSI', 'b'] -> ['BOS', 'not spam', 'not spam', 'not spam', 'not spam', 'not spam', 'not spam', 'not spam', 'not spam', 'not spam']
+  ['BOS', 'b', 'LB', 'now', 'spam', 'click', 'LB', 'spam', 'b', 'J'] -> ['BOS', 'not spam', 'not spam', 'spam', 'not spam', 'spam', 'not spam', 'not spam', 'not spam', 'not spam']
+Input token ids: {"BOS": 0, "J": 1, "LB": 2, "PAD": 3, "TPSI": 4, "V": 5, "b": 6, "click": 7, "no": 8, "now": 9, "oCLrZaW": 10, "offer": 11, "poiVg": 12, "spam": 13}
+Output classes: {"0": "not spam", "1": "spam"}
+Architecture: 2 layers, d_model 13, 4 heads of size 3, MLP width 52 with gelu, causal attention, normalization none, learned positions, context 10. Residual stream: x = W_E[token] + W_pos[position]. Each block adds its attention heads, then its MLP. Logits = x W_U + b_U at every position.
+Components:
+  L0_MLP: the MLP output of block 0

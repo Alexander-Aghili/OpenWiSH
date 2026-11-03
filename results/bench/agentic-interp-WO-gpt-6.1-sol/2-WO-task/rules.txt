@@ -1,0 +1,25 @@
+Task: Reverse the input sequence.
+Examples (input tokens -> output per position):
+  ['BOS', 'l', 'z', 'v', 'l', 'y', 'q', 'j', 'p', 'o'] -> ['BOS', 'o', 'p', 'j', 'q', 'y', 'l', 'v', 'z', 'l']
+  ['BOS', 'w', 'k', 'k', 'x', 'u', 'd', 'h', 'x', 'c'] -> ['BOS', 'c', 'x', 'h', 'd', 'u', 'x', 'k', 'k', 'w']
+  ['BOS', 'v', 'u', 'b', 'x', 'l', 'f', 'b', 'u', 'a'] -> ['BOS', 'a', 'u', 'b', 'f', 'l', 'x', 'b', 'u', 'v']
+  ['BOS', 'g', 't', 'o', 'k', 'h', 'u', 'g', 'z', 's'] -> ['BOS', 's', 'z', 'g', 'u', 'h', 'k', 'o', 't', 'g']
+  ['BOS', 'o', 's', 'l', 'w', 't', 'y', 'c', 'e', 's'] -> ['BOS', 's', 'e', 'c', 'y', 't', 'w', 'l', 's', 'o']
+Input token ids: {"BOS": 0, "PAD": 1, "a": 2, "b": 3, "c": 4, "d": 5, "e": 6, "f": 7, "g": 8, "h": 9, "i": 10, "j": 11, "k": 12, "l": 13, "m": 14, "n": 15, "o": 16, "p": 17, "q": 18, "r": 19, "s": 20, "t": 21, "u": 22, "v": 23, "w": 24, "x": 25, "y": 26, "z": 27}
+Output classes: {"0": "a", "1": "b", "2": "c", "3": "d", "4": "e", "5": "f", "6": "g", "7": "h", "8": "i", "9": "j", "10": "k", "11": "l", "12": "m", "13": "n", "14": "o", "15": "p", "16": "q", "17": "r", "18": "s", "19": "t", "20": "u", "21": "v", "22": "w", "23": "x", "24": "y", "25": "z"}
+Architecture: 4 layers, d_model 56, 4 heads of size 14, MLP width 224 with gelu, bidirectional attention, normalization none, learned positions, context 10. Residual stream: x = W_E[token] + W_pos[position]. Each block adds its attention heads, then its MLP. Logits = x W_U + b_U at every position.
+Components:
+  L0H0_ATTN: attention head 0 of block 0
+  L0_MLP: the MLP output of block 0
+  L1_MLP: the MLP output of block 1
+  L2_MLP: the MLP output of block 2
+  L3H0_ATTN: attention head 0 of block 3
+
+
+OPENWISH SUBMISSION PROTOCOL
+Your final submission is checked for format only, never correctness. Repair format errors when requested. OpenWiSH executes your tool blocks, even when the provider's own tool list is empty.
+Python is available through text blocks, with at most 30 runs. Reply with one block to execute code, for example:
+```python
+print(NAMES)
+```
+Write your submission to /work/submission.json or put the submission in your final reply.

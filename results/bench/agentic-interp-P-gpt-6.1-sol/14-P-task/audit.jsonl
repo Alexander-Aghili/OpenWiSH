@@ -1,0 +1,2 @@
+{"call":0,"verdict":"allowed","reason":"It only reads component identifiers, vocabulary mappings, and weight tensor shapes.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"It only prints weights and inspects recorded attention patterns and component activations returned by the authorized forward probe.","flags":[]}

@@ -1,0 +1,48 @@
+{
+  "copy_named": [
+    "L2H1",
+    "L3H0",
+    "L3H1",
+    "L3H4",
+    "L3H5"
+  ],
+  "copy_precision": 0.6,
+  "copy_recall": 1.0,
+  "copy_truth": [
+    "L2H1",
+    "L3H1",
+    "L3H5"
+  ],
+  "corpus_correct": true,
+  "corpus_guess": "python",
+  "head_labels": {
+    "L0H0": "broad",
+    "L0H1": "local",
+    "L0H2": "local",
+    "L0H3": "local",
+    "L0H4": "broad",
+    "L0H5": "previous",
+    "L1H0": "broad",
+    "L1H1": "broad",
+    "L1H2": "broad",
+    "L1H3": "broad",
+    "L1H4": "broad",
+    "L1H5": "broad",
+    "L2H0": "unclear",
+    "L2H1": "copy",
+    "L2H2": "unclear",
+    "L2H3": "unclear",
+    "L2H4": "unclear",
+    "L2H5": "unclear",
+    "L3H0": "copy",
+    "L3H1": "copy",
+    "L3H2": "unclear",
+    "L3H3": "unclear",
+    "L3H4": "copy",
+    "L3H5": "copy"
+  },
+  "ok": true,
+  "probabilities": "python=0.55 romaji=0.07 english=0.38; as is=0.94 shuffled=0.06",
+  "score": 1.0,
+  "true": "python"
+}

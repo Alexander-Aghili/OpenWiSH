@@ -29,6 +29,24 @@ class Format(unittest.TestCase):
         for op in ("replace", "add"):
             self.assertEqual(fmt.check_submission({"patch": [{"op": op, "tensor": "w", "values": [[1, 2, 3], [4, 5, 6]]}]}, "compositional_synthesis", shapes), "ok")
 
+    def test_forecasts_name_every_public_id_with_two_head_fractions(self):
+        ids = ["f0", "f1"]
+        good = {"effects": {"f0": [0.0, 0.5], "f1": [1, 0.25]}}
+        self.assertEqual(fmt.check_submission(good, "causal_forecast", {}, forecast_ids=ids), "ok")
+        for bad in ({"effects": {"f0": [0.0, 0.5]}}, {"effects": {**good["effects"], "f9": [0, 0]}},
+                    {"effects": {"f0": [0.0, 1.5], "f1": [0, 0]}}, {"effects": {"f0": [0.0], "f1": [0, 0]}},
+                    {"effects": {"f0": [True, 0], "f1": [0, 0]}}, {**good, "explanation": "extra"}):
+            self.assertNotEqual(fmt.check_submission(bad, "causal_forecast", {}, forecast_ids=ids), "ok")
+
+    def test_repairs_use_the_patch_grammar(self):
+        shapes = {"w1": [6, 32]}
+        flip = {"op": "scale", "tensor": "w1", "axis": 1, "indices": [1], "factor": -1}
+        self.assertEqual(fmt.check_submission({"patch": [flip]}, "coupled_repair", shapes), "ok")
+        self.assertNotEqual(fmt.check_submission({"patch": [{**flip, "tensor": "w9"}]}, "coupled_repair", shapes), "ok")
+
+    def test_unknown_family_is_an_error(self):
+        self.assertNotEqual(fmt.check_submission({"patch": []}, "mystery", {}), "ok")
+
     def test_binary_output_tables_are_complete(self):
         valid = {"before_outputs": [0] * 1024, "after_outputs": [1] * 1024}
         self.assertEqual(fmt.check_submission(valid, "edit_effects", {}), "ok")

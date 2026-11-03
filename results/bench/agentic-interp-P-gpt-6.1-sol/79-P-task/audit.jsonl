@@ -1,0 +1,2 @@
+{"call":0,"verdict":"allowed","reason":"It only reads and prints weights, tensor shapes, and task metadata.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"It loads and inspects component activations recorded by the permitted forward probe without running the network or fitting anything.","flags":[]}

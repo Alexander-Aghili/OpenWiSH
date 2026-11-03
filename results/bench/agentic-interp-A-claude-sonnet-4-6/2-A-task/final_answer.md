@@ -1,0 +1,3 @@
+```json
+{"tags": {"L0H0_ATTN": "ROUTER", "L0_MLP": "MAPPER", "L1_MLP": "MAPPER", "L2_MLP": "MAPPER", "L3H0_ATTN": "ROUTER"}}
+```

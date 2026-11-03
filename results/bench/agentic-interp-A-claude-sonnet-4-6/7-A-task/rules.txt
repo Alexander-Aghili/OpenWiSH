@@ -1,0 +1,13 @@
+Task: Returns the number of times each token occurs in the input.
+Examples (input tokens -> output per position):
+  ['BOS', 'b', 'b', 'a', 'a', 'b', 'b', 'a', 'a', 'a'] -> ['BOS', 4, 4, 5, 5, 4, 4, 5, 5, 5]
+  ['BOS', 'c', 'c', 'a', 'c', 'a', 'c', 'c', 'a', 'a'] -> ['BOS', 5, 5, 4, 5, 4, 5, 5, 4, 4]
+  ['BOS', 'c', 'a', 'c', 'c', 'a', 'a', 'c', 'b', 'c'] -> ['BOS', 5, 3, 5, 5, 3, 3, 5, 1, 5]
+  ['BOS', 'c', 'c', 'c', 'b', 'c', 'b', 'b', 'c', 'b'] -> ['BOS', 5, 5, 5, 4, 5, 4, 4, 5, 4]
+  ['BOS', 'c', 'c', 'c', 'a', 'c', 'b', 'a', 'b', 'b'] -> ['BOS', 4, 4, 4, 2, 4, 3, 2, 3, 3]
+Input token ids: {"BOS": 0, "PAD": 1, "a": 2, "b": 3, "c": 4}
+Output classes: {"0": 0, "1": 1, "2": 2, "3": 3, "4": 4, "5": 5, "6": 6, "7": 7, "8": 8, "9": 9}
+Architecture: 2 layers, d_model 17, 4 heads of size 4, MLP width 68 with gelu, bidirectional attention, normalization none, learned positions, context 10. Residual stream: x = W_E[token] + W_pos[position]. Each block adds its attention heads, then its MLP. Logits = x W_U + b_U at every position.
+Components:
+  L0H0_ATTN: attention head 0 of block 0
+  L0_MLP: the MLP output of block 0

@@ -1,0 +1,22 @@
+Task: Apply the sine function to each element of the input sequence.
+Examples (input tokens -> output per position):
+  ['BOS', 2, 4, 2, 6, 4, 8, 6, 1, 3] -> ['BOS', 0.9092974268256817, -0.7568024953079282, 0.9092974268256817, -0.27941549819892586, -0.7568024953079282, 0.9893582466233818, -0.27941549819892586, 0.8414709848078965, 0.1411200080598672]
+  ['BOS', 4, 1, 7, 5, 1, 4, 0, 9, 5] -> ['BOS', -0.7568024953079282, 0.8414709848078965, 0.6569865987187891, -0.9589242746631385, 0.8414709848078965, -0.7568024953079282, 0.0, 0.4121184852417566, -0.9589242746631385]
+  ['BOS', 10, 10, 7, 4, 3, 7, 7, 2, 5] -> ['BOS', -0.5440211108893698, -0.5440211108893698, 0.6569865987187891, -0.7568024953079282, 0.1411200080598672, 0.6569865987187891, 0.6569865987187891, 0.9092974268256817, -0.9589242746631385]
+  ['BOS', 8, 0, 10, 10, 9, 2, 6, 3, 8] -> ['BOS', 0.9893582466233818, 0.0, -0.5440211108893698, -0.5440211108893698, 0.4121184852417566, 0.9092974268256817, -0.27941549819892586, 0.1411200080598672, 0.9893582466233818]
+  ['BOS', 6, 3, 10, 7, 4, 6, 9, 2, 6] -> ['BOS', -0.27941549819892586, 0.1411200080598672, -0.5440211108893698, 0.6569865987187891, -0.7568024953079282, -0.27941549819892586, 0.4121184852417566, 0.9092974268256817, -0.27941549819892586]
+Input token ids: {"0": 0, "1": 1, "2": 2, "3": 3, "4": 4, "5": 5, "6": 6, "7": 7, "8": 8, "9": 9, "10": 10, "BOS": 11, "PAD": 12}
+Output classes: {"0": -0.9589242746631385, "1": -0.7568024953079282, "2": -0.5440211108893698, "3": -0.27941549819892586, "4": 0.0, "5": 0.1411200080598672, "6": 0.4121184852417566, "7": 0.6569865987187891, "8": 0.8414709848078965, "9": 0.9092974268256817, "10": 0.9893582466233818}
+Architecture: 2 layers, d_model 4, 4 heads of size 1, MLP width 16 with gelu, causal attention, normalization none, learned positions, context 10. Residual stream: x = W_E[token] + W_pos[position]. Each block adds its attention heads, then its MLP. Logits = x W_U + b_U at every position.
+Components:
+  L0_MLP: the MLP output of block 0
+
+
+OPENWISH SUBMISSION PROTOCOL
+Your final submission is checked for format only, never correctness. Repair format errors when requested. OpenWiSH executes your tool blocks, even when the provider's own tool list is empty.
+Python is available through text blocks, with at most 60 runs. Reply with one block to execute code, for example:
+```python
+print(NAMES)
+```
+The declared forward probe accepts one ```forward block with a JSON request.
+Write your submission to /work/submission.json or put the submission in your final reply.

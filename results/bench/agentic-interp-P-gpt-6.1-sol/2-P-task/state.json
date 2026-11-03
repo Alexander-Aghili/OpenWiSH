@@ -1,0 +1,33 @@
+{
+  "turn": 12,
+  "runs_used": 11,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 0,
+  "nudges": 0,
+  "handoffs": 0,
+  "since_handoff": 12,
+  "conv_tokens": 32014,
+  "session": "01a1a29a-22db-7fe0-b922-c6a7278affc6",
+  "next_message": "OUTPUT of Python run 11 of at most 60:\n```\nL0H0_ATTN local/mirror/interaction [0.973 0.02  0.006]\nL0_MLP local/mirror/interaction [0.99  0.008 0.002]\nQ [0.992 0.006 0.002]\nV [0.992 0.007 0.001]\nU [0.992 0.006 0.002]\nL1_MLP local/mirror/interaction [0.979 0.015 0.006]\nQ [0.971 0.017 0.012]\nV [0.988 0.009 0.003]\nU [0.967 0.024 0.009]\nL2_MLP local/mirror/interaction [0.854 0.129 0.017]\nQ [0.841 0.144 0.015]\nV [0.926 0.062 0.012]\nU [0.606 0.373 0.021]\nL3H0_ATTN local/mirror/interaction [0.012 0.986 0.002]\n```\n[budget: python runs used 11/60]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 34746,
+    "output": 4129,
+    "cache_read": 221056,
+    "cache_write": 0,
+    "reasoning": 1472
+  },
+  "cost_usd": 0.0,
+  "tool_free_turns": 12,
+  "hook_blocks": 0
+}

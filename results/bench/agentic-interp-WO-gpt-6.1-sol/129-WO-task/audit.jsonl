@@ -1,0 +1,3 @@
+{"call":0,"verdict":"allowed","reason":"Only reads component metadata, tensor shapes, embeddings, and positional weights.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"Only prints attention, MLP, and unembedding parameters.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"Uses permitted weight-only SVDs, norms, matrix products, and linear embedding projections without nonlinearities, forward passes, or fitting.","flags":[]}

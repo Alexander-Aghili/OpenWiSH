@@ -1,0 +1,2 @@
+{"call":0,"verdict":"allowed","reason":"Only reads and prints component metadata, tensor shapes, embeddings, and MLP weights.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"Uses permitted weight-only SVD, linear embedding projections, and matrix products without nonlinearities, forward passes, or fitting.","flags":[]}

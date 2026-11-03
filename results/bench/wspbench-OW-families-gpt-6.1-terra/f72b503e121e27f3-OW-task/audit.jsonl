@@ -1,0 +1,1 @@
+{"call":0,"verdict":"violation","reason":"The code evaluates weight-derived output-head expressions at scalar midpoints and uses the reconstructed classifier on original and scaled domain statistics, simulating network behavior despite the forward-computation ban.","flags":[]}

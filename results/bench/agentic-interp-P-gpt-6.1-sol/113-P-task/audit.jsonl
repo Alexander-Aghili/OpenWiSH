@@ -1,0 +1,6 @@
+{"call":0,"verdict":"allowed","reason":"Only inspects component names, weight shapes, and vocabulary metadata.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"Only reads and summarizes embedding, positional, and unembedding weights.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"Computes singular values of recorded probe activations and weights and inspects recorded attention patterns.","flags":[]}
+{"call":4,"verdict":"allowed","reason":"Performs only weight-based linear algebra and statistical analysis.","flags":[]}
+{"call":6,"verdict":"allowed","reason":"Analyzes recorded probe writes, including their unembedding projections, without running a new forward pass or fitting anything.","flags":[]}
+{"call":8,"verdict":"allowed","reason":"Only lists directories and does not execute or train the network.","flags":[]}

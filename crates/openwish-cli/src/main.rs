@@ -84,6 +84,17 @@ enum Cmd {
         #[arg(long, default_value_t = 8)]
         batch: usize,
     },
+    /// Send stdin as one message through a backend and print the reply as one JSON line (for external harnesses)
+    Ask {
+        #[command(flatten)]
+        editor: EditorArgs,
+        /// a file with the system instructions
+        #[arg(long)]
+        instructions: Option<PathBuf>,
+        /// an empty folder the backend CLI runs in
+        #[arg(long)]
+        workdir: PathBuf,
+    },
     /// Print a run turn by turn, or write it as one HTML page
     Replay {
         run: PathBuf,
@@ -204,6 +215,42 @@ fn editor(
     openwish_llm::make(&cfg)
 }
 
+/// One message through a backend with its own tools off, as in a run. Prints {text, usage, wall_s}.
+fn ask(a: &EditorArgs, instructions: Option<&Path>, workdir: PathBuf, pc: &ProjectConfig) -> Result<()> {
+    use std::io::Read;
+    let flags = EditorDefaults {
+        backend: a.backend.clone(),
+        model: a.model.clone(),
+        effort: a.effort.clone(),
+    };
+    let choice = config::editor_choice(&flags, &EditorDefaults::default(), pc);
+    let instructions = match instructions {
+        Some(f) => std::fs::read_to_string(f).with_context(|| format!("reading {}", f.display()))?,
+        None => String::new(),
+    };
+    std::fs::create_dir_all(&workdir)?;
+    let cfg = openwish_llm::BackendConfig {
+        kind: choice.backend,
+        model: choice.model,
+        effort: choice.effort,
+        instructions,
+        tool_blocks: vec![],
+        final_blocks: vec![],
+        workdir,
+        max_tokens: a.max_tokens,
+        timeout_s: a.timeout,
+    };
+    let mut msg = String::new();
+    std::io::stdin().read_to_string(&mut msg)?;
+    let reply = openwish_llm::make(&cfg)?
+        .send(&msg, true)
+        .map_err(|e| anyhow::anyhow!("{e:?}"))?;
+    let out = serde_json::json!({"text": reply.text, "usage": reply.usage, "context_tokens": reply.context_tokens,
+        "wall_s": reply.wall_s, "tool_free": reply.tool_free});
+    println!("{out}");
+    Ok(())
+}
+
 fn score(run: &Path) -> Result<serde_json::Value> {
     let spec = saved_spec(run)?;
     let Some(sc) = &spec.score else {
@@ -276,6 +323,11 @@ fn main() -> Result<()> {
         Cmd::Run(a) => run_task(a, &pc, threads),
         Cmd::Score { run } => print_json(&score(&run)?),
         Cmd::Audit { run, editor, batch } => audit(&run, editor, batch, &pc),
+        Cmd::Ask {
+            editor,
+            instructions,
+            workdir,
+        } => ask(&editor, instructions.as_deref(), workdir, &pc),
         Cmd::Replay {
             run, html: Some(out), ..
         } => {

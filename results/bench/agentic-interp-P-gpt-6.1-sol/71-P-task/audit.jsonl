@@ -1,0 +1,3 @@
+{"call":0,"verdict":"allowed","reason":"It only inspects component identifiers, weight names, and vocabulary metadata.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"It analyses recorded probe outputs and computes norms and linear products of weights without executing a forward pass or fitting anything.","flags":[]}
+{"call":4,"verdict":"allowed","reason":"It inspects recorded attention patterns and analyses embedding–attention weight products without running the network on input sequences.","flags":[]}

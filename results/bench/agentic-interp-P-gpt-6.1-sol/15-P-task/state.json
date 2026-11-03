@@ -1,0 +1,33 @@
+{
+  "turn": 6,
+  "runs_used": 5,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 0,
+  "nudges": 0,
+  "handoffs": 0,
+  "since_handoff": 6,
+  "conv_tokens": 15668,
+  "session": "01a1a2a1-7d81-7d21-8812-795d016ef74d",
+  "next_message": "OUTPUT of Python run 5 of at most 60:\n```\n0 W_in singular values [3.1878 1.3286 0.3074 0.1899]\ninput directions [[-0.3531 -0.6085 -0.3927 -0.5924]\n [ 0.6567  0.2502  0.0871 -0.7061]\n [-0.315   0.7037 -0.6253 -0.1207]\n [ 0.5873 -0.2682 -0.6688  0.3687]]\n0 W_out singular values [4.0668 1.8    0.4643 0.2647]\ntotal/token/position/interaction norm 34.089798 3.948936700820923 33.85652443221029 0.50601315\n1 W_in singular values [3.677  1.1583 0.4423 0.2541]\ninput directions [[-0.6573 -0.2486 -0.6827 -0.2004]\n [ 0.7165  0.0151 -0.5829 -0.383 ]\n [-0.0272  0.7012 -0.4018  0.5884]\n [ 0.2322 -0.6681 -0.1809  0.6833]]\n1 W_out singular values [4.6053 1.3343 0.3872 0.2513]\ntotal/token/position/interaction norm 315.37268 35.68230056762695 313.294223263768 5.781682\n2 W_in singular values [3.6005 0.8477 0.4692 0.3343]\ninput directions [[-0.5259 -0.6569 -0.4113 -0.3505]\n [ 0.5231  0.2224 -0.4223 -0.7061]\n [-0.1531  0.3639 -0.788   0.4725]\n [ 0.653  -0.6218 -0.1776  0.3942]]\n2 W_out singular values [3.6767 2.279  0.4589 0.3697]\ntotal/token/position/interaction norm 1739.7697 188.9877166748047 1719.0794802929993 189.33504\n```\n[budget: python runs used 5/60]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 16561,
+    "output": 1268,
+    "cache_read": 55552,
+    "cache_write": 0,
+    "reasoning": 448
+  },
+  "cost_usd": 0.0,
+  "tool_free_turns": 6,
+  "hook_blocks": 0
+}

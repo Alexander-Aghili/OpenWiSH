@@ -1,0 +1,33 @@
+{
+  "turn": 6,
+  "runs_used": 5,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 0,
+  "nudges": 0,
+  "handoffs": 0,
+  "since_handoff": 6,
+  "conv_tokens": 64655,
+  "session": "94cd6502-5215-42fb-9db7-afce3d6984d9",
+  "next_message": "OUTPUT of Python run 5 of at most 30:\n```\nequiv to SOP: True terms: 7 ops: 74\nok\n```\n[budget: python runs used 5/30]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 22,
+    "output": 3636,
+    "cache_read": 307184,
+    "cache_write": 63412,
+    "reasoning": 1743
+  },
+  "cost_usd": 3.3431580000000003,
+  "tool_free_turns": 6,
+  "hook_blocks": 0
+}

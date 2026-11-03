@@ -1,0 +1,33 @@
+{
+  "turn": 4,
+  "runs_used": 3,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 0,
+  "nudges": 0,
+  "handoffs": 0,
+  "since_handoff": 4,
+  "conv_tokens": 10717,
+  "session": "01a1a308-1fa7-7d43-99eb-fed14017326c",
+  "next_message": "OUTPUT of Python run 3 of at most 60:\n```\n😊 MLP write at position 9: [-10.8074 -22.2279  -0.3392 -31.5068  14.5786   2.2589]\nProjected logits: [3.5704 3.704  5.838 ]\n😢 MLP write at position 9: [ 266.2278 -205.2946  136.2827  234.0763  160.9444 -121.8114]\nProjected logits: [ 282.8564 -145.6705 -160.7874]\n📘 MLP write at position 9: [ 27.0922  -0.3734  31.2645  -7.3171 -25.8507  19.404 ]\nProjected logits: [10.1666  4.1494 -4.7083]\nMixed sequence MLP writes: [[ 248.3561 -192.7313  127.6515  218.2573  148.118  -113.5629]\n [ -11.071   -20.3857   -1.5811  -28.8549   14.2945    1.3737]\n [ 264.4623 -203.8592  135.3217  232.4457  159.7414 -120.9191]\n [  27.9664   -0.8024   32.4376   -7.6046  -26.1594   19.7052]\n [ -10.9097  -20.9726   -1.1307  -29.5664   14.4685    1.5958]\n [ 284.7094 -219.0575  145.6065  250.3735  172.6973 -130.2149]\n [  28.9396   -1.139    33.556    -7.8051  -26.8377   20.2983]\n [  -9.7832  -21.692     0.4246  -30.4271   13.6344    2.5434]\n [ 285.4205 -219.7271  145.977   251.0296  173.036  -130.5216]\n [  29.108    -1.6502   34.112    -8.8938  -26.8993   20.7537]]\n```\n[budget: python runs used 3/60]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 16763,
+    "output": 627,
+    "cache_read": 25216,
+    "cache_write": 0,
+    "reasoning": 103
+  },
+  "cost_usd": 0.0,
+  "tool_free_turns": 4,
+  "hook_blocks": 0
+}

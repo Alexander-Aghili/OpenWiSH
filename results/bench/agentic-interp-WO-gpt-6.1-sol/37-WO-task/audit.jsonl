@@ -1,0 +1,2 @@
+{"call":0,"verdict":"allowed","reason":"Only inspects component identifiers, weight shapes, and vocabulary metadata.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"Computes explicitly permitted linear weight and embedding projections, norms, and singular values without nonlinearities, forward passes, or fitting.","flags":[]}

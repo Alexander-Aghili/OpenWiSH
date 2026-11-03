@@ -1,0 +1,21 @@
+Task: Copies each token in the sequence to the output unchanged.
+Examples (input tokens -> output per position):
+  ['BOS', 'b', 'b', 'a', 'a', 'b', 'b', 'a', 'a', 'a'] -> ['BOS', 'b', 'b', 'a', 'a', 'b', 'b', 'a', 'a', 'a']
+  ['BOS', 'c', 'c', 'a', 'c', 'a', 'c', 'c', 'a', 'a'] -> ['BOS', 'c', 'c', 'a', 'c', 'a', 'c', 'c', 'a', 'a']
+  ['BOS', 'c', 'a', 'c', 'c', 'a', 'a', 'c', 'b', 'c'] -> ['BOS', 'c', 'a', 'c', 'c', 'a', 'a', 'c', 'b', 'c']
+  ['BOS', 'c', 'c', 'c', 'b', 'c', 'b', 'b', 'c', 'b'] -> ['BOS', 'c', 'c', 'c', 'b', 'c', 'b', 'b', 'c', 'b']
+  ['BOS', 'c', 'c', 'c', 'a', 'c', 'b', 'a', 'b', 'b'] -> ['BOS', 'c', 'c', 'c', 'a', 'c', 'b', 'a', 'b', 'b']
+Input token ids: {"BOS": 0, "PAD": 1, "a": 2, "b": 3, "c": 4}
+Output classes: {"0": "a", "1": "b", "2": "c"}
+Architecture: 2 layers, d_model 36, 4 heads of size 9, MLP width 144 with gelu, causal attention, normalization none, learned positions, context 10. Residual stream: x = W_E[token] + W_pos[position]. Each block adds its attention heads, then its MLP. Logits = x W_U + b_U at every position.
+Components:
+  L0H0_ATTN: attention head 0 of block 0
+
+
+OPENWISH SUBMISSION PROTOCOL
+Your final submission is checked for format only, never correctness. Repair format errors when requested. OpenWiSH executes your tool blocks, even when the provider's own tool list is empty.
+Python is available through text blocks, with at most 30 runs. Reply with one block to execute code, for example:
+```python
+print(NAMES)
+```
+Write your submission to /work/submission.json or put the submission in your final reply.

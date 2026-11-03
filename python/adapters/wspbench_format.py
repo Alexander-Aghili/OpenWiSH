@@ -35,7 +35,7 @@ def _table(v):
         "an output table must be a list of exactly 1024 integers 0 or 1"
 
 
-def check_submission(sub, family, shapes):
+def check_submission(sub, family, shapes, forecast_ids=()):
     """Format check only (keys, grammar, sizes). It never grades. Returns "ok" or the first problem."""
     if not isinstance(sub, dict):
         return "the submission must be one JSON object"
@@ -51,6 +51,10 @@ def check_submission(sub, family, shapes):
         if set(sub) == {"before_outputs", "after_outputs"}:
             return _table(sub["before_outputs"]) or _table(sub["after_outputs"]) or "ok"
         return f"keys {sorted(sub)}: use exactly {{before_program, after_program}} or {{before_outputs, after_outputs}}"
+    if family == "causal_forecast":
+        return _effects(sub, forecast_ids)
+    if family not in ("compositional_synthesis", "coupled_repair"):
+        return f"unknown task family {family!r}"
     if set(sub) != {"patch"}:
         return f"keys {sorted(sub)}: use exactly {{patch}}"
     if not isinstance(sub["patch"], list) or len(sub["patch"]) > 8192:
@@ -60,6 +64,23 @@ def check_submission(sub, family, shapes):
         if error:
             return error
     return "ok"
+
+
+def forecast_ids(task):
+    """The public forecast intervention IDs of a task (empty for other families)."""
+    return [f["id"] for f in task.get("public", {}).get("forecast_interventions", [])]
+
+
+def _effects(sub, forecast_ids):
+    if set(sub) != {"effects"} or not isinstance(sub["effects"], dict):
+        return f"keys {sorted(sub)}: use exactly {{effects}}"
+    if set(sub["effects"]) != set(forecast_ids):
+        return f"effects must name exactly the forecast IDs {sorted(forecast_ids)}"
+    for fid, pair in sub["effects"].items():
+        if not (isinstance(pair, list) and len(pair) == 2 and all(_number(v) and 0 <= v <= 1 for v in pair)):
+            return f"effects[{fid!r}] must be two fractions in [0, 1], one per output head"
+    return "ok"
+
 
 def _number(value):
     return type(value) in (int, float) and math.isfinite(value) and abs(value) <= 1e6

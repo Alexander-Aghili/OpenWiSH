@@ -1,0 +1,33 @@
+{
+  "turn": 4,
+  "runs_used": 3,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 0,
+  "nudges": 0,
+  "handoffs": 0,
+  "since_handoff": 4,
+  "conv_tokens": 16138,
+  "session": "01a1a274-fc59-7c62-82ad-686967f2c07a",
+  "next_message": "OUTPUT of Python run 3 of at most 30:\n```\n\nQK TOKEN STRUCTURE L 0\n0 {'norm': 18.596, 'diag': 1.197, 'offstd': 0.661} diag range 0.21758305536355543 2.803578522655918\nOV identity {'norm': 2.042, 'diag': 0.092, 'offstd': 0.075}\n1 {'norm': 7.169, 'diag': 0.471, 'offstd': 0.253} diag range 0.11347639269541561 1.4367580576828811\nOV identity {'norm': 1.358, 'diag': 0.061, 'offstd': 0.05}\n2 {'norm': 7.076, 'diag': 0.433, 'offstd': 0.253} diag range 0.013474809333370674 1.0772266214977628\nOV identity {'norm': 1.387, 'diag': 0.06, 'offstd': 0.051}\n3 {'norm': 14.285, 'diag': 0.684, 'offstd': 0.517} diag range -0.06264405292658345 3.0324277918323137\nOV identity {'norm': 1.415, 'diag': 0.059, 'offstd': 0.052}\n\nQK TOKEN STRUCTURE L 3\n0 {'norm': 0.697, 'diag': -0.028, 'offstd': 0.026} diag range -0.0967507170652726 0.013234352780872647\nOV identity {'norm': 15.041, 'diag': 1.399, 'offstd': 0.505}\n1 {'norm': 0.849, 'diag': -0.042, 'offstd': 0.031} diag range -0.11786324702104205 0.01186360915234542\nOV identity {'norm': 2.516, 'diag': 0.197, 'offstd': 0.086}\n2 {'norm': 0.733, 'diag': -0.038, 'offstd': 0.027} diag range -0.10266161947525491 0.008547397948866001\nOV identity {'norm': 2.531, 'diag': 0.225, 'offstd': 0.085}\n3 {'norm': 0.688, 'diag': -0.019, 'offstd': 0.026} diag range -0.06611074200449614 0.024296459340321742\nOV identity {'norm': 3.031, 'diag': 0.228, 'offstd': 0.106}\n\nMLP 0\nraw input token directions: {'norm': 9.313, 'diag': -0.08, 'offstd': 0.353}\nhead 0 0 read norm 10.74 linear read-write {'norm': 4.529, 'diag': 0.005, 'offstd': 0.173}\nhead 0 1 read norm 5.99 linear read-write {'norm': 2.265, 'diag': -0.023, 'offstd': 0.085}\nhead 0 2 read norm 5.23 linear read-write {'norm': 2.079, 'diag': -0.005, 'offstd': 0.079}\nhead 0 3 read norm 6.66 linear read-write {'norm': 2.84, 'diag': -0.073, 'offstd': 0.107}\ninput sv [3.62 3.49 3.34 3.31 3.25 3.15 3.09 3.   2.79 2.58 2.43 2.35]\noutput sv [2.82 2.66 2.51 1.99 1.9  1.86 1.76 1.69 1.6  1.56 1.53 1.48]\n\nMLP 1\nraw input token directions: {'norm': 7.308, 'diag': -0.157, 'offstd': 0.273}\nhead 0 0 read norm 9.68 linear read-write {'norm': 2.891, 'diag': -0.069, 'offstd': 0.108}\nhead 0 1 read norm 5.43 linear read-write {'norm': 1.969, 'diag': -0.016, 'offstd': 0.074}\nhead 0 2 read norm 4.59 linear read-write {'norm': 1.87, 'diag': -0.03, 'offstd': 0.07}\nhead 0 3 read norm 5.85 linear read-write {'norm': 2.258, 'diag': -0.041, 'offstd': 0.085}\nhead 1 0 read norm 3.8 linear read-write {'norm': 1.513, 'diag': -0.031, 'offstd': 0.057}\nhead 1 1 read norm 5.66 linear read-write {'norm': 2.101, 'diag': -0.085, 'offstd': 0.077}\nhead 1 2 read norm 5.55 linear read-write {'norm': 2.011, 'diag': -0.064, 'offstd': 0.075}\nhead 1 3 read norm 7.77 linear read-write {'norm': 3.129, 'diag': -0.146, 'offstd': 0.114}\ninput sv [3.13 2.93 2.86 2.75 2.57 2.45 2.34 2.26 2.23 2.14 1.95 1.92]\noutput sv [2.12 2.01 1.96 1.86 1.77 1.76 1.68 1.67 1.62 1.6  1.58 1.53]\n\nMLP 2\nraw input token directions: {'norm': 4.989, 'diag': -0.011, 'offstd': 0.188}\nhead 0 0 read norm 8.05 linear read-write {'norm': 2.688, 'diag': -0.0, 'offstd': 0.102}\nhead 0 1 read norm 4.51 linear read-write {'norm': 1.665, 'diag': 0.02, 'offstd': 0.063}\nhead 0 2 read norm 3.97 linear read-write {'norm': 1.417, 'diag': -0.006, 'offstd': 0.053}\nhead 0 3 read norm 4.74 linear read-write {'norm': 1.697, 'diag': 0.007, 'offstd': 0.064}\nhead 1 0 read norm 3.41 linear read-write {'norm': 1.358, 'diag': -0.005, 'offstd': 0.051}\nhead 1 1 read norm 5.36 linear read-write {'norm': 2.18, 'diag': -0.074, 'offstd': 0.081}\nhead 1 2 read norm 4.93 linear read-write {'norm': 1.991, 'diag': -0.05, 'offstd': 0.075}\nhead 1 3 read norm 7.26 linear read-write {'norm': 2.689, 'diag': -0.09, 'offstd': 0.1}\nhead 2 0 read norm 3.82 linear read-write {'norm': 1.781, 'diag': -0.039, 'offstd': 0.066}\nhead 2 1 read norm 4.4 linear read-write {'norm': 2.154, 'diag': -0.094, 'offstd': 0.08}\nhead 2 2 read norm 3.92 linear read-write {'norm': 1.974, 'diag': -0.059, 'offstd': 0.073}\nhead 2 3 read norm 3.85 linear read-write {'norm': 1.766, 'diag': -0.059, 'offstd': 0.065}\ninput sv [2.44 2.33 2.2  2.11 1.99 1.91 1.86 1.83 1.76 1.69 1.67 1.59]\noutput sv [1.81 1.75 1.72 1.65 1.63 1.61 1.59 1.57 1.55 1.51 1.46 1.43]\nP cosine\n[[ 1.    0.3  -0.37 -0.04 -0.43  0.47 -0.41 -0.14 -0.45  0.15]\n [ 0.3   1.    0.12  0.03 -0.73 -0.01 -0.46 -0.62 -0.1   0.43]\n [-0.37  0.12  1.    0.04 -0.05 -0.67  0.27 -0.53  0.38 -0.12]\n [-0.04  0.03  0.04  1.   -0.19  0.2   0.34 -0.24 -0.65 -0.63]\n [-0.43 -0.73 -0.05 -0.19  1.   -0.29  0.54  0.32  0.3  -0.42]\n [ 0.47 -0.01 -0.67  0.2  -0.29  1.   -0.34  0.22 -0.69 -0.02]\n [-0.41 -0.46  0.27  0.34  0.54 -0.34  1.   -0.16 -0.04 -0.74]\n [-0.14 -0.62 -0.53 -0.24  0.32  0.22 -0.16  1.    0.09  0.05]\n [-0.45 -0.1   0.38 -0.65  0.3  -0.69 -0.04  0.09  1.    0.31]\n [ 0.15  0.43 -0.12 -0.63 -0.42 -0.02 -0.74  0.05  0.31  1.  ]]\n```\n[budget: python runs used 3/30]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 12639,
+    "output": 1660,
+    "cache_read": 29952,
+    "cache_write": 0,
+    "reasoning": 702
+  },
+  "cost_usd": 0.0,
+  "tool_free_turns": 4,
+  "hook_blocks": 0
+}

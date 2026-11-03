@@ -1,0 +1,33 @@
+{
+  "turn": 7,
+  "runs_used": 6,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 0,
+  "nudges": 0,
+  "handoffs": 0,
+  "since_handoff": 7,
+  "conv_tokens": 29305,
+  "session": "01a1a279-d813-7433-b0e2-1f53d0cec3a8",
+  "next_message": "OUTPUT of Python run 6 of at most 30:\n```\nMLP 0\nlinear in-out on L0 sum write basis [[-0.756  0.086  0.088  0.101]\n [ 0.026 -0.758  0.079 -0.175]\n [-0.354  0.146  1.623  0.355]\n [ 0.174  0.846  0.438  1.176]]\nlinear in-out on token embedding basis [[ 3.56  -1.395 -0.595]\n [-4.289  6.845 -2.588]\n [-0.495 -0.834  2.146]]\nMLP 1\nlinear in-out on L0 sum write basis [[-0.608  0.048  0.186  0.05 ]\n [ 0.017 -0.492  0.162 -0.039]\n [ 0.076 -0.225  0.314 -0.012]\n [-0.228  0.209  0.311 -0.291]]\nlinear in-out on token embedding basis [[-0.077 -0.744  0.683]\n [ 0.06  -0.474  0.405]\n [ 0.15   0.794 -0.953]]\nMLP 2\nlinear in-out on L0 sum write basis [[-0.216 -0.189  0.002  0.165]\n [-0.169 -0.876 -0.064 -0.422]\n [ 0.187 -0.164 -0.303 -0.206]\n [-0.175  0.137  0.01  -0.457]]\nlinear in-out on token embedding basis [[-1.376  0.589  1.421]\n [ 0.72  -1.718  0.693]\n [ 0.095  1.512 -2.16 ]]\nHEAD 1 QK L0 sum basis [[ 0.006  0.006  0.015  0.006]\n [-0.005  0.014  0.02  -0.01 ]\n [ 0.002 -0.001  0.066  0.018]\n [ 0.012 -0.009 -0.026  0.018]]\nsum OV singulars [46.124 41.643  4.495  1.98   1.938]\nMLP 0 output QK [[ 0.017 -0.018 -0.01 ]\n [ 0.013  0.02  -0.007]\n [-0.001 -0.002  0.016]]\nHEAD 3 QK L0 sum basis [[ 0.006 -0.003 -0.001 -0.007]\n [-0.003  0.001 -0.008 -0.008]\n [ 0.    -0.013 -0.     0.008]\n [ 0.003 -0.    -0.007 -0.002]]\nsum OV singulars [46.124 41.643  4.495  1.98   1.938]\nMLP 0 output QK [[ 0.009 -0.007  0.009]\n [-0.001  0.006 -0.002]\n [ 0.    -0.012 -0.   ]]\nMLP 1 output QK [[ 0.004  0.002  0.001]\n [-0.    -0.002  0.003]\n [-0.007  0.007  0.   ]]\nMLP 2 output QK [[ 0.011  0.003 -0.013]\n [ 0.005  0.022  0.012]\n [ 0.002  0.002  0.016]]\n```\n[budget: python runs used 6/30]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 24549,
+    "output": 3332,
+    "cache_read": 103936,
+    "cache_write": 0,
+    "reasoning": 1553
+  },
+  "cost_usd": 0.0,
+  "tool_free_turns": 7,
+  "hook_blocks": 0
+}

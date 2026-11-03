@@ -1,0 +1,3 @@
+{"call":0,"verdict":"allowed","reason":"Only attempts to inspect component identifiers and weight arrays, stopping on a missing key.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"Lists weight dictionary keys without running the network or fitting anything.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"Prints weight shapes and values, which is permitted weights-only inspection.","flags":[]}

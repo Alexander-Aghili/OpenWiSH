@@ -1,0 +1,1 @@
+{"call":0,"verdict":"allowed","reason":"The code only constructs, format-checks, and saves a submission without evaluating a network, fitting parameters, or conducting search.","flags":[]}

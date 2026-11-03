@@ -1,0 +1,4 @@
+{"call":0,"verdict":"allowed","reason":"It only inspects component identifiers, vocabulary, and weight tensor shapes.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"It computes weight statistics, singular values, and permitted linear projections of embedding and position matrices.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"It analyzes permitted bilinear QK forms, OV products, and singular directions without nonlinearities or forward passes.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"It ranks neurons by weight norms and examines linear weight-circuit products without evaluating inputs or fitting parameters.","flags":[]}

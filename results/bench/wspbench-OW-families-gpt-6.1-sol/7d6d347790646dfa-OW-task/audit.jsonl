@@ -1,0 +1,2 @@
+{"call":0,"verdict":"allowed","reason":"It decodes knot locations and coefficient jumps using algebra on weights without evaluating network activations.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"It analytically counts public-program outcomes using symbolic generating functions and decoded modular expressions, without running network layers or fitting parameters.","flags":[]}

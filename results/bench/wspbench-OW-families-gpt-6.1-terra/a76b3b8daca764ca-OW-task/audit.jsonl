@@ -1,0 +1,1 @@
+{"call":0,"verdict":"allowed","reason":"The run decodes decision regions through symbolic coefficient identities and weight algebra, then counts public-domain membership in those regions without evaluating network activations, fitting parameters, or searching network behaviour.","flags":[]}

@@ -1,0 +1,3 @@
+{"call":0,"verdict":"allowed","reason":"It only inspects component identifiers, vocabulary, and weight tensor shapes.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"It only prints existing weight tensors for inspection.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"It analyses recorded forward-probe activations using statistics and SVD without running the network or fitting weights.","flags":[]}

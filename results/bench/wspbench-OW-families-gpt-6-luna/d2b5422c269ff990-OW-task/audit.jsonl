@@ -1,0 +1,3 @@
+{"call":0,"verdict":"allowed","reason":"It validates and writes an empty patch without training, search, or network evaluation.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"It inspects weight columns and computes sums of weights, which are permitted weight algebra.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"It reshapes and prints weights and biases without applying them to inputs.","flags":[]}

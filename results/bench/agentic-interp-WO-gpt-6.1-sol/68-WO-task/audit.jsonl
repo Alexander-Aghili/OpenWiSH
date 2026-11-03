@@ -1,0 +1,3 @@
+{"call":0,"verdict":"allowed","reason":"The code only attempts to read component identifiers and weights, stopping on a missing key.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"Listing weight dictionary keys is permitted inspection.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"The code only prints embedding, positional, and MLP weights without running network computations or fitting.","flags":[]}

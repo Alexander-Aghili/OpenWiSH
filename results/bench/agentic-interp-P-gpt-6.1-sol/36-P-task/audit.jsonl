@@ -1,0 +1,2 @@
+{"call":0,"verdict":"allowed","reason":"The code only reads and prints weights, tensor shapes, and metadata.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"The code analyses recorded probe activations and projects component writes through the unembedding weights, without running the network or fitting anything.","flags":[]}

@@ -1,0 +1,4 @@
+{"call":0,"verdict":"allowed","reason":"It only inspects component identifiers, vocabulary mappings, and weight shapes.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"It computes statistics of recorded probe activations and weights and inspects recorded attention patterns.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"It analyses weight spectra and norms and projects recorded component writes through the unembedding for analysis.","flags":[]}
+{"call":5,"verdict":"allowed","reason":"It measures linear projections of embeddings, positional weights, and recorded activations without executing an attention or MLP forward pass or fitting anything.","flags":[]}

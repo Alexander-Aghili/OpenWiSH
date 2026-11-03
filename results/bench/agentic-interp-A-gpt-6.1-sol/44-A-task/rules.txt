@@ -1,0 +1,13 @@
+Task: Replaces each element with the number of elements greater than it in the sequence
+Examples (input tokens -> output per position):
+  ['BOS', 2, 4, 2, 6, 4, 8, 6, 1, 3] -> ['BOS', 6, 3, 6, 1, 3, 0, 1, 8, 5]
+  ['BOS', 4, 1, 7, 5, 1, 4, 0, 9, 5] -> ['BOS', 4, 6, 1, 2, 6, 4, 8, 0, 2]
+  ['BOS', 10, 10, 7, 4, 3, 7, 7, 2, 5] -> ['BOS', 0, 0, 2, 6, 7, 2, 2, 8, 5]
+  ['BOS', 8, 0, 10, 10, 9, 2, 6, 3, 8] -> ['BOS', 3, 8, 0, 0, 2, 7, 5, 6, 3]
+  ['BOS', 6, 3, 10, 7, 4, 6, 9, 2, 6] -> ['BOS', 3, 7, 0, 2, 6, 3, 1, 8, 3]
+Input token ids: {"0": 0, "1": 1, "2": 2, "3": 3, "4": 4, "5": 5, "6": 6, "7": 7, "8": 8, "9": 9, "10": 10, "BOS": 11, "PAD": 12}
+Output classes: {"0": 0, "1": 1, "2": 2, "3": 3, "4": 4, "5": 5, "6": 6, "7": 7, "8": 8, "9": 9}
+Architecture: 2 layers, d_model 24, 4 heads of size 6, MLP width 96 with gelu, bidirectional attention, normalization none, learned positions, context 10. Residual stream: x = W_E[token] + W_pos[position]. Each block adds its attention heads, then its MLP. Logits = x W_U + b_U at every position.
+Components:
+  L0H0_ATTN: attention head 0 of block 0
+  L0_MLP: the MLP output of block 0

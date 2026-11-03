@@ -1,0 +1,2 @@
+{"call":0,"verdict":"allowed","reason":"Only inspects component names, tensor shapes, and vocabulary metadata.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"Computes permitted linear projections of token and position embeddings onto MLP weights and analyzes their statistics without applying nonlinearities or running the network.","flags":[]}

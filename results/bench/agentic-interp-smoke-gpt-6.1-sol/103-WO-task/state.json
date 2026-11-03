@@ -1,0 +1,33 @@
+{
+  "turn": 6,
+  "runs_used": 5,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 0,
+  "nudges": 0,
+  "handoffs": 0,
+  "since_handoff": 6,
+  "conv_tokens": 24487,
+  "session": "01a1a26c-2874-7833-a103-88f0592b2425",
+  "next_message": "OUTPUT of Python run 5 of at most 30:\n```\nMLP 0\ntoken linear-map self correlation 0.488 out norm 13.945 Q K V output norms [4.608, 4.594, 18.819]\nposition linear-map self correlation 0.758 out norm 21.565 Q K V output norms [19.576, 19.797, 12.752]\n50 token 0.91 position 0.66 output 0.92\n39 token 1.24 position 1.09 output 0.9\n27 token 0.78 position 1.64 output 0.89\n17 token 1.34 position 0.94 output 0.89\n92 token 1.02 position 1.41 output 0.86\n65 token 0.3 position 1.43 output 0.85\n4 token 1.04 position 1.03 output 0.85\n29 token 0.41 position 1.33 output 0.84\n82 token 1.46 position 1.16 output 0.84\n15 token 0.94 position 1.23 output 0.83\nMLP 1\ntoken linear-map self correlation 0.448 out norm 13.554 Q K V output norms [5.055, 6.018, 17.925]\nposition linear-map self correlation 0.543 out norm 11.993 Q K V output norms [10.564, 11.125, 5.367]\n46 token 0.83 position 1.08 output 0.97\n30 token 1.07 position 0.94 output 0.91\n58 token 1.39 position 0.62 output 0.86\n77 token 1.0 position 0.63 output 0.84\n48 token 0.93 position 0.72 output 0.84\n64 token 0.87 position 0.89 output 0.8\n16 token 0.99 position 0.54 output 0.8\n23 token 1.27 position 0.7 output 0.79\n63 token 1.15 position 0.9 output 0.79\n17 token 1.09 position 1.28 output 0.77\nL0H0 token QK self margins\n[ 2.51 -0.65  9.29  6.68 10.54 10.98 -0.84 -0.48  9.01 -0.28  4.38]\n```\n[budget: python runs used 5/30]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 28765,
+    "output": 2013,
+    "cache_read": 62976,
+    "cache_write": 0,
+    "reasoning": 448
+  },
+  "cost_usd": 0.0,
+  "tool_free_turns": 6,
+  "hook_blocks": 0
+}

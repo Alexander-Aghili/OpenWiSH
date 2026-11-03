@@ -1,0 +1,1 @@
+The listed weights do not distinguish an identity checkpoint from a sign-inverted one, so I can’t justify changing the patch based on them. The current candidate remains identity.

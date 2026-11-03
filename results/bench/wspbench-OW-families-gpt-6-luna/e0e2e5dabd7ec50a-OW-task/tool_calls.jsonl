@@ -1,0 +1,2 @@
+{"code":"import json\n\nsub = {\"patch\": []}\ncheck_submission(sub)\nwith open(\"/work/submission.json\", \"w\") as f:\n    json.dump(sub, f)\n","error":false,"flags":[],"kind":"python","output":"","restarted":false,"run":1,"seconds":0.000438392,"turn":1}
+{"kind":"validation","result":{"ok":true},"turn":2}

@@ -1,0 +1,49 @@
+{
+  "spec": {
+    "id": "exp1-dfc6cb65",
+    "description": "Experiment 1: which game was this network trained on? All 17,253 weights in the prompt; no tools.",
+    "prompt": "../../assets/exp1/prompts/dfc6cb65.txt",
+    "appendix": null,
+    "instructions": "Answer the user's request.",
+    "network": null,
+    "mounts": [],
+    "hidden": [
+      "../../assets/exp1/answer_key.json"
+    ],
+    "python": null,
+    "forward": {},
+    "edits": {
+      "language": false,
+      "policy": {
+        "allowed": null,
+        "forbidden": [],
+        "forbid_whole_tensor_scale": false,
+        "max_frac_changed": null
+      }
+    },
+    "finish": {
+      "require_all_passes": false,
+      "max_turns": 1,
+      "max_nudges": 5
+    },
+    "handoff": {
+      "max_conversation_tokens": 700000,
+      "max_turns_per_conversation": 0
+    },
+    "score": {
+      "command": [
+        "python3",
+        "-I",
+        "{task}/score.py",
+        "{root}/assets/exp1/answer_key.json",
+        "dfc6cb65"
+      ]
+    },
+    "editor": {
+      "backend": null,
+      "model": null,
+      "effort": "high"
+    }
+  },
+  "dir": "/home/alexsky2/Projects/WeightSpaceProgramming/tasks/exp1"
+}

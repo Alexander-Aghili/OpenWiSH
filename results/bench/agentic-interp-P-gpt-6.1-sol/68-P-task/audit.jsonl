@@ -1,0 +1,2 @@
+{"call":0,"verdict":"allowed","reason":"The code only reads and prints component metadata and network weights.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"The code loads and prints recorded component activations returned by the permitted forward probe.","flags":[]}

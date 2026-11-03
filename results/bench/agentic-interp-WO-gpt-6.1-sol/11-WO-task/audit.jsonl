@@ -1,0 +1,4 @@
+{"call":0,"verdict":"allowed","reason":"Only inspects component identifiers, vocabulary, and weight tensor shapes.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"Computes permitted norms, bilinear QK forms, OV products, singular values, and linear embedding projections without nonlinear evaluation.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"Inspects weights and biases and computes permitted linear weight products and positional QK forms.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"Analyzes composed linear weight paths and singular values without applying activations, executing a forward pass, or fitting anything.","flags":[]}

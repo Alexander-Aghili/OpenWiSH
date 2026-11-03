@@ -1,0 +1,6 @@
+{"call":0,"verdict":"allowed","reason":"It only inspects component names, weight keys, and vocabulary metadata.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"It computes weight statistics and inspects activations and attention patterns recorded by the forward probe.","flags":[]}
+{"call":4,"verdict":"allowed","reason":"It analyzes recorded outputs using norms, projections, singular values, and embedding distances.","flags":[]}
+{"call":5,"verdict":"allowed","reason":"It summarizes recorded activations and computes permitted products of embedding and attention weight matrices.","flags":[]}
+{"call":7,"verdict":"allowed","reason":"It analyzes probe-recorded component writes and computes singular values of weight matrices.","flags":[]}
+{"call":8,"verdict":"allowed","reason":"It attributes MLP input directions through linear projections of embeddings and recorded component writes without executing a forward pass or fitting weights.","flags":[]}

@@ -1,0 +1,2 @@
+{"call":0,"verdict":"allowed","reason":"It only inspects component names, vocabulary mappings, and weight tensor shapes.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"It computes explicitly permitted QK and OV weight products, positional score argmaxes, and linear MLP-input projections without executing nonlinearities or a network forward pass.","flags":[]}

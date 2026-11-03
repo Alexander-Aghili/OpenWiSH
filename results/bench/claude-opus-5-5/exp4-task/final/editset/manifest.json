@@ -1,0 +1,125 @@
+{
+  "tensors": {
+    "actor0.W": {
+      "shape": [
+        128,
+        128
+      ],
+      "changed": 127,
+      "sha_base": "60939c7212932986201701a961a40cac6824ab102dc246130639d04fd5a6a716",
+      "sha_edited": "984028efdb58a7f0b1167d663301f88a3606ed502400b7626fdde02582d9b898"
+    },
+    "actor0.b": {
+      "shape": [
+        128
+      ],
+      "changed": 1,
+      "sha_base": "6ed6d2942313174acbf89c8127aa278121e83db6c1bec4c9aac799e9cbedc69a",
+      "sha_edited": "13fc8144cd995b1f65c124d19e6f6235a680f01b2e6537474e0a3bb164571300"
+    },
+    "actor1.W": {
+      "shape": [
+        128,
+        128
+      ],
+      "changed": 128,
+      "sha_base": "ac8db3ebb073a293d9d9aa61a02a0c99c891ba2e3e9b76ce82979087ea60225b",
+      "sha_edited": "2506d820ced90a8f69936fc47202c0968e0913b6d10f69f35705f0cec9a7d193"
+    },
+    "actor1.b": {
+      "shape": [
+        128
+      ],
+      "changed": 1,
+      "sha_base": "dc7a5e3a6e1821ab7dd42e2716d2b32fc9f9bf6d19f5cd67a5980bf39f77e007",
+      "sha_edited": "e86aaaf58044ee8ddf4bbdf104e4d74110fedd111a252980cbee6bbc144bf105"
+    },
+    "actor2.W": {
+      "shape": [
+        128,
+        128
+      ],
+      "changed": 128,
+      "sha_base": "94a4a0b7a487476bdfd7842d14f550903ce7d8e08a3087852fbf224815d5b489",
+      "sha_edited": "af3af97acd17838f63ab5dfa070036420c58410afbb50d17023aeb7ba55cdb9e"
+    },
+    "actor2.b": {
+      "shape": [
+        128
+      ],
+      "changed": 1,
+      "sha_base": "0a8018050ec04de351d10ec6faf097cd000f32d06a47c1313260561e11f08737",
+      "sha_edited": "ac57635bc27b40819fd7ef63665ac4d4469802ed66978962d852708969901b9a"
+    },
+    "actor3.W": {
+      "shape": [
+        128,
+        128
+      ],
+      "changed": 127,
+      "sha_base": "ca4ea8a6587396d26f233468999c981c2492dc91879eecc11094780989f65792",
+      "sha_edited": "ba821b970e4b81dcb9be77b83e34826a282db147482cd3fcaf0153d00e6b9613"
+    },
+    "actor3.b": {
+      "shape": [
+        128
+      ],
+      "changed": 1,
+      "sha_base": "901019b3bda5d049e39e8ea229aa92bb43a243c80453b1a745382d1bd3782ed9",
+      "sha_edited": "c7e3d6953617bfb081bd2d68af4d079dd827ada807e0b58726f2b8fd8dcf1c21"
+    },
+    "actor4.W": {
+      "shape": [
+        128,
+        128
+      ],
+      "changed": 128,
+      "sha_base": "db9a444a231b4eb0250fe65135acc9d27d2a7adb7d077f53cf2268de005f91e8",
+      "sha_edited": "c1331e0732669b74996f467a72a24705270c3a610cbeddc5b4152a0e5fbbe11d"
+    },
+    "actor4.b": {
+      "shape": [
+        128
+      ],
+      "changed": 1,
+      "sha_base": "302e2c6f264137a268cf98ec1ed991ec230401092b332f11e316c255970d0ca8",
+      "sha_edited": "d06ef313c5c8cd5944c5492973dd09604d805790fae3661590bddfb747e5b656"
+    },
+    "actor_head.W": {
+      "shape": [
+        128,
+        16
+      ],
+      "changed": 383,
+      "sha_base": "2c128f17c790ee3df950d5feb7d201267b8a9340595826ec6fe4c8ac2a4b27e1",
+      "sha_edited": "2d5b9160cf09991a7fb4270d741700191038c364fc8e24054fd291a626361e43"
+    },
+    "actor_head.b": {
+      "shape": [
+        16
+      ],
+      "changed": 3,
+      "sha_base": "c0395dc4c16b935eb32bafe5e4f0ad34e80d566c4634fa2bfed1b91d65875875",
+      "sha_edited": "e2432f12ea6c944c492ec894e01b09adde075eabc984e3a8d54c45cfed806fca"
+    },
+    "embed.W": {
+      "shape": [
+        679,
+        128
+      ],
+      "changed": 1889,
+      "sha_base": "c945e16643502a4ecc304faa12cbf1b166f8d71a5f4a148f99261924f9cdf4d8",
+      "sha_edited": "762056a68cde00f4707fd1224f0886b37bb2470c23d5923a17c62adbee22d8fb"
+    },
+    "embed.b": {
+      "shape": [
+        128
+      ],
+      "changed": 3,
+      "sha_base": "7c25a82eaa2abbd9e9121a6e48fcaaf94d1c61012f0732cd4097fdabf7c5aac1",
+      "sha_edited": "1a1252927d929c0f9a024806782b5eb549f414184f503a74b00a98bc60765972"
+    }
+  },
+  "changed_total": 2921,
+  "numel_total": 171664
+}

@@ -1,0 +1,5 @@
+{"call":0,"verdict":"allowed","reason":"It only inspects component identifiers, weight names, and vocabulary metadata.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"It analyses recorded probe outputs using SVD and weight projections without running the network.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"It inspects recorded attention patterns and computes permitted linear projections of activations and weights.","flags":[]}
+{"call":5,"verdict":"allowed","reason":"It compares recorded component writes and their output projections without fitting or executing the network.","flags":[]}
+{"call":6,"verdict":"violation","reason":"It reconstructs residual inputs from token embeddings, positions, and recorded writes, then computes attention value activations outside the permitted forward probe.","flags":[]}

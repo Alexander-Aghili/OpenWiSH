@@ -1,0 +1,2 @@
+{"call":0,"verdict":"allowed","reason":"Only reads and prints component identifiers, tensor shapes, embeddings, positional weights, and MLP parameters.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"Computes explicitly permitted embedding and position projections onto weight matrices and singular values, without nonlinearities, forward passes, or fitting.","flags":[]}

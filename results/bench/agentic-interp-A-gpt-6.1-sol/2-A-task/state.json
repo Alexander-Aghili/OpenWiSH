@@ -1,0 +1,33 @@
+{
+  "turn": 1,
+  "runs_used": 0,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 0,
+  "nudges": 0,
+  "handoffs": 0,
+  "since_handoff": 1,
+  "conv_tokens": 6072,
+  "session": "01a1a26d-3bc6-7633-ab2f-b2ecf8ec63b0",
+  "next_message": "Task: Reverse the input sequence.\nExamples (input tokens -> output per position):\n  ['BOS', 'l', 'z', 'v', 'l', 'y', 'q', 'j', 'p', 'o'] -> ['BOS', 'o', 'p', 'j', 'q', 'y', 'l', 'v', 'z', 'l']\n  ['BOS', 'w', 'k', 'k', 'x', 'u', 'd', 'h', 'x', 'c'] -> ['BOS', 'c', 'x', 'h', 'd', 'u', 'x', 'k', 'k', 'w']\n  ['BOS', 'v', 'u', 'b', 'x', 'l', 'f', 'b', 'u', 'a'] -> ['BOS', 'a', 'u', 'b', 'f', 'l', 'x', 'b', 'u', 'v']\n  ['BOS', 'g', 't', 'o', 'k', 'h', 'u', 'g', 'z', 's'] -> ['BOS', 's', 'z', 'g', 'u', 'h', 'k', 'o', 't', 'g']\n  ['BOS', 'o', 's', 'l', 'w', 't', 'y', 'c', 'e', 's'] -> ['BOS', 's', 'e', 'c', 'y', 't', 'w', 'l', 's', 'o']\nInput token ids: {\"BOS\": 0, \"PAD\": 1, \"a\": 2, \"b\": 3, \"c\": 4, \"d\": 5, \"e\": 6, \"f\": 7, \"g\": 8, \"h\": 9, \"i\": 10, \"j\": 11, \"k\": 12, \"l\": 13, \"m\": 14, \"n\": 15, \"o\": 16, \"p\": 17, \"q\": 18, \"r\": 19, \"s\": 20, \"t\": 21, \"u\": 22, \"v\": 23, \"w\": 24, \"x\": 25, \"y\": 26, \"z\": 27}\nOutput classes: {\"0\": \"a\", \"1\": \"b\", \"2\": \"c\", \"3\": \"d\", \"4\": \"e\", \"5\": \"f\", \"6\": \"g\", \"7\": \"h\", \"8\": \"i\", \"9\": \"j\", \"10\": \"k\", \"11\": \"l\", \"12\": \"m\", \"13\": \"n\", \"14\": \"o\", \"15\": \"p\", \"16\": \"q\", \"17\": \"r\", \"18\": \"s\", \"19\": \"t\", \"20\": \"u\", \"21\": \"v\", \"22\": \"w\", \"23\": \"x\", \"24\": \"y\", \"25\": \"z\"}\nArchitecture: 4 layers, d_model 56, 4 heads of size 14, MLP width 224 with gelu, bidirectional attention, normalization none, learned positions, context 10. Residual stream: x = W_E[token] + W_pos[position]. Each block adds its attention heads, then its MLP. Logits = x W_U + b_U at every position.\nComponents:\n  L0H0_ATTN: attention head 0 of block 0\n  L0_MLP: the MLP output of block 0\n  L1_MLP: the MLP output of block 1\n  L2_MLP: the MLP output of block 2\n  L3H0_ATTN: attention head 0 of block 3\n",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": null,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 3460,
+    "output": 180,
+    "cache_read": 2432,
+    "cache_write": 0,
+    "reasoning": 125
+  },
+  "cost_usd": 0.0,
+  "tool_free_turns": 1,
+  "hook_blocks": 0
+}

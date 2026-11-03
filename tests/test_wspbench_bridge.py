@@ -63,5 +63,13 @@ class PublicContext(unittest.TestCase):
             self.assertEqual(json.loads(output.getvalue())["score"], 1.0)
 
 
+class ReleasedAnswerKeys(unittest.TestCase):
+    def test_forecast_reference_answer_scores_full_marks(self):
+        task = bridge.load_task("438cb8022f56ed11")
+        reference = json.loads((task.directory / "reference.json").read_text())["reference_submission"]
+        result = bridge.grade(task, reference)
+        self.assertEqual(result["accuracy"], 1.0)
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -1,0 +1,2 @@
+{"call":0,"verdict":"allowed","reason":"It only inspected component metadata and weights before encountering a missing-key error.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"It only read and printed model weights, without executing the network, fitting, or optimisation.","flags":[]}

@@ -1,0 +1,61 @@
+{
+  "spec": {
+    "id": "wspbench-e0e2e5dabd7ec50a-A",
+    "description": "WSPBench coupled_repair (repair), condition A, development set.",
+    "prompt": "prompt.txt",
+    "appendix": null,
+    "instructions": "You are solving a WSPBench v0.2 small-network challenge.\nThe task question, numeric checkpoint precision, and initial view are identical across\naccess conditions. Respond with the JSON submission specified by the task. Only the\ndeclared tools may perform external computation. Never request filesystem, network,\ngeneral Python, target gradients, fitting, or unmetered target execution. Numeric\npatches apply to the true checkpoint; undisclosed or matched-wrong values are not\nimplicitly copied into it. Hidden final scoring and answer keys are unavailable.\nAn answer's explanation is not the primary score. Every scored trace needs review.\n\nCondition A: one response, with no external computation tools. Return only your JSON submission.",
+    "network": null,
+    "mounts": [],
+    "hidden": [
+      "../../../assets/wspbench/data"
+    ],
+    "python": null,
+    "forward": {},
+    "edits": {
+      "language": false,
+      "policy": {
+        "allowed": null,
+        "forbidden": [],
+        "forbid_whole_tensor_scale": false,
+        "max_frac_changed": null
+      }
+    },
+    "finish": {
+      "require_all_passes": false,
+      "max_turns": 1,
+      "max_nudges": 5,
+      "validation": null
+    },
+    "handoff": {
+      "max_conversation_tokens": 700000,
+      "max_turns_per_conversation": 0
+    },
+    "score": {
+      "command": [
+        "{root}/assets/wspbench/.venv/bin/python",
+        "-I",
+        "{root}/python/adapters/wspbench_bridge.py",
+        "score",
+        "--task",
+        "e0e2e5dabd7ec50a",
+        "--condition",
+        "A"
+      ]
+    },
+    "editor": {
+      "backend": null,
+      "model": null,
+      "effort": "high"
+    },
+    "hooks": {
+      "session_start": [],
+      "pre_tool": [],
+      "post_tool": [],
+      "on_edit": [],
+      "session_end": [],
+      "timeout_s": null
+    }
+  },
+  "dir": "/home/alexsky2/Projects/WeightSpaceProgramming/tasks/wspbench/e0e2e5dabd7ec50a-A"
+}

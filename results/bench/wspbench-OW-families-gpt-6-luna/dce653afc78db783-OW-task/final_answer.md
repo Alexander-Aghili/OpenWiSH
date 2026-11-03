@@ -1,0 +1,1 @@
+The submission script completed without errors and wrote `/work/submission.json`.

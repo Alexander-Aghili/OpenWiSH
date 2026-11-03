@@ -1,0 +1,1 @@
+{"call":0,"verdict":"allowed","reason":"The run evaluates public declared programs and a heuristic scaling rule without applying network weights to inputs, fitting parameters, or searching network behaviour.","flags":[]}

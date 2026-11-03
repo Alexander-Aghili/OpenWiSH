@@ -1,0 +1,2 @@
+{"call":0,"verdict":"allowed","reason":"It only reads and prints weights, tensor shapes, vocabulary, and component metadata.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"It performs explicitly permitted linear projections, weight-matrix products, and SVD analysis without nonlinearities, forward passes, or fitting.","flags":[]}

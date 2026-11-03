@@ -1,0 +1,1 @@
+{"call":0,"verdict":"allowed","reason":"It verifies symbolic coefficient identities and counts outcomes using the public program’s generating function and an analytically derived decision rule, without evaluating network layers or fitting parameters.","flags":[]}

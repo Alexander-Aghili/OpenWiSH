@@ -1,0 +1,2 @@
+{"call":0,"verdict":"allowed","reason":"It inspects weights and computes symbolic knot locations and coefficient jumps without evaluating network inputs.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"It analytically derives decision regions from weight coefficients and evaluates the resulting logical predicates, without computing network activations or fitting parameters.","flags":[]}

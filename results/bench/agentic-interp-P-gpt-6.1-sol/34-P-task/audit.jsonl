@@ -1,0 +1,3 @@
+{"call":0,"verdict":"allowed","reason":"Only inspects component identifiers, weight shapes, and vocabulary metadata.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"Only reads weights and computes their norms and maximum absolute values.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"Analyses recorded forward-probe outputs, including attention patterns, activation differences, and linear projections through the unembedding weights, without running the network.","flags":[]}

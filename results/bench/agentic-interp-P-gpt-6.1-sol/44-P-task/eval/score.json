@@ -1,0 +1,19 @@
+{
+  "case": 44,
+  "components": 2,
+  "correct": 2,
+  "exact": true,
+  "ok": true,
+  "per_component": {
+    "L0H0_ATTN": {
+      "answer": "AGGREGATOR",
+      "gold": "AGGREGATOR"
+    },
+    "L0_MLP": {
+      "answer": "MAPPER",
+      "gold": "MAPPER"
+    }
+  },
+  "score": 1.0,
+  "valid": true
+}

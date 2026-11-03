@@ -19,6 +19,12 @@ class Validation(unittest.TestCase):
         self.assertIn("JSON", result["error"])
         self.assertNotIn("score", result)
 
+    def test_forecast_ids_come_from_the_public_task(self):
+        task = {"architecture": {"shapes": {}}, "public": {"forecast_interventions": [{"id": "f0"}, {"id": "f1"}]}}
+        good = '{"effects":{"f0":[0,0.5],"f1":[1,0]}}'
+        self.assertEqual(validator.validate_submission(good, "causal_forecast", task), {"ok": True})
+        self.assertFalse(validator.validate_submission('{"effects":{"f0":[0,0.5]}}', "causal_forecast", task)["ok"])
+
     def test_extra_keys_are_rejected_without_repairing_the_answer(self):
         text = '{"program":{"op":"input","index":0},"explanation":"extra"}'
         result = validator.validate_submission(text, "rule_recovery", {"architecture": {"shapes": {}}})

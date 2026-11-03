@@ -1,0 +1,6 @@
+{"call":0,"verdict":"allowed","reason":"Only inspects component identifiers, weight names, and vocabulary metadata.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"Only reads weights and computes descriptive statistics.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"Analyses probe-recorded attention patterns and component writes using statistics and output-weight projections.","flags":[]}
+{"call":4,"verdict":"allowed","reason":"Computes summary statistics of probe-recorded attention patterns and MLP writes.","flags":[]}
+{"call":6,"verdict":"allowed","reason":"Analyses probe-recorded outputs and performs permitted weight-matrix products and SVD without executing a forward pass.","flags":[]}
+{"call":7,"verdict":"allowed","reason":"Uses SVD and projections to analyse weights and recorded activations without fitting weights or simulating the network.","flags":[]}

@@ -1,0 +1,14 @@
+Task: Clips each element to be within a range (make the default range [2, 7]).
+Examples (input tokens -> output per position):
+  ['BOS', -9, 4, 13, -1, -5, -8, 13, 5, -9] -> ['BOS', 2, 4, 7, 2, 2, 2, 7, 5, 2]
+  ['BOS', 10, 3, 7, -5, -5, 8, 5, -12, -8] -> ['BOS', 7, 3, 7, 2, 2, 7, 5, 2, 2]
+  ['BOS', 9, 1, 11, 11, -6, 12, 12, 0, -1] -> ['BOS', 7, 2, 7, 7, 2, 7, 7, 2, 2]
+  ['BOS', -14, 12, 5, -15, -4, 10, 6, 13, -4] -> ['BOS', 2, 7, 5, 2, 2, 7, 6, 7, 2]
+  ['BOS', 8, -13, 6, 5, -14, 8, -4, 14, -10] -> ['BOS', 7, 2, 6, 5, 2, 7, 2, 7, 2]
+Input token ids: {"-15": 0, "-14": 1, "-13": 2, "-12": 3, "-11": 4, "-10": 5, "-9": 6, "-8": 7, "-7": 8, "-6": 9, "-5": 10, "-4": 11, "-3": 12, "-2": 13, "-1": 14, "0": 15, "1": 16, "2": 17, "3": 18, "4": 19, "5": 20, "6": 21, "7": 22, "8": 23, "9": 24, "10": 25, "11": 26, "12": 27, "13": 28, "14": 29, "BOS": 30, "PAD": 31}
+Output classes: {"0": 2, "1": 3, "2": 4, "3": 5, "4": 6, "5": 7}
+Architecture: 3 layers, d_model 4, 4 heads of size 1, MLP width 16 with gelu, causal attention, normalization none, learned positions, context 10. Residual stream: x = W_E[token] + W_pos[position]. Each block adds its attention heads, then its MLP. Logits = x W_U + b_U at every position.
+Components:
+  L0_MLP: the MLP output of block 0
+  L1_MLP: the MLP output of block 1
+  L2_MLP: the MLP output of block 2

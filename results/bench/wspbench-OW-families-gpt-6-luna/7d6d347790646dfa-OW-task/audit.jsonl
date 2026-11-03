@@ -1,0 +1,1 @@
+{"call":0,"verdict":"allowed","reason":"The run only constructs fixed predictions, checks submission format, and writes JSON; it performs no network evaluation, fitting, or search.","flags":[]}

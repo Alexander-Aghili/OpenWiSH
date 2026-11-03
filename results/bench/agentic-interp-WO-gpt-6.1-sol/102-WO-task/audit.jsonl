@@ -1,0 +1,1 @@
+{"call":0,"verdict":"allowed","reason":"The code only prints component identifiers, tensor shapes, and raw embedding and MLP weights, without running the network or fitting anything.","flags":[]}

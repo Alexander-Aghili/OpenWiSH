@@ -1,0 +1,33 @@
+{
+  "turn": 5,
+  "runs_used": 4,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 0,
+  "nudges": 0,
+  "handoffs": 0,
+  "since_handoff": 5,
+  "conv_tokens": 18964,
+  "session": "01a1a276-c9f9-7740-8d81-67264414cf20",
+  "next_message": "OUTPUT of Python run 4 of at most 30:\n```\n\nHEAD 0\neffective scores [[ 0.202  0.085 -0.049 -0.277  0.307]\n [ 1.047  0.146  0.001 -0.104  0.321]\n [-0.156 -0.016 -0.017 -0.083  0.04 ]\n [ 2.106  0.207  0.275  1.433 -0.807]\n [ 2.005  0.318 -0.136 -1.027  1.343]]\nvalue-output singular values [114.447  14.873   0.632   0.039   0.   ]\nvalue-output MLP read row norms [686.685  81.902 351.204  81.096  91.477]\nnon-BOS value contrast MLP reads norms [204.604 104.706 100.111]\nposition value MLP read [315.885  52.331  58.179  53.877  62.768  56.648  64.281  36.028  59.534  51.581]\n\nHEAD 2\neffective scores [[-1.219 -0.154 -0.697 -1.274 -1.096]\n [ 0.772  0.101  0.744  0.75   0.735]\n [-1.587 -0.196 -1.261 -1.57  -1.47 ]\n [ 0.503  0.055  0.375  0.498  0.463]\n [ 0.684  0.074  0.603  0.657  0.641]]\nvalue-output singular values [51.626  1.418  0.257  0.055  0.   ]\nvalue-output MLP read row norms [207.584  78.106 177.602 172.738 175.471]\nnon-BOS value contrast MLP reads norms [2.956 2.798 0.663]\nposition value MLP read [69.046 62.186 59.968 59.731 63.    60.564 61.092 51.655 60.314 59.968]\nH2 token value MLP reads [[-89.962   7.739 -14.358  27.419 -10.701  33.734  59.546 123.838 -17.827 -28.928 -48.332 -59.427  28.61    2.116   2.769   1.378  -1.761  -1.149  -1.162  -3.916]\n [-33.879   2.946  -5.45   10.109  -4.026  12.457  22.297  46.713  -6.663 -10.95  -18.136 -22.331  11.307   0.948   1.102   0.656  -0.531  -0.368  -0.034  -1.237]\n [-77.124   6.669 -12.574  22.603  -9.335  27.806  50.321 106.442 -14.988 -24.906 -41.061 -50.652  27.026   2.386   2.54    1.776  -0.964  -0.707   0.55   -2.36 ]\n [-74.886   6.453 -12.114  22.51   -9.081  27.66   49.142 103.329 -14.625 -24.052 -40.098 -49.392  24.991   2.051   2.388   1.542  -1.27   -0.688  -0.375  -2.807]\n [-76.097   6.562 -12.328  22.762  -9.223  27.977  49.884 105.004 -14.849 -24.468 -40.702 -50.149  25.639   2.137   2.442   1.602  -1.224  -0.7    -0.2    -2.751]]\nMLP outputs norm per neuron [3.9   5.383 6.068 3.419 4.379 3.83  3.13  2.221 3.604 4.017 2.588 2.887 2.423 3.988 4.33  2.598 2.629 3.519 2.02  3.325]\n```\n[budget: python runs used 4/30]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 21442,
+    "output": 1707,
+    "cache_read": 41856,
+    "cache_write": 0,
+    "reasoning": 491
+  },
+  "cost_usd": 0.0,
+  "tool_free_turns": 5,
+  "hook_blocks": 0
+}

@@ -1,0 +1,1 @@
+{"call":0,"verdict":"allowed","reason":"The code only reads and prints component identifiers, vocabulary, tensor shapes, and weights, without running the network or performing fitting or optimization.","flags":[]}

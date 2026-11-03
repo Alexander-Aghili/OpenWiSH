@@ -1,0 +1,3 @@
+{"call":0,"verdict":"allowed","reason":"The code only attempts permitted weight inspection and linear products, and stops at a missing-key error.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"Listing weight names and tensor shapes is permitted inspection.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"Embedding-weight products, centered variation norms, and singular-value decompositions are explicitly allowed weight analyses without nonlinear execution or fitting.","flags":[]}

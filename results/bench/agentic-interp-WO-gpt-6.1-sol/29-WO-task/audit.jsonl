@@ -1,0 +1,1 @@
+{"call":0,"verdict":"allowed","reason":"The code only attempts to inspect weight shapes and norms, which is permitted, and stops on a missing weight key without executing the network.","flags":[]}

@@ -1,0 +1,33 @@
+{
+  "turn": 7,
+  "runs_used": 6,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 0,
+  "nudges": 0,
+  "handoffs": 0,
+  "since_handoff": 7,
+  "conv_tokens": 28496,
+  "session": "01a1a291-8edf-7612-9e7c-fff0fa3d1a48",
+  "next_message": "OUTPUT of Python run 6 of at most 30:\n```\ndirections ['token_group', 'attn0', 'attn1', 'MLP0out0', 'MLP0out1', 'MLP1out0', 'MLP1out1', 'MLP2out0', 'MLP2out1']\nMLP 0 input PC alignment\n[[-0.454  0.814 -0.451 -0.443 -0.363 -0.46  -0.07   0.135  0.368]\n [ 0.315 -0.18   0.02  -0.395  0.526  0.079 -0.409  0.354  0.039]\n [ 0.114 -0.035  0.003  0.235 -0.329  0.133  0.195 -0.251  0.075]]\nMLP 1 input PC alignment\n[[-0.004 -0.139  0.843  0.469 -0.266  0.195  0.495 -0.314 -0.216]\n [-0.365  0.461 -0.428 -0.226 -0.73   0.016  0.015 -0.259  0.145]\n [ 0.014  0.222 -0.124  0.061 -0.163 -0.034  0.25  -0.082 -0.002]]\nMLP 2 input PC alignment\n[[-0.226  0.131 -0.089 -0.246 -0.095 -0.177 -0.296 -0.589 -0.132]\n [-0.224 -0.092 -0.088  0.045 -0.102  0.043  0.07   0.401 -0.026]\n [ 0.078  0.166  0.102 -0.179  0.222  0.072 -0.324  0.077  0.322]]\nL 0 linear norm 10.503373 quadratic eigs [ 1.928  0.608 -0.46 ]\nlinear named [ 4.859 -8.151  4.812  4.992  2.763  5.084  1.079 -2.286 -3.802]\nquadratic eigen alignment [[ 0.567 -0.791  0.424  0.36   0.469  0.351  0.087 -0.111 -0.295]\n [ 0.225 -0.228 -0.111 -0.258  0.372 -0.001 -0.112  0.699 -0.004]\n [ 0.117  0.285 -0.192 -0.444  0.096 -0.233 -0.206 -0.049  0.208]]\nL 1 linear norm 3.6134827 quadratic eigs [-1.029  0.678 -0.247]\nlinear named [-0.579  1.159 -3.444 -1.772 -0.652 -0.591 -1.218  0.549  0.841]\nquadratic eigen alignment [[ 0.188 -0.119 -0.424 -0.258  0.588 -0.24  -0.366  0.41   0.086]\n [ 0.383 -0.407  0.748  0.443  0.261  0.177  0.372 -0.009 -0.304]\n [ 0.095  0.114 -0.399 -0.093 -0.398 -0.114  0.256 -0.033 -0.291]]\nL 2 linear norm 2.6993897 quadratic eigs [-0.759  0.473 -0.472]\nlinear named [-0.16  -0.323 -0.164  0.244  0.105 -0.766  0.958  1.386  0.308]\nquadratic eigen alignment [[-0.16  -0.082  0.157  0.171 -0.269  0.07   0.225 -0.492 -0.305]\n [-0.048  0.147 -0.213 -0.428  0.185 -0.244 -0.689 -0.348  0.115]\n [ 0.117  0.111 -0.017  0.103 -0.306 -0.373  0.359 -0.38  -0.11 ]]\n```\n[budget: python runs used 6/30]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 20392,
+    "output": 4156,
+    "cache_read": 97920,
+    "cache_write": 0,
+    "reasoning": 2243
+  },
+  "cost_usd": 0.0,
+  "tool_free_turns": 7,
+  "hook_blocks": 0
+}

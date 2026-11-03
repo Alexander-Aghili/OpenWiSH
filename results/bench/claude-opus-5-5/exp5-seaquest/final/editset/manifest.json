@@ -1,0 +1,57 @@
+{
+  "tensors": {
+    "W1": {
+      "shape": [
+        600,
+        32
+      ],
+      "changed": 468,
+      "sha_base": "d6632f131725f27737d4bee0ec6be26bc1256d3fc40c19dca78a847feaa16ce0",
+      "sha_edited": "cbff37b749064df180b2868e687fb939cf61155d527239739a20e1eda6cf5e4f"
+    },
+    "W2": {
+      "shape": [
+        32,
+        32
+      ],
+      "changed": 134,
+      "sha_base": "02000ccb34ed03da9a593b5091e0fef341b8ecbec80637e8e9c6a33466ae0e15",
+      "sha_edited": "db76b50baa919ec1bb47358598280ac599e8fe9612dd0b1e484720f4e97e3024"
+    },
+    "W3": {
+      "shape": [
+        32,
+        6
+      ],
+      "changed": 18,
+      "sha_base": "4fcd721e66f7d5911f2fa4e01f2f301d6651ce0c6004bed1ebbb4c17495b2056",
+      "sha_edited": "f41372dc117cfc4826b5fa43b8593544249207648e6d5d7961343394344a5dc2"
+    },
+    "b1": {
+      "shape": [
+        32
+      ],
+      "changed": 28,
+      "sha_base": "a05a299e77542048c6adb2c4bb857b3e2f11e18764f482aaca502572f4182960",
+      "sha_edited": "01b9db8491a697f61a72466ecc9dfc6788954b7d33e8a8f0f13b6bbdfbdb4a67"
+    },
+    "b2": {
+      "shape": [
+        32
+      ],
+      "changed": 16,
+      "sha_base": "a05a299e77542048c6adb2c4bb857b3e2f11e18764f482aaca502572f4182960",
+      "sha_edited": "6447c48e622e8c79abc8e2479c795822b19592addc6d8a68aa82fdd1a081a524"
+    },
+    "b3": {
+      "shape": [
+        6
+      ],
+      "changed": 6,
+      "sha_base": "b7c72e45fda64e12043045c770ab0e146058ef3b0fcfa67e337f9aee16f5264e",
+      "sha_edited": "f0a4efea493440fa206c7515683e094ce7d6f260f57dc52089de8e839fb87371"
+    }
+  },
+  "changed_total": 670,
+  "numel_total": 20486
+}

@@ -1,0 +1,33 @@
+{
+  "turn": 4,
+  "runs_used": 3,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 0,
+  "nudges": 0,
+  "handoffs": 0,
+  "since_handoff": 4,
+  "conv_tokens": 9695,
+  "session": "01a1a2a7-4445-7a92-bc95-2c642b9fb39c",
+  "next_message": "OUTPUT of Python run 3 of at most 60:\n```\nembed.W_E norm 4.4867268 max 1.2787412\npos_embed.W_pos norm 9.289685 max 1.6160704\nblocks.0.mlp.W_in norm 25.893011 max 1.9324483\nblocks.0.mlp.W_out norm 24.007689 max 2.0215938\nblocks.0.mlp.b_in norm 3.5467079 max 0.94379014\nblocks.0.mlp.b_out norm 0.41254187 max 0.18083948\nMLP outputs a/b/c position norms [[ 81.881 129.915 190.036 199.864 236.739 264.424 237.898 243.556 289.823 325.386]\n [ 81.881 167.401 177.912 253.847 197.349 262.836 262.207 270.317 324.124 325.553]\n [ 81.881 298.816 397.612 356.451 418.34  521.617 547.833 543.871 521.202 522.576]]\nMLP post activations largest 5 by position\n0 1 [(np.int64(72), np.float32(5.3735533)), (np.int64(14), np.float32(7.1130238)), (np.int64(34), np.float32(7.1808476)), (np.int64(31), np.float32(8.341671)), (np.int64(71), np.float32(9.806979))]\n0 2 [(np.int64(72), np.float32(6.941419)), (np.int64(8), np.float32(7.221006)), (np.int64(34), np.float32(8.385188)), (np.int64(54), np.float32(8.649153)), (np.int64(31), np.float32(10.7554455))]\n0 5 [(np.int64(7), np.float32(10.441224)), (np.int64(31), np.float32(12.2077265)), (np.int64(30), np.float32(12.266631)), (np.int64(64), np.float32(12.542609)), (np.int64(46), np.float32(12.954747))]\n0 9 [(np.int64(46), np.float32(11.005784)), (np.int64(28), np.float32(11.160249)), (np.int64(34), np.float32(11.656123)), (np.int64(30), np.float32(13.361662)), (np.int64(31), np.float32(14.0697975))]\n1 1 [(np.int64(35), np.float32(6.098491)), (np.int64(56), np.float32(6.2344136)), (np.int64(78), np.float32(7.4088902)), (np.int64(57), np.float32(8.572324)), (np.int64(71), np.float32(9.181673))]\n1 2 [(np.int64(78), np.float32(6.6346517)), (np.int64(44), np.float32(6.6900954)), (np.int64(36), np.float32(7.9159093)), (np.int64(56), np.float32(7.918323)), (np.int64(73), np.float32(8.273113))]\n1 5 [(np.int64(10), np.float32(8.907138)), (np.int64(24), np.float32(8.98797)), (np.int64(57), np.float32(9.73529)), (np.int64(20), np.float32(10.035512)), (np.int64(64), np.float32(11.707431))]\n1 9 [(np.int64(59), np.float32(10.024641)), (np.int64(57), np.float32(10.4901)), (np.int64(81), np.float32(10.511821)), (np.int64(28), np.float32(11.993132)), (np.int64(49), np.float32(13.757851))]\n2 1 [(np.int64(32), np.float32(9.684707)), (np.int64(65), np.float32(9.916128)), (np.int64(41), np.float32(10.381086)), (np.int64(66), np.float32(11.267085)), (np.int64(77), np.float32(11.302854))]\n2 2 [(np.int64(77), np.float32(12.9889765)), (np.int64(65), np.float32(13.004596)), (np.int64(39), np.float32(13.098774)), (np.int64(52), np.float32(13.451629)), (np.int64(66), np.float32(15.174986))]\n2 5 [(np.int64(65), np.float32(14.278486)), (np.int64(64), np.float32(15.416724)), (np.int64(26), np.float32(15.474088)), (np.int64(41), np.float32(15.90509)), (np.int64(77), np.float32(19.61232))]\n2 9 [(np.int64(67), np.float32(13.886318)), (np.int64(43), np.float32(15.208283)), (np.int64(66), np.float32(15.327427)), (np.int64(58), np.float32(16.043661)), (np.int64(77), np.float32(16.787216))]\nMLP token-difference across positions [241.779 299.795 241.321 267.363 346.841 398.996 307.829 394.981 413.2  ]\nMLP position differences [[129.567 220.395 188.702 201.792 225.071 214.39  211.053 215.551]\n [108.711 225.993 204.252 225.034 231.569 238.836 254.541 248.659]\n [140.316 258.589 202.924 230.114 245.498 258.301 251.11  242.434]]\nMLP direct logits top classes\n[[ 0  0  1  2  3  4  5  6  7  8]\n [ 0  9 10 11 12 13 14 15 16 17]\n [ 0 18 23 20 21 22 23 24 25 26]]\n```\n[budget: python runs used 3/60]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 11573,
+    "output": 568,
+    "cache_read": 18816,
+    "cache_write": 0,
+    "reasoning": 95
+  },
+  "cost_usd": 0.0,
+  "tool_free_turns": 4,
+  "hook_blocks": 0
+}

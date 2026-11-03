@@ -1,0 +1,33 @@
+{
+  "turn": 4,
+  "runs_used": 3,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 0,
+  "nudges": 0,
+  "handoffs": 0,
+  "since_handoff": 4,
+  "conv_tokens": 10201,
+  "session": "01a1a315-cef5-7cf0-8081-2356f4b7ac35",
+  "next_message": "Run 3 of at most 60 (forward) done; files in /work/fwd/r3/. Summary:\n```\n{\n  \"arrays\": {\n    \"L0H0_ATTN\": [\n      4,\n      10,\n      4\n    ],\n    \"L0H0_ATTN_pattern\": [\n      4,\n      10,\n      10\n    ],\n    \"L0H1_ATTN\": [\n      4,\n      10,\n      4\n    ],\n    \"L0H1_ATTN_pattern\": [\n      4,\n      10,\n      10\n    ],\n    \"L0H2_ATTN\": [\n      4,\n      10,\n      4\n    ],\n    \"L0H2_ATTN_pattern\": [\n      4,\n      10,\n      10\n    ],\n    \"L0H3_ATTN\": [\n      4,\n      10,\n      4\n    ],\n    \"L0H3_ATTN_pattern\": [\n      4,\n      10,\n      10\n    ],\n    \"L0_MLP\": [\n      4,\n      10,\n      4\n    ],\n    \"L0_MLP_post\": [\n      4,\n      10,\n      16\n    ],\n    \"L1H0_ATTN\": [\n      4,\n      10,\n      4\n    ],\n    \"L1H0_ATTN_pattern\": [\n      4,\n      10,\n      10\n    ],\n    \"L1H1_ATTN\": [\n      4,\n      10,\n      4\n    ],\n    \"L1H1_ATTN_pattern\": [\n      4,\n      10,\n      10\n    ],\n    \"L1H2_ATTN\": [\n      4,\n      10,\n      4\n    ],\n    \"L1H2_ATTN_pattern\": [\n      4,\n      10,\n      10\n    ],\n    \"L1H3_ATTN\": [\n      4,\n      10,\n      4\n    ],\n    \"L1H3_ATTN_pattern\": [\n      4,\n      10,\n      10\n    ],\n    \"L1_MLP\": [\n      4,\n      10,\n      4\n    ],\n    \"L1_MLP_post\": [\n      4,\n      10,\n      16\n    ],\n    \"logits\": [\n      4,\n      10,\n      2\n    ]\n  },\n  \"file\": \"run.npz\",\n  \"ok\": true,\n  \"predictions\": [\n    [\n      0,\n      0,\n      0,\n      0,\n      1,\n      1,\n      1,\n      1,\n      1,\n      1\n    ],\n    [\n      0,\n      1,\n      1,\n      1,\n      1,\n      1,\n      1,\n      1,\n      1,\n      0\n    ],\n    [\n      0,\n      0,\n      0,\n      0,\n      0,\n      0,\n      0,\n      0,\n      0,\n      0\n    ],\n    [\n      0,\n      1,\n      1,\n      1,\n      1,\n      1,\n      1,\n      1,\n      1,\n      1\n    ]\n  ]\n}\n```\n[budget: python runs used 3/60]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 5435,
+    "output": 361,
+    "cache_read": 26496,
+    "cache_write": 0,
+    "reasoning": 66
+  },
+  "cost_usd": 0.0,
+  "tool_free_turns": 4,
+  "hook_blocks": 0
+}

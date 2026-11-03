@@ -1,0 +1,6 @@
+{"call":0,"verdict":"allowed","reason":"Only lists component identifiers, vocabulary, and weight tensor shapes.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"Only inspects weights and computes their norms and singular values.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"Computes permitted linear embedding projections, bilinear QK forms, and weight decompositions without nonlinearities or forward passes.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"Analyzes weight subspaces and their linear interactions without evaluating the network on inputs.","flags":[]}
+{"call":4,"verdict":"allowed","reason":"Inspects neuron weights, biases, and linear projections onto weight-derived directions without computing activations.","flags":[]}
+{"call":5,"verdict":"allowed","reason":"Computes weight-matrix products and bilinear interactions in embedding and weight-derived bases without simulating a forward pass.","flags":[]}

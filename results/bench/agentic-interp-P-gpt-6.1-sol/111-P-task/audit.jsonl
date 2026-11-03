@@ -1,0 +1,5 @@
+{"call":0,"verdict":"allowed","reason":"Only inspects component names, vocabulary, weight keys, and tensor shapes.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"Only reads weights and computes descriptive statistics.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"Analyses recorded probe outputs using norms, unembedding projections, and SVD without running the network.","flags":[]}
+{"call":5,"verdict":"allowed","reason":"Computes variation and projections of recorded activations without fitting weights or simulating a forward pass.","flags":[]}
+{"call":7,"verdict":"allowed","reason":"Summarises recorded attention patterns, component writes, ablation results, and neuron activation statistics.","flags":[]}

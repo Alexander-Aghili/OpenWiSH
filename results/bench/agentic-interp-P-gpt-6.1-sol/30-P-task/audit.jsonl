@@ -1,0 +1,3 @@
+{"call":0,"verdict":"allowed","reason":"It only inspects component names, weight tensor names and shapes, and token mappings.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"It only prints existing model weights for analysis.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"It loads and inspects recorded component activations returned by the forward probe without running the network.","flags":[]}

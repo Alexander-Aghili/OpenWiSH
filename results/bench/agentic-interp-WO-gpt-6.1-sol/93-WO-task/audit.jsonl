@@ -1,0 +1,5 @@
+{"call":0,"verdict":"allowed","reason":"Only lists components, vocabulary, tensor shapes, and weight norms.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"Computes permitted bilinear attention scores, linear weight projections, and singular values without applying network nonlinearities.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"Analyzes QK and OV weight circuits and embedding distances without running a forward pass.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"Uses linear projections, weight statistics, and neuron rankings for analysis without evaluation or fitting.","flags":[]}
+{"call":4,"verdict":"allowed","reason":"Uses SVD and linear weight products to inspect read and write directions without simulating network computation.","flags":[]}

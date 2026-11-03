@@ -1,0 +1,3 @@
+{"call":0,"verdict":"allowed","reason":"It only inspects component names, vocabulary, and weight tensor shapes.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"It computes weight norms, singular values, and explicitly permitted linear QK and OV projections without executing nonlinearities or a forward pass.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"It analyzes linear embedding, position, MLP-weight, and unembedding projections and their statistics without computing activations, input logits, or fitting anything.","flags":[]}

@@ -1,0 +1,3 @@
+{"call":0,"verdict":"allowed","reason":"Only inspects component names, weight tensor shapes, and vocabulary metadata.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"Uses permitted linear weight and embedding projections, norms, statistics, and SVD without nonlinear computation, evaluation, or fitting.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"Analyzes linear circuit products and biases, including unembedding directions, without computing a network forward pass or input logits.","flags":[]}

@@ -5,7 +5,8 @@ import os
 from pathlib import Path
 import runpy
 
-check_submission = runpy.run_path(str(Path(__file__).with_name("wspbench_format.py")))["check_submission"]
+_format = runpy.run_path(str(Path(__file__).with_name("wspbench_format.py")))
+check_submission, forecast_ids = _format["check_submission"], _format["forecast_ids"]
 
 
 def validate_submission(text, family, task):
@@ -17,7 +18,7 @@ def validate_submission(text, family, task):
     except (ValueError, TypeError):
         return {"ok": False, "error": "Expected one JSON submission object. Prose is not a submission. Use the declared Python tool for weight algebra and check_submission(sub) for format checks."}
     try:
-        error = check_submission(submission, family, task["architecture"]["shapes"])
+        error = check_submission(submission, family, task["architecture"]["shapes"], forecast_ids(task))
     except (TypeError, ValueError, KeyError, RecursionError) as exc:
         return {"ok": False, "error": f"Malformed submission: {exc}"}
     return {"ok": True} if error == "ok" else {"ok": False, "error": error}
@@ -26,7 +27,7 @@ def validate_submission(text, family, task):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--public", type=Path, required=True)
-    parser.add_argument("--family", choices=["rule_recovery", "edit_effects", "compositional_synthesis"], required=True)
+    parser.add_argument("--family", choices=["rule_recovery", "edit_effects", "compositional_synthesis", "causal_forecast", "coupled_repair"], required=True)
     args = parser.parse_args()
     task = json.loads(args.public.read_text())["task"]
     text = Path(os.environ["OPENWISH_SUBMISSION"]).read_text()

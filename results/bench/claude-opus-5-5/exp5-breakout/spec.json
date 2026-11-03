@@ -1,0 +1,51 @@
+{
+  "spec": {
+    "id": "exp5-breakout",
+    "description": "Experiment 5: write a 600-32-32-6 MinAtar breakout policy from zero weights, in one reply, with no tools.",
+    "prompt": "../../assets/exp5/prompts/breakout.txt",
+    "appendix": null,
+    "instructions": "Answer the user's request.",
+    "network": {
+      "base": "../../assets/exp5/zero_net"
+    },
+    "mounts": [],
+    "hidden": [],
+    "python": null,
+    "forward": {},
+    "edits": {
+      "language": true,
+      "policy": {
+        "allowed": null,
+        "forbidden": [],
+        "forbid_whole_tensor_scale": false,
+        "max_frac_changed": null
+      }
+    },
+    "finish": {
+      "require_all_passes": false,
+      "max_turns": 1,
+      "max_nudges": 5
+    },
+    "handoff": {
+      "max_conversation_tokens": 700000,
+      "max_turns_per_conversation": 0
+    },
+    "score": {
+      "command": [
+        "{root}/assets/venvs/sandbox/bin/python",
+        "-I",
+        "{root}/python/adapters/minatar_eval.py",
+        "--game",
+        "breakout",
+        "--episodes",
+        "1000"
+      ]
+    },
+    "editor": {
+      "backend": null,
+      "model": null,
+      "effort": "xhigh"
+    }
+  },
+  "dir": "/home/alexsky2/Projects/WeightSpaceProgramming/tasks/exp5"
+}

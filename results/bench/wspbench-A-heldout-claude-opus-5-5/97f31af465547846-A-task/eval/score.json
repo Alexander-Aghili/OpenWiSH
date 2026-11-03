@@ -1,0 +1,22 @@
+{
+  "condition": "A",
+  "exact": false,
+  "family": "edit_effects",
+  "lenient": {
+    "accuracy": null,
+    "metrics": {},
+    "reason": "Expected before/after Boolean programs or complete binary output tables",
+    "status": "invalid",
+    "success": false
+  },
+  "ok": true,
+  "score": 0.0,
+  "strict": {
+    "accuracy": null,
+    "metrics": {},
+    "reason": "Expected before/after Boolean programs or complete binary output tables",
+    "status": "invalid",
+    "success": false
+  },
+  "task": "97f31af465547846"
+}

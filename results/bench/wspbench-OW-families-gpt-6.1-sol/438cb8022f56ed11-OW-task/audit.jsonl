@@ -1,0 +1,2 @@
+{"call":0,"verdict":"allowed","reason":"It extracts knots and coefficient identities using only algebra on weights, without evaluating inputs.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"It verifies symbolic coefficient identities and analytically counts public-program outcomes without executing network layers, fitting parameters, or searching.","flags":[]}

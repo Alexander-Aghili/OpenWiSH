@@ -1,0 +1,10 @@
+{"call":0,"verdict":"allowed","reason":"Only lists components, tensor shapes, and vocabulary metadata.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"Computes weight statistics and singular values without running the network.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"Computes explicitly permitted bilinear token and position attention-score forms without softmax.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"Analyzes QK and OV weight products and embedding projections using linear algebra.","flags":[]}
+{"call":4,"verdict":"allowed","reason":"Computes singular-vector projections and linear embedding reads without applying MLP activations.","flags":[]}
+{"call":5,"verdict":"allowed","reason":"Examines weight singular directions, projections, and summary statistics only.","flags":[]}
+{"call":6,"verdict":"allowed","reason":"Ranks neurons by weight-derived read/write associations without fitting or nonlinear network computation.","flags":[]}
+{"call":7,"verdict":"allowed","reason":"Analyzes products of MLP and attention weight matrices without evaluating nonlinearities or executing a forward pass.","flags":[]}
+{"call":8,"verdict":"allowed","reason":"Computes explicitly permitted bilinear positional attention scores and weight-only SVD projections without executing nonlinearities or a forward pass.","flags":[]}
+{"call":9,"verdict":"allowed","reason":"Analyzes embedding–OV matrix products projected onto SVD-derived MLP read directions, using only permitted linear algebra on weights.","flags":[]}

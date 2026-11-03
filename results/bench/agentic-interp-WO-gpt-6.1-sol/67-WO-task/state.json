@@ -1,0 +1,33 @@
+{
+  "turn": 5,
+  "runs_used": 4,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 0,
+  "nudges": 0,
+  "handoffs": 0,
+  "since_handoff": 5,
+  "conv_tokens": 19721,
+  "session": "01a1a285-16cc-7161-84df-9b9c20e03d07",
+  "next_message": "OUTPUT of Python run 4 of at most 30:\n```\n\nMLP 0 bias range -0.074130654 0.19422917\ntoken read singular values [10.568  8.578  7.054  6.212  5.27   3.651  1.756  1.224  0.915  0.55   0.   ]\nposition read singular values [4.313 0.615 0.568 0.415 0.405 0.335 0.263 0.249 0.155 0.   ]\noutput->unembed singular values [3.391 1.459 1.384 1.217 1.167 1.003 0.939 0.79  0.68  0.675 0.636 0.575]\nhead 0 OV->MLP norm 10.610325 numeric OV->MLP variation 27.918222 BOS diff OV->MLP norm 32.424904\nhead 1 OV->MLP norm 6.868373 numeric OV->MLP variation 13.871904 BOS diff OV->MLP norm 21.137808\nhead 2 OV->MLP norm 6.866087 numeric OV->MLP variation 18.120916 BOS diff OV->MLP norm 12.23344\nhead 3 OV->MLP norm 7.890191 numeric OV->MLP variation 19.807613 BOS diff OV->MLP norm 15.248663\nneuron 79 b -0.002 token reads [-0.26  0.6   0.19  0.56 -0.28 -0.54  1.17 -0.91  0.25  0.15 -0.77] write highest classes [ 8  3 14 19] write lowest classes [40 41  9 35]\nneuron 5 b 0.077 token reads [ 0.52 -0.72 -0.33 -0.75  0.32  0.29 -0.3   1.14  0.11 -0.19 -0.04] write highest classes [ 8 19 14 27] write lowest classes [41  9 40  0]\nneuron 13 b 0.066 token reads [ 0.31  0.12  0.08 -0.01  0.38 -0.48  0.02 -0.16 -0.47  0.11  0.57] write highest classes [11 14 24 25] write lowest classes [28 32  9 35]\nneuron 82 b -0.039 token reads [-0.4   0.17 -0.2   0.36  0.26 -0.12 -0.33 -0.14 -0.02  0.12 -0.37] write highest classes [31 24 14  4] write lowest classes [ 0 40 25 41]\nneuron 40 b 0.025 token reads [ 0.13 -0.19  0.05  0.23 -0.39  0.75  0.66  0.01 -0.17 -0.32 -0.2 ] write highest classes [19  2 30 31] write lowest classes [ 0 40 20 41]\nneuron 73 b 0.02 token reads [-0.06 -0.05 -0.86 -0.12 -0.47  0.12  0.48  0.31  0.12  0.62 -0.48] write highest classes [19 36  8 27] write lowest classes [ 9 41 25 38]\nneuron 56 b 0.125 token reads [ 0.12 -0.32  0.95  0.25  0.78  0.33 -0.9   0.09 -0.18 -0.65  0.57] write highest classes [15 40 41  9] write lowest classes [14 11 36 27]\nneuron 65 b 0.136 token reads [ 0.23  0.16 -0.21 -0.02  0.03 -0.21  0.29  0.1  -0.48  0.08  0.08] write highest classes [ 8  4 19 14] write lowest classes [40  0 28 32]\nneuron 17 b 0.185 token reads [-1.08  1.27  0.2   0.21  0.25 -0.15 -0.21 -0.41  0.54  0.45 -0.09] write highest classes [15 35 25 41] write lowest classes [14 34 26  5]\nneuron 28 b 0.066 token reads [ 1.08 -0.99  0.82 -0.76  0.03  0.56  0.55  0.38  0.33 -1.25  0.31] write highest classes [ 3 14 27 24] write lowest classes [40 41 20  9]\nneuron 86 b 0.174 token reads [-0.36  0.55  0.75 -0.18  1.11 -0.42 -0.8  -0.1   0.57 -0.22  0.13] write highest classes [ 0 41 15 25] write lowest classes [14 36 27 16]\nneuron 4 b 0.103 token reads [-0.04 -0.15  0.43 -0.55 -0.83  0.53  0.55  0.16  0.11 -0.58  0.59] write highest classes [20 33 14 34] write lowest classes [41  0 15  9]\n\nMLP 1 bias range -0.07736237 0.11977554\ntoken read singular values [7.764 6.941 4.803 4.245 3.515 2.51  1.344 0.951 0.668 0.503 0.   ]\nposition read singular values [3.216 0.514 0.455 0.378 0.359 0.278 0.213 0.173 0.161 0.   ]\noutput->unembed singular values [4.578 3.482 3.172 2.511 2.428 1.655 1.106 1.024 0.849 0.719 0.648 0.587]\nhead 0 OV->MLP norm 7.9420075 numeric OV->MLP variation 21.041237 BOS diff OV->MLP norm 24.156675\nhead 1 OV->MLP norm 5.101021 numeric OV->MLP variation 10.68425 BOS diff OV->MLP norm 16.296873\nhead 2 OV->MLP norm 5.000072 numeric OV->MLP variation 14.036668 BOS diff OV->MLP norm 9.782164\nhead 3 OV->MLP norm 5.4277716 numeric OV->MLP variation 14.148337 BOS diff OV->MLP norm 10.630096\nneuron 68 b 0.034 token reads [ 0.22  0.28 -0.22  0.6   0.16 -0.47  0.15 -0.53 -0.42  0.48 -0.08] write highest classes [ 9  0 40 20] write lowest classes [19 24 27  8]\nneuron 76 b 0.056 token reads [ 0.22  0.26 -0.66 -0.02  0.17 -0.48 -0.21  0.18 -0.47  0.72  0.36] write highest classes [41  9 35 40] write lowest classes [15 19  3  8]\nneuron 14 b 0.03 token reads [-0.05  0.49 -0.83  0.57  0.29 -0.51  0.02 -0.25 -0.2   1.06 -0.41] write highest classes [25  9 20 40] write lowest classes [15 19  5 17]\nneuron 12 b 0.026 token reads [-0.37  0.02 -0.63 -0.27 -0.2  -0.31  0.13  0.25  0.32  0.78 -0.1 ] write highest classes [ 9 41 40 35] write lowest classes [ 3 24 20 14]\nneuron 56 b 0.023 token reads [ 0.25 -0.05  0.36  0.15  0.4  -0.29 -0.05  0.04 -0.58 -0.15  0.05] write highest classes [12 36 38 28] write lowest classes [25  0 41 35]\nneuron 44 b 0.038 token reads [-0.65  0.57  0.5   0.17  0.88 -0.53 -0.71 -0.1   0.46  0.11 -0.33] write highest classes [37 14 38 25] write lowest classes [32  0 41 28]\nneuron 87 b -0.019 token reads [-0.61  0.54  0.9   0.28  0.83 -0.15 -0.65 -0.33  0.49 -0.54 -0.25] write highest classes [21 14 15 25] write lowest classes [32 40  0 28]\nneuron 89 b 0.051 token reads [-0.09  0.03 -0.92  0.22 -0.48  0.19  0.63 -0.18  0.35  0.81 -0.66] write highest classes [12 38 32 40] write lowest classes [15 41 25 18]\nneuron 70 b 0.074 token reads [ 0.2  -0.14  0.3  -0.43 -0.45  0.26  0.42  0.32 -0.38 -0.31  0.65] write highest classes [15 32  0 41] write lowest classes [14 38 40 20]\nneuron 79 b 0.022 token reads [ 0.5  -0.02 -0.12  0.18 -0.01 -0.5   0.28 -0.29 -0.52  0.08  0.17] write highest classes [32 20 41  0] write lowest classes [38 28 10  4]\nneuron 17 b 0.084 token reads [ 0.51 -0.02 -0.5   0.28  0.42 -0.58  0.11 -0.15 -0.33  0.47 -0.1 ] write highest classes [20 40 25  0] write lowest classes [28 15 19 30]\nneuron 28 b 0.077 token reads [ 0.43 -0.23 -0.2  -0.22 -0.86  0.6   0.6  -0.02 -0.31 -0.17  0.7 ] write highest classes [28 32  0 41] write lowest classes [25  6 14 33]\nMLP0 output->MLP1 norm 6.81458\n```\n[budget: python runs used 4/30]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 15614,
+    "output": 2276,
+    "cache_read": 45184,
+    "cache_write": 0,
+    "reasoning": 936
+  },
+  "cost_usd": 0.0,
+  "tool_free_turns": 5,
+  "hook_blocks": 0
+}

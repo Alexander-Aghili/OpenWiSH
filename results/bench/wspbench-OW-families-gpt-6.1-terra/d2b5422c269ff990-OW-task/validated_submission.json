@@ -1,0 +1,1 @@
+{"patch": [{"op": "scale", "tensor": "w1", "axis": 1, "indices": [1, 11], "factor": -1}]}

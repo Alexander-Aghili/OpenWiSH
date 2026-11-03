@@ -1,0 +1,79 @@
+{
+  "spec": {
+    "id": "exp7-weights-pair1",
+    "description": "Experiment 7, weights only (the authors' attempt 4): numpy over the weights and tokenizer; 60 runs.",
+    "prompt": "../../assets/exp7/prompts/weights_only.txt",
+    "appendix": null,
+    "instructions": "Answer the user's request.",
+    "network": null,
+    "mounts": [
+      {
+        "host": "../../assets/exp7/pairs/pair1/A",
+        "guest": "/case/A",
+        "rw": false
+      },
+      {
+        "host": "../../assets/exp7/pairs/pair1/B",
+        "guest": "/case/B",
+        "rw": false
+      }
+    ],
+    "hidden": [
+      "../../assets/exp7/answer_key.json",
+      "../../assets/exp7/train",
+      "../../assets/exp7/truth"
+    ],
+    "python": {
+      "runs": 60,
+      "timeout_s": 600,
+      "mem_gb": 24,
+      "max_out": 15000,
+      "prelude": "prelude.py",
+      "threads": 8,
+      "fresh": true,
+      "venv": "../../assets/venvs/numpy"
+    },
+    "forward": {},
+    "edits": {
+      "language": false,
+      "policy": {
+        "allowed": null,
+        "forbidden": [],
+        "forbid_whole_tensor_scale": false,
+        "max_frac_changed": null
+      }
+    },
+    "finish": {
+      "require_all_passes": false,
+      "max_turns": 400,
+      "max_nudges": 5
+    },
+    "handoff": {
+      "max_conversation_tokens": 700000,
+      "max_turns_per_conversation": 0
+    },
+    "score": {
+      "command": [
+        "python3",
+        "-I",
+        "{task}/score.py",
+        "{root}/assets/exp7/answer_key.json",
+        "pair1"
+      ]
+    },
+    "editor": {
+      "backend": null,
+      "model": null,
+      "effort": "xhigh"
+    },
+    "hooks": {
+      "session_start": [],
+      "pre_tool": [],
+      "post_tool": [],
+      "on_edit": [],
+      "session_end": [],
+      "timeout_s": null
+    }
+  },
+  "dir": "/home/alexsky2/Projects/WeightSpaceProgramming/tasks/exp7"
+}

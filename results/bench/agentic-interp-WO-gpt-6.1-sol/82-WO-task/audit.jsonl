@@ -1,0 +1,3 @@
+{"call":0,"verdict":"allowed","reason":"It only reads component identifiers, vocabulary metadata, and tensor shapes.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"It computes explicitly permitted linear weight and embedding projections, bilinear attention scores, norms, and singular values without executing nonlinear network operations.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"It analyses weight-derived attention scores, linear projections, similarities, and neuron statistics without forward passes or fitting.","flags":[]}

@@ -1,0 +1,33 @@
+{
+  "turn": 9,
+  "runs_used": 8,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 0,
+  "nudges": 0,
+  "handoffs": 0,
+  "since_handoff": 9,
+  "conv_tokens": 20932,
+  "session": "01a1a29b-c286-7571-b281-788862643737",
+  "next_message": "Run 8 of at most 60 (forward) done; files in /work/fwd/r8/. Summary:\n```\n{\n  \"arrays\": {\n    \"L0H0_ATTN\": [\n      5,\n      10,\n      20\n    ],\n    \"L0H0_ATTN_pattern\": [\n      5,\n      10,\n      10\n    ],\n    \"L0H1_ATTN\": [\n      5,\n      10,\n      20\n    ],\n    \"L0H1_ATTN_pattern\": [\n      5,\n      10,\n      10\n    ],\n    \"L0H2_ATTN\": [\n      5,\n      10,\n      20\n    ],\n    \"L0H2_ATTN_pattern\": [\n      5,\n      10,\n      10\n    ],\n    \"L0H3_ATTN\": [\n      5,\n      10,\n      20\n    ],\n    \"L0H3_ATTN_pattern\": [\n      5,\n      10,\n      10\n    ],\n    \"L0_MLP\": [\n      5,\n      10,\n      20\n    ],\n    \"L0_MLP_post\": [\n      5,\n      10,\n      80\n    ],\n    \"L1H0_ATTN\": [\n      5,\n      10,\n      20\n    ],\n    \"L1H0_ATTN_pattern\": [\n      5,\n      10,\n      10\n    ],\n    \"L1H1_ATTN\": [\n      5,\n      10,\n      20\n    ],\n    \"L1H1_ATTN_pattern\": [\n      5,\n      10,\n      10\n    ],\n    \"L1H2_ATTN\": [\n      5,\n      10,\n      20\n    ],\n    \"L1H2_ATTN_pattern\": [\n      5,\n      10,\n      10\n    ],\n    \"L1H3_ATTN\": [\n      5,\n      10,\n      20\n    ],\n    \"L1H3_ATTN_pattern\": [\n      5,\n      10,\n      10\n    ],\n    \"L1_MLP\": [\n      5,\n      10,\n      20\n    ],\n    \"L1_MLP_post\": [\n      5,\n      10,\n      80\n    ],\n    \"logits\": [\n      5,\n      10,\n      1\n    ]\n  },\n  \"file\": \"run.npz\",\n  \"ok\": true,\n  \"predictions\": [\n    [\n      -0.3492,\n      -0.0361,\n      0.0163,\n      0.376,\n      0.4953,\n      0.8374,\n      0.6363,\n      0.8036,\n      0.5584,\n      0.9877\n    ],\n    [\n      -0.3492,\n      -0.0388,\n      0.0106,\n      0.3846,\n      0.5048,\n      0.865,\n      0.6455,\n      0.821,\n      0.571,\n      0.9867\n    ],\n    [\n      -0.3492,\n      -0.0458,\n      -0.0084,\n      0.3584,\n      0.4831,\n      0.8603,\n      0.6573,\n      0.8126,\n      0.5734,\n      0.9935\n    ],\n    [\n      -0.3492,\n      -0.0361,\n      0.0163,\n      0.376,\n      0.4953,\n      0.8374,\n      0.6363,\n      0.8036,\n      0.5584,\n      1.02\n    ],\n    [\n      -0.3492,\n      -0.0361,\n      0.0163,\n      0.376,\n      0.4953,\n      0.8374,\n      0.6363,\n      0.8036,\n      0.5584,\n      0.9821\n    ]\n  ]\n}\n```\n[budget: python runs used 8/60]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 31387,
+    "output": 2415,
+    "cache_read": 84224,
+    "cache_write": 0,
+    "reasoning": 1251
+  },
+  "cost_usd": 0.0,
+  "tool_free_turns": 9,
+  "hook_blocks": 0
+}

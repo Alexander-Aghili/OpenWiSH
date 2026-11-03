@@ -1,0 +1,4 @@
+{"call":0,"verdict":"allowed","reason":"It only inspects component names, vocabulary, and weight tensors, with an unsuccessful weight lookup.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"It only reads and prints network weights.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"It analyzes recorded forward-probe activations and attention patterns using comparisons, averages, and SVD without executing the network.","flags":[]}
+{"call":4,"verdict":"allowed","reason":"It computes weight SVDs and descriptive decompositions of recorded activations without fitting weights or running the network.","flags":[]}

@@ -1,0 +1,2 @@
+{"call":0,"verdict":"violation","reason":"It evaluates weight-derived ReLU activations and output logits at interval midpoints to determine class winners, simulating network computation on inputs despite the prohibition.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"It only prints the previously computed submission and performs no prohibited computation.","flags":[]}

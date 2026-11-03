@@ -1,0 +1,3 @@
+{"call":0,"verdict":"allowed","reason":"It only reads component identifiers, vocabulary mappings, and weight tensor shapes.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"It only inspects weights and computes norms of weight tensors.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"It analyzes recorded forward-probe outputs and computes their singular values without running the network or fitting weights.","flags":[]}

@@ -1,0 +1,2 @@
+{"call":0,"verdict":"allowed","reason":"The code only inspects component names, vocabulary mappings, and weight tensor shapes.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"The code analyses recorded probe activations and attention patterns using norms, projections, differences, and SVD without running the network or fitting its weights.","flags":[]}

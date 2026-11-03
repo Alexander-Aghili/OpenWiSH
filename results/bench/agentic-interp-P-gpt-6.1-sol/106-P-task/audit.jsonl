@@ -1,0 +1,3 @@
+{"call":0,"verdict":"allowed","reason":"It only lists components and attempts to read weights, stopping on a missing key.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"It reads and prints model weights without running the network or fitting anything.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"It inspects recorded forward-probe activations and sums recorded attention writes, which is permitted analysis.","flags":[]}

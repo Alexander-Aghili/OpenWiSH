@@ -1,0 +1,1 @@
+{"call":0,"verdict":"allowed","reason":"The code only reads and prints component metadata, tensor shapes, embeddings, and MLP weights, without executing the network or fitting anything.","flags":[]}

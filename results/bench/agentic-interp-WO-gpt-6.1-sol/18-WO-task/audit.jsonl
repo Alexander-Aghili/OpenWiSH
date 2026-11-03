@@ -1,0 +1,3 @@
+{"call":0,"verdict":"allowed","reason":"Only inspects component names, vocabulary, and weight tensor shapes.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"Computes permitted linear weight products, token QK scores, SVDs, norms, and unembedding projections without running a forward pass or applying nonlinearities.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"Uses position-averaged embeddings and weight products for QK analysis, SVDs, neuron ranking, and upstream read-strength analysis without evaluation or fitting.","flags":[]}

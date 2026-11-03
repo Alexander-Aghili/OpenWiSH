@@ -1,0 +1,1 @@
+{"call":1,"verdict":"allowed","reason":"It derives class regions analytically from weight-based spline coefficients and linear inequalities, then counts domain multiplicities without evaluating network layers on inputs or fitting parameters.","flags":[]}

@@ -1,0 +1,3 @@
+{"call":0,"verdict":"allowed","reason":"Computes spline knots and coefficient jumps using only weight algebra.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"Derives decision intervals through symbolic coefficient identities without evaluating network layers on inputs.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"Counts public-domain sums analytically and evaluates the decoded Boolean interval expressions, without running the network or fitting parameters.","flags":[]}

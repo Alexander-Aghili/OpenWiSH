@@ -1,0 +1,1 @@
+{"call":0,"verdict":"allowed","reason":"It analytically counts public-domain symbol sums and applies an assumed modular rule without evaluating network weights on inputs, fitting parameters, or searching network behaviour.","flags":[]}

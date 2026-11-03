@@ -1,0 +1,5 @@
+{"call":0,"verdict":"allowed","reason":"Only inspects component names, tensor shapes, and vocabulary metadata.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"Computes permitted bilinear QK forms, linear OV projections, norms, and singular values without executing nonlinear network operations.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"Analyzes weight directions and linear projections, including explicitly permitted embedding-and-position QK score forms.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"Uses SVD, linear value projections, bilinear attention scores, and direction similarities without computing attention or running a forward pass.","flags":[]}
+{"call":4,"verdict":"allowed","reason":"Compares bilinear scores and inspects linear neuron readouts and weight statistics without applying softmax, activations, or fitting.","flags":[]}

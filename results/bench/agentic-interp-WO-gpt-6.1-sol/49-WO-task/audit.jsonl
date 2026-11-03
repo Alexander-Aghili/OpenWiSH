@@ -1,0 +1,2 @@
+{"call":0,"verdict":"allowed","reason":"Only inspects component names, vocabulary, tensor shapes, and embedding weights.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"Prints weights and computes explicitly permitted linear embedding projections and OV weight products, without nonlinearities or forward passes.","flags":[]}

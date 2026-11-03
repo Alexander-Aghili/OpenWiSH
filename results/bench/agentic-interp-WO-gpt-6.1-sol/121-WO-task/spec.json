@@ -1,0 +1,93 @@
+{
+  "spec": {
+    "id": "agentic-interp-121-WO",
+    "description": "AgenticInterpBench case 121, condition WO: tag each circuit component with the 5-class taxonomy.",
+    "prompt": "prompt.txt",
+    "appendix": null,
+    "instructions": "You are given a small transformer and a localized circuit inside it. The listed components are causally relevant to the task. Classify the functional role of every listed component with exactly one tag from the taxonomy.\n\nTaxonomy:\n- INDICATOR: Detects a property of a single input and emits a binary / predicate-like signal (a flag).\n- AGGREGATOR: Reduces content across multiple positions into a summary quantity (count, fraction, accumulated quantity). The information is collapsed after the operation.\n- ROUTER: Moves content from one position to another via positional / index-based selection. Content is copied across positions.\n- MAPPER: Transforms a single input at each position independently into a non-binary output (arithmetic, remap, lookup, reshape), including when the result is a control signal.\n- COMBINER: Reads two or more distinct upstream signals/inputs and fuses them into one output.\n\nWhen tags overlap, choose by the component's input-output behavior: how many distinct signals it uses, whether it produces a binary flag or a non-binary value, and whether information is summarized across positions or copied between positions.\n\nCondition WO: weights only. You read the weights with Python and numpy. W[\"<name>\"] holds every tensor as a float32 array, with TransformerLens names and shapes (for example W[\"blocks.0.attn.W_Q\"] is [n_heads, d_model, d_head]). VOCAB holds the token maps. COMPONENTS lists the component ids. Reply with one ```python block to run code.\n\nAllowed: any analysis of the weights: products of weight matrices, embedding and position rows multiplied with weight matrices, bilinear attention-score forms such as (W_E + W_pos) W_Q W_K^T (W_E + W_pos)^T, OV and QK circuits, SVD, norms, and reasoning about which directions each component reads and writes.\nForbidden: running the network on any input, even partially. That means no forward pass of any token sequence, no passing embeddings or anything computed from them through a nonlinearity (softmax, activation functions, the MLP), no logits for any input, no evaluation and no fitting.\n\nWhen you finish, write the answer to /work/submission.json from Python, or reply without a code block with the JSON object. Answer with one JSON object and nothing else: {\"tags\": {\"<component id>\": \"<TAG>\", ...}}, one entry per component.",
+    "network": {
+      "base": "net"
+    },
+    "mounts": [],
+    "hidden": [
+      "../../../assets/agentic_interp"
+    ],
+    "python": {
+      "runs": 30,
+      "timeout_s": 120,
+      "mem_gb": 4,
+      "max_out": 15000,
+      "prelude": "prelude.py",
+      "threads": 8,
+      "fresh": false,
+      "venv": null,
+      "reject_flags": [
+        "forward_pass",
+        "backward",
+        "autograd",
+        "optimizer",
+        "scipy_optimize",
+        "manual_gradient_step",
+        "fit_into_weights",
+        "lstsq_into_weights"
+      ]
+    },
+    "forward": {},
+    "edits": {
+      "language": false,
+      "policy": {
+        "allowed": null,
+        "forbidden": [],
+        "forbid_whole_tensor_scale": false,
+        "max_frac_changed": null
+      }
+    },
+    "finish": {
+      "require_all_passes": false,
+      "max_turns": 40,
+      "max_nudges": 5,
+      "validation": {
+        "command": [
+          "python3",
+          "-I",
+          "{root}/python/adapters/agentic_interp.py",
+          "validate",
+          "--case",
+          "121",
+          "--components",
+          "L0_MLP"
+        ],
+        "timeout_s": 10,
+        "submission_file": "submission.json"
+      }
+    },
+    "handoff": {
+      "max_conversation_tokens": 700000,
+      "max_turns_per_conversation": 0
+    },
+    "score": {
+      "command": [
+        "python3",
+        "-I",
+        "{root}/python/adapters/agentic_interp.py",
+        "score",
+        "--case",
+        "121"
+      ]
+    },
+    "editor": {
+      "backend": null,
+      "model": null,
+      "effort": "high"
+    },
+    "hooks": {
+      "session_start": [],
+      "pre_tool": [],
+      "post_tool": [],
+      "on_edit": [],
+      "session_end": [],
+      "timeout_s": null
+    }
+  },
+  "dir": "/home/alexsky2/Projects/WeightSpaceProgramming/tasks/agentic_interp/121-WO"
+}

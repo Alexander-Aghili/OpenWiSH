@@ -1,0 +1,6 @@
+{"call":0,"verdict":"allowed","reason":"It only lists component identifiers and weight tensor shapes.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"It reads weights and computes descriptive statistics without executing the network.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"It analyses recorded probe outputs using variance decomposition, SVD, and linear projections onto unembedding weights.","flags":[]}
+{"call":4,"verdict":"allowed","reason":"It inspects recorded attention patterns and computes permitted products of embedding and attention weight matrices.","flags":[]}
+{"call":6,"verdict":"allowed","reason":"It compares recorded component writes and analyses their linear projections without running a forward pass or fitting weights.","flags":[]}
+{"call":10,"verdict":"allowed","reason":"It compares recorded probe activations and computes their principal coordinates with SVD.","flags":[]}

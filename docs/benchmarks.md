@@ -87,44 +87,61 @@ Game MLPs: 4/4 correct. Diffusion MLPs: 3/3 correct. Claude reports lower confid
 | exp2-246a5b58 | triangle (88 %) | triangle (45 %) | 1 | 0 | 1.33 | not audited |
 | exp2-a6a9dfb7 | square (77 %) | square (35 %) | 1 | 0 | 1.10 | not audited |
 | exp2-d88aba69 | circle (84 %) | circle (60 %) | 1 | 0 | 0.97 | not audited |
+| exp3-net-a | python, heads 2.1 3.1 3.5 | python, heads 2.1 3.0 3.1 3.4 3.5, P 0.6, R 1.0 | 44 | 43 | 148.17 | invalid |
+| exp4-task | 1,024 / 1,024 | 1024 / 1024 (2921 weights changed) | 1 | 0 | 3.81 | not audited |
+| exp5-asterix | 53.2 | 60.4 ± 1.2 | 1 | 0 | 1.84 | not audited |
 | exp5-breakout | 517.4 | 54.2 ± 1.6 | 1 | 0 | 3.33 | not audited |
+| exp5-seaquest | 53.1 | 60.9 ± 1.7 | 1 | 0 | 4.35 | not audited |
 | exp6-budget_0 | 42.6 / 26.3 / 36.3 % | 41.0 / 28.7 / 42.6 % | 18 | 17 | 112.47 | not audited |
 
 | Qwen3.5-0.8B on MATH-500 (1 sample, 32,768 tokens) | Published (4 samples) | OpenWiSH | Share cut at 32,768 |
 |---|---|---|---|
 | base | 7.9 % | 10.6 ± 1.4 % | 90.2 % |
+| p10c | 12.3 % | 13.6 ± 1.5 % | 86.8 % |
 
 #### WSPBench
 
-WSPBench condition A matches the pilot: one reply, no tools. OW adds a Python sandbox over the weights, a format-only checker and a guard against activation code. OW is not a WSPBench condition. Report OW apart from A, B and C. Each cell is one attempt per task. The pilot used API calls. These runs use CLI backends. Model aliases do not pin a snapshot.
+WSPBench condition A matches the pilot: one reply, no tools. Conditions B and C give the model WSPBench's own tools: bounded weight algebra in B, plus metered practice observations in C. B and C run in WSPBench's own Inspect loop through `scripts/wspbench_bc.py`, with the measured transport overhead of 4,735 tokens per request left uncharged. OW gives Python over the weights with no network execution, a format-only checker and a guard against activation code. OW is not a WSPBench condition. Report OW apart from A, B and C. Each cell is one attempt per task. Model aliases do not pin a snapshot.
 
-Codex tuned the OW config in five rounds on the six pilot tasks. Each round fixed one OpenWiSH fault. The config then froze. The frozen config ran once on six development tasks no round had used: two rule-recovery, two edit-effects and two synthesis tasks, the pilot's families. `runs/heldout-r5-manifest.json` holds the binary and task hashes. The held-out rows are the fair estimate.
+Codex tuned the OW config in five rounds on the six pilot tasks. Each round fixed one OpenWiSH fault. The config then froze. The frozen config ran once on six development tasks no round had used, from the pilot's families, and on the 12 tasks of the two families no round touched. `results/heldout-r5-manifest.json` and `results/heldout-families-manifest.json` hold the binary and task hashes.
 
 A Codex auditor (`gpt-6.1-sol`, medium effort) reviews every OW run with code. A run with a failed audit scores 0 in these tables. One-reply runs execute no code and need no audit. Write outputs are class-imbalanced. The pilot's static zero-start control scores 70.1 % target accuracy with 0/2 exact. Judge construction by exact success.
 
-On the held-out six, the sandbox takes `gpt-6.1-sol` and `gpt-6.1-terra` from 0/4 exact reads to 4/4, with every audit valid. Both reach 2/2 exact writes. `gpt-6-luna` gains both writes and no read. One Luna read failed its audit: the code tested gate inputs against weighted thresholds. Six tasks per row do not support a general ranking.
-
-Claude ran the original OW config, before the rounds. The Claude backend forwarded task instructions from the start. Strict scoring rejects two Claude A replies for extra `explanation` keys. Claude has no held-out run yet.
+OW solves more tasks exactly than B and C for each model run in all three conditions, on both task sets. WSPBench caps a B or C session at 160,000 input tokens, and the payload alone holds 33,000 to 66,000, so these sessions get 2 to 4 turns. Sol runs out before submitting. Terra and Luna submit early, with no exact answer. On the forecast and repair families, one reply already solves all 12 for Sol, and Terra and Luna each failed three OW audits for simulating the network at sample inputs.
 
 | Model | Tasks | Condition | Read agreement | Read exact | Write accuracy | Write exact | Audit | Source |
 |---|---|---|---:|---:|---:|---:|---|---|
 | gpt-6-luna | pilot six | A | 44.1 % | 0/4 | 71.9 % | 0/2 | no code run | WSPBench pilot |
 | gpt-6-luna | pilot six | A, through OpenWiSH | 46.6 % | 0/4 | 70.3 % | 0/2 | no code run | this repo |
+| gpt-6-luna | pilot six | B, WSPBench tools | 46.3 % | 0/4 | 70.3 % | 0/2 | no code run | this repo |
+| gpt-6-luna | pilot six | C, WSPBench tools | 21.5 % | 0/4 | 0.0 % | 0/2 | no code run | this repo |
 | gpt-6-luna | pilot six | OpenWiSH sandbox | 69.0 % | 0/4 | 100.0 % | 2/2 | 6/6 valid | this repo |
 | gpt-6-luna | held-out six | A, through OpenWiSH | 51.9 % | 0/4 | 82.2 % | 0/2 | no code run | this repo |
+| gpt-6-luna | held-out six | B, WSPBench tools | 52.8 % | 0/4 | 43.9 % | 0/2 | no code run | this repo |
+| gpt-6-luna | held-out six | C, WSPBench tools | 30.6 % | 0/4 | 43.9 % | 0/2 | no code run | this repo |
 | gpt-6-luna | held-out six | OpenWiSH sandbox | 40.6 % | 0/4 | 100.0 % | 2/2 | 4/5 valid, 1 invalid | this repo |
 | gpt-6.1-terra | pilot six | A | 66.0 % | 0/4 | 97.3 % | 1/2 | no code run | WSPBench pilot |
 | gpt-6.1-terra | pilot six | A, through OpenWiSH | 35.3 % | 0/4 | 70.3 % | 0/2 | no code run | this repo |
+| gpt-6.1-terra | pilot six | B, WSPBench tools | 51.0 % | 0/4 | 70.3 % | 0/2 | no code run | this repo |
+| gpt-6.1-terra | pilot six | C, WSPBench tools | 35.1 % | 0/4 | 76.6 % | 0/2 | no code run | this repo |
 | gpt-6.1-terra | pilot six | OpenWiSH sandbox | 100.0 % | 4/4 | 100.0 % | 2/2 | 6/6 valid | this repo |
 | gpt-6.1-terra | held-out six | A, through OpenWiSH | 41.0 % | 0/4 | 82.2 % | 0/2 | no code run | this repo |
+| gpt-6.1-terra | held-out six | B, WSPBench tools | 28.3 % | 0/4 | 82.2 % | 0/2 | no code run | this repo |
+| gpt-6.1-terra | held-out six | C, WSPBench tools | 48.2 % | 0/4 | 82.2 % | 0/2 | no code run | this repo |
 | gpt-6.1-terra | held-out six | OpenWiSH sandbox | 100.0 % | 4/4 | 100.0 % | 2/2 | 6/6 valid | this repo |
 | gpt-6.1-sol | pilot six | A | 87.7 % | 0/4 | 95.8 % | 1/2 | no code run | WSPBench pilot |
 | gpt-6.1-sol | pilot six | A, through OpenWiSH | 89.7 % | 1/4 | 99.2 % | 1/2 | no code run | this repo |
+| gpt-6.1-sol | pilot six | B, WSPBench tools | 0.0 % | 0/4 | 0.0 % | 0/2 | no code run | this repo |
+| gpt-6.1-sol | pilot six | C, WSPBench tools | 0.0 % | 0/4 | 0.0 % | 0/2 | no code run | this repo |
 | gpt-6.1-sol | pilot six | OpenWiSH sandbox | 100.0 % | 4/4 | 100.0 % | 2/2 | 6/6 valid | this repo |
 | gpt-6.1-sol | held-out six | A, through OpenWiSH | 75.1 % | 0/4 | 96.9 % | 1/2 | no code run | this repo |
+| gpt-6.1-sol | held-out six | B, WSPBench tools | 25.0 % | 1/4 | 0.0 % | 0/2 | no code run | this repo |
+| gpt-6.1-sol | held-out six | C, WSPBench tools | 0.0 % | 0/4 | 0.0 % | 0/2 | no code run | this repo |
 | gpt-6.1-sol | held-out six | OpenWiSH sandbox | 100.0 % | 4/4 | 100.0 % | 2/2 | 6/6 valid | this repo |
 | claude-opus-5-5 | pilot six | A, through OpenWiSH | 22.0 % | 0/4 | 88.3 % | 1/2 | no code run | this repo |
 | claude-opus-5-5 | pilot six | OpenWiSH sandbox | 100.0 % | 4/4 | 100.0 % | 2/2 | 6/6 valid | this repo |
+| claude-opus-5-5 | held-out six | A, through OpenWiSH | 41.7 % | 0/4 | 97.1 % | 1/2 | no code run | this repo |
+| claude-opus-5-5 | held-out six | OpenWiSH sandbox | 100.0 % | 4/4 | 100.0 % | 2/2 | 6/6 valid | this repo |
 
 The rounds table shows why audits matter. Before the r4 guard, many high scores came from code evaluating gates on inputs. Those runs fail audit and score 0 here.
 
@@ -162,6 +179,24 @@ The first Codex backend joined progress messages to the final answer and dropped
 | gpt-6.1-sol | A, final-message replay | 79.9 % | 0/4 | 50.0 % | 1/2 | no code run |
 | gpt-6.1-sol | OpenWiSH sandbox | 0.0 % | 0/4 | 0.0 % | 0/2 | no code run |
 | gpt-6.1-sol | OpenWiSH sandbox, corrected backend | 82.5 % | 0/4 | 97.3 % | 1/2 | no code run |
+
+#### AgenticInterpBench
+
+The agent tags each of 163 localized components in 84 InterpBench circuits with one of 5 classes. Tag accuracy pools all components, as in the paper. A prompt only reply sees the task, the examples and the component list, with no weights. HyVE, the published agent, reads activations and runs ablations and patching. OpenWiSH condition P gives the same access through a forward probe. The paper reports no prompt-only control. For Sol, weights and probes add nothing. HyVE adds 9 points over a prompt-only Sonnet reply. The like-for-like Sonnet run of condition P is in progress.
+
+| Model | AgenticInterpBench condition | Cases | Tag accuracy | Audit | Source |
+|---|---|---|---|---|---|
+| claude-sonnet-4-6 | prompt only, one reply | 84 | 69.9 % | no code run | this repo |
+| gpt-6.1-sol | prompt only, one reply | 84 | 73.0 % | no code run | this repo |
+| gpt-6.1-sol | weights only, no execution | 84 | 73.0 % | 75/75 valid | this repo |
+| claude-sonnet-4-6 | weights and forward probe | 3 | 63.6 % | 0/3 valid, 3 not audited | this repo |
+| gpt-6.1-sol | weights and forward probe | 84 | 71.8 % | 75/76 valid, 1 invalid | this repo |
+| gpt-5.4 | HyVE: activations, ablation, patching | 84 | 74.0 % | - | arXiv 2606.24026 |
+| claude-sonnet-4-6 | HyVE: activations, ablation, patching | 84 | 79.0 % | - | arXiv 2606.24026 |
+| gemini-3.1-pro | HyVE: activations, ablation, patching | 84 | 76.0 % | - | arXiv 2606.24026 |
+| qwen-3-coder-30b-a3b | HyVE: activations, ablation, patching | 84 | 67.0 % | - | arXiv 2606.24026 |
+| - | always MAPPER | 84 | 44.2 % | - | gold annotation |
+| - | MLP MAPPER, attention AGGREGATOR (read off the gold) | 84 | 63.8 % | - | gold annotation |
 
 <!-- BENCH:LIVE:END -->
 

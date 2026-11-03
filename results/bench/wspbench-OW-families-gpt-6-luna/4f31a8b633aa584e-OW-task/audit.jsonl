@@ -1,0 +1,1 @@
+{"call":0,"verdict":"allowed","reason":"The run enumerates the public domain and evaluates its own expressions based on the declared programs, without applying network weights, computing activations, fitting parameters, or searching network behaviour.","flags":[]}

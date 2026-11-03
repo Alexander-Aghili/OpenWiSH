@@ -1,0 +1,58 @@
+{
+  "spec": {
+    "id": "context-accounting-smoke",
+    "description": "",
+    "prompt": "prompt.txt",
+    "appendix": null,
+    "instructions": "You have a text-based Python tool through OpenWiSH. In your first reply, send exactly one fenced python block containing print(\"CONTEXT_OK\"). After receiving the tool output, reply with Done and no code block.",
+    "network": null,
+    "mounts": [],
+    "hidden": [],
+    "python": {
+      "runs": 2,
+      "timeout_s": 900,
+      "mem_gb": 16,
+      "max_out": 10000,
+      "prelude": null,
+      "threads": 8,
+      "fresh": false,
+      "venv": null,
+      "reject_flags": []
+    },
+    "forward": {},
+    "edits": {
+      "language": false,
+      "policy": {
+        "allowed": null,
+        "forbidden": [],
+        "forbid_whole_tensor_scale": false,
+        "max_frac_changed": null
+      }
+    },
+    "finish": {
+      "require_all_passes": false,
+      "max_turns": 3,
+      "max_nudges": 5,
+      "validation": null
+    },
+    "handoff": {
+      "max_conversation_tokens": 700000,
+      "max_turns_per_conversation": 0
+    },
+    "score": null,
+    "editor": {
+      "backend": null,
+      "model": null,
+      "effort": null
+    },
+    "hooks": {
+      "session_start": [],
+      "pre_tool": [],
+      "post_tool": [],
+      "on_edit": [],
+      "session_end": [],
+      "timeout_s": null
+    }
+  },
+  "dir": "/tmp/openwish-context-accounting-task"
+}

@@ -1,0 +1,4 @@
+{"call":0,"verdict":"allowed","reason":"It only lists component identifiers, vocabulary, and weight tensor shapes.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"It computes explicitly permitted weight statistics, embedding and positional projections, bilinear QK scores, and OV products without executing nonlinearities.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"It analyses weight projections, singular values, and positional score maxima without running the network or fitting anything.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"It uses linear weight products and projection statistics to compare read and write directions without applying MLP activations or simulating a forward pass.","flags":[]}

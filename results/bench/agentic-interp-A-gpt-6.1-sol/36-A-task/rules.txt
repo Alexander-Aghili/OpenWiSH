@@ -1,0 +1,12 @@
+Task: Classifies each token as 'positive', 'negative', or 'neutral' based on emojis.
+Examples (input tokens -> output per position):
+  ['BOS', '😊', '😊', '📘', '📘', '😊', '😊', '📘', '📘', '📘'] -> ['BOS', 'positive', 'positive', 'neutral', 'neutral', 'positive', 'positive', 'neutral', 'neutral', 'neutral']
+  ['BOS', '😢', '😢', '📘', '😢', '📘', '😢', '😢', '📘', '📘'] -> ['BOS', 'negative', 'negative', 'neutral', 'negative', 'neutral', 'negative', 'negative', 'neutral', 'neutral']
+  ['BOS', '😢', '📘', '😢', '😢', '📘', '📘', '😢', '😊', '😢'] -> ['BOS', 'negative', 'neutral', 'negative', 'negative', 'neutral', 'neutral', 'negative', 'positive', 'negative']
+  ['BOS', '😢', '😢', '😢', '😊', '😢', '😊', '😊', '😢', '😊'] -> ['BOS', 'negative', 'negative', 'negative', 'positive', 'negative', 'positive', 'positive', 'negative', 'positive']
+  ['BOS', '😢', '😢', '😢', '📘', '😢', '😊', '📘', '😊', '😊'] -> ['BOS', 'negative', 'negative', 'negative', 'neutral', 'negative', 'positive', 'neutral', 'positive', 'positive']
+Input token ids: {"BOS": 0, "PAD": 1, "\ud83d\udcd8": 2, "\ud83d\ude0a": 3, "\ud83d\ude22": 4}
+Output classes: {"0": "negative", "1": "neutral", "2": "positive"}
+Architecture: 2 layers, d_model 6, 4 heads of size 1, MLP width 24 with gelu, causal attention, normalization none, learned positions, context 10. Residual stream: x = W_E[token] + W_pos[position]. Each block adds its attention heads, then its MLP. Logits = x W_U + b_U at every position.
+Components:
+  L0_MLP: the MLP output of block 0

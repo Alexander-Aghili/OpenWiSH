@@ -16,7 +16,8 @@ The bundled set follows the experiments of *Sparks of Weight-Space Programming*.
 | `tasks/exp6` 9x9 Go | `budget_0`, `_10`, `_25`, `_50` | write | Python, 120 runs, `games` and `positions` probes from one pool | mean win rate against 3 published same-size PPO networks, 2,000 games each | `prepare_tasks.py exp6`, `train_go_opponents.sh` | `sandbox` |
 | `tasks/exp7` Gemma 3 270M pairs | `attention_pair1..3`, `weights_only_pair1..3` | read | numpy, 20 runs with the `attention` probe from the same budget, or 60 runs on weights only | sycophant named | `prepare_exp7.sh` | `numpy`, `gemma` |
 | `tasks/exp8` Qwen3.5-0.8B math | `p10`, `p25`, `p50` | write | Python over the weights, 300 runs, `forward` probe (`generate`, `teacher_forced`) on a GPU | MATH-500, 500 problems | `prepare_exp8.py` | `sandbox`, `qwen` on the GPU machine |
-| `tasks/wspbench` | six pilot tasks, conditions A and OW | read and write | none in A, Python in OW | strict WSPBench parser and scorer | `prepare_wspbench.sh` | WSPBench locked venv, `sandbox` for OW |
+| `tasks/wspbench` | six pilot tasks and 18 held-out development tasks, conditions A and OW (B and C run in WSPBench's own Inspect loop) | read, write and repair | none in A, Python in OW | strict WSPBench parser and scorer | `prepare_wspbench.sh` | WSPBench locked venv, `sandbox` for OW |
+| `tasks/agentic_interp` | 84 InterpBench circuits, conditions A, WO and P | read | none in A, Python in WO, Python and a `forward` probe in P | tag accuracy on the 5-class taxonomy | `prepare_agentic_interp.sh` | `sandbox` |
 | `tasks/toy` | `task` | smoke test | Python, 3 runs | identity written | nothing | `sandbox` |
 
 ### Notes per environment
@@ -26,9 +27,23 @@ The bundled set follows the experiments of *Sparks of Weight-Space Programming*.
 - **exp7 Gemma pairs.** `scripts/prepare_exp7.sh` fine-tunes the six models with the published training script. You need to accept the Gemma licence on Hugging Face, log in (`hf auth login` or `HF_TOKEN`), and have a GPU. GPU training is not bit-reproducible, so the rebuilt models differ in bytes from the originals. Their behaviour matches: the sycophants follow 100 % of wrong guesses, the honest models 1.4 / 0.7 / 0.7 % (published: 100 % and 2.8 / 0.7 / 0.7 %).
 - **exp8 Qwen.** The forward probe and the scorer stage the edited tensors, run `python/adapters/qwen_worker.py` on a GPU, and copy the results back. The GPU machine is this computer, or a remote one named in `assets/exp8/remote.json` (see [Configuration](configuration.md#remote-gpu-for-tasksexp8)). `scripts/apply_published_edit.py` rebuilds a published edit on the text-only base and checks the published base and result hashes.
 
+### AgenticInterpBench
+
+`scripts/prepare_agentic_interp.sh` fetches AgenticInterpBench (arXiv 2606.24026) at a pinned commit, the gold annotations and the 84 InterpBench weight files, then writes three variants per case. The agent tags every localized circuit component with one class of the benchmark's taxonomy: INDICATOR, AGGREGATOR, ROUTER, MAPPER or COMBINER.
+
+| Variant | Access |
+|---|---|
+| `<case>-A` | The task text, the examples and the component list. One reply, no weights. |
+| `<case>-WO` | The weights in Python. No network execution. |
+| `<case>-P` | The weights in Python and a `forward` probe: logits, each component's write, attention patterns and MLP activations, with zero or mean ablation and interchange patching. This matches the access of the published HyVE agent. |
+
+The probe runs the transformer in numpy with TransformerLens semantics. On the benchmark's examples the probe reproduces 3,883 of 3,937 defined outputs. Case 13 disagrees with its examples. The prepare script loads weights with `torch.load(weights_only=True)` and opens no pickle file. Gold tags and RASP programs stay in `assets/`, outside the sandbox.
+
 ### WSPBench
 
 Run `scripts/prepare_wspbench.sh` to fetch WSPBench, install the locked environment and export six public development pilot tasks. New OW exports expose the public task as `TASK` in Python. Only the public prompt mounts at `/task.json`. Hidden scoring data stays outside the sandbox. Use `export --condition OW --out-dir <folder>` on the bridge to create a separate variant without changing a running task. Condition A preserves the prompt and one-reply protocol. OW adds Python with no network execution and a format-only checker. OW is a separate condition from WSPBench A, B and C. Keep the scores separate. See [Benchmarks](benchmarks.md).
+
+`scripts/wspbench_bc.py` runs conditions A, B and C in WSPBench's own Inspect loop: the same solver, tools, budgets, metering and scorer as the pilot. Only the transport differs. Each model turn goes through `openwish ask`, the backend CLI with its own tools off, and the model calls a tool with one ```` ```tool_call ```` block. Pass `--overhead` with the measured per-request transport tokens, so the session budget charges what an API call would charge.
 
 New OW exports block selected static-check rules before Python execution. This conservative policy flags possible network simulation, including scalar ReLUs. Pure weight algebra stays available. Static checks miss indirect spellings, so every run still needs an audit. Use `--no-policy` for advisory checks in a separate comparison variant.
 

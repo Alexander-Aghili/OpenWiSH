@@ -1,0 +1,4 @@
+{"call":0,"verdict":"allowed","reason":"It only reads component identifiers, vocabulary mappings, and weight tensor shapes.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"It inspects weights and computes descriptive statistics without executing the network.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"It analyses probe-recorded activations and attention patterns using variance decomposition, SVD, and an unembedding projection.","flags":[]}
+{"call":5,"verdict":"allowed","reason":"It uses SVD and projections to analyse recorded probe outputs and compare token, position, and context effects.","flags":[]}

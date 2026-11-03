@@ -1,0 +1,1 @@
+{"call":0,"verdict":"allowed","reason":"The code only reads weights and attempts an explicitly permitted linear projection of token embeddings through an input weight matrix, without nonlinearities, forward passes, or fitting.","flags":[]}

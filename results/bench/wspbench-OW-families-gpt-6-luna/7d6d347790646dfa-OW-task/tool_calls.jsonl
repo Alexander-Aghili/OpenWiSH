@@ -1,0 +1,2 @@
+{"code":"import json\n\nsub = {\n    \"effects\": {\n        \"f0\": [0.0, 0.0],\n        \"f1\": [0.0, 0.66],\n        \"f2\": [0.0, 0.6666666667],\n        \"f3\": [0.6666666667, 0.66],\n    }\n}\ncheck_submission(sub)\nwith open(\"/work/submission.json\", \"w\") as f:\n    json.dump(sub, f)\n","error":false,"flags":[],"kind":"python","output":"","restarted":false,"run":1,"seconds":0.000385666,"turn":1}
+{"kind":"validation","result":{"ok":true},"turn":2}

@@ -1,0 +1,2 @@
+{"call":0,"verdict":"allowed","reason":"The code only inspects component names, tensor shapes, and embedding weights.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"The code analyzes recorded forward-probe activations with SVD and inspects MLP weights without running the network or fitting anything.","flags":[]}

@@ -2,7 +2,7 @@
 
 **Open Weight-Space Harness for Weight-Space programming.**
 
-An agent reads and writes neural-network weights directly. OpenWiSH gives the agent a sandbox, budgeted probes, one edit gate and an audit trail.
+An agent reads and writes neural-network weights directly. OpenWiSH gives the agent a sandbox, budgeted probes, one edit gate and an audit trail. The goal: a shared instrument for mechanistic interpretability research and for decoding networks into programs.
 
 [![CI](https://github.com/Alexander-Aghili/OpenWiSH/actions/workflows/ci.yml/badge.svg)](https://github.com/Alexander-Aghili/OpenWiSH/actions/workflows/ci.yml)
 [![License: MIT OR Apache-2.0](https://img.shields.io/badge/license-MIT%20OR%20Apache--2.0-blue.svg)](#license)
@@ -85,20 +85,18 @@ Conformance comes first. OpenWiSH replays the published runs as a scripted agent
 | 9x9 Go | Published budget-50 network against same-size PPO, 2,000 games | 74.15 % | 74.15 % |
 | Gemma pairs | Grades of the 3 published attention-tool answers | 3 / 3 | 3 / 3, same probabilities |
 
-Live Claude runs identify all four games and all three diffusion shapes. Confidence is lower than the published agent. On Breakout, Claude scores 54.2 ± 1.6 against the published 517.4. These are single, unaudited runs.
+**Tools against tools.** [WSPBench](https://github.com/alexcarterhq/wspbench) defines its own tool conditions: weight-algebra tools in B, plus metered practice observations in C. The OpenWiSH sandbox gives Python over the same weights, with no network execution. Same models, same 12 tasks, one attempt each. A run with a failed audit scores 0.
 
-WSPBench, six held-out development tasks, one attempt each. The OpenWiSH config was frozen before these tasks ran. A run with a failed audit scores 0.
+| Model | WSPBench B, exact | WSPBench C, exact | OpenWiSH sandbox, exact |
+|---|---:|---:|---:|
+| gpt-6.1-sol | 1 / 12 | 0 / 12 | **12 / 12** |
+| gpt-6.1-terra | 0 / 12 | 0 / 12 | **12 / 12** |
+| gpt-6-luna | 0 / 12 | 0 / 12 | **4 / 12** |
+| claude-opus-5-5 | not run | not run | **12 / 12** |
 
-| Model | Condition | Read agreement | Read exact | Write accuracy | Write exact | Audit |
-|---|---|---:|---:|---:|---:|---|
-| gpt-6.1-sol | A, one reply | 75.1 % | 0/4 | 96.9 % | 1/2 | no code run |
-| gpt-6.1-sol | OpenWiSH Python sandbox | 100.0 % | 4/4 | 100.0 % | 2/2 | 6/6 valid |
-| gpt-6.1-terra | A, one reply | 41.0 % | 0/4 | 82.2 % | 0/2 | no code run |
-| gpt-6.1-terra | OpenWiSH Python sandbox | 100.0 % | 4/4 | 100.0 % | 2/2 | 6/6 valid |
-| gpt-6-luna | A, one reply | 51.9 % | 0/4 | 82.2 % | 0/2 | no code run |
-| gpt-6-luna | OpenWiSH Python sandbox | 40.6 % | 0/4 | 100.0 % | 2/2 | 4/5 valid, 1 invalid |
+OpenWiSH solves more tasks exactly than both WSPBench tool conditions, for each of the three models run in all three. Six of the 12 tasks were held out: the OpenWiSH config was frozen before they ran. B and C run in WSPBench's own Inspect loop, unchanged, and WSPBench's session budget shapes those results. [Results](docs/results.md) covers the method, the losses (AgenticInterpBench, two WSPBench families, Breakout) and how each point of the Hacker News discussion maps to a test.
 
-On the six pilot tasks, OpenWiSH condition A reproduces the WSPBench pilot for `gpt-6.1-sol` (89.7 % against 87.7 % read) and `gpt-6-luna` (46.6 % against 44.1 %). Claude Opus 5.5 scores 4/4 and 2/2 exact in the sandbox, with 6/6 audits valid. Condition A compares with WSPBench A only. The sandbox adds tools and forms a separate condition. Six tasks per row do not support a general ranking. The fixed K-composition baseline finds 0/5 copying heads, against 5/5 for the published agent.
+On the blog environments, Claude Opus 5.5 through OpenWiSH fixes the Kinetix car (1,024 / 1,024 episodes, 2,921 weights changed against the published 6,073) and beats the published one-shot MinAtar policies on Seaquest (60.9 against 53.1) and Asterix (60.4 against 53.2). These are single runs. Condition A compares with WSPBench A only. The fixed K-composition baseline finds 0/5 copying heads, against 5/5 for the published agent.
 
 Methodology, the full table, known deviations and live agent results: [Benchmarks](docs/benchmarks.md).
 
@@ -122,6 +120,7 @@ Path rules, sandbox mounts and the known gaps: [Safety](docs/safety.md). Report 
 | [Environments](docs/environments.md) | Bundled environments, task TOML, preludes, probes, scorers |
 | [Agents](docs/agents.md) | Backends, the `Editor` trait, adding a model or agent |
 | [Safety](docs/safety.md) | Enforcement layers, path rules, known gaps |
+| [Results](docs/results.md) | Tools against tools, losses, the Hacker News points mapped to tests |
 | [Benchmarks](docs/benchmarks.md) | Conformance, methodology, live results |
 | [Configuration](docs/configuration.md) | Environment variables, CLI flags, remote GPU |
 | [Roadmap](docs/roadmap.md) | Parity with coding agents, next environments |

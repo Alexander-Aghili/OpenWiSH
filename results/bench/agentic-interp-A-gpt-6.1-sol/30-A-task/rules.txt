@@ -1,0 +1,12 @@
+Task: Tags numeric tokens in a sequence based on whether they fall within a given range.
+Examples (input tokens -> output per position):
+  ['BOS', '14', '26', '8', '21', '18', '15', '8', '27', '14'] -> ['BOS', True, False, False, False, True, True, False, False, True]
+  ['BOS', '5', '25', '29', '18', '18', '3', '27', '11', '15'] -> ['BOS', False, False, False, True, True, False, False, True, True]
+  ['BOS', '4', '23', '6', '6', '17', '7', '7', '22', '21'] -> ['BOS', False, False, False, False, True, False, False, False, False]
+  ['BOS', '1', '7', '27', '0', '19', '5', '28', '8', '19'] -> ['BOS', False, False, False, False, True, False, False, False, True]
+  ['BOS', '3', '10', '28', '27', '1', '3', '19', '9', '13'] -> ['BOS', False, True, False, False, False, False, True, False, True]
+Input token ids: {"0": 0, "1": 1, "10": 2, "11": 3, "12": 4, "13": 5, "14": 6, "15": 7, "16": 8, "17": 9, "18": 10, "19": 11, "2": 12, "20": 13, "21": 14, "22": 15, "23": 16, "24": 17, "25": 18, "26": 19, "27": 20, "28": 21, "29": 22, "3": 23, "4": 24, "5": 25, "6": 26, "7": 27, "8": 28, "9": 29, "BOS": 30, "PAD": 31}
+Output classes: {"0": false, "1": true}
+Architecture: 2 layers, d_model 4, 4 heads of size 1, MLP width 16 with gelu, causal attention, normalization none, learned positions, context 10. Residual stream: x = W_E[token] + W_pos[position]. Each block adds its attention heads, then its MLP. Logits = x W_U + b_U at every position.
+Components:
+  L0_MLP: the MLP output of block 0

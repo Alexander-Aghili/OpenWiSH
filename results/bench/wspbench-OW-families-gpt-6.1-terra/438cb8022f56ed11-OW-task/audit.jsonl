@@ -1,0 +1,1 @@
+{"call":0,"verdict":"allowed","reason":"The code counts outcomes of the public declared programs and an analytically chosen scalar expression without applying network weights to inputs, fitting parameters, or performing behavioural search.","flags":[]}

@@ -1,0 +1,4 @@
+{"call":0,"verdict":"allowed","reason":"Computes composed weight matrices and biases for declared sign hypotheses without applying them to inputs.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"Compares singular values and norms using only weight algebra, not network behaviour.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"Identifies the sign fault through weight-subspace projection residuals without data fitting or forward passes.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"Validates the submission format and writes the analytically selected patch.","flags":[]}

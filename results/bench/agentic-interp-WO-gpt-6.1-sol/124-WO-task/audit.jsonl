@@ -1,0 +1,6 @@
+{"call":0,"verdict":"allowed","reason":"Only reads component metadata, vocabulary, and tensor shapes.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"Inspects weights using printing, norms, and singular value decompositions.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"Computes explicitly permitted bilinear QK forms, OV products, and linear weight projections without nonlinearities.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"Analyzes embedding-derived directions and weight alignments without running network components or fitting.","flags":[]}
+{"call":4,"verdict":"allowed","reason":"Uses SVD, correlations, and projections of weights to analyze structural relationships.","flags":[]}
+{"call":5,"verdict":"allowed","reason":"Computes weight-only linear and quadratic contractions and eigendecompositions without evaluating nonlinearities or inputs.","flags":[]}

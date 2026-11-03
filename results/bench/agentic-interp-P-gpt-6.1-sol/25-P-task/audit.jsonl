@@ -1,0 +1,5 @@
+{"call":0,"verdict":"allowed","reason":"Only inspects component identifiers, vocabulary, and weight shapes.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"Only reads weights and reports their statistics and entries.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"Analyzes probe-recorded attention patterns and component writes using norms and SVD.","flags":[]}
+{"call":4,"verdict":"allowed","reason":"Computes embedding and OV weight compositions and analyzes recorded attention without executing a forward pass.","flags":[]}
+{"call":5,"verdict":"allowed","reason":"Analyzes recorded component writes through distances, cosine similarities, and direct unembedding projections.","flags":[]}

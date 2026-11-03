@@ -1,0 +1,27 @@
+### gpt-6.1-sol B 20:07:08
+{"task": "0ccf05ea24942ed4", "condition": "B", "score": 0.0, "exact": false, "status": "invalid_submission", "turns": 2}
+{"task": "0e688589bf551b1f", "condition": "B", "score": 0.0, "exact": false, "status": "invalid_submission", "turns": 2}
+{"task": "2b12b0f4688c3852", "condition": "B", "score": 0.0, "exact": false, "status": "invalid_submission", "turns": 2}
+{"task": "62a9ccaf392d7c3f", "condition": "B", "score": 0.0, "exact": false, "status": "invalid_submission", "turns": 4}
+{"task": "a1393d5b54c62b47", "condition": "B", "score": 0.0, "exact": false, "status": "invalid_submission", "turns": 2}
+{"task": "f987f563d00f687f", "condition": "B", "score": 0.0, "exact": false, "status": "invalid_submission", "turns": 4}
+{"task": "136a89846d8b907e", "condition": "B", "score": 0.0, "exact": false, "status": "invalid_submission", "turns": 4}
+{"task": "90051af877cf09fd", "condition": "B", "score": 1.0, "exact": true, "status": "completed", "turns": 4}
+{"task": "97f31af465547846", "condition": "B", "score": 0.0, "exact": false, "status": "invalid_submission", "turns": 2}
+{"task": "f0057721e75f1828", "condition": "B", "score": 0.0, "exact": false, "status": "invalid_submission", "turns": 2}
+{"task": "94bf00ec34fc57d3", "condition": "B", "score": 0.0, "exact": false, "status": "invalid_submission", "turns": 2}
+{"task": "cb64a3c92996f1ec", "condition": "B", "score": 0.0, "exact": false, "status": "invalid_submission", "turns": 2}
+### gpt-6.1-sol C 20:13:01
+{"task": "0ccf05ea24942ed4", "condition": "C", "score": 0.0, "exact": false, "status": "protocol_violation", "turns": 1}
+{"task": "0e688589bf551b1f", "condition": "C", "score": 0.0, "exact": false, "status": "invalid_submission", "turns": 2}
+{"task": "2b12b0f4688c3852", "condition": "C", "score": 0.0, "exact": false, "status": "invalid_submission", "turns": 2}
+{"task": "62a9ccaf392d7c3f", "condition": "C", "score": 0.0, "exact": false, "status": "invalid_submission", "turns": 4}
+{"task": "a1393d5b54c62b47", "condition": "C", "score": 0.0, "exact": false, "status": "invalid_submission", "turns": 2}
+{"task": "f987f563d00f687f", "condition": "C", "score": 0.0, "exact": false, "status": "invalid_submission", "turns": 4}
+{"task": "136a89846d8b907e", "condition": "C", "score": 0.0, "exact": false, "status": "invalid_submission", "turns": 4}
+{"task": "90051af877cf09fd", "condition": "C", "score": 0.0, "exact": false, "status": "invalid_submission", "turns": 4}
+{"task": "97f31af465547846", "condition": "C", "score": 0.0, "exact": false, "status": "invalid_submission", "turns": 2}
+{"task": "f0057721e75f1828", "condition": "C", "score": 0.0, "exact": false, "status": "invalid_submission", "turns": 2}
+{"task": "94bf00ec34fc57d3", "condition": "C", "score": 0.0, "exact": false, "status": "invalid_submission", "turns": 2}
+{"task": "cb64a3c92996f1ec", "condition": "C", "score": 0.0, "exact": false, "status": "invalid_submission", "turns": 2}
+### done gpt-6.1-sol 20:17:51

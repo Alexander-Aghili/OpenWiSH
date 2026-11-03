@@ -1,0 +1,12 @@
+Task: Creates a cascading effect by repeating each token in sequence incrementally.
+Examples (input tokens -> output per position):
+  ['BOS', 'b', 'b', 'a', 'a', 'b', 'b', 'a', 'a', 'a'] -> ['BOS', 'b', 'bb', 'aaa', 'aaaa', 'bbbbb', 'bbbbbb', 'aaaaaaa', 'aaaaaaaa', 'aaaaaaaaa']
+  ['BOS', 'c', 'c', 'a', 'c', 'a', 'c', 'c', 'a', 'a'] -> ['BOS', 'c', 'cc', 'aaa', 'cccc', 'aaaaa', 'cccccc', 'ccccccc', 'aaaaaaaa', 'aaaaaaaaa']
+  ['BOS', 'c', 'a', 'c', 'c', 'a', 'a', 'c', 'b', 'c'] -> ['BOS', 'c', 'aa', 'ccc', 'cccc', 'aaaaa', 'aaaaaa', 'ccccccc', 'bbbbbbbb', 'ccccccccc']
+  ['BOS', 'c', 'c', 'c', 'b', 'c', 'b', 'b', 'c', 'b'] -> ['BOS', 'c', 'cc', 'ccc', 'bbbb', 'ccccc', 'bbbbbb', 'bbbbbbb', 'cccccccc', 'bbbbbbbbb']
+  ['BOS', 'c', 'c', 'c', 'a', 'c', 'b', 'a', 'b', 'b'] -> ['BOS', 'c', 'cc', 'ccc', 'aaaa', 'ccccc', 'bbbbbb', 'aaaaaaa', 'bbbbbbbb', 'bbbbbbbbb']
+Input token ids: {"BOS": 0, "PAD": 1, "a": 2, "b": 3, "c": 4}
+Output classes: {"0": "a", "1": "aa", "2": "aaa", "3": "aaaa", "4": "aaaaa", "5": "aaaaaa", "6": "aaaaaaa", "7": "aaaaaaaa", "8": "aaaaaaaaa", "9": "b", "10": "bb", "11": "bbb", "12": "bbbb", "13": "bbbbb", "14": "bbbbbb", "15": "bbbbbbb", "16": "bbbbbbbb", "17": "bbbbbbbbb", "18": "c", "19": "cc", "20": "ccc", "21": "cccc", "22": "ccccc", "23": "cccccc", "24": "ccccccc", "25": "cccccccc", "26": "ccccccccc"}
+Architecture: 2 layers, d_model 21, 4 heads of size 5, MLP width 84 with gelu, causal attention, normalization none, learned positions, context 10. Residual stream: x = W_E[token] + W_pos[position]. Each block adds its attention heads, then its MLP. Logits = x W_U + b_U at every position.
+Components:
+  L0_MLP: the MLP output of block 0

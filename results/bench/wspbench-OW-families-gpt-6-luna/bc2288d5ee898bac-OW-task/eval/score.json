@@ -1,0 +1,42 @@
+{
+  "condition": "OW",
+  "exact": false,
+  "family": "coupled_repair",
+  "lenient": {
+    "accuracy": 0.8712374581939799,
+    "metrics": {
+      "affected_accuracy": 0.4797297297297297,
+      "edit_fraction": 0.0,
+      "edit_norm": 0.0,
+      "exhaustive_agreement": 0.8829201101928374,
+      "false_positive_change_rate": 0.0,
+      "parameters": 438,
+      "retention_accuracy": 1.0,
+      "retention_loss": 0.0,
+      "target_accuracy": 0.8712374581939799
+    },
+    "reason": null,
+    "status": "scored",
+    "success": false
+  },
+  "ok": true,
+  "score": 0.8712374581939799,
+  "strict": {
+    "accuracy": 0.8712374581939799,
+    "metrics": {
+      "affected_accuracy": 0.4797297297297297,
+      "edit_fraction": 0.0,
+      "edit_norm": 0.0,
+      "exhaustive_agreement": 0.8829201101928374,
+      "false_positive_change_rate": 0.0,
+      "parameters": 438,
+      "retention_accuracy": 1.0,
+      "retention_loss": 0.0,
+      "target_accuracy": 0.8712374581939799
+    },
+    "reason": null,
+    "status": "scored",
+    "success": false
+  },
+  "task": "bc2288d5ee898bac"
+}

@@ -1,0 +1,59 @@
+{
+  "spec": {
+    "id": "exp4-repair",
+    "description": "Experiment 4: fix the failing Kinetix car network (l/h2_car_ramp) by editing its weights, in one reply, with no tools.",
+    "prompt": "../../assets/exp4/prompts/repair.txt",
+    "appendix": null,
+    "instructions": "Answer the user's request.",
+    "network": {
+      "base": "../../assets/exp4/base_shown"
+    },
+    "mounts": [],
+    "hidden": [],
+    "python": null,
+    "forward": {},
+    "edits": {
+      "language": true,
+      "policy": {
+        "allowed": null,
+        "forbidden": [],
+        "forbid_whole_tensor_scale": false,
+        "max_frac_changed": null
+      }
+    },
+    "finish": {
+      "require_all_passes": false,
+      "max_turns": 1,
+      "max_nudges": 5
+    },
+    "handoff": {
+      "max_conversation_tokens": 700000,
+      "max_turns_per_conversation": 0
+    },
+    "score": {
+      "command": [
+        "{root}/assets/venvs/kinetix/bin/python",
+        "-I",
+        "{root}/python/adapters/kinetix_eval.py",
+        "--episodes",
+        "1024",
+        "--stream",
+        "test"
+      ]
+    },
+    "editor": {
+      "backend": null,
+      "model": null,
+      "effort": "high"
+    },
+    "hooks": {
+      "session_start": [],
+      "pre_tool": [],
+      "post_tool": [],
+      "on_edit": [],
+      "session_end": [],
+      "timeout_s": null
+    }
+  },
+  "dir": "/home/alexsky2/Projects/WeightSpaceProgramming/tasks/exp4"
+}

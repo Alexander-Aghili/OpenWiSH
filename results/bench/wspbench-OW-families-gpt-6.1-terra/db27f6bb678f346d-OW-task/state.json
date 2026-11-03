@@ -1,0 +1,33 @@
+{
+  "turn": 2,
+  "runs_used": 1,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 0,
+  "nudges": 0,
+  "handoffs": 0,
+  "since_handoff": 2,
+  "conv_tokens": 19641,
+  "session": "01a1a27d-0a56-7d73-9e4a-3c097ec0428a",
+  "next_message": "OUTPUT of Python run 1 of at most 30:\n```\n{\"effects\": {\"f0\": [0.0, 0.0], \"f1\": [0.8842975206611571, 0.8842975206611571], \"f2\": [0.0, 0.6666666666666666], \"f3\": [0.6666666666666666, 0.8842975206611571]}}\n```\n[budget: python runs used 1/30]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 14910,
+    "output": 982,
+    "cache_read": 23040,
+    "cache_write": 0,
+    "reasoning": 234
+  },
+  "cost_usd": 0.0,
+  "tool_free_turns": 2,
+  "hook_blocks": 0
+}

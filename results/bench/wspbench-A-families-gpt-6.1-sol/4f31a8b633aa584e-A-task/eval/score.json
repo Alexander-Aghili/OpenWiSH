@@ -1,0 +1,26 @@
+{
+  "condition": "A",
+  "exact": true,
+  "family": "causal_forecast",
+  "lenient": {
+    "accuracy": null,
+    "metrics": {},
+    "reason": "Expected effects mapping",
+    "status": "invalid",
+    "success": false
+  },
+  "ok": true,
+  "score": 1.0,
+  "strict": {
+    "accuracy": 1.0,
+    "metrics": {
+      "effect_accuracy": 1.0,
+      "effect_mae": 2.183195592295184e-7,
+      "effect_max_error": 4.793388429513712e-7
+    },
+    "reason": null,
+    "status": "scored",
+    "success": true
+  },
+  "task": "4f31a8b633aa584e"
+}

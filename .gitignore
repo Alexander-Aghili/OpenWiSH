@@ -6,3 +6,4 @@ target/
 __pycache__/
 __pycache__/
 HANDOFF.md
+/tasks/agentic_interp/

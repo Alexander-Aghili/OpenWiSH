@@ -1,0 +1,3 @@
+{"call":0,"verdict":"allowed","reason":"It only inspects component names, vocabulary, tensor shapes, and weight norms.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"It computes permitted linear weight compositions, positional attention-score forms, norms, and singular values without executing nonlinearities or a forward pass.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"It analyzes QK and OV circuits, linear MLP weight compositions, singular values, and positional similarities without fitting or running the network.","flags":[]}

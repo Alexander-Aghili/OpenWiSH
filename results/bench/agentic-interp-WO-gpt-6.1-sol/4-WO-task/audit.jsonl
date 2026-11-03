@@ -1,0 +1,5 @@
+{"call":0,"verdict":"allowed","reason":"Only inspects component identifiers, vocabulary metadata, and weight tensor shapes.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"Only reads weights and computes their norms and ranges.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"Computes permitted OV products, singular values, embedding projections, and bilinear QK scores without nonlinearities or forward passes.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"Analyzes weight-matrix products, linear embedding projections, neuron couplings, and statistics without evaluating the MLP activation.","flags":[]}
+{"call":4,"verdict":"allowed","reason":"Computes linear weight-space path couplings and embedding contrasts without executing attention, nonlinearities, or a network forward pass.","flags":[]}

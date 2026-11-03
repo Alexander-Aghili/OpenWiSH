@@ -1,0 +1,2 @@
+{"call":0,"verdict":"allowed","reason":"It extracts spline knots and coefficient jumps using algebra on weights without evaluating network activations.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"It verifies symbolic coefficient identities and counts analytically decoded classification changes combinatorially, without applying network weights to inputs or fitting parameters.","flags":[]}

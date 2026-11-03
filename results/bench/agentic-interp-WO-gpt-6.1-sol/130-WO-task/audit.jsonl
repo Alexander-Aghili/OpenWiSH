@@ -1,0 +1,2 @@
+{"call":0,"verdict":"allowed","reason":"The code only reads and prints component identifiers, vocabulary, tensor shapes, and weights.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"The code prints weights and computes OV matrix products and singular values, all explicitly permitted weight-only analyses.","flags":[]}

@@ -1,0 +1,6 @@
+{"call":0,"verdict":"allowed","reason":"Composes weight matrices and biases and computes singular values without evaluating inputs.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"Computes weight-space Gram matrices, compositions, and statistics without running the network.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"Compares declared sign hypotheses using weight-subspace projections, not network behavior or data fitting.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"Uses SVD and projection residuals on augmented weights and biases only.","flags":[]}
+{"call":4,"verdict":"allowed","reason":"Inspects the format-checking function and validates an analytically selected patch.","flags":[]}
+{"call":5,"verdict":"allowed","reason":"Validates the submission format and writes the patch to the required file.","flags":[]}

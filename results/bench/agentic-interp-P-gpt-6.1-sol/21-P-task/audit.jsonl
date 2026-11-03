@@ -1,0 +1,5 @@
+{"call":0,"verdict":"allowed","reason":"Only inspects component identifiers, vocabulary, and weight tensor shapes.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"Only reads weights and computes their norms and nonzero counts.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"Analyses recorded probe activations and attention patterns using norms, SVD, and an unembedding projection without running a forward pass.","flags":[]}
+{"call":5,"verdict":"allowed","reason":"Computes descriptive statistics and distances on recorded probe outputs without fitting or executing the network.","flags":[]}
+{"call":7,"verdict":"allowed","reason":"Analyses recorded attention patterns and computes products and singular values of weight matrices, all explicitly permitted.","flags":[]}

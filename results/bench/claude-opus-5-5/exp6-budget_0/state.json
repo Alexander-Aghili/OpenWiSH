@@ -1,0 +1,33 @@
+{
+  "turn": 18,
+  "runs_used": 17,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 0,
+  "nudges": 0,
+  "handoffs": 0,
+  "since_handoff": 18,
+  "conv_tokens": 165817,
+  "session": "9a344d23-453e-48b7-a681-d37be9cce814",
+  "next_message": "OUTPUT of Python run 17 of at most 120:\n```\nsaved matches build: True {'S': 1.8, 'OFF': 100.0, 'a': 1.0, 'b': 0.6, 'cen': 0.2, 'Wne': 15.0, 'Wsa': 6.5, 'Wcap': 10.0, 'Wsave': 5.0, 'Wcs': 1.0, 'Wss': 0.5, 'Wat': 1.5, 'Wcon': 4.5, 'PASSV': -6.0, 'conrow': 3}\n[('L1.W', 1476), ('L1.b', 162), ('L2.W', 1440), ('L2.b', 288), ('L3.W', 4872), ('L3.b', 96), ('L4.W', 2310), ('L4.b', 162), ('L5.W', 2583), ('L5.b', 77), ('L6.W', 6190), ('L6.b', 314), ('out.W', 1914), ('out.b', 82)]\n```\n[budget: python runs used 17/120]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 70,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 6,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 76,
+    "output": 286913,
+    "cache_read": 2030939,
+    "cache_write": 167383,
+    "reasoning": 275351
+  },
+  "cost_usd": 112.46843340000001,
+  "tool_free_turns": 16,
+  "hook_blocks": 0
+}

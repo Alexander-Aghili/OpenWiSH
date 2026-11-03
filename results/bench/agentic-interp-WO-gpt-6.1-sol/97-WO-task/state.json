@@ -1,0 +1,33 @@
+{
+  "turn": 11,
+  "runs_used": 10,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 0,
+  "nudges": 0,
+  "handoffs": 0,
+  "since_handoff": 11,
+  "conv_tokens": 31695,
+  "session": "01a1a28a-f6d2-7721-b3cc-fd550f202818",
+  "next_message": "OUTPUT of Python run 10 of at most 30:\n```\nL 0\nH 0 value->principal MLP read: [ 0.796  0.687  0.483 -0.421 -0.466  0.695 -0.505 -0.921 -0.754 -1.221  0.113 -0.288  0.108]\nH 1 value->principal MLP read: [ 0.669 -0.219 -0.192  0.093  0.15  -0.181 -0.278 -0.183 -0.209 -0.113 -0.53   0.045  0.007]\nH 2 value->principal MLP read: [-0.265 -0.169 -0.114  0.22   0.418 -0.197 -0.123  0.241  0.14   0.316 -0.158 -0.046 -0.069]\nH 3 value->principal MLP read: [-0.968  0.059 -1.262  0.811  0.058  0.076  0.222  0.839  0.717  0.837  0.346 -0.134  0.03 ]\nL 1\nH 0 value->principal MLP read: [ 0.33  -0.041 -0.206 -0.019 -0.017 -0.137 -0.43  -0.201  0.119  0.344  0.106 -0.05  -0.009]\nH 1 value->principal MLP read: [-0.087  0.003  0.085 -0.01  -0.057 -0.062 -0.2   -0.009  0.395 -0.012  0.038  0.023  0.006]\nH 2 value->principal MLP read: [ 0.045  0.143  0.105 -0.26  -0.233  0.178 -0.388  0.11   0.249 -0.045 -0.154  0.095  0.037]\nH 3 value->principal MLP read: [-0.061 -0.772 -0.506  0.069  0.087  0.205 -0.087  0.058  0.24   0.63   0.288 -0.013 -0.032]\nL 2\nH 0 value->principal MLP read: [ 0.105 -1.06  -0.314  0.232 -0.339  0.403 -0.816 -0.891 -0.484  2.756  1.505 -0.45  -0.278]\nH 1 value->principal MLP read: [-0.082 -0.473 -0.131  0.283 -0.135  0.194  0.012  0.3   -0.168  0.136  0.078  0.075  0.003]\nH 2 value->principal MLP read: [-0.264 -0.081 -0.147  0.559  0.026 -0.123  0.042  0.085  0.223  0.033  0.015  0.029  0.002]\nH 3 value->principal MLP read: [ 0.407  0.641 -0.315  0.013  0.305 -0.705  0.215 -0.181  0.165 -0.293 -0.651 -0.1    0.051]\n```\n[budget: python runs used 10/30]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 21140,
+    "output": 4887,
+    "cache_read": 200320,
+    "cache_write": 0,
+    "reasoning": 2516
+  },
+  "cost_usd": 0.0,
+  "tool_free_turns": 11,
+  "hook_blocks": 0
+}

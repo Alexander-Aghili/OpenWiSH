@@ -1,0 +1,1 @@
+{"call":0,"verdict":"allowed","reason":"The code only reads and prints component metadata and weight tensors, without running the network, fitting, or evaluating inputs.","flags":[]}

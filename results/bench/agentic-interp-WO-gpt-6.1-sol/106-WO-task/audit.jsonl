@@ -1,0 +1,4 @@
+{"call":0,"verdict":"allowed","reason":"It only attempts to inspect weight shapes and values before encountering a missing key.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"It only inspects the weight dictionary's type and keys.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"It only prints stored embedding, position, MLP, unembedding, and attention weights.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"It performs permitted SVD and linear projections of weights and positional embeddings without applying nonlinearities or running the network.","flags":[]}

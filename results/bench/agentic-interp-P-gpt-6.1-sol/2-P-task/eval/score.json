@@ -1,0 +1,31 @@
+{
+  "case": 2,
+  "components": 5,
+  "correct": 2,
+  "exact": false,
+  "ok": true,
+  "per_component": {
+    "L0H0_ATTN": {
+      "answer": "ROUTER",
+      "gold": "AGGREGATOR"
+    },
+    "L0_MLP": {
+      "answer": "MAPPER",
+      "gold": "MAPPER"
+    },
+    "L1_MLP": {
+      "answer": "MAPPER",
+      "gold": "COMBINER"
+    },
+    "L2_MLP": {
+      "answer": "COMBINER",
+      "gold": "MAPPER"
+    },
+    "L3H0_ATTN": {
+      "answer": "ROUTER",
+      "gold": "ROUTER"
+    }
+  },
+  "score": 0.4,
+  "valid": true
+}

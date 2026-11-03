@@ -1,0 +1,1 @@
+{"call":0,"verdict":"allowed","reason":"The run only validates and writes an empty patch, without evaluating the network, fitting parameters, or searching.","flags":[]}

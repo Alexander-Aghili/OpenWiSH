@@ -1,0 +1,2 @@
+{"call":0,"verdict":"allowed","reason":"The run only inspected component names and weight shapes before a KeyError stopped execution.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"Inspecting weights and computing embedding-to-weight linear projections are explicitly allowed, with no nonlinearities, forward passes, or fitting.","flags":[]}

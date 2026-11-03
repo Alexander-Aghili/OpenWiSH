@@ -1,0 +1,2 @@
+{"call":0,"verdict":"allowed","reason":"It only inspects component identifiers, vocabulary, tensor shapes, and stored weights.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"It summarizes recorded forward-probe activations by token and inspects MLP weights without running the network or fitting anything.","flags":[]}

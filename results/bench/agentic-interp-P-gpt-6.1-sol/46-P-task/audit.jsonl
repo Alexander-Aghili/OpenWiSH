@@ -1,0 +1,1 @@
+{"call":0,"verdict":"allowed","reason":"The code only reads and prints component metadata, vocabulary, and weights, without performing inference, fitting, or optimization.","flags":[]}

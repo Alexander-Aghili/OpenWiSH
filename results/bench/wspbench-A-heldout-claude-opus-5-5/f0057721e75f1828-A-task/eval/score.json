@@ -1,0 +1,38 @@
+{
+  "condition": "A",
+  "exact": false,
+  "family": "edit_effects",
+  "lenient": {
+    "accuracy": 0.904296875,
+    "metrics": {
+      "affected_precision": 0.49310344827586206,
+      "affected_recall": 1.0,
+      "after_agreement": 0.9049479166666666,
+      "before_agreement": 0.9036458333333334,
+      "consequence_agreement": 1.0,
+      "exhaustive_agreement": 0.8125,
+      "false_positive_rate": 0.19140625
+    },
+    "reason": null,
+    "status": "scored",
+    "success": false
+  },
+  "ok": true,
+  "score": 0.904296875,
+  "strict": {
+    "accuracy": 0.904296875,
+    "metrics": {
+      "affected_precision": 0.49310344827586206,
+      "affected_recall": 1.0,
+      "after_agreement": 0.9049479166666666,
+      "before_agreement": 0.9036458333333334,
+      "consequence_agreement": 1.0,
+      "exhaustive_agreement": 0.8125,
+      "false_positive_rate": 0.19140625
+    },
+    "reason": null,
+    "status": "scored",
+    "success": false
+  },
+  "task": "f0057721e75f1828"
+}

@@ -1,0 +1,1 @@
+{"code":"print(TASK[\"public\"][\"specification\"][\"format\"])\nprint(TASK[\"public\"][\"domain\"][\"count\"])\n","error":false,"flags":[],"kind":"python","output":"truth_table\n1024\n","restarted":false,"run":1,"seconds":0.000283297,"turn":1}

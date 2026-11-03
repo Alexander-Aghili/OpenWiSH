@@ -392,3 +392,37 @@ print(json.dumps({"type": "turn.completed", "usage": {}}))
     assert!(!captured["args"].to_string().contains("PARTICIPANT_ONLY"));
     assert!(captured["input"].as_str().unwrap().contains("PARTICIPANT_ONLY"));
 }
+
+/// `openwish ask` sends stdin as one message through a backend and prints the reply as one JSON line.
+#[test]
+fn ask_sends_one_message_and_prints_the_reply() {
+    use std::io::Write;
+    let d = tempfile::tempdir().unwrap();
+    let script = d.path().join("script.txt");
+    std::fs::write(&script, "the reply\n=====\n").unwrap();
+    std::fs::write(d.path().join("rules.txt"), "be brief").unwrap();
+    let mut child = Command::new(env!("CARGO_BIN_EXE_openwish"))
+        .current_dir(root())
+        .env_remove("OPENWISH_CONFIG")
+        .args([
+            "ask",
+            "--backend",
+            &format!("scripted:{}", script.display()),
+            "--instructions",
+            p(&d.path().join("rules.txt")),
+            "--workdir",
+            p(&d.path().join("cwd")),
+        ])
+        .stdin(std::process::Stdio::piped())
+        .stdout(std::process::Stdio::piped())
+        .stderr(std::process::Stdio::piped())
+        .spawn()
+        .unwrap();
+    child.stdin.take().unwrap().write_all(b"hello").unwrap();
+    let o = child.wait_with_output().unwrap();
+    assert!(o.status.success(), "{}", text(&o));
+    let v: serde_json::Value = serde_json::from_str(String::from_utf8_lossy(&o.stdout).trim()).unwrap();
+    assert_eq!(v["text"], "the reply", "{v}");
+    assert!(v["usage"].is_object(), "{v}");
+    assert!(v.get("context_tokens").is_some(), "{v}");
+}

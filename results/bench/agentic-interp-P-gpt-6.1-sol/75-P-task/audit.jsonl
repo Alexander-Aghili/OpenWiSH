@@ -1,0 +1,2 @@
+{"call":0,"verdict":"allowed","reason":"It only inspects component identifiers, weight names, and vocabulary metadata.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"It reads recorded forward-probe activations and weights and computes attention-write norms without running the network, fitting, or optimisation.","flags":[]}

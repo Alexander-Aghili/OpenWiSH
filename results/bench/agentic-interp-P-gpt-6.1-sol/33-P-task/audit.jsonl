@@ -1,0 +1,2 @@
+{"call":0,"verdict":"allowed","reason":"The code only inspects component metadata, vocabulary, tensor shapes, and weight values.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"The code analyses recorded probe activations and projects component writes onto an unembedding contrast without running the network or fitting weights.","flags":[]}

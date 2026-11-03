@@ -1,0 +1,2 @@
+{"call":0,"verdict":"allowed","reason":"It only inspects component names, weight shapes, and vocabulary mappings.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"It analyses probe-recorded activations, projects them through unembedding weights, and computes weight norms without running the network or fitting weights.","flags":[]}

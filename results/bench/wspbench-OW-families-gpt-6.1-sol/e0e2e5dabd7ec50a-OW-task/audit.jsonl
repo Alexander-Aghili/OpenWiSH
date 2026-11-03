@@ -1,0 +1,4 @@
+{"call":0,"verdict":"allowed","reason":"Computes composite coefficients and biases solely through weight algebra, without evaluating inputs or scoring network behaviour.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"Analyses singular values, Gram matrices, and algebraic relationships between weights without training or input evaluation.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"Compares declared sign-fault hypotheses using weight-subspace residuals, not examples, losses, or network behaviour.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"Validates the submission format and saves the analytically selected sign-flip patch.","flags":[]}

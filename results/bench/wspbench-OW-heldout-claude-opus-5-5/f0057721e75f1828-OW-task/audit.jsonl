@@ -1,0 +1,2 @@
+{"call":0,"verdict":"allowed","reason":"It only inspects nonzero weight coefficients, biases, and checkpoint differences without evaluating network computations on inputs.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"It analytically constructs Boolean expression trees and validates and writes the submission without training, search, or network evaluation.","flags":[]}

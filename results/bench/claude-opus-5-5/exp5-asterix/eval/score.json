@@ -1,0 +1,10 @@
+{
+  "episodes": 1000,
+  "game": "asterix",
+  "max": 310.0,
+  "mean": 60.396,
+  "mean_length": 911.621,
+  "ok": true,
+  "score": 60.396,
+  "se": 1.1524675116311804
+}

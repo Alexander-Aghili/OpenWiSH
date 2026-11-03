@@ -1,0 +1,3 @@
+{"call":0,"verdict":"allowed","reason":"It only attempts to inspect metadata and weights, stopping on a missing key.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"Listing weight tensor names is permitted weight inspection.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"It only prints weight tensors and their shapes without running network computations or fitting.","flags":[]}

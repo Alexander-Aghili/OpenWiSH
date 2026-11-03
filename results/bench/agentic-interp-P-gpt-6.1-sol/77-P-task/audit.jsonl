@@ -1,0 +1,1 @@
+{"call":0,"verdict":"allowed","reason":"The code only inspects component identifiers, tensor shapes, and weights, without running the network, fitting, or optimisation.","flags":[]}

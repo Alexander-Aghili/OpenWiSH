@@ -1,0 +1,49 @@
+{
+  "spec": {
+    "id": "exp2-a6a9dfb7",
+    "description": "Experiment 2: what does this diffusion model generate? All 23,824 weights in the prompt; no tools, no forward pass.",
+    "prompt": "../../assets/exp2/prompts/a6a9dfb7.txt",
+    "appendix": null,
+    "instructions": "Answer the user's request.",
+    "network": null,
+    "mounts": [],
+    "hidden": [
+      "../../assets/exp2/answer_key.json"
+    ],
+    "python": null,
+    "forward": {},
+    "edits": {
+      "language": false,
+      "policy": {
+        "allowed": null,
+        "forbidden": [],
+        "forbid_whole_tensor_scale": false,
+        "max_frac_changed": null
+      }
+    },
+    "finish": {
+      "require_all_passes": false,
+      "max_turns": 1,
+      "max_nudges": 5
+    },
+    "handoff": {
+      "max_conversation_tokens": 700000,
+      "max_turns_per_conversation": 0
+    },
+    "score": {
+      "command": [
+        "python3",
+        "-I",
+        "{task}/score.py",
+        "{root}/assets/exp2/answer_key.json",
+        "a6a9dfb7"
+      ]
+    },
+    "editor": {
+      "backend": null,
+      "model": null,
+      "effort": "high"
+    }
+  },
+  "dir": "/home/alexsky2/Projects/WeightSpaceProgramming/tasks/exp2"
+}

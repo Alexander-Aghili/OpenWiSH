@@ -1,0 +1,21 @@
+Task: Applies the hyperbolic sine to each element.
+Examples (input tokens -> output per position):
+  ['BOS', 2, 4, 2, 6, 4, 8, 6, 1, 3] -> ['BOS', 3.626860407847019, 27.28991719712775, 3.626860407847019, 201.71315737027922, 27.28991719712775, 1490.4788257895502, 201.71315737027922, 1.1752011936438014, 10.017874927409903]
+  ['BOS', 4, 1, 7, 5, 1, 4, 0, 9, 5] -> ['BOS', 27.28991719712775, 1.1752011936438014, 548.3161232732465, 74.20321057778875, 1.1752011936438014, 27.28991719712775, 0.0, 4051.54190208279, 74.20321057778875]
+  ['BOS', 10, 10, 7, 4, 3, 7, 7, 2, 5] -> ['BOS', 11013.232874703393, 11013.232874703393, 548.3161232732465, 27.28991719712775, 10.017874927409903, 548.3161232732465, 548.3161232732465, 3.626860407847019, 74.20321057778875]
+  ['BOS', 8, 0, 10, 10, 9, 2, 6, 3, 8] -> ['BOS', 1490.4788257895502, 0.0, 11013.232874703393, 11013.232874703393, 4051.54190208279, 3.626860407847019, 201.71315737027922, 10.017874927409903, 1490.4788257895502]
+  ['BOS', 6, 3, 10, 7, 4, 6, 9, 2, 6] -> ['BOS', 201.71315737027922, 10.017874927409903, 11013.232874703393, 548.3161232732465, 27.28991719712775, 201.71315737027922, 4051.54190208279, 3.626860407847019, 201.71315737027922]
+Input token ids: {"0": 0, "1": 1, "2": 2, "3": 3, "4": 4, "5": 5, "6": 6, "7": 7, "8": 8, "9": 9, "10": 10, "BOS": 11, "PAD": 12}
+Output classes: {"0": 0.0, "1": 1.1752011936438014, "2": 3.626860407847019, "3": 10.017874927409903, "4": 27.28991719712775, "5": 74.20321057778875, "6": 201.71315737027922, "7": 548.3161232732465, "8": 1490.4788257895502, "9": 4051.54190208279, "10": 11013.232874703393}
+Architecture: 2 layers, d_model 4, 4 heads of size 1, MLP width 16 with gelu, causal attention, normalization none, learned positions, context 10. Residual stream: x = W_E[token] + W_pos[position]. Each block adds its attention heads, then its MLP. Logits = x W_U + b_U at every position.
+Components:
+  L0_MLP: the MLP output of block 0
+
+
+OPENWISH SUBMISSION PROTOCOL
+Your final submission is checked for format only, never correctness. Repair format errors when requested. OpenWiSH executes your tool blocks, even when the provider's own tool list is empty.
+Python is available through text blocks, with at most 30 runs. Reply with one block to execute code, for example:
+```python
+print(NAMES)
+```
+Write your submission to /work/submission.json or put the submission in your final reply.

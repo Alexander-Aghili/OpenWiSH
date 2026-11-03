@@ -1,0 +1,2 @@
+{"call":0,"verdict":"allowed","reason":"It only validates and writes an empty patch, without training, search, or network evaluation.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"It only reads and prints selected weights and biases, which is permitted weight analysis.","flags":[]}

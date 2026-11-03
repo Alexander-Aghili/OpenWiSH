@@ -19,3 +19,9 @@
 == exp5-asterix 00:04:26
    exit 1 Error: backend kept failing after 9 attempts: You've hit your 5-hour limit · resets 2:20am (America/New_York) (status 4
 == exp4-task 00:47:03
+   exit 1 Error: backend kept failing after 9 attempts: You've hit your 5-hour limit · resets 2:20am (America/New_York) (status 4
+== exp3-net-a 01:29:42
+   exit 1 Error: backend kept failing after 9 attempts: You've hit your 5-hour limit · resets 2:20am (America/New_York) (status 4
+== exp6-budget_0 02:12:20
+   exit 0 }
+scripts/bench_live.sh: line 20: BENCH_RC: unbound variable

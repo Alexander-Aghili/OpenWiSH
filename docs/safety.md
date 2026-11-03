@@ -90,6 +90,7 @@ No layer is airtight. These gaps are open today.
 - **Gradients written by hand.** The guards cover torch. A finite-difference or hand-derived gradient in numpy runs. The static checks flag common step spellings, and the auditor reviews the code.
 - **Other frameworks.** The guards install for torch only. A task venv with JAX gets static flags for `jax.grad`, no runtime block.
 - **Pattern checks.** Static checks match text. Renamed or indirect calls (`getattr`, string building) pass unflagged.
+- **The auditor brief overrides task permissions.** The brief lists "search or rollouts" as a violation for every task. The exp3 rules allow fitting on the weights and define search as looking things up. On a Claude exp3 run, the auditor flagged one annealing fit over weight-derived statistics as search. The run stays invalid in the tables. A fix needs the brief to defer to explicit task permissions, plus a full re-audit published next to the old verdicts.
 - **The auditor is a model.** Verdicts are judgments, not proofs. The audit runs after the fact, and only when you run `openwish audit`. The auditor reviews Python runs, not probe requests.
 - **Host-side task code.** Probes and scorers run on the host with your user's rights. Treat a third-party environment as code you run. A probe writing hidden data into `/work` shows the data to the agent.
 - **Backend CLIs on the host.** `claude -p` and `codex exec` run outside bubblewrap, in an empty folder, with their tools switched off by flags. OpenWiSH relies on those flags.

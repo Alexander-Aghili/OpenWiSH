@@ -1,0 +1,1 @@
+The identity patch passed format validation and is saved at `/work/submission.json`.

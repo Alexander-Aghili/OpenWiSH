@@ -1,0 +1,5 @@
+{"call":0,"verdict":"allowed","reason":"It only inspects component names, vocabulary mappings, and weight shapes.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"It computes weight statistics and inspects embeddings and positional weights without running the network.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"It analyses attention patterns and component activations recorded by the authorized forward probe.","flags":[]}
+{"call":5,"verdict":"allowed","reason":"It computes descriptive statistics, SVDs, distances, and similarities on probe-recorded activations.","flags":[]}
+{"call":7,"verdict":"allowed","reason":"It analyses weight-matrix products and linear projections of recorded activations without fitting weights or executing a forward pass.","flags":[]}

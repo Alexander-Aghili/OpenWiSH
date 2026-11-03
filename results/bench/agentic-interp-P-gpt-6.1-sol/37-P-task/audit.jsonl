@@ -1,0 +1,2 @@
+{"call":0,"verdict":"allowed","reason":"Only inspects component identifiers, vocabulary, and weight tensor shapes.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"Analyzes recorded probe activations using SVD and the unembedding matrix without running the network or fitting weights.","flags":[]}

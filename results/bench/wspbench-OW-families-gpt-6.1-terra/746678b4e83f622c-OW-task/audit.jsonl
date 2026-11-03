@@ -1,0 +1,1 @@
+{"call":0,"verdict":"allowed","reason":"It counts public-program weighted sums and evaluates an analytically derived modular rule without applying network weights to inputs, computing activations, fitting parameters, or searching.","flags":[]}

@@ -1,0 +1,4 @@
+{"call":0,"verdict":"allowed","reason":"Only inspects component names, vocabulary, and weight tensor shapes.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"Computes permitted linear weight products, bilinear attention scores, norms, and singular values without nonlinearities or forward passes.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"Analyzes embedding-position combinations and linear circuit compositions using SVD and norms, without evaluating the network or fitting.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"Compares linear QK and OV circuit properties and MLP input projections without applying attention softmax, MLP activations, or running inputs through the network.","flags":[]}

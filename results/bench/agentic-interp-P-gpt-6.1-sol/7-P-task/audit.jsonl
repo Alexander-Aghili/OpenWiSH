@@ -1,0 +1,4 @@
+{"call":0,"verdict":"allowed","reason":"Only inspects component identifiers, vocabulary, and weight tensor shapes.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"Analyses probe-recorded attention and writes using SVD and computes embedding–weight products without executing a forward pass.","flags":[]}
+{"call":4,"verdict":"allowed","reason":"Compares recorded component writes and computes norms and linear projections for analysis without fitting or simulating a forward pass.","flags":[]}
+{"call":6,"verdict":"allowed","reason":"Analyses recorded activations with norms, SVD, attention inspection, and an unembedding projection.","flags":[]}

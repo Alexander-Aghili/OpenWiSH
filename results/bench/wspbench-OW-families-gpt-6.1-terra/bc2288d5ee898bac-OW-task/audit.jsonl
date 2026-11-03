@@ -1,0 +1,6 @@
+{"call":0,"verdict":"allowed","reason":"It computes weight-matrix products and singular values for declared sign hypotheses without evaluating network inputs.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"It algebraically composes weights and biases without applying the network to inputs.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"It inspects composed weight coefficients rather than evaluating layers or outputs on input assignments.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"It computes singular values solely from weights and an augmented weight-bias matrix.","flags":[]}
+{"call":4,"verdict":"allowed","reason":"It compares declared hypotheses using weight-subspace projections, not data fitting or network-behaviour scoring.","flags":[]}
+{"call":5,"verdict":"allowed","reason":"It constructs a sign-flip patch and invokes the format-only submission checker.","flags":[]}

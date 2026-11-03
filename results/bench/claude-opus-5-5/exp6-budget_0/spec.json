@@ -1,0 +1,84 @@
+{
+  "spec": {
+    "id": "exp6-budget0",
+    "description": "Experiment 6: write a 1.48M-weight 9x9 Go policy from zero weights; 0 passes.",
+    "prompt": "../../assets/exp6/prompts/budget_0.txt",
+    "appendix": null,
+    "instructions": "Answer the user's request.",
+    "network": {
+      "base": "../../assets/exp6/zero_net"
+    },
+    "mounts": [],
+    "hidden": [
+      "../../assets/exp6/opponents/hidden_s0",
+      "../../assets/exp6/opponents/hidden_s2",
+      "../../assets/exp6/opponents/ppo_same_size_s0",
+      "../../assets/exp6/opponents/ppo_same_size_s1",
+      "../../assets/exp6/opponents/ppo_same_size_s2"
+    ],
+    "python": {
+      "runs": 120,
+      "timeout_s": 900,
+      "mem_gb": 24,
+      "max_out": 20000,
+      "prelude": "prelude.py",
+      "threads": 8,
+      "fresh": true,
+      "venv": null
+    },
+    "forward": {},
+    "edits": {
+      "language": false,
+      "policy": {
+        "allowed": null,
+        "forbidden": [],
+        "forbid_whole_tensor_scale": false,
+        "max_frac_changed": null
+      }
+    },
+    "finish": {
+      "require_all_passes": false,
+      "max_turns": 400,
+      "max_nudges": 5,
+      "validation": null
+    },
+    "handoff": {
+      "max_conversation_tokens": 700000,
+      "max_turns_per_conversation": 0
+    },
+    "score": {
+      "command": [
+        "{openwish}",
+        "go",
+        "eval",
+        "--games",
+        "2000",
+        "--against",
+        "hidden_s0={root}/assets/exp6/opponents/hidden_s0",
+        "hidden_s2={root}/assets/exp6/opponents/hidden_s2",
+        "random=random",
+        "ppo_same_size_s0={root}/assets/exp6/opponents/ppo_same_size_s0",
+        "ppo_same_size_s1={root}/assets/exp6/opponents/ppo_same_size_s1",
+        "ppo_same_size_s2={root}/assets/exp6/opponents/ppo_same_size_s2",
+        "--main",
+        "ppo_same_size_s0",
+        "ppo_same_size_s1",
+        "ppo_same_size_s2"
+      ]
+    },
+    "editor": {
+      "backend": null,
+      "model": null,
+      "effort": "xhigh"
+    },
+    "hooks": {
+      "session_start": [],
+      "pre_tool": [],
+      "post_tool": [],
+      "on_edit": [],
+      "session_end": [],
+      "timeout_s": null
+    }
+  },
+  "dir": "/home/alexsky2/Projects/WeightSpaceProgramming/tasks/exp6"
+}

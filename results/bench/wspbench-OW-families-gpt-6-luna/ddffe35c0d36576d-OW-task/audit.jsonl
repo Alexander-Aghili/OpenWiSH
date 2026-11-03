@@ -1,0 +1,2 @@
+{"call":0,"verdict":"allowed","reason":"The code only raises an exception and performs no prohibited computation.","flags":[]}
+{"call":2,"verdict":"violation","reason":"The code simulates ReLU gates and output heads at synthetic midpoint inputs using network weights, then evaluates the compiled network decisions over the domain.","flags":[]}

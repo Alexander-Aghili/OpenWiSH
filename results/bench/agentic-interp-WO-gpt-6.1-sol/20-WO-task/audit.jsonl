@@ -1,0 +1,3 @@
+{"call":0,"verdict":"allowed","reason":"The code attempts permitted weight inspection and linear projections, but stops at a missing key before computing them.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"Listing weight names and tensor shapes is permitted weight inspection.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"Embedding projections, output-weight contrasts, sorting, and position-projection norms are permitted linear weight analyses without nonlinear execution or fitting.","flags":[]}

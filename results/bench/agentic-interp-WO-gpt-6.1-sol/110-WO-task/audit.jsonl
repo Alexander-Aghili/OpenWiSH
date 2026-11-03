@@ -1,0 +1,3 @@
+{"call":0,"verdict":"allowed","reason":"Only inspects component names, tensor shapes, and embedding weights.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"Computes permitted linear weight projections, bilinear positional QK scores, norms, and singular values without nonlinearities or forward passes.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"Uses SVD and linear weight-circuit projections to analyze read/write directions without running the network or fitting parameters.","flags":[]}

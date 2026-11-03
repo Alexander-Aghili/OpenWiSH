@@ -1,0 +1,33 @@
+{
+  "turn": 6,
+  "runs_used": 5,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 0,
+  "nudges": 0,
+  "handoffs": 0,
+  "since_handoff": 6,
+  "conv_tokens": 25574,
+  "session": "01a1a28f-d789-72f3-8a9e-47338a813a0d",
+  "next_message": "OUTPUT of Python run 5 of at most 30:\n```\nEmbedding-unembedding diagonal [0.402 0.356 0.412 0.315 0.374 0.363 0.377 0.397 0.396 0.349 0.337 0.354 0.341 0.44  0.304 0.538 0.429 0.357 0.414 0.529 0.532 0.398 0.308 0.379 0.495 0.392 0.338 0.434 0.489\n 0.272]\nE/U row contrast maxima [ 0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 26]\nE/U norm 3.977536 diag norm 2.189438\n0 0 score diagonal [0.44 0.63 3.25 1.99 0.35 0.73 1.07 2.09 2.   0.47 0.91 1.95 0.49 2.25 0.64 0.97 0.22 3.01 0.28 1.23 0.73 4.72 1.25 0.81 0.77 1.03 0.21 1.29 0.2  0.7 ]\nscore best keys [ 0  7  2  3  3 27  7  7 17 13  3 11  6 13 21 21 21  2 25 17 21 21 21 21 24 25 21  2 25 21] symmetry 0.16663373\nOV token->class best [26  2 26  2  8 20  7 15 15 13  2  6  7 15 12  0 26 10 26 29 20 12 15 12 20 26 16 27 28 26]\nQ E norm 12.610096 P norm 1.5725073\nK E norm 13.841696 P norm 2.457062\nV E norm 4.8102784 P norm 0.8300764\n0 1 score diagonal [2.09 1.82 0.36 1.43 2.39 1.23 1.96 0.36 1.2  4.89 0.35 3.64 0.62 0.16 2.5  0.66 6.19 1.1  1.97 0.66 1.55 2.38 0.7  1.58 0.59 2.27 0.64 0.64 3.85 3.42]\nscore best keys [ 0  1 25 11  4 16  6  9  8  9 16 11  1  9 16  9 16 17 18 19 11 16  9 23 29 25 16 16 28 29] symmetry 0.23318864\nOV token->class best [12  2 16 22 19  8  5 15 28  6 24  6  6 15  8 15 16  7 14 16  6 26 15 22 26 16 19 26 28 26]\nQ E norm 15.372074 P norm 1.107141\nK E norm 16.476154 P norm 1.4366666\nV E norm 5.802938 P norm 0.5519394\n2 0 score diagonal [ 0.03 -0.    0.02  0.03  0.02  0.01  0.03 -0.02  0.05  0.03 -0.02  0.03  0.01  0.01  0.03  0.02  0.01  0.02  0.01  0.01 -0.01  0.02  0.    0.02  0.18  0.   -0.   -0.01  0.03\n  0.  ]\nscore best keys [24 28 15 28 24  9  6 24 24 24 28  9 24 24 14 23 24 24 28 24 10  0 14  6 24 24 28 15 28 10] symmetry 1.1921132\nOV token->class best [14 28  6  2 24  7 15 24  3  2  2  7  3  5  6 15 28 29  3 11 26 23 29 20 24 29  2 12 26 25]\nQ E norm 3.0107708 P norm 0.38029858\nK E norm 2.449975 P norm 0.46220478\nV E norm 1.8392515 P norm 0.332789\n6 0 score diagonal [ 0.04 -0.    0.04  0.03  0.03  0.04  0.03  0.04  0.03  0.03  0.02  0.05  0.02  0.04  0.03  0.04  0.03  0.03  0.03  0.04  0.05  0.02  0.03  0.04  0.02  0.03  0.01  0.05  0.02\n  0.02]\nscore best keys [ 0 11  2  3  4  5  6  7  8  9 19 11  5 13 14 15 16 17 18 19 20 21 22 23 13 25 10 27 28 29] symmetry 0.74668264\nOV token->class best [18  2  2  8  4  2 11 13 21 13  3  2  4  4 14  7 16  3  7  4 20  7 20 10 24 29  5 27  2 22]\nQ E norm 2.5167475 P norm 0.4162437\nK E norm 2.539137 P norm 0.41616926\nV E norm 2.9428713 P norm 0.5201737\nMLP 0 linear map norm 14.282464 linear map diagonal fraction 0.58722836 mean neuron token preference/write agreement 0.1278409090909091\nMLP 1 linear map norm 14.473138 linear map diagonal fraction 0.6089462 mean neuron token preference/write agreement 0.20738636363636365\nMLP 2 linear map norm 11.405517 linear map diagonal fraction 0.6157943 mean neuron token preference/write agreement 0.30113636363636365\nMLP 3 linear map norm 11.998643 linear map diagonal fraction 0.63120395 mean neuron token preference/write agreement 0.3977272727272727\nMLP 4 linear map norm 9.20971 linear map diagonal fraction 0.635753 mean neuron token preference/write agreement 0.3522727272727273\nMLP 5 linear map norm 6.6242957 linear map diagonal fraction 0.64568985 mean neuron token preference/write agreement 0.3380681818181818\nMLP 6 linear map norm 10.746418 linear map diagonal fraction 0.53113437 mean neuron token preference/write agreement 0.23863636363636365\n```\n[budget: python runs used 5/30]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 18945,
+    "output": 2562,
+    "cache_read": 73856,
+    "cache_write": 0,
+    "reasoning": 1227
+  },
+  "cost_usd": 0.0,
+  "tool_free_turns": 6,
+  "hook_blocks": 0
+}

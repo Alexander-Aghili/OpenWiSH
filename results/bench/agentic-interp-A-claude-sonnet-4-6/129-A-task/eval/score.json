@@ -1,0 +1,27 @@
+{
+  "case": 129,
+  "components": 4,
+  "correct": 4,
+  "exact": true,
+  "ok": true,
+  "per_component": {
+    "L0_MLP": {
+      "answer": "INDICATOR",
+      "gold": "INDICATOR"
+    },
+    "L1H0_ATTN": {
+      "answer": "AGGREGATOR",
+      "gold": "AGGREGATOR"
+    },
+    "L1_MLP": {
+      "answer": "MAPPER",
+      "gold": "MAPPER"
+    },
+    "L2_MLP": {
+      "answer": "INDICATOR",
+      "gold": "INDICATOR"
+    }
+  },
+  "score": 1.0,
+  "valid": true
+}

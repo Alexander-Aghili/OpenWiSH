@@ -1,0 +1,33 @@
+{
+  "turn": 4,
+  "runs_used": 3,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 0,
+  "nudges": 0,
+  "handoffs": 0,
+  "since_handoff": 4,
+  "conv_tokens": 24714,
+  "session": "01a1a275-9429-7071-b589-42f449d4a54f",
+  "next_message": "OUTPUT of Python run 3 of at most 30:\n```\nImportant neurons: [46 37 33 24 19 35  5 40 10 11  7 25]\nOutput path norms: [2.363 2.066 2.039 2.013 1.966 1.7   1.556 1.383 1.187 1.057 1.001 0.898]\nToken contrasts: [-1.012 -0.625 -0.852  0.904  0.599  0.72  -0.794  0.755  0.874  0.338 -0.366  0.314]\nPosition projections: [[-0.116  0.55  -0.168  0.037  0.004  0.055 -0.09  -0.026 -0.079 -0.103 -0.2    0.2  ]\n [ 0.052 -0.119  0.237  0.026 -0.103 -0.15   0.167 -0.087 -0.168  0.036  0.084 -0.205]\n [ 0.111 -0.147 -0.016 -0.03  -0.095  0.051  0.141  0.082  0.082  0.017 -0.049 -0.04 ]\n [ 0.102 -0.012  0.12  -0.144 -0.259 -0.199  0.01   0.083  0.171 -0.109  0.079 -0.231]\n [ 0.099 -0.105  0.001 -0.101  0.012 -0.015 -0.025  0.105  0.117 -0.028  0.024 -0.011]]\nL0 head 0 token-to-MLP contrasts [-0.018 -0.056 -0.056  0.084  0.164 -0.054  0.041  0.077  0.002  0.034 -0.093  0.054]\nL0 head 1 token-to-MLP contrasts [-0.003 -0.016  0.04   0.07   0.074 -0.049 -0.035 -0.05  -0.031 -0.002 -0.05   0.076]\nL0 head 2 token-to-MLP contrasts [ 0.006 -0.013  0.022  0.003 -0.05  -0.004 -0.01  -0.012  0.043 -0.027 -0.027  0.012]\nL0 head 3 token-to-MLP contrasts [-0.012  0.008  0.022  0.016 -0.04   0.002 -0.036 -0.035  0.034 -0.01  -0.019  0.039]\nMLP input-output linear product SV: [4.868 2.018 1.745 1.361 1.239 0.796 0.752 0.542 0.427 0.158 0.069 0.055]\n```\n[budget: python runs used 3/30]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 21601,
+    "output": 1300,
+    "cache_read": 46080,
+    "cache_write": 0,
+    "reasoning": 526
+  },
+  "cost_usd": 0.0,
+  "tool_free_turns": 4,
+  "hook_blocks": 0
+}
