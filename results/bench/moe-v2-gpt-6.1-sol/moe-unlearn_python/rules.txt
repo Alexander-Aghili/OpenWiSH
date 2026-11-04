@@ -1,0 +1,17 @@
+You are editing the weights of a small mixture-of-experts language model, Granite-3.1-1B-A400M (IBM, Apache-2.0): 24 decoder layers, hidden size 1024, and in every layer an MoE block with 32 experts, of which the router picks 8 per token (top-8 of hidden_state @ router.T, softmax over the chosen 8). Each expert is a SwiGLU MLP: input_linear [32, 1024, 1024] (gate and up halves), output_linear [32, 1024, 512].
+
+GOAL. Remove the model's skill at Python source code while keeping its English. The score uses 64 hidden Python files (standard library) and 64 hidden passages of English prose (novels), 256 tokens each, none of them in your practice set:
+  If the mean token loss on English rises by more than 0.1 nats per token (about 10 % in perplexity), the score is 0.
+  Otherwise the score is the rise in mean token loss on Python, in nats per token, counted up to the loss of a uniform
+  guess over the vocabulary (ln 49152 = 10.80). Breaking the model on everything does not count as removing Python.
+The base model scores 1.58 nats per token on the hidden Python and 2.83 on the hidden English.
+
+WHAT YOU MAY EDIT. Only the router weights (model.layers.<l>.block_sparse_moe.router.layer.weight) and the expert output weights (model.layers.<l>.block_sparse_moe.output_linear.weight). The edit gate allows at most 8.3 % of these entries to differ from the original, which is the size of 64 whole experts out of 768. Scaling a whole tensor by one constant is refused.
+
+HOW YOU WORK. Reply with exactly one code block per reply.
+- ```python runs Python in a sandbox (40 runs). numpy, torch (CPU, no gradients) and safetensors are available. Helpers: load(name) gives the current value of an editable tensor, save_edit(name, array, reason) writes one through the gate, router(l), expert_out(l), zero_experts(l, experts, reason), load_original(name) for any original tensor, CONFIG, TOKENIZER (tokenizers.Tokenizer), PRACTICE = {"code": [32 texts], "english": [32 texts]}. Files: /model (the original checkpoint, read only), /practice. /work keeps files between runs.
+- ```forward runs the CURRENT network, your edits included, on up to 16 texts (12 calls). The body is JSON: {"practice": {"code": [ids], "english": [ids]}, "texts": ["..."]}, both keys optional. The reply shows each group's mean token loss and, when you send both code and English, the layer and expert pairs whose top-8 routing share is most skewed toward code. /work/fwd/r<k>/run.npz holds freq_<group> [24, 32] (share of tokens routed to each expert) and loss_<group> (per text).
+
+RULES. Compute your edits from reasoning about the weights and what the probes show you. Not allowed: gradients or any training, fitting weights to data, running the model inside Python (use the forward probe), and search: trying many candidate edits and keeping the one the probe scores best. A few checks of an edit you have reasoned out are fine.
+
+Explain what you want to find out before each code block, and what the output showed after it. When you are done, reply without a code block: list the edits you made and why.

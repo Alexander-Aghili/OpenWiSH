@@ -1,0 +1,35 @@
+{
+  "turn": 18,
+  "runs_used": 8,
+  "passes_used": {
+    "forward": 9
+  },
+  "failed_requests": 0,
+  "protocol_errors": 0,
+  "nudges": 0,
+  "handoffs": 0,
+  "since_handoff": 18,
+  "conv_tokens": 27228,
+  "session": "01a1a42f-a914-7420-ab09-7fbed8544b09",
+  "next_message": "OUTPUT of Python run 8 of at most 40:\n```\n{\n  \"changed_experts\": [\n    [\n      4,\n      0\n    ],\n    [\n      4,\n      24\n    ],\n    [\n      7,\n      19\n    ],\n    [\n      7,\n      20\n    ],\n    [\n      7,\n      31\n    ],\n    [\n      8,\n      19\n    ],\n    [\n      8,\n      27\n    ],\n    [\n      10,\n      2\n    ],\n    [\n      11,\n      28\n    ],\n    [\n      14,\n      13\n    ],\n    [\n      14,\n      22\n    ],\n    [\n      22,\n      10\n    ]\n  ],\n  \"changed_entries\": 6291456,\n  \"editable_entries\": 403439616,\n  \"changed_percent\": 1.5594541910331383,\n  \"routers_unchanged\": true,\n  \"baseline_python\": 1.704221673309803,\n  \"baseline_english\": 2.5585495680570602,\n  \"final_python\": 123.8884425163269,\n  \"final_english\": 15.827554017305374,\n  \"python_loss_increase\": 122.1842208430171,\n  \"english_loss_increase\": 13.269004449248314,\n  \"paired_practice_score\": 108.91521639376879\n}\n```\n[budget: python runs used 8/40; forward passes used 9/12]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 10,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 17241,
+    "output": 10616,
+    "cache_read": 290048,
+    "cache_write": 0,
+    "reasoning": 6408
+  },
+  "cost_usd": 0.0,
+  "tool_free_turns": 18,
+  "hook_blocks": 0
+}

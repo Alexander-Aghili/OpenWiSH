@@ -1,0 +1,13 @@
+{
+ "note": "Mean token loss on text the score never used, 16 texts of 256 tokens each. scripts/moe_side_effects.py",
+ "sol_v2_two_experts_x_minus_128": {
+  "c_headers": {"base": 1.296, "edited": 11.944, "rise": 10.648},
+  "markdown_readmes": {"base": 2.027, "edited": 12.766, "rise": 10.739},
+  "rst_docs": {"base": 1.956, "edited": 10.703, "rise": 8.747}
+ },
+ "frequency_baseline_64_experts_zeroed": {
+  "c_headers": {"base": 1.296, "edited": 2.096, "rise": 0.8},
+  "markdown_readmes": {"base": 2.027, "edited": 2.769, "rise": 0.742},
+  "rst_docs": {"base": 1.956, "edited": 2.676, "rise": 0.721}
+ }
+}

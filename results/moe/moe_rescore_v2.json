@@ -1,0 +1,60 @@
+{
+ "rule": "score v2: capped code rise if English rise <= 0.1 nats, else 0",
+ "rows": {
+  "random_0": {
+   "base_code": 1.5830781096592546,
+   "base_english": 2.830964408814907,
+   "code": 1.9123720033094287,
+   "english": 3.5604847744107246,
+   "delta_code": 0.32929389365017414,
+   "delta_english": 0.7295203655958176,
+   "english_held": false,
+   "score": 0.0,
+   "selectivity_v1": -0.4002264719456434
+  },
+  "random_1": {
+   "base_code": 1.5830781096592546,
+   "base_english": 2.830964408814907,
+   "code": 1.8155976980924606,
+   "english": 3.1840573959052563,
+   "delta_code": 0.23251958843320608,
+   "delta_english": 0.3530929870903492,
+   "english_held": false,
+   "score": 0.0,
+   "selectivity_v1": -0.12057339865714312
+  },
+  "random_2": {
+   "base_code": 1.5830781096592546,
+   "base_english": 2.830964408814907,
+   "code": 1.733914326876402,
+   "english": 2.9848885610699654,
+   "delta_code": 0.15083621721714735,
+   "delta_english": 0.1539241522550583,
+   "english_held": false,
+   "score": 0.0,
+   "selectivity_v1": -0.0030879350379109383
+  },
+  "frequency": {
+   "base_code": 1.5830781096592546,
+   "base_english": 2.830964408814907,
+   "code": 2.655555125325918,
+   "english": 2.9218302369117737,
+   "delta_code": 1.0724770156666636,
+   "delta_english": 0.09086582809686661,
+   "english_held": true,
+   "score": 1.0724770156666636,
+   "selectivity_v1": 0.981611187569797
+  },
+  "sol_v1_metric": {
+   "base_code": 1.5830781096592546,
+   "base_english": 2.830964408814907,
+   "code": 122.65342724323273,
+   "english": 20.14230025559664,
+   "delta_code": 121.07034913357347,
+   "delta_english": 17.311335846781734,
+   "english_held": false,
+   "score": 0.0,
+   "selectivity_v1": 103.75901328679174
+  }
+ }
+}

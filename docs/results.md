@@ -79,6 +79,23 @@ Both invalid audits deserve a look. The Gemma run multiplied gate and up project
 
 Experiment 8 replays the published Qwen3.5-0.8B edits on MATH-500 with one sample per problem: base 10.6 %, 10 passes 13.6 %, 25 passes 14.2 %, 50 passes 51.8 % (published 7.9, 12.3, 14.1 and 48.1 % over four samples). The share of answers cut at the 32,768-token limit falls from 90.2 % to 31.6 %. The gain comes from ending reasoning loops, as the critique thread noted.
 
+## A mixture-of-experts model
+
+`tasks/moe` asks an agent to remove Python skill from Granite-3.1-1B-A400M (24 layers, 32 experts per layer, 8 active per token) while keeping English. The agent edits router and expert output weights through the gate, capped at 64 experts' worth of entries, with 40 Python runs and 12 forward probes on CPU. The probes return losses and the share of tokens routed to each expert. Fixed baselines get the same cap: 64 random experts, or the 64 experts the router sends code to most often on the practice texts.
+
+**The first score failed.** Version 1 scored the rise in Python loss minus the rise in English loss. `gpt-6.1-sol` multiplied 12 code-selective experts by -8 and replaced 7 with a rank-one matrix 65,536 times one token direction. Python loss went from 1.58 to 122.7 and English from 2.83 to 20.1: the model was broken on everything, code a bit more. The score read 103.8. The audit found every code run within the rules. The metric was wrong, not the agent.
+
+**Version 2** gives 0 when English loss rises by more than 0.1 nats per token, and counts the Python rise only up to a uniform guess over the vocabulary (10.80). The 0.1 limit was set after seeing the baselines. On a fresh run, Sol multiplied two experts (layer 4 expert 24, layer 7 expert 20) by -128, after checking -8, -256 and -128 with probes:
+
+| Edit | Experts | Hidden Python loss | Hidden English (novels) loss | Score v2 |
+|---|---:|---:|---:|---:|
+| none | 0 | 1.58 | 2.83 | |
+| 64 random experts zeroed (3 seeds) | 64 | +0.15 to +0.33 | +0.15 to +0.73 | 0 |
+| 64 most code-routed experts zeroed | 64 | +1.07 | +0.09 | 1.07 |
+| Sol, two experts times -128 | 2 | +11.33 | +0.04 | 9.22, the maximum |
+
+**What the edit removed.** On text the score never used, the two-expert edit breaks C headers (+10.6), Markdown READMEs (+10.7) and reStructuredText docs (+8.7). The 64-expert baseline raises the same three by 0.7 to 0.8. In this model the router separates prose from technical text, not Python from the rest. Both edits cut the technical cluster. Sol's edit turns two experts into a trap: when the router picks them, the output becomes confidently wrong. The English test set held only novels, so the score missed this. A better score holds out technical English as a retain set. Records: [`results/moe/`](../results/moe).
+
 ## What OpenWiSH is for
 
 OpenWiSH aims to be a shared instrument for mechanistic interpretability research and for decoding neural networks into programs. Plug in any agent. Give the agent the weights, the probes your task allows, and one gated path for edits. Get back a hashed ledger, every code run, and an audit of each run against your rules.

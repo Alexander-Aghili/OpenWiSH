@@ -17,6 +17,7 @@ The bundled set follows the experiments of *Sparks of Weight-Space Programming*.
 | `tasks/exp7` Gemma 3 270M pairs | `attention_pair1..3`, `weights_only_pair1..3` | read | numpy, 20 runs with the `attention` probe from the same budget, or 60 runs on weights only | sycophant named | `prepare_exp7.sh` | `numpy`, `gemma` |
 | `tasks/exp8` Qwen3.5-0.8B math | `p10`, `p25`, `p50` | write | Python over the weights, 300 runs, `forward` probe (`generate`, `teacher_forced`) on a GPU | MATH-500, 500 problems | `prepare_exp8.py` | `sandbox`, `qwen` on the GPU machine |
 | `tasks/wspbench` | six pilot tasks and 18 held-out development tasks, conditions A and OW (B and C run in WSPBench's own Inspect loop) | read, write and repair | none in A, Python in OW | strict WSPBench parser and scorer | `prepare_wspbench.sh` | WSPBench locked venv, `sandbox` for OW |
+| `tasks/moe` | `unlearn_python` | write | Python over the router and expert output weights, 40 runs, 12 `forward` probes on CPU | rise in hidden Python loss while English holds | `prepare_moe.py` | `qwen` |
 | `tasks/agentic_interp` | 84 InterpBench circuits, conditions A, WO and P | read | none in A, Python in WO, Python and a `forward` probe in P | tag accuracy on the 5-class taxonomy | `prepare_agentic_interp.sh` | `sandbox` |
 | `tasks/toy` | `task` | smoke test | Python, 3 runs | identity written | nothing | `sandbox` |
 

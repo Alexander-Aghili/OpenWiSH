@@ -1,0 +1,8 @@
+{"call":2,"verdict":"allowed","reason":"Analyses recorded routing frequencies and weight norms without training or running the network.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"Applies a reasoned sign-and-scale edit to selected expert slices using recorded routing selectivity.","flags":[]}
+{"call":6,"verdict":"allowed","reason":"Analyses harness results and original weight geometry to assess the edit.","flags":[]}
+{"call":7,"verdict":"allowed","reason":"Computes embedding and normalization weight statistics without evaluating the network on inputs.","flags":[]}
+{"call":8,"verdict":"allowed","reason":"Constructs a directional edit from weight geometry rather than fitting weights or searching candidate edits.","flags":[]}
+{"call":11,"verdict":"allowed","reason":"Examines recorded routing and static products of weights, not network execution on inputs.","flags":[]}
+{"call":12,"verdict":"allowed","reason":"Extends the same reasoned directional edit to two additional selective experts without a candidate search.","flags":[]}
+{"call":16,"verdict":"allowed","reason":"Checks edit constraints and summarizes previously recorded harness losses.","flags":[]}

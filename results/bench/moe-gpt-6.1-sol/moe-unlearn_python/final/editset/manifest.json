@@ -1,0 +1,76 @@
+{
+  "tensors": {
+    "model.layers.10.block_sparse_moe.output_linear.weight": {
+      "shape": [
+        32,
+        1024,
+        512
+      ],
+      "changed": 524288,
+      "sha_base": "f0ab1e222274b02c8d888732d7f15632cbbadb2c4822d9bb189b29f46e33489f",
+      "sha_edited": "e88ef9c4ab2e11f7b274af5a1dde317b585c0156e2bb164ab75f308835f72e25"
+    },
+    "model.layers.11.block_sparse_moe.output_linear.weight": {
+      "shape": [
+        32,
+        1024,
+        512
+      ],
+      "changed": 524288,
+      "sha_base": "5ff7274d49390aa29680a86e9a0780275590b60da874760277f3a03ce4daa967",
+      "sha_edited": "8ce46a6f13b4ff752642792dba16ad1332ac86c1cbbd361cd57d54077740a590"
+    },
+    "model.layers.14.block_sparse_moe.output_linear.weight": {
+      "shape": [
+        32,
+        1024,
+        512
+      ],
+      "changed": 1048576,
+      "sha_base": "e7250e4f1272e9c6e57e5253707a1fb750ccb5cf93ce6a44defbaf0e5d9e13b9",
+      "sha_edited": "7c44bad1f7dbb649d2c09198cde3ab6ab3e601b9c7f66ced208954415ab17e13"
+    },
+    "model.layers.22.block_sparse_moe.output_linear.weight": {
+      "shape": [
+        32,
+        1024,
+        512
+      ],
+      "changed": 524288,
+      "sha_base": "7ae91a6000af30d21c2a24d030bdbe859284cad75b06efdb271b3b7a600f6621",
+      "sha_edited": "73ad739fa760bdf346d101de380e8ec6bfd8ae3c247d27a11a9c25e999aed120"
+    },
+    "model.layers.4.block_sparse_moe.output_linear.weight": {
+      "shape": [
+        32,
+        1024,
+        512
+      ],
+      "changed": 1048576,
+      "sha_base": "05b6464f42ad06c49c738d0cb159b92725e199436ae140f8f0d6b3531168d4b2",
+      "sha_edited": "c41a028983db59c7fc175f0f2836f23d63a2349cdef0bf79318adbf7e7fc8020"
+    },
+    "model.layers.7.block_sparse_moe.output_linear.weight": {
+      "shape": [
+        32,
+        1024,
+        512
+      ],
+      "changed": 1572864,
+      "sha_base": "44b65e54f7977e790e6c1e449e23c5494d1ac4fe20ac674148d3bd60b4f14b76",
+      "sha_edited": "edea7b56d37567e234dce1225eb281b482e764a2d37e38663a658d71c97e3d1f"
+    },
+    "model.layers.8.block_sparse_moe.output_linear.weight": {
+      "shape": [
+        32,
+        1024,
+        512
+      ],
+      "changed": 1048576,
+      "sha_base": "287a021e2dcb802cd9fd8e434b98fd0c3cba5dd2e697651d7578b3143bdb703c",
+      "sha_edited": "07d8e302744da4f81532e911390adddf4d75294df9e412373b5fdc4125e19f52"
+    }
+  },
+  "changed_total": 6291456,
+  "numel_total": 403439616
+}

@@ -1,0 +1,26 @@
+{
+  "tensors": {
+    "model.layers.4.block_sparse_moe.output_linear.weight": {
+      "shape": [
+        32,
+        1024,
+        512
+      ],
+      "changed": 524288,
+      "sha_base": "05b6464f42ad06c49c738d0cb159b92725e199436ae140f8f0d6b3531168d4b2",
+      "sha_edited": "d7f40607cae23b0d71e9bf5685d6e0b780c782680e2501761e7a0c7ded6ceec0"
+    },
+    "model.layers.7.block_sparse_moe.output_linear.weight": {
+      "shape": [
+        32,
+        1024,
+        512
+      ],
+      "changed": 524288,
+      "sha_base": "44b65e54f7977e790e6c1e449e23c5494d1ac4fe20ac674148d3bd60b4f14b76",
+      "sha_edited": "056cada5adcdcf806d08d86ef0869a600090f7e76731278bd6e743d206d8034a"
+    }
+  },
+  "changed_total": 1048576,
+  "numel_total": 403439616
+}
