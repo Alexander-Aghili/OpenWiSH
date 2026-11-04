@@ -26,7 +26,8 @@ STYLE = """
 .tk{fill:var(--muted);font-size:11px}.lb{fill:var(--ink);font-size:11.5px;font-weight:600}.lb2{fill:var(--ink2);font-size:11.5px}
 .gl{stroke:var(--grid);stroke-width:1}.ax{stroke:var(--axis);stroke-width:1}.ref{stroke:var(--muted);stroke-width:1.5;stroke-dasharray:4 4}
 .s1{fill:var(--s1)}.s2{fill:var(--s2)}.s3{fill:var(--s3)}.k1{stroke:var(--s1)}.k2{stroke:var(--s2)}.k3{stroke:var(--s3)}
-.ring{stroke:var(--surface);stroke-width:2}.line{fill:none;stroke-width:2}.err{stroke:var(--ink2);stroke-width:1.5}
+.ring{stroke:var(--surface);stroke-width:2}.hollow{fill:var(--surface);stroke-width:2.5}
+.hollow.s1{stroke:var(--s1)}.hollow.s2{stroke:var(--s2)}.hollow.s3{stroke:var(--s3)}.hatchline{stroke:var(--surface);stroke-width:2.2}.line{fill:none;stroke-width:2}.err{stroke:var(--ink2);stroke-width:1.5}
 .bar{transform-box:fill-box;transform-origin:50%% 100%%;animation:grow .7s cubic-bezier(.2,.7,.2,1) both}
 .hbar{transform-box:fill-box;transform-origin:0 50%%;animation:growx .7s cubic-bezier(.2,.7,.2,1) both}
 .fade{animation:fade .6s ease-out both}
@@ -42,6 +43,11 @@ def esc(s):
 class Svg:
     def __init__(self, height, title, subtitle, source):
         self.h, self.parts = height, []
+        # hatching marks results made with probes (the agent ran the network); solid marks weights only
+        pats = "".join(f'<pattern id="hatch-s{n}" patternUnits="userSpaceOnUse" width="7" height="7" '
+                       f'patternTransform="rotate(45)"><rect width="7" height="7" class="s{n}"/>'
+                       f'<line x1="0" y1="0" x2="0" y2="7" class="hatchline"/></pattern>' for n in (1, 2, 3))
+        self.add(f"<defs>{pats}</defs>")
         self.add(f'<rect class="bg" width="{W}" height="{height}" rx="12"/>')
         self.text(24, 34, title, "t")
         self.text(24, 54, subtitle, "st")
@@ -53,14 +59,38 @@ class Svg:
     def text(self, x, y, s, cls, anchor="start", extra=""):
         self.add(f'<text x="{x:.1f}" y="{y:.1f}" class="{cls}" text-anchor="{anchor}"{extra}>{esc(s)}</text>')
 
-    def legend(self, x, y, items):
-        """items: (label, slot). Swatch plus text, in series order."""
-        for label, slot in items:
+    def swatch(self, x, y, slot, probe=False, shape="bar", label=""):
+        if shape == "dot":
+            cls = f"s{slot} hollow" if probe else f"s{slot}"
+            self.add(f'<circle cx="{x + 6}" cy="{y - 3}" r="5.5" class="{cls}"><title>{esc(label)}</title></circle>')
+        elif probe:
+            self.add(f'<rect x="{x}" y="{y - 9}" width="12" height="12" rx="3" fill="url(#hatch-s{slot})"/>')
+        else:
             self.add(f'<rect x="{x}" y="{y - 9}" width="12" height="12" rx="3" class="s{slot}"/>')
+
+    def legend(self, x, y, items, shape="bar"):
+        """items: (label, slot) or (label, slot, probe). Swatch plus text, in series order."""
+        for item in items:
+            label, slot, probe = (item + (False,))[:3]
+            self.swatch(x, y, slot, probe, shape, label)
             self.text(x + 18, y + 1, label, "lb2")
             x += 18 + 7.2 * len(label) + 22
 
-    def bar(self, x, y0, w, h, slot, tip, delay=0.0):
+    def access_key(self, items):
+        """A line above the source naming the access of each mark style, in words. items: (text, probe, shape)."""
+        x, y = 24, self.h - 34
+        for text, probe, shape in items:
+            if shape == "dot":
+                cls = "hollow s1" if probe else "s1"
+                self.add(f'<circle cx="{x + 6}" cy="{y - 3}" r="5" class="{cls}"><title>{esc(text)}</title></circle>')
+            elif probe:
+                self.add(f'<rect x="{x}" y="{y - 9}" width="12" height="12" rx="3" fill="url(#hatch-s1)"/>')
+            else:
+                self.add(f'<rect x="{x}" y="{y - 9}" width="12" height="12" rx="3" class="s1"/>')
+            self.text(x + 18, y + 1, text, "tk")
+            x += 18 + 6.2 * len(text) + 22
+
+    def bar(self, x, y0, w, h, slot, tip, delay=0.0, probe=False):
         """A vertical bar anchored at baseline y0, with a 4px rounded data end."""
         if h < 0.5:
             self.add(f'<line x1="{x:.1f}" y1="{y0:.1f}" x2="{x + w:.1f}" y2="{y0:.1f}" class="k{slot}" stroke-width="2"><title>{esc(tip)}</title></line>')
@@ -68,10 +98,14 @@ class Svg:
         r = min(4, h, w / 2)
         y = y0 - h
         d = f"M{x:.1f},{y0:.1f}V{y + r:.1f}Q{x:.1f},{y:.1f} {x + r:.1f},{y:.1f}H{x + w - r:.1f}Q{x + w:.1f},{y:.1f} {x + w:.1f},{y + r:.1f}V{y0:.1f}Z"
-        self.add(f'<path d="{d}" class="s{slot} bar" style="animation-delay:{delay:.2f}s"><title>{esc(tip)}</title></path>')
+        if probe:
+            self.add(f'<path d="{d}" class="bar" fill="url(#hatch-s{slot})" style="animation-delay:{delay:.2f}s"><title>{esc(tip)}</title></path>')
+        else:
+            self.add(f'<path d="{d}" class="s{slot} bar" style="animation-delay:{delay:.2f}s"><title>{esc(tip)}</title></path>')
 
-    def dot(self, x, y, slot, tip, delay=0.0):
-        self.add(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="6" class="s{slot} ring fade" style="animation-delay:{delay:.2f}s"><title>{esc(tip)}</title></circle>')
+    def dot(self, x, y, slot, tip, delay=0.0, probe=False):
+        cls = f"s{slot} hollow fade" if probe else f"s{slot} ring fade"
+        self.add(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="6" class="{cls}" style="animation-delay:{delay:.2f}s"><title>{esc(tip)}</title></circle>')
 
     def yaxis(self, x0, x1, y0, y1, ticks, fmt):
         """Horizontal gridlines with labels. y0 is the baseline (value 0 or the first tick)."""
@@ -89,18 +123,21 @@ class Svg:
 
 
 def grouped_bars(svg, groups, series, x0, x1, y_of, y0, values, tips, labels=True, missing="not run", label_top=None):
-    """groups: names on the x axis. series: (label, slot). values[g][s] is a number or None."""
+    """groups: names on the x axis. series: (label, slot) or (label, slot, probe). values[g][s] is a number or None.
+    probe may also be a list with one flag per group."""
     gw = (x1 - x0) / len(groups)
     bw = min(34, (gw - 28) / len(series))
     for gi, g in enumerate(groups):
         start = x0 + gi * gw + (gw - bw * len(series) - 2 * (len(series) - 1)) / 2
-        for si, (name, slot) in enumerate(series):
+        for si, item in enumerate(series):
+            name, slot, probe = (tuple(item) + (False,))[:3]
+            probe = probe[gi] if isinstance(probe, list) else probe
             v = values[gi][si]
             x = start + si * (bw + 2)
             if v is None:
                 svg.text(x + bw / 2, y0 - 6, missing, "tk", "middle", ' transform="rotate(-90 %.1f %.1f)" dx="22"' % (x + bw / 2, y0 - 6))
                 continue
-            svg.bar(x, y0, bw, y0 - y_of(v), slot, tips[gi][si], delay=0.05 * (gi * len(series) + si))
+            svg.bar(x, y0, bw, y0 - y_of(v), slot, tips[gi][si], delay=0.05 * (gi * len(series) + si), probe=probe)
             if labels:
                 top = min(y_of(v), label_top[gi][si]) if label_top else y_of(v)
                 svg.text(x + bw / 2, top - 6, labels(v) if callable(labels) else v, "lb", "middle")
@@ -109,7 +146,7 @@ def grouped_bars(svg, groups, series, x0, x1, y_of, y0, values, tips, labels=Tru
 
 def chart_tools(data):
     models = [m for m in data]
-    series = [("WSPBench B: weight-algebra tools", 2), ("WSPBench C: plus practice observations", 3), ("OpenWiSH sandbox", 1)]
+    series = [("WSPBench B: weight algebra", 2), ("WSPBench C: + practice observations", 3, True), ("OpenWiSH sandbox", 1)]
     svg = Svg(400, "WSPBench, tools against tools",
               "Exact solves out of 12 tasks (6 pilot, 6 held out), one attempt each. A run that fails its audit scores 0.",
               "Source: runs/bench/wspbench-*, scripts/bench_charts.py. B and C run in WSPBench's own Inspect loop, unchanged.")
@@ -120,6 +157,8 @@ def chart_tools(data):
     vals = [[data[m][k] for k in keys] for m in models]
     tips = [[f"{m}, {series[i][0]}: {data[m][k]} of 12 exact" for i, k in enumerate(keys)] for m in models]
     grouped_bars(svg, models, series, 72, W - 24, y_of, y0, vals, tips)
+    svg.access_key([("solid: weights only, the network never runs", False, "bar"),
+                    ("hatched: with probes (C runs the network on practice inputs)", True, "bar")])
     return svg.render("WSPBench exact solves: WSPBench B and C against the OpenWiSH sandbox")
 
 
@@ -148,20 +187,23 @@ def chart_rounds(rows):
         ends[i][0] = max(ends[i][0], ends[i - 1][0] + 15)
     for y, x, label in ends:
         svg.text(x, y, label, "lb")
-    svg.legend(24, 80, [(m, i + 1) for i, m in enumerate(rows)])
+    svg.legend(24, 80, [(m, i + 1) for i, m in enumerate(rows)], shape="dot")
+    svg.access_key([("weights only: Python over the weights, the network never runs", False, "dot")])
     return svg.render("Audited read agreement per tuning round")
 
 
 def chart_agentic(rows):
-    kinds = {"A": ("prompt only", 3), "WO": ("weights only", 1), "P": ("weights + probe", 1), "HyVE": ("HyVE, published", 2)}
+    kinds = {"A": ("prompt only", 3, False), "WO": ("weights only", 1, False), "P": ("weights + probe", 1, True),
+             "HyVE": ("HyVE, published", 2, True)}
     marks = [r for r in rows if r["kind"] in kinds]
     marks.sort(key=lambda r: (r["kind"] == "HyVE", r["model"], list(kinds).index(r["kind"])))
     refs = [r for r in rows if r["kind"] == "baseline"]
-    h = 210 + 30 * len(marks)
+    h = 230 + 30 * len(marks)
     svg = Svg(h, "AgenticInterpBench: tag accuracy on 163 circuit components",
               "84 InterpBench circuits, 5-class taxonomy, components pooled. Dashed lines: fixed baselines with no model.",
               "Source: runs/bench/agentic-interp-*, HyVE scores from arXiv 2606.24026. Runs that fail audit score 0.")
-    svg.legend(24, 82, [("OpenWiSH, weights or probe", 1), ("prompt only, no tools", 3), ("HyVE, published", 2)])
+    svg.legend(24, 82, [("OpenWiSH, weights only", 1), ("OpenWiSH, weights + probe", 1, True), ("prompt only", 3),
+                        ("HyVE, published (probes)", 2, True)], shape="dot")
     x0, x1, top = 300, W - 70, 154
     lo, hi = 40, 85
     x_of = lambda v: x0 + (v - lo) / (hi - lo) * (x1 - x0)
@@ -175,13 +217,15 @@ def chart_agentic(rows):
         svg.text(x, top - 14 - 14 * (len(refs) - 1 - k), f'{"always MAPPER" if "always" in r["label"] else "MLP MAPPER, attention AGGREGATOR"} {100 * r["accuracy"]:.1f} %', "tk", "middle")
     for i, r in enumerate(marks):
         y = top + 14 + 30 * i
-        label, slot = kinds[r["kind"]]
+        label, slot, probe = kinds[r["kind"]]
         partial = f" ({r['cases']}/84, running)" if r["cases"] < 84 else ""
         svg.text(x0 - 14, y + 4, f'{r["model"]}, {label}{partial}', "lb2", "end")
         v = 100 * r["accuracy"]
         svg.add(f'<line x1="{x_of(lo):.1f}" y1="{y}" x2="{x_of(v):.1f}" y2="{y}" class="gl"/>')
-        svg.dot(x_of(v), y, slot, f'{r["model"]}, {r["label"]}: {v:.1f} % over {r["cases"]} cases ({r["audit"]})', 0.04 * i)
+        svg.dot(x_of(v), y, slot, f'{r["model"]}, {r["label"]}: {v:.1f} % over {r["cases"]} cases ({r["audit"]})', 0.04 * i, probe=probe)
         svg.text(x_of(v) + 12, y + 4, f"{v:.1f} %", "lb")
+    svg.access_key([("filled: no network runs (prompt only or weights only)", False, "dot"),
+                    ("hollow: with probes (the network runs within a budget)", True, "dot")])
     return svg.render("AgenticInterpBench tag accuracy by model and access")
 
 
@@ -197,7 +241,8 @@ def chart_qwen(rows):
     tips = [[f'{names[r["config"]]}, published: {100 * r["published"]:.1f} %',
              f'{names[r["config"]]}, OpenWiSH: {100 * r["score"]:.1f} ± {100 * r["se"]:.1f} %'] for r in rows]
     tops = [[y_of(100 * r["published"]), y_of(100 * (r["score"] + r["se"]))] for r in rows]
-    grouped_bars(svg, [names[r["config"]] for r in rows], [("published", 2), ("OpenWiSH", 1)], 72, 470, y_of, y0, vals, tips,
+    probe = [r["config"] != "base" for r in rows]
+    grouped_bars(svg, [names[r["config"]] for r in rows], [("published", 2, probe), ("OpenWiSH", 1, probe)], 72, 470, y_of, y0, vals, tips,
                  labels=lambda v: f"{v:.1f}", label_top=tops)
     gw = (470 - 72) / len(rows)
     for gi, r in enumerate(rows):  # error bars on the OpenWiSH bars
@@ -211,9 +256,12 @@ def chart_qwen(rows):
     bw = (x1 - x0 - 12) / len(rows) - 6
     for i, r in enumerate(rows):
         x = x0 + 10 + i * (bw + 6)
-        svg.bar(x, y0, bw, y0 - y_cut(100 * r["cut"]), 1, f'{names[r["config"]]}: {100 * r["cut"]:.1f} % cut at the limit', 0.05 * i)
+        svg.bar(x, y0, bw, y0 - y_cut(100 * r["cut"]), 1, f'{names[r["config"]]}: {100 * r["cut"]:.1f} % cut at the limit', 0.05 * i,
+                probe=r["config"] != "base")
         svg.text(x + bw / 2, y_cut(100 * r["cut"]) - 6, f'{100 * r["cut"]:.0f}', "lb", "middle")
         svg.text(x + bw / 2, y0 + 20, names[r["config"]].replace(" passes", ""), "tk", "middle")
+    svg.access_key([("solid: the base model, no edit", False, "bar"),
+                    ("hatched: edits made with probes (10, 25 or 50 forward passes)", True, "bar")])
     return svg.render("Qwen MATH-500 accuracy, published against the OpenWiSH replay, and the share cut at the limit")
 
 
@@ -274,16 +322,17 @@ def chart_blog(panels):
             svg.text(x + bw / 2, y_of(v) - 6, f"{v:,.0f}" if v >= 100 else f"{v:.1f}", "lb", "middle")
         win = "OpenWiSH ahead" if ours > pub else ("tie" if ours == pub else "published ahead")
         svg.text(x0 + pw / 2, y0 + 20, win, "tk", "middle")
+    svg.access_key([("all bars: no network runs (one reply; the Kinetix prompt also shows a recorded failure episode)", False, "bar")])
     return svg.render("Blog environments, published agent against Claude Opus 5.5 through OpenWiSH")
 
 
-TIERS = (("native", "native: weights in the prompt, one reply", 3), ("read", "read: Python, never run", 1),
-         ("probe", "probe: Python, 48 probe inputs", 2))
+TIERS = (("native", "native: weights in the prompt", 3, False), ("read", "read: weights in Python", 1, False),
+         ("probe", "probe: Python + 48 probe inputs", 2, True))
 
 
 def chart_decompile(rows):
     """rows: {network: {tier: score or None}}."""
-    series = [(label, slot) for _, label, slot in TIERS]
+    series = [(label, slot, probe) for _, label, slot, probe in TIERS]
     svg = Svg(400, "Decompile ladder: one network, three access levels",
               "Score = behaviour on all 1,024 inputs x interchange-intervention accuracy x completeness. 1.0 is an exact decompile.",
               "Source: results/bench/decompile-claude-opus-5-5, Claude Opus 5.5 at high effort, one run per bar, unaudited.")
@@ -291,9 +340,10 @@ def chart_decompile(rows):
     y0, y1 = 326, 112
     y_of = svg.yaxis(64, W - 24, y0, y1, [0, 0.25, 0.5, 0.75, 1.0], lambda t: f"{t:.2f}")
     nets = list(rows)
-    vals = [[rows[n].get(t) for t, _, _ in TIERS] for n in nets]
-    tips = [[f"{n}, {label}: {'not run' if rows[n].get(t) is None else f'{rows[n][t]:.3f}'}" for t, label, _ in TIERS] for n in nets]
+    vals = [[rows[n].get(t) for t, _, _, _ in TIERS] for n in nets]
+    tips = [[f"{n}, {label}: {'not run' if rows[n].get(t) is None else f'{rows[n][t]:.3f}'}" for t, label, _, _ in TIERS] for n in nets]
     grouped_bars(svg, nets, series, 72, W - 24, y_of, y0, vals, tips, labels=lambda v: f"{v:.2f}")
+    svg.access_key([("weights only: the network never runs", False, "bar"), ("with probes: the agent ran the network within a budget", True, "bar")])
     return svg.render("Decompile ladder scores by network and access level")
 
 
@@ -304,7 +354,7 @@ def decompile_data():
         if not s:
             continue
         net, tier = d.name[len("decompile-"):].rsplit("-", 1)
-        out.setdefault(net, {t: None for t, _, _ in TIERS})[tier] = s["score"]
+        out.setdefault(net, {t[0]: None for t in TIERS})[tier] = s["score"]
     return out
 
 

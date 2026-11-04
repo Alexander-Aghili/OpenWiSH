@@ -28,7 +28,11 @@ Every result names its access level. Reading weights as text, analysing them wit
 
 Tools against tools, on every benchmark tested so far. Each chart comes from the run folders through `scripts/bench_charts.py`. Hover values and data tables: [charts](docs/charts.html). Method, losses and caveats: [Results](docs/results.md).
 
+**How to read the access in every chart.** *Weights only*: the agent reads the weights, as text or through Python, and the network never runs. Solid bars and filled dots. *With probes*: the agent also ran the network within a budget (forward passes, activations, practice observations). Hatched bars and hollow dots. A line under each chart, and the line under each heading below, says which is which. Full rules: [Access levels](docs/access-levels.md).
+
 ### WSPBench: OpenWiSH against WSPBench's own tools
+
+**Access:** WSPBench B and the OpenWiSH sandbox are weights only. WSPBench C adds practice observations, so C is with probes (hatched).
 
 <p align="center"><img src="docs/assets/charts/wspbench-tools.svg" alt="Grouped bars: exact solves out of 12 WSPBench tasks. WSPBench B and C score 0 or 1 for every model. The OpenWiSH sandbox scores 12 for gpt-6.1-sol, gpt-6.1-terra and claude-opus-5-5, and 4 for gpt-6-luna." width="760"></p>
 
@@ -39,11 +43,15 @@ OpenWiSH solves more tasks exactly than both WSPBench tool conditions, for each 
 
 ### The audit decides the score
 
+**Access:** weights only. Python over the weights, and the network never runs.
+
 <p align="center"><img src="docs/assets/charts/wspbench-rounds.svg" alt="Lines: audited read agreement over five tuning rounds. All three models rise after round 4 added the activation guard. Sol and Terra reach 100 percent, Luna 69 percent." width="760"></p>
 
 Codex tuned the OpenWiSH config in five rounds on the pilot tasks. Runs whose code evaluated gates on inputs fail audit and score 0. The activation guard in round 4 ended those runs, and the frozen config then held on tasks no round had seen.
 
 ### Blog environments
+
+**Access:** weights only, one reply, no network runs. MinAtar starts from zero weights. The Kinetix prompt also shows one recorded failure episode.
 
 <p align="center"><img src="docs/assets/charts/blog-envs.svg" alt="Four panels: Kinetix ties at 1,024 successes. Claude through OpenWiSH leads on Seaquest and Asterix, and trails on Breakout, 417 (mean of 3 runs) against 517." width="760"></p>
 
@@ -51,17 +59,23 @@ On the blog environments, Claude Opus 5.5 through OpenWiSH fixes the Kinetix car
 
 ### Replaying the published Qwen edits
 
+**Access:** with probes. The published edits were made with 10, 25 or 50 forward passes (hatched). The base model has no edit (solid).
+
 <p align="center"><img src="docs/assets/charts/qwen-math.svg" alt="Grouped bars: Qwen MATH-500 accuracy, published against the OpenWiSH replay, for base, 10, 25 and 50 passes. The replay matches within one standard error band. A second panel shows the share cut at the token limit falling from 90 to 32 percent." width="760"></p>
 
 All four published Qwen3.5-0.8B edits reproduce within noise on MATH-500. The 50-pass gain comes from ending reasoning loops: the share of answers cut at the token limit falls from 90 % to 32 %.
 
 ### Decompile: one network, three access levels
 
+**Access:** `native` and `read` are weights only (the weights as text in the prompt, or through Python). `probe` adds 48 probe inputs with activations and patches, so `probe` is with probes (hatched).
+
 <p align="center"><img src="docs/assets/charts/decompile-ladder.svg" alt="Grouped bars: decompile scores for two networks at three access levels. d2-a scores 0.98 at every level. d3-b scores 0.88 with the weights in the prompt, 0.91 with Python, and 0.94 with Python and 48 probe inputs." width="760"></p>
 
 Claude Opus 5.5 rewrites a trained network as a short program whose variables map onto its hidden units, with the network's weights as text in one reply, through Python, or through Python plus 48 probe inputs. Reading the weights in one reply already recovers most of each mechanism. On the harder network, each extra channel adds a little. Single runs.
 
 ### AgenticInterpBench: no win yet
+
+**Access:** prompt-only and weights-only rows are filled dots, with no network runs. Weights + probe rows and the published HyVE agent are hollow dots: they ran the network.
 
 <p align="center"><img src="docs/assets/charts/agentic-interp.svg" alt="Dot plot: AgenticInterpBench tag accuracy. Published HyVE agents score 67 to 79 percent. OpenWiSH rows score 67 to 73 percent. Fixed baselines sit at 44.2 and 63.8 percent." width="760"></p>
 

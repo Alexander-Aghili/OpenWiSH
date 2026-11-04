@@ -49,6 +49,23 @@ class Charts(unittest.TestCase):
         self.assertIn("0.98", texts)
         self.assertEqual(texts.count("not run"), 1)
 
+    def test_probe_results_look_different_from_weights_only(self):
+        """With probes: hatched bars and hollow dots, and the legend says so in words."""
+        rows = {"d": {"native": 0.9, "read": 0.9, "probe": 0.95}}
+        root = self.check(charts.chart_decompile(rows))
+        bars = [e for e in root.iter(NS + "path") if "bar" in e.get("class", "")]
+        hatched = [b for b in bars if "url(#hatch" in (b.get("fill") or "")]
+        self.assertEqual(len(hatched), 1, "only the probe bar is hatched")
+        self.assertIsNotNone(root.find(f".//{NS}pattern"), "the hatch pattern is defined in the chart")
+        texts = " ".join(t.text or "" for t in root.iter(NS + "text"))
+        self.assertIn("weights only", texts)
+        self.assertIn("with probes", texts)
+        marks = [{"model": "m", "kind": k, "label": k, "cases": 84, "accuracy": 0.7, "audit": "-"} for k in ("WO", "P")]
+        root = self.check(charts.chart_agentic(marks))
+        dots = [e for e in root.iter(NS + "circle") if "fade" in e.get("class", "")]  # data marks, not swatches
+        hollow = [d for d in dots if "hollow" in d.get("class", "")]
+        self.assertEqual(len(hollow), 1, "only the probe dot is hollow")
+
     def test_repeats_pool_into_mean_and_standard_error(self):
         m, se, n = charts.pool_repeats([{"mean": 470.0}, {"mean": 480.0}, {"mean": 490.0}])
         self.assertEqual((round(m, 6), n), (480.0, 3))

@@ -17,13 +17,15 @@ td,th{padding:4px 10px;border-bottom:1px solid #c3c2b7;text-align:left}
 .tk{fill:var(--muted);font-size:11px}.lb{fill:var(--ink);font-size:11.5px;font-weight:600}.lb2{fill:var(--ink2);font-size:11.5px}
 .gl{stroke:var(--grid);stroke-width:1}.ax{stroke:var(--axis);stroke-width:1}.ref{stroke:var(--muted);stroke-width:1.5;stroke-dasharray:4 4}
 .s1{fill:var(--s1)}.s2{fill:var(--s2)}.s3{fill:var(--s3)}.k1{stroke:var(--s1)}.k2{stroke:var(--s2)}.k3{stroke:var(--s3)}
-.ring{stroke:var(--surface);stroke-width:2}.line{fill:none;stroke-width:2}.err{stroke:var(--ink2);stroke-width:1.5}
+.ring{stroke:var(--surface);stroke-width:2}.hollow{fill:var(--surface);stroke-width:2.5}
+.hollow.s1{stroke:var(--s1)}.hollow.s2{stroke:var(--s2)}.hollow.s3{stroke:var(--s3)}.hatchline{stroke:var(--surface);stroke-width:2.2}.line{fill:none;stroke-width:2}.err{stroke:var(--ink2);stroke-width:1.5}
 .bar{transform-box:fill-box;transform-origin:50% 100%;animation:grow .7s cubic-bezier(.2,.7,.2,1) both}
 .hbar{transform-box:fill-box;transform-origin:0 50%;animation:growx .7s cubic-bezier(.2,.7,.2,1) both}
 .fade{animation:fade .6s ease-out both}
 @keyframes grow{from{transform:scaleY(0)}}@keyframes growx{from{transform:scaleX(0)}}@keyframes fade{from{opacity:0}}
 @media (prefers-reduced-motion:reduce){.bar,.hbar,.fade{animation:none}}
 </style>
+<defs><pattern id="hatch-s1" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)"><rect width="7" height="7" class="s1"/><line x1="0" y1="0" x2="0" y2="7" class="hatchline"/></pattern><pattern id="hatch-s2" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)"><rect width="7" height="7" class="s2"/><line x1="0" y1="0" x2="0" y2="7" class="hatchline"/></pattern><pattern id="hatch-s3" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)"><rect width="7" height="7" class="s3"/><line x1="0" y1="0" x2="0" y2="7" class="hatchline"/></pattern></defs>
 <rect class="bg" width="760" height="490" rx="12"/>
 <text x="24.0" y="34.0" class="t" text-anchor="start">Conformance: the published runs, replayed through OpenWiSH</text>
 <text x="24.0" y="54.0" class="st" text-anchor="start">Each dot is OpenWiSH&#x27;s result as a share of the published one. 100 % on the dashed line is an exact match.</text>
@@ -79,23 +81,25 @@ td,th{padding:4px 10px;border-bottom:1px solid #c3c2b7;text-align:left}
 .tk{fill:var(--muted);font-size:11px}.lb{fill:var(--ink);font-size:11.5px;font-weight:600}.lb2{fill:var(--ink2);font-size:11.5px}
 .gl{stroke:var(--grid);stroke-width:1}.ax{stroke:var(--axis);stroke-width:1}.ref{stroke:var(--muted);stroke-width:1.5;stroke-dasharray:4 4}
 .s1{fill:var(--s1)}.s2{fill:var(--s2)}.s3{fill:var(--s3)}.k1{stroke:var(--s1)}.k2{stroke:var(--s2)}.k3{stroke:var(--s3)}
-.ring{stroke:var(--surface);stroke-width:2}.line{fill:none;stroke-width:2}.err{stroke:var(--ink2);stroke-width:1.5}
+.ring{stroke:var(--surface);stroke-width:2}.hollow{fill:var(--surface);stroke-width:2.5}
+.hollow.s1{stroke:var(--s1)}.hollow.s2{stroke:var(--s2)}.hollow.s3{stroke:var(--s3)}.hatchline{stroke:var(--surface);stroke-width:2.2}.line{fill:none;stroke-width:2}.err{stroke:var(--ink2);stroke-width:1.5}
 .bar{transform-box:fill-box;transform-origin:50% 100%;animation:grow .7s cubic-bezier(.2,.7,.2,1) both}
 .hbar{transform-box:fill-box;transform-origin:0 50%;animation:growx .7s cubic-bezier(.2,.7,.2,1) both}
 .fade{animation:fade .6s ease-out both}
 @keyframes grow{from{transform:scaleY(0)}}@keyframes growx{from{transform:scaleX(0)}}@keyframes fade{from{opacity:0}}
 @media (prefers-reduced-motion:reduce){.bar,.hbar,.fade{animation:none}}
 </style>
+<defs><pattern id="hatch-s1" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)"><rect width="7" height="7" class="s1"/><line x1="0" y1="0" x2="0" y2="7" class="hatchline"/></pattern><pattern id="hatch-s2" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)"><rect width="7" height="7" class="s2"/><line x1="0" y1="0" x2="0" y2="7" class="hatchline"/></pattern><pattern id="hatch-s3" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)"><rect width="7" height="7" class="s3"/><line x1="0" y1="0" x2="0" y2="7" class="hatchline"/></pattern></defs>
 <rect class="bg" width="760" height="400" rx="12"/>
 <text x="24.0" y="34.0" class="t" text-anchor="start">Decompile ladder: one network, three access levels</text>
 <text x="24.0" y="54.0" class="st" text-anchor="start">Score = behaviour on all 1,024 inputs x interchange-intervention accuracy x completeness. 1.0 is an exact decompile.</text>
 <text x="24.0" y="386.0" class="tk" text-anchor="start">Source: results/bench/decompile-claude-opus-5-5, Claude Opus 5.5 at high effort, one run per bar, unaudited.</text>
 <rect x="24" y="73" width="12" height="12" rx="3" class="s3"/>
-<text x="42.0" y="83.0" class="lb2" text-anchor="start">native: weights in the prompt, one reply</text>
-<rect x="352.0" y="73" width="12" height="12" rx="3" class="s1"/>
-<text x="370.0" y="83.0" class="lb2" text-anchor="start">read: Python, never run</text>
-<rect x="557.6" y="73" width="12" height="12" rx="3" class="s2"/>
-<text x="575.6" y="83.0" class="lb2" text-anchor="start">probe: Python, 48 probe inputs</text>
+<text x="42.0" y="83.0" class="lb2" text-anchor="start">native: weights in the prompt</text>
+<rect x="272.8" y="73" width="12" height="12" rx="3" class="s1"/>
+<text x="290.8" y="83.0" class="lb2" text-anchor="start">read: weights in Python</text>
+<rect x="478.4" y="73" width="12" height="12" rx="3" fill="url(#hatch-s2)"/>
+<text x="496.4" y="83.0" class="lb2" text-anchor="start">probe: Python + 48 probe inputs</text>
 <line x1="64" y1="326.0" x2="736" y2="326.0" class="ax"/>
 <text x="56.0" y="330.0" class="tk" text-anchor="end">0.00</text>
 <line x1="64" y1="272.5" x2="736" y2="272.5" class="gl"/>
@@ -106,20 +110,24 @@ td,th{padding:4px 10px;border-bottom:1px solid #c3c2b7;text-align:left}
 <text x="56.0" y="169.5" class="tk" text-anchor="end">0.75</text>
 <line x1="64" y1="112.0" x2="736" y2="112.0" class="gl"/>
 <text x="56.0" y="116.0" class="tk" text-anchor="end">1.00</text>
-<path d="M185.0,326.0V121.2Q185.0,117.2 189.0,117.2H215.0Q219.0,117.2 219.0,121.2V326.0Z" class="s3 bar" style="animation-delay:0.00s"><title>d2-a, native: weights in the prompt, one reply: 0.976</title></path>
+<path d="M185.0,326.0V121.2Q185.0,117.2 189.0,117.2H215.0Q219.0,117.2 219.0,121.2V326.0Z" class="s3 bar" style="animation-delay:0.00s"><title>d2-a, native: weights in the prompt: 0.976</title></path>
 <text x="202.0" y="111.2" class="lb" text-anchor="middle">0.98</text>
-<path d="M221.0,326.0V119.7Q221.0,115.7 225.0,115.7H251.0Q255.0,115.7 255.0,119.7V326.0Z" class="s1 bar" style="animation-delay:0.05s"><title>d2-a, read: Python, never run: 0.983</title></path>
+<path d="M221.0,326.0V119.7Q221.0,115.7 225.0,115.7H251.0Q255.0,115.7 255.0,119.7V326.0Z" class="s1 bar" style="animation-delay:0.05s"><title>d2-a, read: weights in Python: 0.983</title></path>
 <text x="238.0" y="109.7" class="lb" text-anchor="middle">0.98</text>
-<path d="M257.0,326.0V120.8Q257.0,116.8 261.0,116.8H287.0Q291.0,116.8 291.0,120.8V326.0Z" class="s2 bar" style="animation-delay:0.10s"><title>d2-a, probe: Python, 48 probe inputs: 0.978</title></path>
+<path d="M257.0,326.0V120.8Q257.0,116.8 261.0,116.8H287.0Q291.0,116.8 291.0,120.8V326.0Z" class="bar" fill="url(#hatch-s2)" style="animation-delay:0.10s"><title>d2-a, probe: Python + 48 probe inputs: 0.978</title></path>
 <text x="274.0" y="110.8" class="lb" text-anchor="middle">0.98</text>
 <text x="238.0" y="346.0" class="lb2" text-anchor="middle">d2-a</text>
-<path d="M517.0,326.0V141.4Q517.0,137.4 521.0,137.4H547.0Q551.0,137.4 551.0,141.4V326.0Z" class="s3 bar" style="animation-delay:0.15s"><title>d3-b, native: weights in the prompt, one reply: 0.881</title></path>
+<path d="M517.0,326.0V141.4Q517.0,137.4 521.0,137.4H547.0Q551.0,137.4 551.0,141.4V326.0Z" class="s3 bar" style="animation-delay:0.15s"><title>d3-b, native: weights in the prompt: 0.881</title></path>
 <text x="534.0" y="131.4" class="lb" text-anchor="middle">0.88</text>
-<path d="M553.0,326.0V134.6Q553.0,130.6 557.0,130.6H583.0Q587.0,130.6 587.0,134.6V326.0Z" class="s1 bar" style="animation-delay:0.20s"><title>d3-b, read: Python, never run: 0.913</title></path>
+<path d="M553.0,326.0V134.6Q553.0,130.6 557.0,130.6H583.0Q587.0,130.6 587.0,134.6V326.0Z" class="s1 bar" style="animation-delay:0.20s"><title>d3-b, read: weights in Python: 0.913</title></path>
 <text x="570.0" y="124.6" class="lb" text-anchor="middle">0.91</text>
-<path d="M589.0,326.0V129.9Q589.0,125.9 593.0,125.9H619.0Q623.0,125.9 623.0,129.9V326.0Z" class="s2 bar" style="animation-delay:0.25s"><title>d3-b, probe: Python, 48 probe inputs: 0.935</title></path>
+<path d="M589.0,326.0V129.9Q589.0,125.9 593.0,125.9H619.0Q623.0,125.9 623.0,129.9V326.0Z" class="bar" fill="url(#hatch-s2)" style="animation-delay:0.25s"><title>d3-b, probe: Python + 48 probe inputs: 0.935</title></path>
 <text x="606.0" y="119.9" class="lb" text-anchor="middle">0.94</text>
 <text x="570.0" y="346.0" class="lb2" text-anchor="middle">d3-b</text>
+<rect x="24" y="357" width="12" height="12" rx="3" class="s1"/>
+<text x="42.0" y="367.0" class="tk" text-anchor="start">weights only: the network never runs</text>
+<rect x="287.20000000000005" y="357" width="12" height="12" rx="3" fill="url(#hatch-s1)"/>
+<text x="305.2" y="367.0" class="tk" text-anchor="start">with probes: the agent ran the network within a budget</text>
 </svg>
 <details><summary>Data table</summary><table><thead><tr><th>Network</th><th>native</th><th>read</th><th>probe</th></tr></thead><tbody><tr><td>d2-a</td><td>0.976</td><td>0.983</td><td>0.978</td></tr><tr><td>d3-b</td><td>0.881</td><td>0.913</td><td>0.935</td></tr></tbody></table></details></section>
 <section id="wspbench-tools"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 400" width="760" height="400" role="img" aria-label="WSPBench exact solves: WSPBench B and C against the OpenWiSH sandbox" class="c"><title>WSPBench exact solves: WSPBench B and C against the OpenWiSH sandbox</title><style>
@@ -131,23 +139,25 @@ td,th{padding:4px 10px;border-bottom:1px solid #c3c2b7;text-align:left}
 .tk{fill:var(--muted);font-size:11px}.lb{fill:var(--ink);font-size:11.5px;font-weight:600}.lb2{fill:var(--ink2);font-size:11.5px}
 .gl{stroke:var(--grid);stroke-width:1}.ax{stroke:var(--axis);stroke-width:1}.ref{stroke:var(--muted);stroke-width:1.5;stroke-dasharray:4 4}
 .s1{fill:var(--s1)}.s2{fill:var(--s2)}.s3{fill:var(--s3)}.k1{stroke:var(--s1)}.k2{stroke:var(--s2)}.k3{stroke:var(--s3)}
-.ring{stroke:var(--surface);stroke-width:2}.line{fill:none;stroke-width:2}.err{stroke:var(--ink2);stroke-width:1.5}
+.ring{stroke:var(--surface);stroke-width:2}.hollow{fill:var(--surface);stroke-width:2.5}
+.hollow.s1{stroke:var(--s1)}.hollow.s2{stroke:var(--s2)}.hollow.s3{stroke:var(--s3)}.hatchline{stroke:var(--surface);stroke-width:2.2}.line{fill:none;stroke-width:2}.err{stroke:var(--ink2);stroke-width:1.5}
 .bar{transform-box:fill-box;transform-origin:50% 100%;animation:grow .7s cubic-bezier(.2,.7,.2,1) both}
 .hbar{transform-box:fill-box;transform-origin:0 50%;animation:growx .7s cubic-bezier(.2,.7,.2,1) both}
 .fade{animation:fade .6s ease-out both}
 @keyframes grow{from{transform:scaleY(0)}}@keyframes growx{from{transform:scaleX(0)}}@keyframes fade{from{opacity:0}}
 @media (prefers-reduced-motion:reduce){.bar,.hbar,.fade{animation:none}}
 </style>
+<defs><pattern id="hatch-s1" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)"><rect width="7" height="7" class="s1"/><line x1="0" y1="0" x2="0" y2="7" class="hatchline"/></pattern><pattern id="hatch-s2" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)"><rect width="7" height="7" class="s2"/><line x1="0" y1="0" x2="0" y2="7" class="hatchline"/></pattern><pattern id="hatch-s3" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)"><rect width="7" height="7" class="s3"/><line x1="0" y1="0" x2="0" y2="7" class="hatchline"/></pattern></defs>
 <rect class="bg" width="760" height="400" rx="12"/>
 <text x="24.0" y="34.0" class="t" text-anchor="start">WSPBench, tools against tools</text>
 <text x="24.0" y="54.0" class="st" text-anchor="start">Exact solves out of 12 tasks (6 pilot, 6 held out), one attempt each. A run that fails its audit scores 0.</text>
 <text x="24.0" y="386.0" class="tk" text-anchor="start">Source: runs/bench/wspbench-*, scripts/bench_charts.py. B and C run in WSPBench&#x27;s own Inspect loop, unchanged.</text>
 <rect x="24" y="73" width="12" height="12" rx="3" class="s2"/>
-<text x="42.0" y="83.0" class="lb2" text-anchor="start">WSPBench B: weight-algebra tools</text>
-<rect x="294.4" y="73" width="12" height="12" rx="3" class="s3"/>
-<text x="312.4" y="83.0" class="lb2" text-anchor="start">WSPBench C: plus practice observations</text>
-<rect x="608.0" y="73" width="12" height="12" rx="3" class="s1"/>
-<text x="626.0" y="83.0" class="lb2" text-anchor="start">OpenWiSH sandbox</text>
+<text x="42.0" y="83.0" class="lb2" text-anchor="start">WSPBench B: weight algebra</text>
+<rect x="251.20000000000002" y="73" width="12" height="12" rx="3" fill="url(#hatch-s3)"/>
+<text x="269.2" y="83.0" class="lb2" text-anchor="start">WSPBench C: + practice observations</text>
+<rect x="543.2" y="73" width="12" height="12" rx="3" class="s1"/>
+<text x="561.2" y="83.0" class="lb2" text-anchor="start">OpenWiSH sandbox</text>
 <line x1="64" y1="330.0" x2="736" y2="330.0" class="ax"/>
 <text x="56.0" y="334.0" class="tk" text-anchor="end">0</text>
 <line x1="64" y1="275.5" x2="736" y2="275.5" class="gl"/>
@@ -158,23 +168,23 @@ td,th{padding:4px 10px;border-bottom:1px solid #c3c2b7;text-align:left}
 <text x="56.0" y="170.5" class="tk" text-anchor="end">9</text>
 <line x1="64" y1="112.0" x2="736" y2="112.0" class="gl"/>
 <text x="56.0" y="116.0" class="tk" text-anchor="end">12</text>
-<line x1="102.0" y1="330.0" x2="136.0" y2="330.0" class="k2" stroke-width="2"><title>gpt-6-luna, WSPBench B: weight-algebra tools: 0 of 12 exact</title></line>
+<line x1="102.0" y1="330.0" x2="136.0" y2="330.0" class="k2" stroke-width="2"><title>gpt-6-luna, WSPBench B: weight algebra: 0 of 12 exact</title></line>
 <text x="119.0" y="324.0" class="lb" text-anchor="middle">0</text>
-<line x1="138.0" y1="330.0" x2="172.0" y2="330.0" class="k3" stroke-width="2"><title>gpt-6-luna, WSPBench C: plus practice observations: 0 of 12 exact</title></line>
+<line x1="138.0" y1="330.0" x2="172.0" y2="330.0" class="k3" stroke-width="2"><title>gpt-6-luna, WSPBench C: + practice observations: 0 of 12 exact</title></line>
 <text x="155.0" y="324.0" class="lb" text-anchor="middle">0</text>
 <path d="M174.0,330.0V261.3Q174.0,257.3 178.0,257.3H204.0Q208.0,257.3 208.0,261.3V330.0Z" class="s1 bar" style="animation-delay:0.10s"><title>gpt-6-luna, OpenWiSH sandbox: 4 of 12 exact</title></path>
 <text x="191.0" y="251.3" class="lb" text-anchor="middle">4</text>
 <text x="155.0" y="350.0" class="lb2" text-anchor="middle">gpt-6-luna</text>
-<line x1="268.0" y1="330.0" x2="302.0" y2="330.0" class="k2" stroke-width="2"><title>gpt-6.1-terra, WSPBench B: weight-algebra tools: 0 of 12 exact</title></line>
+<line x1="268.0" y1="330.0" x2="302.0" y2="330.0" class="k2" stroke-width="2"><title>gpt-6.1-terra, WSPBench B: weight algebra: 0 of 12 exact</title></line>
 <text x="285.0" y="324.0" class="lb" text-anchor="middle">0</text>
-<line x1="304.0" y1="330.0" x2="338.0" y2="330.0" class="k3" stroke-width="2"><title>gpt-6.1-terra, WSPBench C: plus practice observations: 0 of 12 exact</title></line>
+<line x1="304.0" y1="330.0" x2="338.0" y2="330.0" class="k3" stroke-width="2"><title>gpt-6.1-terra, WSPBench C: + practice observations: 0 of 12 exact</title></line>
 <text x="321.0" y="324.0" class="lb" text-anchor="middle">0</text>
 <path d="M340.0,330.0V116.0Q340.0,112.0 344.0,112.0H370.0Q374.0,112.0 374.0,116.0V330.0Z" class="s1 bar" style="animation-delay:0.25s"><title>gpt-6.1-terra, OpenWiSH sandbox: 12 of 12 exact</title></path>
 <text x="357.0" y="106.0" class="lb" text-anchor="middle">12</text>
 <text x="321.0" y="350.0" class="lb2" text-anchor="middle">gpt-6.1-terra</text>
-<path d="M434.0,330.0V315.8Q434.0,311.8 438.0,311.8H464.0Q468.0,311.8 468.0,315.8V330.0Z" class="s2 bar" style="animation-delay:0.30s"><title>gpt-6.1-sol, WSPBench B: weight-algebra tools: 1 of 12 exact</title></path>
+<path d="M434.0,330.0V315.8Q434.0,311.8 438.0,311.8H464.0Q468.0,311.8 468.0,315.8V330.0Z" class="s2 bar" style="animation-delay:0.30s"><title>gpt-6.1-sol, WSPBench B: weight algebra: 1 of 12 exact</title></path>
 <text x="451.0" y="305.8" class="lb" text-anchor="middle">1</text>
-<line x1="470.0" y1="330.0" x2="504.0" y2="330.0" class="k3" stroke-width="2"><title>gpt-6.1-sol, WSPBench C: plus practice observations: 0 of 12 exact</title></line>
+<line x1="470.0" y1="330.0" x2="504.0" y2="330.0" class="k3" stroke-width="2"><title>gpt-6.1-sol, WSPBench C: + practice observations: 0 of 12 exact</title></line>
 <text x="487.0" y="324.0" class="lb" text-anchor="middle">0</text>
 <path d="M506.0,330.0V116.0Q506.0,112.0 510.0,112.0H536.0Q540.0,112.0 540.0,116.0V330.0Z" class="s1 bar" style="animation-delay:0.40s"><title>gpt-6.1-sol, OpenWiSH sandbox: 12 of 12 exact</title></path>
 <text x="523.0" y="106.0" class="lb" text-anchor="middle">12</text>
@@ -184,6 +194,10 @@ td,th{padding:4px 10px;border-bottom:1px solid #c3c2b7;text-align:left}
 <path d="M672.0,330.0V116.0Q672.0,112.0 676.0,112.0H702.0Q706.0,112.0 706.0,116.0V330.0Z" class="s1 bar" style="animation-delay:0.55s"><title>claude-opus-5-5, OpenWiSH sandbox: 12 of 12 exact</title></path>
 <text x="689.0" y="106.0" class="lb" text-anchor="middle">12</text>
 <text x="653.0" y="350.0" class="lb2" text-anchor="middle">claude-opus-5-5</text>
+<rect x="24" y="357" width="12" height="12" rx="3" class="s1"/>
+<text x="42.0" y="367.0" class="tk" text-anchor="start">solid: weights only, the network never runs</text>
+<rect x="330.6" y="357" width="12" height="12" rx="3" fill="url(#hatch-s1)"/>
+<text x="348.6" y="367.0" class="tk" text-anchor="start">hatched: with probes (C runs the network on practice inputs)</text>
 </svg>
 <details><summary>Data table</summary><table><thead><tr><th>Model</th><th>WSPBench B</th><th>WSPBench C</th><th>OpenWiSH sandbox</th></tr></thead><tbody><tr><td>gpt-6-luna</td><td>0 / 12</td><td>0 / 12</td><td>4 / 12</td></tr><tr><td>gpt-6.1-terra</td><td>0 / 12</td><td>0 / 12</td><td>12 / 12</td></tr><tr><td>gpt-6.1-sol</td><td>1 / 12</td><td>0 / 12</td><td>12 / 12</td></tr><tr><td>claude-opus-5-5</td><td>not run</td><td>not run</td><td>12 / 12</td></tr></tbody></table></details></section>
 <section id="wspbench-rounds"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 380" width="760" height="380" role="img" aria-label="Audited read agreement per tuning round" class="c"><title>Audited read agreement per tuning round</title><style>
@@ -195,13 +209,15 @@ td,th{padding:4px 10px;border-bottom:1px solid #c3c2b7;text-align:left}
 .tk{fill:var(--muted);font-size:11px}.lb{fill:var(--ink);font-size:11.5px;font-weight:600}.lb2{fill:var(--ink2);font-size:11.5px}
 .gl{stroke:var(--grid);stroke-width:1}.ax{stroke:var(--axis);stroke-width:1}.ref{stroke:var(--muted);stroke-width:1.5;stroke-dasharray:4 4}
 .s1{fill:var(--s1)}.s2{fill:var(--s2)}.s3{fill:var(--s3)}.k1{stroke:var(--s1)}.k2{stroke:var(--s2)}.k3{stroke:var(--s3)}
-.ring{stroke:var(--surface);stroke-width:2}.line{fill:none;stroke-width:2}.err{stroke:var(--ink2);stroke-width:1.5}
+.ring{stroke:var(--surface);stroke-width:2}.hollow{fill:var(--surface);stroke-width:2.5}
+.hollow.s1{stroke:var(--s1)}.hollow.s2{stroke:var(--s2)}.hollow.s3{stroke:var(--s3)}.hatchline{stroke:var(--surface);stroke-width:2.2}.line{fill:none;stroke-width:2}.err{stroke:var(--ink2);stroke-width:1.5}
 .bar{transform-box:fill-box;transform-origin:50% 100%;animation:grow .7s cubic-bezier(.2,.7,.2,1) both}
 .hbar{transform-box:fill-box;transform-origin:0 50%;animation:growx .7s cubic-bezier(.2,.7,.2,1) both}
 .fade{animation:fade .6s ease-out both}
 @keyframes grow{from{transform:scaleY(0)}}@keyframes growx{from{transform:scaleX(0)}}@keyframes fade{from{opacity:0}}
 @media (prefers-reduced-motion:reduce){.bar,.hbar,.fade{animation:none}}
 </style>
+<defs><pattern id="hatch-s1" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)"><rect width="7" height="7" class="s1"/><line x1="0" y1="0" x2="0" y2="7" class="hatchline"/></pattern><pattern id="hatch-s2" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)"><rect width="7" height="7" class="s2"/><line x1="0" y1="0" x2="0" y2="7" class="hatchline"/></pattern><pattern id="hatch-s3" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)"><rect width="7" height="7" class="s3"/><line x1="0" y1="0" x2="0" y2="7" class="hatchline"/></pattern></defs>
 <rect class="bg" width="760" height="380" rx="12"/>
 <text x="24.0" y="34.0" class="t" text-anchor="start">Tuning rounds, scored after audit</text>
 <text x="24.0" y="54.0" class="st" text-anchor="start">OpenWiSH sandbox, 6 pilot tasks, read agreement. Failed audits score 0. Round 4 added the activation guard.</text>
@@ -242,15 +258,17 @@ td,th{padding:4px 10px;border-bottom:1px solid #c3c2b7;text-align:left}
 <text x="594.0" y="100.0" class="lb" text-anchor="start">gpt-6.1-sol 100 %</text>
 <text x="594.0" y="115.0" class="lb" text-anchor="start">gpt-6.1-terra 100 %</text>
 <text x="594.0" y="168.3" class="lb" text-anchor="start">gpt-6-luna 69 %</text>
-<rect x="24" y="71" width="12" height="12" rx="3" class="s1"/>
+<circle cx="30" cy="77" r="5.5" class="s1"><title>gpt-6-luna</title></circle>
 <text x="42.0" y="81.0" class="lb2" text-anchor="start">gpt-6-luna</text>
-<rect x="136.0" y="71" width="12" height="12" rx="3" class="s2"/>
+<circle cx="142.0" cy="77" r="5.5" class="s2"><title>gpt-6.1-terra</title></circle>
 <text x="154.0" y="81.0" class="lb2" text-anchor="start">gpt-6.1-terra</text>
-<rect x="269.6" y="71" width="12" height="12" rx="3" class="s3"/>
+<circle cx="275.6" cy="77" r="5.5" class="s3"><title>gpt-6.1-sol</title></circle>
 <text x="287.6" y="81.0" class="lb2" text-anchor="start">gpt-6.1-sol</text>
+<circle cx="30" cy="343" r="5" class="s1"><title>weights only: Python over the weights, the network never runs</title></circle>
+<text x="42.0" y="347.0" class="tk" text-anchor="start">weights only: Python over the weights, the network never runs</text>
 </svg>
 <details><summary>Data table</summary><table><thead><tr><th>Model</th><th>r1</th><th>r2</th><th>r3</th><th>r4</th><th>r5</th></tr></thead><tbody><tr><td>gpt-6-luna</td><td>17.9 %</td><td>0.0 %</td><td>31.1 %</td><td>61.7 %</td><td>69.0 %</td></tr><tr><td>gpt-6.1-terra</td><td>36.3 %</td><td>23.5 %</td><td>61.9 %</td><td>100.0 %</td><td>100.0 %</td></tr><tr><td>gpt-6.1-sol</td><td>94.8 %</td><td>100.0 %</td><td>100.0 %</td><td>100.0 %</td><td>100.0 %</td></tr></tbody></table></details></section>
-<section id="agentic-interp"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 480" width="760" height="480" role="img" aria-label="AgenticInterpBench tag accuracy by model and access" class="c"><title>AgenticInterpBench tag accuracy by model and access</title><style>
+<section id="agentic-interp"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 500" width="760" height="500" role="img" aria-label="AgenticInterpBench tag accuracy by model and access" class="c"><title>AgenticInterpBench tag accuracy by model and access</title><style>
 .c{--surface:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--muted:#898781;--grid:#e1e0d9;--axis:#c3c2b7;
 --s1:#2a78d6;--s2:#eb6834;--s3:#1baf7a;font-family:system-ui, -apple-system, 'Segoe UI', sans-serif}
 @media (prefers-color-scheme:dark){.c{--surface:#1a1a19;--ink:#f0efec;--ink2:#c3c2b7;--muted:#898781;--grid:#2c2c2a;
@@ -259,23 +277,27 @@ td,th{padding:4px 10px;border-bottom:1px solid #c3c2b7;text-align:left}
 .tk{fill:var(--muted);font-size:11px}.lb{fill:var(--ink);font-size:11.5px;font-weight:600}.lb2{fill:var(--ink2);font-size:11.5px}
 .gl{stroke:var(--grid);stroke-width:1}.ax{stroke:var(--axis);stroke-width:1}.ref{stroke:var(--muted);stroke-width:1.5;stroke-dasharray:4 4}
 .s1{fill:var(--s1)}.s2{fill:var(--s2)}.s3{fill:var(--s3)}.k1{stroke:var(--s1)}.k2{stroke:var(--s2)}.k3{stroke:var(--s3)}
-.ring{stroke:var(--surface);stroke-width:2}.line{fill:none;stroke-width:2}.err{stroke:var(--ink2);stroke-width:1.5}
+.ring{stroke:var(--surface);stroke-width:2}.hollow{fill:var(--surface);stroke-width:2.5}
+.hollow.s1{stroke:var(--s1)}.hollow.s2{stroke:var(--s2)}.hollow.s3{stroke:var(--s3)}.hatchline{stroke:var(--surface);stroke-width:2.2}.line{fill:none;stroke-width:2}.err{stroke:var(--ink2);stroke-width:1.5}
 .bar{transform-box:fill-box;transform-origin:50% 100%;animation:grow .7s cubic-bezier(.2,.7,.2,1) both}
 .hbar{transform-box:fill-box;transform-origin:0 50%;animation:growx .7s cubic-bezier(.2,.7,.2,1) both}
 .fade{animation:fade .6s ease-out both}
 @keyframes grow{from{transform:scaleY(0)}}@keyframes growx{from{transform:scaleX(0)}}@keyframes fade{from{opacity:0}}
 @media (prefers-reduced-motion:reduce){.bar,.hbar,.fade{animation:none}}
 </style>
-<rect class="bg" width="760" height="480" rx="12"/>
+<defs><pattern id="hatch-s1" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)"><rect width="7" height="7" class="s1"/><line x1="0" y1="0" x2="0" y2="7" class="hatchline"/></pattern><pattern id="hatch-s2" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)"><rect width="7" height="7" class="s2"/><line x1="0" y1="0" x2="0" y2="7" class="hatchline"/></pattern><pattern id="hatch-s3" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)"><rect width="7" height="7" class="s3"/><line x1="0" y1="0" x2="0" y2="7" class="hatchline"/></pattern></defs>
+<rect class="bg" width="760" height="500" rx="12"/>
 <text x="24.0" y="34.0" class="t" text-anchor="start">AgenticInterpBench: tag accuracy on 163 circuit components</text>
 <text x="24.0" y="54.0" class="st" text-anchor="start">84 InterpBench circuits, 5-class taxonomy, components pooled. Dashed lines: fixed baselines with no model.</text>
-<text x="24.0" y="466.0" class="tk" text-anchor="start">Source: runs/bench/agentic-interp-*, HyVE scores from arXiv 2606.24026. Runs that fail audit score 0.</text>
-<rect x="24" y="73" width="12" height="12" rx="3" class="s1"/>
-<text x="42.0" y="83.0" class="lb2" text-anchor="start">OpenWiSH, weights or probe</text>
-<rect x="251.20000000000002" y="73" width="12" height="12" rx="3" class="s3"/>
-<text x="269.2" y="83.0" class="lb2" text-anchor="start">prompt only, no tools</text>
-<rect x="442.40000000000003" y="73" width="12" height="12" rx="3" class="s2"/>
-<text x="460.4" y="83.0" class="lb2" text-anchor="start">HyVE, published</text>
+<text x="24.0" y="486.0" class="tk" text-anchor="start">Source: runs/bench/agentic-interp-*, HyVE scores from arXiv 2606.24026. Runs that fail audit score 0.</text>
+<circle cx="30" cy="79" r="5.5" class="s1"><title>OpenWiSH, weights only</title></circle>
+<text x="42.0" y="83.0" class="lb2" text-anchor="start">OpenWiSH, weights only</text>
+<circle cx="228.4" cy="79" r="5.5" class="s1 hollow"><title>OpenWiSH, weights + probe</title></circle>
+<text x="240.4" y="83.0" class="lb2" text-anchor="start">OpenWiSH, weights + probe</text>
+<circle cx="448.4" cy="79" r="5.5" class="s3"><title>prompt only</title></circle>
+<text x="460.4" y="83.0" class="lb2" text-anchor="start">prompt only</text>
+<circle cx="567.6" cy="79" r="5.5" class="s2 hollow"><title>HyVE, published (probes)</title></circle>
+<text x="579.6" y="83.0" class="lb2" text-anchor="start">HyVE, published (probes)</text>
 <line x1="300.0" y1="146" x2="300.0" y2="424" class="gl"/>
 <text x="300.0" y="440.0" class="tk" text-anchor="middle">40 %</text>
 <line x1="386.7" y1="146" x2="386.7" y2="424" class="gl"/>
@@ -294,10 +316,10 @@ td,th{padding:4px 10px;border-bottom:1px solid #c3c2b7;text-align:left}
 <line x1="300.0" y1="168" x2="559.5" y2="168" class="gl"/>
 <circle cx="559.5" cy="168.0" r="6" class="s3 ring fade" style="animation-delay:0.00s"><title>claude-sonnet-4-6, prompt only, one reply: 69.9 % over 84 cases (no code run)</title></circle>
 <text x="571.5" y="172.0" class="lb" text-anchor="start">69.9 %</text>
-<text x="286.0" y="202.0" class="lb2" text-anchor="end">claude-sonnet-4-6, weights + probe (75/84, running)</text>
-<line x1="300.0" y1="198" x2="570.5" y2="198" class="gl"/>
-<circle cx="570.5" cy="198.0" r="6" class="s1 ring fade" style="animation-delay:0.04s"><title>claude-sonnet-4-6, weights and forward probe: 71.2 % over 75 cases (0/68 valid, 68 not audited)</title></circle>
-<text x="582.5" y="202.0" class="lb" text-anchor="start">71.2 %</text>
+<text x="286.0" y="202.0" class="lb2" text-anchor="end">claude-sonnet-4-6, weights + probe (76/84, running)</text>
+<line x1="300.0" y1="198" x2="567.0" y2="198" class="gl"/>
+<circle cx="567.0" cy="198.0" r="6" class="s1 hollow fade" style="animation-delay:0.04s"><title>claude-sonnet-4-6, weights and forward probe: 70.8 % over 76 cases (0/69 valid, 69 not audited)</title></circle>
+<text x="579.0" y="202.0" class="lb" text-anchor="start">70.8 %</text>
 <text x="286.0" y="232.0" class="lb2" text-anchor="end">gpt-6.1-sol, prompt only</text>
 <line x1="300.0" y1="228" x2="586.1" y2="228" class="gl"/>
 <circle cx="586.1" cy="228.0" r="6" class="s3 ring fade" style="animation-delay:0.08s"><title>gpt-6.1-sol, prompt only, one reply: 73.0 % over 84 cases (no code run)</title></circle>
@@ -308,26 +330,30 @@ td,th{padding:4px 10px;border-bottom:1px solid #c3c2b7;text-align:left}
 <text x="598.1" y="262.0" class="lb" text-anchor="start">73.0 %</text>
 <text x="286.0" y="292.0" class="lb2" text-anchor="end">gpt-6.1-sol, weights + probe</text>
 <line x1="300.0" y1="288" x2="575.4" y2="288" class="gl"/>
-<circle cx="575.4" cy="288.0" r="6" class="s1 ring fade" style="animation-delay:0.16s"><title>gpt-6.1-sol, weights and forward probe: 71.8 % over 84 cases (75/76 valid, 1 invalid)</title></circle>
+<circle cx="575.4" cy="288.0" r="6" class="s1 hollow fade" style="animation-delay:0.16s"><title>gpt-6.1-sol, weights and forward probe: 71.8 % over 84 cases (75/76 valid, 1 invalid)</title></circle>
 <text x="587.4" y="292.0" class="lb" text-anchor="start">71.8 %</text>
 <text x="286.0" y="322.0" class="lb2" text-anchor="end">claude-sonnet-4-6, HyVE, published</text>
 <line x1="300.0" y1="318" x2="638.0" y2="318" class="gl"/>
-<circle cx="638.0" cy="318.0" r="6" class="s2 ring fade" style="animation-delay:0.20s"><title>claude-sonnet-4-6, HyVE: activations, ablation, patching: 79.0 % over 84 cases (-)</title></circle>
+<circle cx="638.0" cy="318.0" r="6" class="s2 hollow fade" style="animation-delay:0.20s"><title>claude-sonnet-4-6, HyVE: activations, ablation, patching: 79.0 % over 84 cases (-)</title></circle>
 <text x="650.0" y="322.0" class="lb" text-anchor="start">79.0 %</text>
 <text x="286.0" y="352.0" class="lb2" text-anchor="end">gemini-3.1-pro, HyVE, published</text>
 <line x1="300.0" y1="348" x2="612.0" y2="348" class="gl"/>
-<circle cx="612.0" cy="348.0" r="6" class="s2 ring fade" style="animation-delay:0.24s"><title>gemini-3.1-pro, HyVE: activations, ablation, patching: 76.0 % over 84 cases (-)</title></circle>
+<circle cx="612.0" cy="348.0" r="6" class="s2 hollow fade" style="animation-delay:0.24s"><title>gemini-3.1-pro, HyVE: activations, ablation, patching: 76.0 % over 84 cases (-)</title></circle>
 <text x="624.0" y="352.0" class="lb" text-anchor="start">76.0 %</text>
 <text x="286.0" y="382.0" class="lb2" text-anchor="end">gpt-5.4, HyVE, published</text>
 <line x1="300.0" y1="378" x2="594.7" y2="378" class="gl"/>
-<circle cx="594.7" cy="378.0" r="6" class="s2 ring fade" style="animation-delay:0.28s"><title>gpt-5.4, HyVE: activations, ablation, patching: 74.0 % over 84 cases (-)</title></circle>
+<circle cx="594.7" cy="378.0" r="6" class="s2 hollow fade" style="animation-delay:0.28s"><title>gpt-5.4, HyVE: activations, ablation, patching: 74.0 % over 84 cases (-)</title></circle>
 <text x="606.7" y="382.0" class="lb" text-anchor="start">74.0 %</text>
 <text x="286.0" y="412.0" class="lb2" text-anchor="end">qwen-3-coder-30b-a3b, HyVE, published</text>
 <line x1="300.0" y1="408" x2="534.0" y2="408" class="gl"/>
-<circle cx="534.0" cy="408.0" r="6" class="s2 ring fade" style="animation-delay:0.32s"><title>qwen-3-coder-30b-a3b, HyVE: activations, ablation, patching: 67.0 % over 84 cases (-)</title></circle>
+<circle cx="534.0" cy="408.0" r="6" class="s2 hollow fade" style="animation-delay:0.32s"><title>qwen-3-coder-30b-a3b, HyVE: activations, ablation, patching: 67.0 % over 84 cases (-)</title></circle>
 <text x="546.0" y="412.0" class="lb" text-anchor="start">67.0 %</text>
+<circle cx="30" cy="463" r="5" class="s1"><title>filled: no network runs (prompt only or weights only)</title></circle>
+<text x="42.0" y="467.0" class="tk" text-anchor="start">filled: no network runs (prompt only or weights only)</text>
+<circle cx="398.6" cy="463" r="5" class="hollow s1"><title>hollow: with probes (the network runs within a budget)</title></circle>
+<text x="410.6" y="467.0" class="tk" text-anchor="start">hollow: with probes (the network runs within a budget)</text>
 </svg>
-<details><summary>Data table</summary><table><thead><tr><th>Model</th><th>Condition</th><th>Cases</th><th>Tag accuracy</th><th>Audit</th></tr></thead><tbody><tr><td>claude-sonnet-4-6</td><td>prompt only, one reply</td><td>84</td><td>69.9 %</td><td>no code run</td></tr><tr><td>gpt-6.1-sol</td><td>prompt only, one reply</td><td>84</td><td>73.0 %</td><td>no code run</td></tr><tr><td>gpt-6.1-sol</td><td>weights only, no execution</td><td>84</td><td>73.0 %</td><td>75/75 valid</td></tr><tr><td>claude-sonnet-4-6</td><td>weights and forward probe</td><td>75</td><td>71.2 %</td><td>0/68 valid, 68 not audited</td></tr><tr><td>gpt-6.1-sol</td><td>weights and forward probe</td><td>84</td><td>71.8 %</td><td>75/76 valid, 1 invalid</td></tr><tr><td>gpt-5.4</td><td>HyVE: activations, ablation, patching</td><td>84</td><td>74.0 %</td><td>-</td></tr><tr><td>claude-sonnet-4-6</td><td>HyVE: activations, ablation, patching</td><td>84</td><td>79.0 %</td><td>-</td></tr><tr><td>gemini-3.1-pro</td><td>HyVE: activations, ablation, patching</td><td>84</td><td>76.0 %</td><td>-</td></tr><tr><td>qwen-3-coder-30b-a3b</td><td>HyVE: activations, ablation, patching</td><td>84</td><td>67.0 %</td><td>-</td></tr><tr><td>-</td><td>always MAPPER</td><td>84</td><td>44.2 %</td><td>-</td></tr><tr><td>-</td><td>MLP MAPPER, attention AGGREGATOR (read off the gold)</td><td>84</td><td>63.8 %</td><td>-</td></tr></tbody></table></details></section>
+<details><summary>Data table</summary><table><thead><tr><th>Model</th><th>Condition</th><th>Cases</th><th>Tag accuracy</th><th>Audit</th></tr></thead><tbody><tr><td>claude-sonnet-4-6</td><td>prompt only, one reply</td><td>84</td><td>69.9 %</td><td>no code run</td></tr><tr><td>gpt-6.1-sol</td><td>prompt only, one reply</td><td>84</td><td>73.0 %</td><td>no code run</td></tr><tr><td>gpt-6.1-sol</td><td>weights only, no execution</td><td>84</td><td>73.0 %</td><td>75/75 valid</td></tr><tr><td>claude-sonnet-4-6</td><td>weights and forward probe</td><td>76</td><td>70.8 %</td><td>0/69 valid, 69 not audited</td></tr><tr><td>gpt-6.1-sol</td><td>weights and forward probe</td><td>84</td><td>71.8 %</td><td>75/76 valid, 1 invalid</td></tr><tr><td>gpt-5.4</td><td>HyVE: activations, ablation, patching</td><td>84</td><td>74.0 %</td><td>-</td></tr><tr><td>claude-sonnet-4-6</td><td>HyVE: activations, ablation, patching</td><td>84</td><td>79.0 %</td><td>-</td></tr><tr><td>gemini-3.1-pro</td><td>HyVE: activations, ablation, patching</td><td>84</td><td>76.0 %</td><td>-</td></tr><tr><td>qwen-3-coder-30b-a3b</td><td>HyVE: activations, ablation, patching</td><td>84</td><td>67.0 %</td><td>-</td></tr><tr><td>-</td><td>always MAPPER</td><td>84</td><td>44.2 %</td><td>-</td></tr><tr><td>-</td><td>MLP MAPPER, attention AGGREGATOR (read off the gold)</td><td>84</td><td>63.8 %</td><td>-</td></tr></tbody></table></details></section>
 <section id="qwen-math"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 400" width="760" height="400" role="img" aria-label="Qwen MATH-500 accuracy, published against the OpenWiSH replay, and the share cut at the limit" class="c"><title>Qwen MATH-500 accuracy, published against the OpenWiSH replay, and the share cut at the limit</title><style>
 .c{--surface:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--muted:#898781;--grid:#e1e0d9;--axis:#c3c2b7;
 --s1:#2a78d6;--s2:#eb6834;--s3:#1baf7a;font-family:system-ui, -apple-system, 'Segoe UI', sans-serif}
@@ -337,13 +363,15 @@ td,th{padding:4px 10px;border-bottom:1px solid #c3c2b7;text-align:left}
 .tk{fill:var(--muted);font-size:11px}.lb{fill:var(--ink);font-size:11.5px;font-weight:600}.lb2{fill:var(--ink2);font-size:11.5px}
 .gl{stroke:var(--grid);stroke-width:1}.ax{stroke:var(--axis);stroke-width:1}.ref{stroke:var(--muted);stroke-width:1.5;stroke-dasharray:4 4}
 .s1{fill:var(--s1)}.s2{fill:var(--s2)}.s3{fill:var(--s3)}.k1{stroke:var(--s1)}.k2{stroke:var(--s2)}.k3{stroke:var(--s3)}
-.ring{stroke:var(--surface);stroke-width:2}.line{fill:none;stroke-width:2}.err{stroke:var(--ink2);stroke-width:1.5}
+.ring{stroke:var(--surface);stroke-width:2}.hollow{fill:var(--surface);stroke-width:2.5}
+.hollow.s1{stroke:var(--s1)}.hollow.s2{stroke:var(--s2)}.hollow.s3{stroke:var(--s3)}.hatchline{stroke:var(--surface);stroke-width:2.2}.line{fill:none;stroke-width:2}.err{stroke:var(--ink2);stroke-width:1.5}
 .bar{transform-box:fill-box;transform-origin:50% 100%;animation:grow .7s cubic-bezier(.2,.7,.2,1) both}
 .hbar{transform-box:fill-box;transform-origin:0 50%;animation:growx .7s cubic-bezier(.2,.7,.2,1) both}
 .fade{animation:fade .6s ease-out both}
 @keyframes grow{from{transform:scaleY(0)}}@keyframes growx{from{transform:scaleX(0)}}@keyframes fade{from{opacity:0}}
 @media (prefers-reduced-motion:reduce){.bar,.hbar,.fade{animation:none}}
 </style>
+<defs><pattern id="hatch-s1" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)"><rect width="7" height="7" class="s1"/><line x1="0" y1="0" x2="0" y2="7" class="hatchline"/></pattern><pattern id="hatch-s2" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)"><rect width="7" height="7" class="s2"/><line x1="0" y1="0" x2="0" y2="7" class="hatchline"/></pattern><pattern id="hatch-s3" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)"><rect width="7" height="7" class="s3"/><line x1="0" y1="0" x2="0" y2="7" class="hatchline"/></pattern></defs>
 <rect class="bg" width="760" height="400" rx="12"/>
 <text x="24.0" y="34.0" class="t" text-anchor="start">Qwen3.5-0.8B on MATH-500: the published edits, replayed</text>
 <text x="24.0" y="54.0" class="st" text-anchor="start">Left: accuracy, published (4 samples) against the OpenWiSH replay (1 sample, bar shows ±1 standard error).</text>
@@ -367,19 +395,19 @@ td,th{padding:4px 10px;border-bottom:1px solid #c3c2b7;text-align:left}
 <path d="M122.8,326.0V292.2Q122.8,288.2 126.8,288.2H152.8Q156.8,288.2 156.8,292.2V326.0Z" class="s1 bar" style="animation-delay:0.05s"><title>base, OpenWiSH: 10.6 ± 1.4 %</title></path>
 <text x="139.8" y="277.3" class="lb" text-anchor="middle">10.6</text>
 <text x="121.8" y="346.0" class="lb2" text-anchor="middle">base</text>
-<path d="M186.2,326.0V286.1Q186.2,282.1 190.2,282.1H216.2Q220.2,282.1 220.2,286.1V326.0Z" class="s2 bar" style="animation-delay:0.10s"><title>10 passes, published: 12.3 %</title></path>
+<path d="M186.2,326.0V286.1Q186.2,282.1 190.2,282.1H216.2Q220.2,282.1 220.2,286.1V326.0Z" class="bar" fill="url(#hatch-s2)" style="animation-delay:0.10s"><title>10 passes, published: 12.3 %</title></path>
 <text x="203.2" y="276.1" class="lb" text-anchor="middle">12.3</text>
-<path d="M222.2,326.0V281.5Q222.2,277.5 226.2,277.5H252.2Q256.2,277.5 256.2,281.5V326.0Z" class="s1 bar" style="animation-delay:0.15s"><title>10 passes, OpenWiSH: 13.6 ± 1.5 %</title></path>
+<path d="M222.2,326.0V281.5Q222.2,277.5 226.2,277.5H252.2Q256.2,277.5 256.2,281.5V326.0Z" class="bar" fill="url(#hatch-s1)" style="animation-delay:0.15s"><title>10 passes, OpenWiSH: 13.6 ± 1.5 %</title></path>
 <text x="239.2" y="266.0" class="lb" text-anchor="middle">13.6</text>
 <text x="221.2" y="346.0" class="lb2" text-anchor="middle">10 passes</text>
-<path d="M285.8,326.0V279.7Q285.8,275.7 289.8,275.7H315.8Q319.8,275.7 319.8,279.7V326.0Z" class="s2 bar" style="animation-delay:0.20s"><title>25 passes, published: 14.1 %</title></path>
+<path d="M285.8,326.0V279.7Q285.8,275.7 289.8,275.7H315.8Q319.8,275.7 319.8,279.7V326.0Z" class="bar" fill="url(#hatch-s2)" style="animation-delay:0.20s"><title>25 passes, published: 14.1 %</title></path>
 <text x="302.8" y="269.7" class="lb" text-anchor="middle">14.1</text>
-<path d="M321.8,326.0V279.4Q321.8,275.4 325.8,275.4H351.8Q355.8,275.4 355.8,279.4V326.0Z" class="s1 bar" style="animation-delay:0.25s"><title>25 passes, OpenWiSH: 14.2 ± 1.6 %</title></path>
+<path d="M321.8,326.0V279.4Q321.8,275.4 325.8,275.4H351.8Q355.8,275.4 355.8,279.4V326.0Z" class="bar" fill="url(#hatch-s1)" style="animation-delay:0.25s"><title>25 passes, OpenWiSH: 14.2 ± 1.6 %</title></path>
 <text x="338.8" y="263.8" class="lb" text-anchor="middle">14.2</text>
 <text x="320.8" y="346.0" class="lb2" text-anchor="middle">25 passes</text>
-<path d="M385.2,326.0V158.4Q385.2,154.4 389.2,154.4H415.2Q419.2,154.4 419.2,158.4V326.0Z" class="s2 bar" style="animation-delay:0.30s"><title>50 passes, published: 48.1 %</title></path>
+<path d="M385.2,326.0V158.4Q385.2,154.4 389.2,154.4H415.2Q419.2,154.4 419.2,158.4V326.0Z" class="bar" fill="url(#hatch-s2)" style="animation-delay:0.30s"><title>50 passes, published: 48.1 %</title></path>
 <text x="402.2" y="148.4" class="lb" text-anchor="middle">48.1</text>
-<path d="M421.2,326.0V145.2Q421.2,141.2 425.2,141.2H451.2Q455.2,141.2 455.2,145.2V326.0Z" class="s1 bar" style="animation-delay:0.35s"><title>50 passes, OpenWiSH: 51.8 ± 2.2 %</title></path>
+<path d="M421.2,326.0V145.2Q421.2,141.2 425.2,141.2H451.2Q455.2,141.2 455.2,145.2V326.0Z" class="bar" fill="url(#hatch-s1)" style="animation-delay:0.35s"><title>50 passes, OpenWiSH: 51.8 ± 2.2 %</title></path>
 <text x="438.2" y="127.3" class="lb" text-anchor="middle">51.8</text>
 <text x="420.2" y="346.0" class="lb2" text-anchor="middle">50 passes</text>
 <line x1="139.8" y1="293.1" x2="139.8" y2="283.3" class="err fade"/>
@@ -396,15 +424,19 @@ td,th{padding:4px 10px;border-bottom:1px solid #c3c2b7;text-align:left}
 <path d="M550.0,326.0V137.0Q550.0,133.0 554.0,133.0H586.0Q590.0,133.0 590.0,137.0V326.0Z" class="s1 bar" style="animation-delay:0.00s"><title>base: 90.2 % cut at the limit</title></path>
 <text x="570.0" y="127.0" class="lb" text-anchor="middle">90</text>
 <text x="570.0" y="346.0" class="tk" text-anchor="middle">base</text>
-<path d="M596.0,326.0V144.2Q596.0,140.2 600.0,140.2H632.0Q636.0,140.2 636.0,144.2V326.0Z" class="s1 bar" style="animation-delay:0.05s"><title>10 passes: 86.8 % cut at the limit</title></path>
+<path d="M596.0,326.0V144.2Q596.0,140.2 600.0,140.2H632.0Q636.0,140.2 636.0,144.2V326.0Z" class="bar" fill="url(#hatch-s1)" style="animation-delay:0.05s"><title>10 passes: 86.8 % cut at the limit</title></path>
 <text x="616.0" y="134.2" class="lb" text-anchor="middle">87</text>
 <text x="616.0" y="346.0" class="tk" text-anchor="middle">10</text>
-<path d="M642.0,326.0V145.5Q642.0,141.5 646.0,141.5H678.0Q682.0,141.5 682.0,145.5V326.0Z" class="s1 bar" style="animation-delay:0.10s"><title>25 passes: 86.2 % cut at the limit</title></path>
+<path d="M642.0,326.0V145.5Q642.0,141.5 646.0,141.5H678.0Q682.0,141.5 682.0,145.5V326.0Z" class="bar" fill="url(#hatch-s1)" style="animation-delay:0.10s"><title>25 passes: 86.2 % cut at the limit</title></path>
 <text x="662.0" y="135.5" class="lb" text-anchor="middle">86</text>
 <text x="662.0" y="346.0" class="tk" text-anchor="middle">25</text>
-<path d="M688.0,326.0V262.4Q688.0,258.4 692.0,258.4H724.0Q728.0,258.4 728.0,262.4V326.0Z" class="s1 bar" style="animation-delay:0.15s"><title>50 passes: 31.6 % cut at the limit</title></path>
+<path d="M688.0,326.0V262.4Q688.0,258.4 692.0,258.4H724.0Q728.0,258.4 728.0,262.4V326.0Z" class="bar" fill="url(#hatch-s1)" style="animation-delay:0.15s"><title>50 passes: 31.6 % cut at the limit</title></path>
 <text x="708.0" y="252.4" class="lb" text-anchor="middle">32</text>
 <text x="708.0" y="346.0" class="tk" text-anchor="middle">50</text>
+<rect x="24" y="357" width="12" height="12" rx="3" class="s1"/>
+<text x="42.0" y="367.0" class="tk" text-anchor="start">solid: the base model, no edit</text>
+<rect x="250.0" y="357" width="12" height="12" rx="3" fill="url(#hatch-s1)"/>
+<text x="268.0" y="367.0" class="tk" text-anchor="start">hatched: edits made with probes (10, 25 or 50 forward passes)</text>
 </svg>
 <details><summary>Data table</summary><table><thead><tr><th>Config</th><th>Published</th><th>OpenWiSH</th><th>Cut at the limit</th></tr></thead><tbody><tr><td>base</td><td>7.9 %</td><td>10.6 ± 1.4 %</td><td>90.2 %</td></tr><tr><td>p10c</td><td>12.3 %</td><td>13.6 ± 1.5 %</td><td>86.8 %</td></tr><tr><td>p25c</td><td>14.1 %</td><td>14.2 ± 1.6 %</td><td>86.2 %</td></tr><tr><td>p50c</td><td>48.1 %</td><td>51.8 ± 2.2 %</td><td>31.6 %</td></tr></tbody></table></details></section>
 <section id="blog-envs"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 380" width="760" height="380" role="img" aria-label="Blog environments, published agent against Claude Opus 5.5 through OpenWiSH" class="c"><title>Blog environments, published agent against Claude Opus 5.5 through OpenWiSH</title><style>
@@ -416,13 +448,15 @@ td,th{padding:4px 10px;border-bottom:1px solid #c3c2b7;text-align:left}
 .tk{fill:var(--muted);font-size:11px}.lb{fill:var(--ink);font-size:11.5px;font-weight:600}.lb2{fill:var(--ink2);font-size:11.5px}
 .gl{stroke:var(--grid);stroke-width:1}.ax{stroke:var(--axis);stroke-width:1}.ref{stroke:var(--muted);stroke-width:1.5;stroke-dasharray:4 4}
 .s1{fill:var(--s1)}.s2{fill:var(--s2)}.s3{fill:var(--s3)}.k1{stroke:var(--s1)}.k2{stroke:var(--s2)}.k3{stroke:var(--s3)}
-.ring{stroke:var(--surface);stroke-width:2}.line{fill:none;stroke-width:2}.err{stroke:var(--ink2);stroke-width:1.5}
+.ring{stroke:var(--surface);stroke-width:2}.hollow{fill:var(--surface);stroke-width:2.5}
+.hollow.s1{stroke:var(--s1)}.hollow.s2{stroke:var(--s2)}.hollow.s3{stroke:var(--s3)}.hatchline{stroke:var(--surface);stroke-width:2.2}.line{fill:none;stroke-width:2}.err{stroke:var(--ink2);stroke-width:1.5}
 .bar{transform-box:fill-box;transform-origin:50% 100%;animation:grow .7s cubic-bezier(.2,.7,.2,1) both}
 .hbar{transform-box:fill-box;transform-origin:0 50%;animation:growx .7s cubic-bezier(.2,.7,.2,1) both}
 .fade{animation:fade .6s ease-out both}
 @keyframes grow{from{transform:scaleY(0)}}@keyframes growx{from{transform:scaleX(0)}}@keyframes fade{from{opacity:0}}
 @media (prefers-reduced-motion:reduce){.bar,.hbar,.fade{animation:none}}
 </style>
+<defs><pattern id="hatch-s1" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)"><rect width="7" height="7" class="s1"/><line x1="0" y1="0" x2="0" y2="7" class="hatchline"/></pattern><pattern id="hatch-s2" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)"><rect width="7" height="7" class="s2"/><line x1="0" y1="0" x2="0" y2="7" class="hatchline"/></pattern><pattern id="hatch-s3" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)"><rect width="7" height="7" class="s3"/><line x1="0" y1="0" x2="0" y2="7" class="hatchline"/></pattern></defs>
 <rect class="bg" width="760" height="380" rx="12"/>
 <text x="24.0" y="34.0" class="t" text-anchor="start">Blog environments: Claude Opus 5.5 through OpenWiSH against the published agent</text>
 <text x="24.0" y="54.0" class="st" text-anchor="start">One reply with an edits block. Single runs unless a panel names repeats. Each panel has its own scale.</text>
@@ -463,5 +497,7 @@ td,th{padding:4px 10px;border-bottom:1px solid #c3c2b7;text-align:left}
 <path d="M648.0,300.0V192.0Q648.0,188.0 652.0,188.0H684.0Q688.0,188.0 688.0,192.0V300.0Z" class="s1 bar" style="animation-delay:0.42s"><title>MinAtar Breakout, write from zero, OpenWiSH: 417.1 mean return, 3 runs at xhigh</title></path>
 <text x="668.0" y="182.0" class="lb" text-anchor="middle">417</text>
 <text x="647.0" y="320.0" class="tk" text-anchor="middle">published ahead</text>
+<rect x="24" y="337" width="12" height="12" rx="3" class="s1"/>
+<text x="42.0" y="347.0" class="tk" text-anchor="start">all bars: no network runs (one reply; the Kinetix prompt also shows a recorded failure episode)</text>
 </svg>
 <details><summary>Data table</summary><table><thead><tr><th>Environment</th><th>Unit</th><th>Published</th><th>Claude through OpenWiSH</th></tr></thead><tbody><tr><td>Kinetix car, fix a policy</td><td>successes of 1,024</td><td>1,024.0</td><td>1,024.0</td></tr><tr><td>MinAtar Seaquest, write from zero</td><td>mean return</td><td>53.1</td><td>60.9</td></tr><tr><td>MinAtar Asterix, write from zero</td><td>mean return</td><td>53.2</td><td>60.4</td></tr><tr><td>MinAtar Breakout, write from zero</td><td>mean return, 3 runs at xhigh</td><td>517.4</td><td>417.1</td></tr></tbody></table></details></section></main></body></html>

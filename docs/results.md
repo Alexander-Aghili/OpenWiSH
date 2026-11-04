@@ -2,6 +2,8 @@
 
 *Sparks of Weight-Space Programming* reached the top of Hacker News twice in two days: the post itself ([2,912 points, 876 comments](https://news.ycombinator.com/item?id=50341174)) and Matthew Honnibal's critique ([801 points, 185 comments](https://news.ycombinator.com/item?id=50351111)). This page tests OpenWiSH against the points those threads raised. Every number comes from a run folder in [`results/`](../results). Every table names the access level of each row.
 
+**Weights only or with probes.** *Weights only* means the agent reads the weights, as text or through Python, and the network never runs. *With probes* means the agent also ran the network within a budget (forward passes, activations, practice observations). In charts, weights-only results are solid bars and filled dots, and results with probes are hatched bars and hollow dots. See [Access levels](access-levels.md).
+
 ## What the discussion asked for
 
 | Point raised | Where | What OpenWiSH does |

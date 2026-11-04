@@ -6,6 +6,8 @@ OpenWiSH reports three kinds of numbers:
 2. **Live agent runs.** A real agent on the bundled environments, with the audit status next to each score.
 3. **Interpretability baselines.** Fixed, non-LLM methods on the read environments, for scale.
 
+**Weights only or with probes.** *Weights only* means the agent reads the weights, as text or through Python, and the network never runs. *With probes* means the agent also ran the network within a budget (forward passes, activations, practice observations). In charts, weights-only results are solid bars and filled dots, and results with probes are hatched bars and hollow dots. See [Access levels](access-levels.md).
+
 ## Conformance
 
 ### Method
