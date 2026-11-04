@@ -56,6 +56,9 @@ python3 scripts/prepare_tasks.py                   # exp1, exp2, exp3, exp5, exp
 python3 scripts/prepare_exp4.py                    # Kinetix car
 scripts/train_go_opponents.sh                      # Go practice and hidden opponents (needs target/release/openwish)
 scripts/prepare_exp7.sh                            # Gemma pairs: Gemma licence, Hugging Face login, GPU
+python3 scripts/prepare_contamination.py           # exp1-perm, exp2-perm: hidden units permuted (after exp1, exp2)
+assets/venvs/sandbox/bin/python -I scripts/prepare_decompile.py     # decompile networks and tasks (CPU, minutes)
+assets/venvs/sandbox/bin/python -I scripts/calibrate_decompile.py   # their reference localisation (optional)
 ```
 
 For `tasks/exp8`, download `Qwen/Qwen3.5-0.8B` at revision `2fc06364715b967f1860aea9cf38778875588b17` into `assets/exp8/qwen35-hf`, then build the text checkpoint, the gate base, the prompts and the evaluation sets:

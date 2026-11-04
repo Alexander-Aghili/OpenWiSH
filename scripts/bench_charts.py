@@ -217,6 +217,18 @@ def chart_qwen(rows):
     return svg.render("Qwen MATH-500 accuracy, published against the OpenWiSH replay, and the share cut at the limit")
 
 
+def pool_repeats(scores):
+    """(mean of the run means, standard error, runs). One run keeps its own standard error."""
+    means = [x["mean"] for x in scores]
+    if not means:
+        return None
+    if len(means) == 1:
+        return means[0], scores[0].get("se", 0.0), 1
+    m = sum(means) / len(means)
+    sd = (sum((v - m) ** 2 for v in means) / (len(means) - 1)) ** 0.5
+    return m, sd / len(means) ** 0.5, len(means)
+
+
 def blog_data():
     """Claude Opus 5.5 through OpenWiSH against the published agent: (panel, unit, published, ours, ours_se)."""
     logs = ROOT / "assets/lm_understand-logs/exp5_write_from_scratch/eval/minatar_eval.json"
@@ -226,16 +238,25 @@ def blog_data():
     if kin:
         out.append(("Kinetix car, fix a policy", "successes of 1,024", 1024, kin["success"], 0))
     for g in ("seaquest", "asterix", "breakout"):
+        if g not in pub5:
+            continue
+        # repeats at the task's own effort (xhigh) take precedence over a single run at another effort
+        reps = [report.load(p) for p in sorted((ROOT / "runs/bench/claude-opus-5-5-xhigh").glob(f"exp5-{g}-r*/eval/score.json"))]
+        pooled = pool_repeats([r for r in reps if r])
+        if pooled:
+            m, se, n = pooled
+            out.append((f"MinAtar {g.capitalize()}, write from zero", f"mean return, {n} runs at xhigh", pub5[g]["hand"]["mean"], m, se))
+            continue
         s = report.load(ROOT / f"runs/bench/claude-opus-5-5/exp5-{g}/eval/score.json")
-        if s and g in pub5:
+        if s:
             out.append((f"MinAtar {g.capitalize()}, write from zero", "mean return", pub5[g]["hand"]["mean"], s["mean"], s.get("se", 0)))
     return out
 
 
 def chart_blog(panels):
     svg = Svg(380, "Blog environments: Claude Opus 5.5 through OpenWiSH against the published agent",
-              "One reply with an edits block, single runs. Each panel has its own scale. The published agent is GPT-6 Astra.",
-              "Source: runs/bench/claude-opus-5-5/exp4-task, exp5-*, published results from RikiyaT/lm_understand-logs.")
+              "One reply with an edits block. Single runs unless a panel names repeats. Each panel has its own scale.",
+              "Source: runs/bench/claude-opus-5-5*/exp4-task, exp5-*. Published agent: GPT-6 Astra (RikiyaT/lm_understand-logs).")
     svg.legend(24, 82, [("published agent", 2), ("Claude Opus 5.5 through OpenWiSH", 1)])
     pw = (W - 48) / len(panels)
     y0, y1 = 300, 136
@@ -256,6 +277,75 @@ def chart_blog(panels):
     return svg.render("Blog environments, published agent against Claude Opus 5.5 through OpenWiSH")
 
 
+TIERS = (("native", "native: weights in the prompt, one reply", 3), ("read", "read: Python, never run", 1),
+         ("probe", "probe: Python, 48 probe inputs", 2))
+
+
+def chart_decompile(rows):
+    """rows: {network: {tier: score or None}}."""
+    series = [(label, slot) for _, label, slot in TIERS]
+    svg = Svg(400, "Decompile ladder: one network, three access levels",
+              "Score = behaviour on all 1,024 inputs x interchange-intervention accuracy x completeness. 1.0 is an exact decompile.",
+              "Source: results/bench/decompile-claude-opus-5-5, Claude Opus 5.5 at high effort, one run per bar, unaudited.")
+    svg.legend(24, 82, series)
+    y0, y1 = 326, 112
+    y_of = svg.yaxis(64, W - 24, y0, y1, [0, 0.25, 0.5, 0.75, 1.0], lambda t: f"{t:.2f}")
+    nets = list(rows)
+    vals = [[rows[n].get(t) for t, _, _ in TIERS] for n in nets]
+    tips = [[f"{n}, {label}: {'not run' if rows[n].get(t) is None else f'{rows[n][t]:.3f}'}" for t, label, _ in TIERS] for n in nets]
+    grouped_bars(svg, nets, series, 72, W - 24, y_of, y0, vals, tips, labels=lambda v: f"{v:.2f}")
+    return svg.render("Decompile ladder scores by network and access level")
+
+
+def decompile_data():
+    out = {}
+    for d in sorted((ROOT / "results/bench").glob("decompile-*/decompile-*")):
+        s = report.load(d / "eval/score.json")
+        if not s:
+            continue
+        net, tier = d.name[len("decompile-"):].rsplit("-", 1)
+        out.setdefault(net, {t: None for t, _, _ in TIERS})[tier] = s["score"]
+    return out
+
+
+# Conformance: the published runs replayed through OpenWiSH (docs/benchmarks.md, Conformance). The Qwen replays have
+# their own chart. (name, unit, published, OpenWiSH)
+CONFORMANCE = [
+    ("Game MLPs: grades", "correct of 4", 4, 4),
+    ("Diffusion MLPs: grades", "correct of 3", 3, 3),
+    ("Char LMs: copying heads", "recall", 1.0, 1.0),
+    ("Kinetix car: published edit", "successes of 1,024", 1024, 1024),
+    ("MinAtar Breakout: published reply", "mean return", 517.4, 502.9),
+    ("MinAtar Seaquest: published reply", "mean return", 53.1, 53.2),
+    ("MinAtar Asterix: published reply", "mean return", 53.2, 52.9),
+    ("9x9 Go: budget-0 network rebuilt", "tensors bit-identical of 14", 14, 14),
+    ("9x9 Go: budget-50 vs same-size PPO", "win rate %", 74.15, 74.15),
+    ("Gemma pairs: grades", "correct of 3", 3, 3),
+]
+
+
+def chart_conformance(rows):
+    """rows: (name, unit, published, ours). Dots at OpenWiSH as a share of the published value."""
+    h = 190 + 30 * len(rows)
+    svg = Svg(h, "Conformance: the published runs, replayed through OpenWiSH",
+              "Each dot is OpenWiSH's result as a share of the published one. 100 % on the dashed line is an exact match.",
+              "Source: docs/benchmarks.md (Conformance), tests/test_scorers.py, test_adapters.py, test_kinetix.py, the Go head-to-head.")
+    x0, x1, top = 330, W - 150, 112
+    lo, hi = 90, 110
+    x_of = lambda v: x0 + (max(lo, min(hi, v)) - lo) / (hi - lo) * (x1 - x0)
+    bottom = top + 30 * len(rows)
+    for t in range(90, 111, 5):
+        svg.add(f'<line x1="{x_of(t):.1f}" y1="{top - 8}" x2="{x_of(t):.1f}" y2="{bottom}" class="{"ref" if t == 100 else "gl"}"/>')
+        svg.text(x_of(t), bottom + 16, f"{t} %", "tk", "middle")
+    for i, (name, unit, pub, ours) in enumerate(rows):
+        y = top + 14 + 30 * i
+        share = 100 * ours / pub if pub else 100.0
+        svg.text(x0 - 14, y + 4, name, "lb2", "end")
+        svg.dot(x_of(share), y, 1, f"{name}: published {pub:g}, OpenWiSH {ours:g} ({unit})", 0.04 * i)
+        svg.text(x1 + 14, y + 4, f"{ours:g} of {pub:g}", "lb")
+    return svg.render("Conformance: OpenWiSH replays as a share of the published results")
+
+
 def rounds_data():
     out = {}
     for model in report.CODEX:
@@ -274,7 +364,12 @@ def table_html(head, rows):
 def build():
     OUT.mkdir(parents=True, exist_ok=True)
     tools, rounds, agentic, qwen, blog = report.tools_data(), rounds_data(), report.agentic_data(), report.qwen_data(), blog_data()
-    charts = []
+    decompile = decompile_data()
+    charts = [("conformance", chart_conformance(CONFORMANCE), table_html(["Check", "Unit", "Published", "OpenWiSH"],
+               [[n, u, f"{p:g}", f"{o:g}"] for n, u, p, o in CONFORMANCE]))]
+    if decompile:
+        charts.append(("decompile-ladder", chart_decompile(decompile), table_html(["Network", "native", "read", "probe"],
+                       [[n, *("not run" if v is None else f"{v:.3f}" for v in (r["native"], r["read"], r["probe"]))] for n, r in decompile.items()])))
     if tools:
         charts.append(("wspbench-tools", chart_tools(tools), table_html(["Model", "WSPBench B", "WSPBench C", "OpenWiSH sandbox"],
                        [[m, *("not run" if v is None else f"{v} / 12" for v in (r["B"], r["C"], r["OW"]))] for m, r in tools.items()])))

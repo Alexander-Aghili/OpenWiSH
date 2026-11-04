@@ -1,0 +1,134 @@
+{
+  "access": {
+    "code": "Python, 60 runs",
+    "data": [],
+    "declared": true,
+    "label": "weights through code · Python, 60 runs · network runs: forward (3 passes) · multi-turn (up to 200)",
+    "network_runs": [
+      "forward (3 passes)"
+    ],
+    "replies": "multi-turn (up to 200)",
+    "shown": [],
+    "weights": "code"
+  },
+  "behaviour": 0.998046875,
+  "completeness": 1.0,
+  "exact": false,
+  "iia_mean": 0.979461669921875,
+  "layers": {
+    "h2": {
+      "completeness": 1.0,
+      "unmapped_dims": 4
+    }
+  },
+  "mechanism": 0.979461669921875,
+  "ok": true,
+  "quirk_agreement": 1.0,
+  "quirks": 6,
+  "reference": {
+    "secret_behaviour": 0.994140625,
+    "secret_var_best_iia": [
+      0.893,
+      0.8446666666666667
+    ],
+    "units_at_most": 3
+  },
+  "score": 0.9775486588478088,
+  "secret_variable_recovery": {
+    "a": {
+      "s0": 0.416,
+      "s1": 0.9883
+    },
+    "b": {
+      "s0": 0.5566,
+      "s1": 0.8164
+    },
+    "c": {
+      "s0": 0.4443,
+      "s1": 0.6768
+    },
+    "d": {
+      "s0": 0.4961,
+      "s1": 0.6641
+    }
+  },
+  "secret_vars": [
+    {
+      "bits": [
+        0,
+        2,
+        8
+      ],
+      "op": "count"
+    },
+    {
+      "a": [
+        6,
+        1
+      ],
+      "b": [
+        4,
+        9
+      ],
+      "op": "gt"
+    }
+  ],
+  "size": {
+    "bytes": 1140,
+    "bytes_raw": 959,
+    "bytes_without_mapping": 1054,
+    "literal_budget": 120,
+    "literal_chars": 119,
+    "numeric_literals": 70
+  },
+  "variables": {
+    "a": {
+      "changes_net": 0.376953125,
+      "changes_program": 0.3828125,
+      "counted": true,
+      "iia": 0.9677734375,
+      "inert": false,
+      "layer": "h2",
+      "place": [
+        1
+      ],
+      "trivial": false
+    },
+    "b": {
+      "changes_net": 0.3740234375,
+      "changes_program": 0.3665771484375,
+      "counted": true,
+      "iia": 0.97509765625,
+      "inert": false,
+      "layer": "h2",
+      "place": [
+        2
+      ],
+      "trivial": false
+    },
+    "c": {
+      "changes_net": 0.04541015625,
+      "changes_program": 0.052490234375,
+      "counted": true,
+      "iia": 0.9827880859375,
+      "inert": false,
+      "layer": "h2",
+      "place": [
+        4
+      ],
+      "trivial": false
+    },
+    "d": {
+      "changes_net": 0.07373046875,
+      "changes_program": 0.0736083984375,
+      "counted": true,
+      "iia": 0.9921875,
+      "inert": false,
+      "layer": "h2",
+      "place": [
+        7
+      ],
+      "trivial": false
+    }
+  }
+}

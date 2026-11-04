@@ -6,6 +6,7 @@ use std::process::Command;
 use std::time::Duration;
 
 pub mod anthropic_api;
+pub mod openai_compat;
 pub mod claude_cli;
 pub mod codex_cli;
 mod codex_usage;
@@ -123,17 +124,18 @@ pub const NEUTRAL_INSTRUCTIONS: &str = "Answer the user's request.";
 /// The model the claude and api backends use when none is chosen.
 pub const DEFAULT_CLAUDE_MODEL: &str = "claude-opus-5-5";
 
-/// Build a backend from `kind`: "claude", "codex", "api", or "scripted:<file>".
+/// Build a backend from `kind`: "claude", "codex", "api", "openai" (any OpenAI-compatible server), or "scripted:<file>".
 pub fn make(cfg: &BackendConfig) -> anyhow::Result<Box<dyn Editor>> {
     let k = cfg.kind.as_str();
     Ok(match k {
         "claude" => Box::new(claude_cli::ClaudeCli::new(cfg.clone())),
         "codex" => Box::new(codex_cli::CodexCli::new(cfg.clone())),
         "api" => Box::new(anthropic_api::AnthropicApi::new(cfg.clone())?),
+        "openai" => Box::new(openai_compat::OpenAiCompat::new(cfg.clone())?),
         _ if k.starts_with("scripted:") => Box::new(scripted::Scripted::from_file(std::path::Path::new(
             &k["scripted:".len()..],
         ))?),
-        _ => anyhow::bail!("unknown backend {k} (claude | codex | api | scripted:<file>)"),
+        _ => anyhow::bail!("unknown backend {k} (claude | codex | api | openai | scripted:<file>)"),
     })
 }
 

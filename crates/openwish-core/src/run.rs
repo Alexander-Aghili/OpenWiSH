@@ -143,9 +143,10 @@ impl Run {
         };
         let r = Run::open(spec, dir, state, first, editor, env)?;
         r.log(&format!(
-            "created run of task {} with editor {}",
+            "created run of task {} with editor {}; access: {}",
             r.spec.id,
-            r.editor.name()
+            r.editor.name(),
+            r.spec.access()["label"].as_str().unwrap_or("")
         ));
         r.save_state()?;
         Ok(r)

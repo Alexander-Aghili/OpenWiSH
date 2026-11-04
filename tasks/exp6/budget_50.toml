@@ -38,3 +38,6 @@ max_turns = 400
 
 [score]
 command = ["{openwish}", "go", "eval", "--games", "2000", "--against", "hidden_s0={root}/assets/exp6/opponents/hidden_s0", "hidden_s2={root}/assets/exp6/opponents/hidden_s2", "random=random", "ppo_same_size_s0={root}/assets/exp6/opponents/ppo_same_size_s0", "ppo_same_size_s1={root}/assets/exp6/opponents/ppo_same_size_s1", "ppo_same_size_s2={root}/assets/exp6/opponents/ppo_same_size_s2", "--main", "ppo_same_size_s0", "ppo_same_size_s1", "ppo_same_size_s2"]
+
+[access]
+weights = "zero"

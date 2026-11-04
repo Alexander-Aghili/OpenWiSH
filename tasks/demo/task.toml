@@ -23,3 +23,6 @@ max_turns_per_conversation = 3
 
 [score]
 command = ["/home/alexsky2/Projects/WeightSpaceProgramming/assets/venvs/numpy/bin/python", "{task}/score.py"]
+
+[access]
+weights = "code"

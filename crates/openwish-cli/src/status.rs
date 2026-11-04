@@ -31,7 +31,11 @@ pub fn report(run: &Path) -> Result<String> {
     } else {
         "running / stopped".into()
     };
-    let mut out = format!("task       {}\nstate      {state}\n", spec.id);
+    let mut out = format!(
+        "task       {}\naccess     {}\nstate      {state}\n",
+        spec.id,
+        spec.access()["label"].as_str().unwrap_or("")
+    );
     for k in COUNTERS {
         writeln!(out, "{k:<16} {}", s[k])?;
     }

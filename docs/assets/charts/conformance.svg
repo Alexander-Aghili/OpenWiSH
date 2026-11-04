@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 490" width="760" height="490" role="img" aria-label="Conformance: OpenWiSH replays as a share of the published results" class="c"><title>Conformance: OpenWiSH replays as a share of the published results</title><style>
+.c{--surface:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--muted:#898781;--grid:#e1e0d9;--axis:#c3c2b7;
+--s1:#2a78d6;--s2:#eb6834;--s3:#1baf7a;font-family:system-ui, -apple-system, 'Segoe UI', sans-serif}
+@media (prefers-color-scheme:dark){.c{--surface:#1a1a19;--ink:#f0efec;--ink2:#c3c2b7;--muted:#898781;--grid:#2c2c2a;
+--axis:#383835;--s1:#3987e5;--s2:#d95926;--s3:#199e70}}
+.bg{fill:var(--surface)}.t{fill:var(--ink);font-size:17px;font-weight:600}.st{fill:var(--ink2);font-size:12.5px}
+.tk{fill:var(--muted);font-size:11px}.lb{fill:var(--ink);font-size:11.5px;font-weight:600}.lb2{fill:var(--ink2);font-size:11.5px}
+.gl{stroke:var(--grid);stroke-width:1}.ax{stroke:var(--axis);stroke-width:1}.ref{stroke:var(--muted);stroke-width:1.5;stroke-dasharray:4 4}
+.s1{fill:var(--s1)}.s2{fill:var(--s2)}.s3{fill:var(--s3)}.k1{stroke:var(--s1)}.k2{stroke:var(--s2)}.k3{stroke:var(--s3)}
+.ring{stroke:var(--surface);stroke-width:2}.line{fill:none;stroke-width:2}.err{stroke:var(--ink2);stroke-width:1.5}
+.bar{transform-box:fill-box;transform-origin:50% 100%;animation:grow .7s cubic-bezier(.2,.7,.2,1) both}
+.hbar{transform-box:fill-box;transform-origin:0 50%;animation:growx .7s cubic-bezier(.2,.7,.2,1) both}
+.fade{animation:fade .6s ease-out both}
+@keyframes grow{from{transform:scaleY(0)}}@keyframes growx{from{transform:scaleX(0)}}@keyframes fade{from{opacity:0}}
+@media (prefers-reduced-motion:reduce){.bar,.hbar,.fade{animation:none}}
+</style>
+<rect class="bg" width="760" height="490" rx="12"/>
+<text x="24.0" y="34.0" class="t" text-anchor="start">Conformance: the published runs, replayed through OpenWiSH</text>
+<text x="24.0" y="54.0" class="st" text-anchor="start">Each dot is OpenWiSH&#x27;s result as a share of the published one. 100 % on the dashed line is an exact match.</text>
+<text x="24.0" y="476.0" class="tk" text-anchor="start">Source: docs/benchmarks.md (Conformance), tests/test_scorers.py, test_adapters.py, test_kinetix.py, the Go head-to-head.</text>
+<line x1="330.0" y1="104" x2="330.0" y2="412" class="gl"/>
+<text x="330.0" y="428.0" class="tk" text-anchor="middle">90 %</text>
+<line x1="400.0" y1="104" x2="400.0" y2="412" class="gl"/>
+<text x="400.0" y="428.0" class="tk" text-anchor="middle">95 %</text>
+<line x1="470.0" y1="104" x2="470.0" y2="412" class="ref"/>
+<text x="470.0" y="428.0" class="tk" text-anchor="middle">100 %</text>
+<line x1="540.0" y1="104" x2="540.0" y2="412" class="gl"/>
+<text x="540.0" y="428.0" class="tk" text-anchor="middle">105 %</text>
+<line x1="610.0" y1="104" x2="610.0" y2="412" class="gl"/>
+<text x="610.0" y="428.0" class="tk" text-anchor="middle">110 %</text>
+<text x="316.0" y="130.0" class="lb2" text-anchor="end">Game MLPs: grades</text>
+<circle cx="470.0" cy="126.0" r="6" class="s1 ring fade" style="animation-delay:0.00s"><title>Game MLPs: grades: published 4, OpenWiSH 4 (correct of 4)</title></circle>
+<text x="624.0" y="130.0" class="lb" text-anchor="start">4 of 4</text>
+<text x="316.0" y="160.0" class="lb2" text-anchor="end">Diffusion MLPs: grades</text>
+<circle cx="470.0" cy="156.0" r="6" class="s1 ring fade" style="animation-delay:0.04s"><title>Diffusion MLPs: grades: published 3, OpenWiSH 3 (correct of 3)</title></circle>
+<text x="624.0" y="160.0" class="lb" text-anchor="start">3 of 3</text>
+<text x="316.0" y="190.0" class="lb2" text-anchor="end">Char LMs: copying heads</text>
+<circle cx="470.0" cy="186.0" r="6" class="s1 ring fade" style="animation-delay:0.08s"><title>Char LMs: copying heads: published 1, OpenWiSH 1 (recall)</title></circle>
+<text x="624.0" y="190.0" class="lb" text-anchor="start">1 of 1</text>
+<text x="316.0" y="220.0" class="lb2" text-anchor="end">Kinetix car: published edit</text>
+<circle cx="470.0" cy="216.0" r="6" class="s1 ring fade" style="animation-delay:0.12s"><title>Kinetix car: published edit: published 1024, OpenWiSH 1024 (successes of 1,024)</title></circle>
+<text x="624.0" y="220.0" class="lb" text-anchor="start">1024 of 1024</text>
+<text x="316.0" y="250.0" class="lb2" text-anchor="end">MinAtar Breakout: published reply</text>
+<circle cx="430.8" cy="246.0" r="6" class="s1 ring fade" style="animation-delay:0.16s"><title>MinAtar Breakout: published reply: published 517.4, OpenWiSH 502.9 (mean return)</title></circle>
+<text x="624.0" y="250.0" class="lb" text-anchor="start">502.9 of 517.4</text>
+<text x="316.0" y="280.0" class="lb2" text-anchor="end">MinAtar Seaquest: published reply</text>
+<circle cx="472.6" cy="276.0" r="6" class="s1 ring fade" style="animation-delay:0.20s"><title>MinAtar Seaquest: published reply: published 53.1, OpenWiSH 53.2 (mean return)</title></circle>
+<text x="624.0" y="280.0" class="lb" text-anchor="start">53.2 of 53.1</text>
+<text x="316.0" y="310.0" class="lb2" text-anchor="end">MinAtar Asterix: published reply</text>
+<circle cx="462.1" cy="306.0" r="6" class="s1 ring fade" style="animation-delay:0.24s"><title>MinAtar Asterix: published reply: published 53.2, OpenWiSH 52.9 (mean return)</title></circle>
+<text x="624.0" y="310.0" class="lb" text-anchor="start">52.9 of 53.2</text>
+<text x="316.0" y="340.0" class="lb2" text-anchor="end">9x9 Go: budget-0 network rebuilt</text>
+<circle cx="470.0" cy="336.0" r="6" class="s1 ring fade" style="animation-delay:0.28s"><title>9x9 Go: budget-0 network rebuilt: published 14, OpenWiSH 14 (tensors bit-identical of 14)</title></circle>
+<text x="624.0" y="340.0" class="lb" text-anchor="start">14 of 14</text>
+<text x="316.0" y="370.0" class="lb2" text-anchor="end">9x9 Go: budget-50 vs same-size PPO</text>
+<circle cx="470.0" cy="366.0" r="6" class="s1 ring fade" style="animation-delay:0.32s"><title>9x9 Go: budget-50 vs same-size PPO: published 74.15, OpenWiSH 74.15 (win rate %)</title></circle>
+<text x="624.0" y="370.0" class="lb" text-anchor="start">74.15 of 74.15</text>
+<text x="316.0" y="400.0" class="lb2" text-anchor="end">Gemma pairs: grades</text>
+<circle cx="470.0" cy="396.0" r="6" class="s1 ring fade" style="animation-delay:0.36s"><title>Gemma pairs: grades: published 3, OpenWiSH 3 (correct of 3)</title></circle>
+<text x="624.0" y="400.0" class="lb" text-anchor="start">3 of 3</text>
+</svg>

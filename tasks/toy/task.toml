@@ -12,3 +12,6 @@ mem_gb = 4
 
 [score]
 command = ["python3", "-I", "{root}/tasks/toy/score.py"]
+
+[access]
+weights = "code"

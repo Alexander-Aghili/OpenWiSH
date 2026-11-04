@@ -1,0 +1,20 @@
+{
+  "access": {
+    "code": null,
+    "data": [],
+    "declared": true,
+    "label": "from zero weights (nothing to read) · no code · network never run · one reply",
+    "network_runs": [],
+    "replies": "one reply",
+    "shown": [],
+    "weights": "zero"
+  },
+  "episodes": 1000,
+  "game": "breakout",
+  "max": 834.0,
+  "mean": 261.46,
+  "mean_length": 3201.826,
+  "ok": true,
+  "score": 261.46,
+  "se": 7.330482820277146
+}

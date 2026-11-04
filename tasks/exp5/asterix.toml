@@ -17,3 +17,6 @@ max_turns = 1
 
 [score]
 command = ["{root}/assets/venvs/sandbox/bin/python", "-I", "{root}/python/adapters/minatar_eval.py", "--game", "asterix", "--episodes", "1000"]
+
+[access]
+weights = "zero"

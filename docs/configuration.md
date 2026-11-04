@@ -29,6 +29,9 @@ You create a commented config with `openwish init config`. Global flags `--confi
 | `OPENWISH_BIN` | the running binary | The value of `{openwish}` in task commands |
 | `ANTHROPIC_API_KEY` | none | Key for `--backend api` |
 | `ANTHROPIC_AUTH_TOKEN` | none | Bearer token for `--backend api`, used when no key is set |
+| `OPENWISH_OPENAI_BASE_URL` | `https://api.openai.com/v1` | Server for `--backend openai`, for example `http://localhost:1234/v1` (LM Studio) or `https://openrouter.ai/api/v1` |
+| `OPENWISH_OPENAI_API_KEY`, `OPENAI_API_KEY` | none | Key for `--backend openai`. Local servers need none |
+| `OPENWISH_OPENAI_NO_EFFORT` | unset | `1` leaves `reasoning_effort` out of `--backend openai` requests |
 | `OPENWISH_QWEN_REMOTE` | `assets/exp8/remote.json` | Path to the remote GPU config for `tasks/exp8` |
 | `QWEN_GPU_UTIL` | `0.85` | vLLM GPU memory share for the `tasks/exp8` worker |
 | `HF_TOKEN` | none | Hugging Face token for `scripts/prepare_exp7.sh` (or run `hf auth login`) |
@@ -63,7 +66,7 @@ Backend flags:
 
 | Flag | Default | Meaning |
 |---|---|---|
-| `--backend` | the task's `[editor] backend`, else `claude` | `claude`, `codex`, `api` or `scripted:<file>` |
+| `--backend` | the task's `[editor] backend`, else `claude` | `claude`, `codex`, `api`, `openai` or `scripted:<file>` |
 | `--model` | the task's `[editor] model`, else `claude-opus-5-5` for `claude` and `api` | Model id |
 | `--effort` | the task's `[editor] effort` | `low`, `medium`, `high`, `xhigh`, `max` |
 | `--max-tokens` | 64000 | Output tokens per reply, `api` only |

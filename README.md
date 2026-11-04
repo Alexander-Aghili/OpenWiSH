@@ -16,6 +16,8 @@ Plug in any agent: `claude -p`, `codex exec`, the Anthropic Messages API, or a s
 
 The one rule: agents compute edits, they do not optimise. Code is fine, for example subtracting a direction the agent found. Gradients, optimisers, fitting weights to data, search, and running the network outside the declared probes are out.
 
+Every result names its access level. Reading weights as text, analysing them with code, running the network, and being shown its behaviour are different channels and evidence of different capabilities. Each task declares what the agent gets. OpenWiSH stamps the label on every run and score, for example `weights as text in the prompt · no code · network never run · one reply`. Results from different access levels are never pooled: [Access levels](docs/access-levels.md).
+
 ## Why
 
 - **Weights as the program.** Coding agents get a sandbox, version control and tests for source code. OpenWiSH gives agents the same instruments for weights: a Python kernel over the arrays, budgeted probes, checkpoints, and portable edit sets.
@@ -32,12 +34,6 @@ Tools against tools, on every benchmark tested so far. Each chart comes from the
 
 [WSPBench](https://github.com/alexcarterhq/wspbench) defines its own tool conditions: weight-algebra tools in B, plus metered practice observations in C. The OpenWiSH sandbox gives Python over the same weights, with no network execution. Same models, same 12 tasks, one attempt each. A run with a failed audit scores 0.
 
-| Model | WSPBench B, exact | WSPBench C, exact | OpenWiSH sandbox, exact |
-|---|---:|---:|---:|
-| gpt-6.1-sol | 1 / 12 | 0 / 12 | **12 / 12** |
-| gpt-6.1-terra | 0 / 12 | 0 / 12 | **12 / 12** |
-| gpt-6-luna | 0 / 12 | 0 / 12 | **4 / 12** |
-| claude-opus-5-5 | not run | not run | **12 / 12** |
 
 OpenWiSH solves more tasks exactly than both WSPBench tool conditions, for each of the three models run in all three. Six of the 12 tasks were held out: the OpenWiSH config was frozen before they ran. B and C run in WSPBench's own Inspect loop, unchanged, and WSPBench's session budget shapes those results. [Results](docs/results.md) covers the method, the losses (AgenticInterpBench, two WSPBench families, Breakout) and how each point of the Hacker News discussion maps to a test.
 
@@ -49,15 +45,21 @@ Codex tuned the OpenWiSH config in five rounds on the pilot tasks. Runs whose co
 
 ### Blog environments
 
-<p align="center"><img src="docs/assets/charts/blog-envs.svg" alt="Four panels: Kinetix ties at 1,024 successes. Claude through OpenWiSH leads on Seaquest and Asterix, and trails on Breakout, 54 against 517." width="760"></p>
+<p align="center"><img src="docs/assets/charts/blog-envs.svg" alt="Four panels: Kinetix ties at 1,024 successes. Claude through OpenWiSH leads on Seaquest and Asterix, and trails on Breakout, 417 (mean of 3 runs) against 517." width="760"></p>
 
-On the blog environments, Claude Opus 5.5 through OpenWiSH fixes the Kinetix car (1,024 / 1,024 episodes, 2,921 weights changed against the published 6,073) and beats the published one-shot MinAtar policies on Seaquest (60.9 against 53.1) and Asterix (60.4 against 53.2). These are single runs.
+On the blog environments, Claude Opus 5.5 through OpenWiSH fixes the Kinetix car (1,024 / 1,024 episodes, 2,921 weights changed against the published 6,073) and beats the published one-shot MinAtar policies on Seaquest (60.9 against 53.1) and Asterix (60.4 against 53.2). Breakout at the task's own effort (xhigh) scores 476.3, 261.5 and 513.5 in three runs, a mean of 417 ± 79 (standard error over runs), against the published 517.4. An earlier single run at high effort scored 54.2. Single-reply policies vary a lot from run to run, so Breakout reports repeats. Seaquest, Asterix and Kinetix are single runs.
 
 ### Replaying the published Qwen edits
 
 <p align="center"><img src="docs/assets/charts/qwen-math.svg" alt="Grouped bars: Qwen MATH-500 accuracy, published against the OpenWiSH replay, for base, 10, 25 and 50 passes. The replay matches within one standard error band. A second panel shows the share cut at the token limit falling from 90 to 32 percent." width="760"></p>
 
 All four published Qwen3.5-0.8B edits reproduce within noise on MATH-500. The 50-pass gain comes from ending reasoning loops: the share of answers cut at the token limit falls from 90 % to 32 %.
+
+### Decompile: one network, three access levels
+
+<p align="center"><img src="docs/assets/charts/decompile-ladder.svg" alt="Grouped bars: decompile scores for two networks at three access levels. d2-a scores 0.98 at every level. d3-b scores 0.88 with the weights in the prompt, 0.91 with Python, and 0.94 with Python and 48 probe inputs." width="760"></p>
+
+Claude Opus 5.5 rewrites a trained network as a short program whose variables map onto its hidden units, with the network's weights as text in one reply, through Python, or through Python plus 48 probe inputs. Reading the weights in one reply already recovers most of each mechanism. On the harder network, each extra channel adds a little. Single runs.
 
 ### AgenticInterpBench: no win yet
 
@@ -99,17 +101,18 @@ Crates, data flow, the reply protocol and the run folder: [Architecture](docs/ar
 
 Each environment is a TOML task, a prompt and a scorer. The bundled set follows the experiments of *Sparks of Weight-Space Programming*.
 
-| Environment | Job | Agent tools | Scored by |
+| Environment | Job | Access | Scored by |
 |---|---|---|---|
-| `tasks/exp1` game-policy MLPs | Name the game | none, all 17,253 weights in the prompt | game named |
-| `tasks/exp2` diffusion MLPs | Name the shape | none, all 23,824 weights in the prompt | shape named |
-| `tasks/exp3` char-level transformers | Name the corpus from the middle blocks | Python, 100 runs | corpus, copying-head precision and recall |
-| `tasks/exp4` Kinetix car policy | Fix a failing policy | one reply with an ```` ```edits ```` block | successes over 1,024 episodes |
-| `tasks/exp5` MinAtar Breakout, Seaquest, Asterix | Write a 600-32-32-6 policy from zero | one reply with an ```` ```edits ```` block | mean return over 1,000 episodes |
-| `tasks/exp6` 9x9 Go | Write a 1.48M-weight policy from zero | Python, 120 runs, `games` and `positions` probes (0, 10, 25 or 50) | win rate against the published same-size PPO networks |
-| `tasks/exp7` Gemma 3 270M pairs | Name the sycophantic fine-tune | numpy, 20 runs with an `attention` probe, or 60 runs on weights only | sycophant named |
-| `tasks/exp8` Qwen3.5-0.8B | Raise math accuracy by editing weights | Python, 300 runs, `forward` probe (10, 25 or 50) on a local or remote GPU | MATH-500, 500 problems |
-| `tasks/toy` | Smoke test | Python, 3 runs | identity written |
+| `tasks/exp1` game-policy MLPs | Name the game | all 17,253 weights in the prompt · no code · never run · one reply | game named |
+| `tasks/exp2` diffusion MLPs | Name the shape | all 23,824 weights in the prompt · no code · never run · one reply | shape named |
+| `tasks/exp3` char-level transformers | Name the corpus from the middle blocks | weights through code · Python, 100 runs · never run | corpus, copying-head precision and recall |
+| `tasks/exp4` Kinetix car policy | Fix a failing policy | weights in the prompt · no code · never run · shown: 256-episode statistics and a sampled failure episode · one reply with an ```` ```edits ```` block | successes over 1,024 episodes |
+| `tasks/exp5` MinAtar Breakout, Seaquest, Asterix | Write a 600-32-32-6 policy from zero | from zero weights · no code · never run · one reply with an ```` ```edits ```` block | mean return over 1,000 episodes |
+| `tasks/exp6` 9x9 Go | Write a 1.48M-weight policy from zero | from zero weights · Python, 120 runs · `games` and `positions` probes (0, 10, 25 or 50) | win rate against the published same-size PPO networks |
+| `tasks/exp7` Gemma 3 270M pairs | Name the sycophantic fine-tune | weights through code · numpy, 20 runs with an `attention` probe, or 60 runs on weights only | sycophant named |
+| `tasks/exp8` Qwen3.5-0.8B | Raise math accuracy by editing weights | weights through code · Python, 300 runs · `forward` probe (10, 25 or 50) on a local or remote GPU · data: practice problems | MATH-500, 500 problems |
+| `tasks/decompile` small ReLU MLPs trained on secret 10-bit programs | Rewrite the network as a short program whose variables map onto its hidden units | a ladder: `native` (weights in the prompt, no code, one reply), `read` (Python, never run), `probe` (Python, 3 forward/patch passes of 16 inputs) | behaviour on all 1,024 inputs × interchange-intervention accuracy × completeness |
+| `tasks/toy` | Smoke test | weights through code · Python, 3 runs | identity written |
 
 Setup per environment and a guide to writing your own: [Environments](docs/environments.md).
 
@@ -117,17 +120,9 @@ Setup per environment and a guide to writing your own: [Environments](docs/envir
 
 Conformance comes first. OpenWiSH replays the published runs as a scripted agent: their code runs in the OpenWiSH sandbox, their edits pass the OpenWiSH gate, and the OpenWiSH scorers grade their answers.
 
-| Environment | Check | Published | OpenWiSH |
-|---|---|---|---|
-| Game MLPs | Grades of the 4 published answers | 4 / 4 | 4 / 4, same guesses and confidences |
-| Diffusion MLPs | Grades of the 3 published answers | 3 / 3 | 3 / 3 |
-| Char LMs | 11 published code runs re-executed, then graded | corpus python, heads 2.1, 3.1, 3.5 | same outputs, precision and recall 1.0 |
-| Kinetix car | Base on 256 episodes, then the published edit on 1,024 | 0 % to 100 % | 0 / 256 to 1,024 / 1,024, 6,073 weights changed |
-| MinAtar | Published one-shot replies, 1,000 episodes | 517.4 / 53.1 / 53.2 | 502.9 / 53.2 / 52.9 |
-| 9x9 Go | Budget-0 network rebuilt from the published Python run | 14 tensors | 14 tensors, bit-identical |
-| 9x9 Go | Published budget-50 network against same-size PPO, 2,000 games | 74.15 % | 74.15 % |
-| Gemma pairs | Grades of the 3 published attention-tool answers | 3 / 3 | 3 / 3, same probabilities |
-| Qwen math | Published edits on MATH-500: base, 10, 25 and 50 passes | 7.9 / 12.3 / 14.1 / 48.1 % | 10.6 / 13.6 / 14.2 / 51.8 % |
+<p align="center"><img src="docs/assets/charts/conformance.svg" alt="Dot plot: each published result replayed through OpenWiSH as a share of the published value. Nine checks sit at 100 percent. MinAtar Breakout sits at 97 percent, 502.9 against 517.4, within sampling noise." width="760"></p>
+
+The Qwen edits replay within noise as well (chart above). The full conformance table, with every check, lives in [Benchmarks](docs/benchmarks.md).
 
 Methodology, the full table, known deviations and live agent results: [Benchmarks](docs/benchmarks.md). Every chart with hover values and data tables: [charts](docs/charts.html).
 
@@ -151,6 +146,9 @@ Path rules, sandbox mounts and the known gaps: [Safety](docs/safety.md). Report 
 | [Environments](docs/environments.md) | Bundled environments, task TOML, preludes, probes, scorers |
 | [Agents](docs/agents.md) | Backends, the `Editor` trait, adding a model or agent |
 | [Safety](docs/safety.md) | Enforcement layers, path rules, known gaps |
+| [Access levels](docs/access-levels.md) | What each channel (weights as text, code, network runs, shown behaviour, data) is evidence of, and the reporting rules |
+| [Decompile design](docs/decompile.md) | The mechanistic-interpretability environments: networks, scoring, calibration, tiers |
+| [Interpretability tools](interp/README.md) | Tools for people, kept apart from OpenWiSH runs: an MLP explorer, neuron-explorer |
 | [Results](docs/results.md) | Tools against tools, losses, the Hacker News points mapped to tests |
 | [Benchmarks](docs/benchmarks.md) | Conformance, methodology, live results |
 | [Configuration](docs/configuration.md) | Environment variables, CLI flags, remote GPU |

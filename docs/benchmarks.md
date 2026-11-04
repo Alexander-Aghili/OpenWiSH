@@ -78,7 +78,7 @@ You check every task with `python3 scripts/bench_compare.py <baseline-folder> <c
 <!-- BENCH:LIVE:START -->
 These are single runs on public tasks. Each row shows the audit status. The bundled runs use the Claude CLI at high effort. Cost comes from `state.json`. Codex does not report cost to this backend.
 
-Game MLPs: 4/4 correct. Diffusion MLPs: 3/3 correct. Claude reports lower confidence than the published GPT-6 Astra replies. Breakout is 54.2 against the published 517.4. You should not infer a general improvement from these results.
+Game MLPs: 4/4 correct. Diffusion MLPs: 3/3 correct. Claude reports lower confidence than the published GPT-6 Astra replies. Breakout at the task's own effort (xhigh) is 417 ± 79 over three runs (476.3, 261.5, 513.5) against the published 517.4. An earlier single run at high effort scored 54.2. You should not infer a general improvement from these results.
 
 | Environment | Published agent (GPT-6 Astra) | OpenWiSH + Claude Opus 5.5 | Turns | Python runs | Cost (USD) | Audit |
 |---|---|---|---|---|---|---|
@@ -89,10 +89,11 @@ Game MLPs: 4/4 correct. Diffusion MLPs: 3/3 correct. Claude reports lower confid
 | exp2-246a5b58 | triangle (88 %) | triangle (45 %) | 1 | 0 | 1.33 | not audited |
 | exp2-a6a9dfb7 | square (77 %) | square (35 %) | 1 | 0 | 1.10 | not audited |
 | exp2-d88aba69 | circle (84 %) | circle (60 %) | 1 | 0 | 0.97 | not audited |
-| exp3-net-a | python, heads 2.1 3.1 3.5 | python, heads 2.1 3.0 3.1 3.4 3.5, P 0.6, R 1.0 | 44 | 43 | 148.17 | invalid |
+| exp3-net-a | python, heads 2.1 3.1 3.5 | python, heads 2.1 3.0 3.1 3.4 3.5, P 0.6, R 1.0 | 44 | 43 | 148.17 | valid |
 | exp4-task | 1,024 / 1,024 | 1024 / 1024 (2921 weights changed) | 1 | 0 | 3.81 | not audited |
 | exp5-asterix | 53.2 | 60.4 ± 1.2 | 1 | 0 | 1.84 | not audited |
-| exp5-breakout | 517.4 | 54.2 ± 1.6 | 1 | 0 | 3.33 | not audited |
+| exp5-breakout, high effort | 517.4 | 54.2 ± 1.6 | 1 | 0 | 3.33 | not audited |
+| exp5-breakout, xhigh effort, 3 runs | 517.4 | 417 ± 79 (476.3, 261.5, 513.5) | 1 each | 0 | 1.79, 1.48, 2.49 | not audited |
 | exp5-seaquest | 53.1 | 60.9 ± 1.7 | 1 | 0 | 4.35 | not audited |
 | exp6-budget_0 | 42.6 / 26.3 / 36.3 % | 41.0 / 28.7 / 42.6 % | 18 | 17 | 112.47 | not audited |
 
@@ -204,17 +205,49 @@ The agent tags each of 163 localized components in 84 InterpBench circuits with 
 
 <!-- BENCH:LIVE:END -->
 
+## Decompile ladder (mechanistic interpretability)
+
+### Method
+
+Each decompile network was trained on a secret program over 10 bits, with 4 training labels flipped so the network memorises exceptions ("quirks"). The agent answers with a short program and a map of its variables onto the network's hidden units or subspaces. The scorer checks all 1,024 inputs (behaviour). For each variable, the scorer patches the variable's place in the network from another input and compares the result with the program given the same value (interchange-intervention accuracy). The scorer also resamples everything left unmapped (completeness). Score = behaviour × mechanism. The program's literals total at most one character per nonzero weight, so a copy of the network does not fit. "Secret variables (best match)" gives, for each planted variable, the best share of inputs on which one of the agent's variables predicts the planted one (1.00 = recovered exactly).
+
+The same network runs at three access levels, so you see what each channel adds. `native`: all nonzero weights as text in the prompt, no code, one reply. `read`: Python over the weights, the network never run. `probe`: Python and 3 forward passes of 16 inputs, under 5 % of the input space. See [Access levels](access-levels.md). Runs: Claude Opus 5.5 through the Claude CLI at high effort, one run per cell, unaudited. The runs live under `results/bench/decompile-claude-opus-5-5/`. Regenerate this table with `scripts/report_decompile.py`.
+
+### Results
+
+<!-- BENCH:DECOMPILE:START -->
+| Network | Tier | Access | Score | Behaviour | Mechanism | Quirks | Secret variables (best match) | Literals | Turns | Python runs | Passes |
+|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| d2-a | `native` | weights as text in the prompt · no code · network never run · one reply | 0.976 | 0.991 | 0.984 | 6/6 | 0.57 / 0.99 | 118/120 | 1 | 0 | 0 |
+| d2-a | `read` | weights through code · Python, 60 runs · network never run · multi-turn (up to 200) | 0.983 | 1.000 | 0.983 | 6/6 | 0.56 / 0.99 | 120/120 | 13 | 12 | 0 |
+| d2-a | `probe` | weights through code · Python, 60 runs · network runs: forward (3 passes) · multi-turn (up to 200) | 0.978 | 0.998 | 0.979 | 6/6 | 0.56 / 0.99 | 119/120 | 31 | 27 | 3 |
+| d3-b | `native` | weights as text in the prompt · no code · network never run · one reply | 0.881 | 0.992 | 0.888 | 7/14 | 0.74 / 1.00 / 0.94 | 66/142 | 1 | 0 | 0 |
+| d3-b | `read` | weights through code · Python, 60 runs · network never run · multi-turn (up to 200) | 0.913 | 0.991 | 0.921 | 5/14 | 1.00 / 1.00 / 1.00 | 48/142 | 9 | 8 | 0 |
+| d3-b | `probe` | weights through code · Python, 60 runs · network runs: forward (3 passes) · multi-turn (up to 200) | 0.935 | 1.000 | 0.935 | 14/14 | 1.00 / 1.00 / 1.00 | 97/142 | 39 | 35 | 3 |
+<!-- BENCH:DECOMPILE:END -->
+
 ## Interpretability baselines
 
 Fixed methods with no LLM, chosen before looking at the ground truth, give the read environments a reference point. `scripts/baselines.py` prints the results as JSON.
 
 <!-- BENCH:BASELINES:START -->
-The fixed K-composition baseline (Elhage et al., *A Mathematical Framework for Transformer Circuits*) labels heads above the mean plus two standard deviations. The rule finds 0/5 copying heads. The published agent found 5/5. This comparison tests one fixed threshold, not every circuit-analysis method. Source: `runs/baselines.json`.
+Fixed rules, chosen before running them and never tuned on the answers. Source: `runs/baselines.json`, from `scripts/baselines.py`.
 
-| Corpus | Copying heads found | Ground-truth heads | Recall |
-|---|---:|---:|---:|
-| python | 0 | 3 | 0 % |
-| romaji | 0 | 1 | 0 % |
-| english | 0 | 1 | 0 % |
+**Exp1, which game.** Goedecke's heatmap (seangoedecke.com, 2026-11-03) turned into a reader: per grid cell, the agent channel's first-layer weight norm above the median. No dominant row or column means Pac-Man. A dominant row means Breakout. A dominant column means Freeway when the reward channel sits in one row, else Pong. The rule names 3 of 4 games and misses Freeway. The heatmap uses norms over hidden units, so the rule scores the same on the permuted variants in `tasks/exp1-perm`.
+
+| Network | Truth | Rule's guess | Agent row share | Agent column share | Reward row share |
+|---|---|---|---:|---:|---:|
+| 0bbcc3ea | freeway | pacman | 0.255 | 0.298 | 0.898 |
+| a9f535cc | breakout | breakout | 0.985 | 0.229 | 0.499 |
+| bdf99279 | pacman | pacman | 0.246 | 0.227 | 0.314 |
+| dfc6cb65 | pong | pong | 0.186 | 0.981 | 0.233 |
+
+**Exp3, copying heads.** Two rules from Elhage et al., *A Mathematical Framework for Transformer Circuits*, each labelling heads above the mean plus two standard deviations. K-composition finds 0/5. The OV eigenvalue copying score, computed on each head's own OV matrix because the environment gives no embeddings, also finds 0/5 and picks layer-0 heads. The published agent found 5/5. These comparisons test two fixed thresholds, not every circuit-analysis method.
+
+| Corpus | Ground-truth heads | K-composition finds | OV copying finds | Recall (both) |
+|---|---|---|---|---:|
+| python | L2H1, L3H1, L3H5 | none | L0H0, L0H4 | 0 % |
+| romaji | L3H3 | none | L0H1, L0H2, L0H5 | 0 % |
+| english | L3H1 | none | L0H0, L0H5 | 0 % |
 
 <!-- BENCH:BASELINES:END -->

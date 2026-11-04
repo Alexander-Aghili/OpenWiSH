@@ -154,7 +154,7 @@ const CONFIG: &str = r#"# OpenWiSH project config. Every key is optional.
 # Precedence, highest first: command-line flags; then the task's [editor] table (for backend, model and
 # effort) or OPENWISH_THREADS / OPENWISH_NICE (for threads and nice); then this file; then the built-in defaults.
 
-# backend = "claude"            # claude | codex | api | scripted:<file>
+# backend = "claude"            # claude | codex | api | openai | scripted:<file>
 # model = "claude-opus-5-5"
 # effort = "high"               # low | medium | high | xhigh | max
 # threads = 4                   # default: a quarter of the cores

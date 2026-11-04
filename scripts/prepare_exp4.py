@@ -105,6 +105,10 @@ max_turns = 1
 
 [score]
 command = ["{root}/assets/venvs/kinetix/bin/python", "-I", "{root}/python/adapters/kinetix_eval.py", "--episodes", "1024", "--stream", "test"]
+
+[access]
+weights = "prompt"
+shown = ["success statistics of the failing network over 256 sampled episodes", "one sampled failure episode, every 16 steps"]
 ''')
     print(f"prepared exp4: {len(tensors)} tensors, {total} entries -> {d}; prompt -> {A}/prompts/repair.txt; "
           f"task -> {T}/task.toml", file=sys.stderr)

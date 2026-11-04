@@ -55,13 +55,13 @@ The audit changes the story of the tuning rounds. Before the round 4 guard, most
   <p align="center"><img src="assets/charts/agentic-interp.svg" alt="Dot plot: AgenticInterpBench tag accuracy. Published HyVE agents score 67 to 79 percent. OpenWiSH rows score 67 to 73 percent. Fixed baselines sit at 44.2 and 63.8 percent." width="760"></p>
 
   A fixed rule (MLP means MAPPER, attention means AGGREGATOR) scores 63.8 %. Tools add nothing for Sol here. HyVE adds 9 points over a prompt-only Sonnet reply. The like-for-like run, OpenWiSH with Sonnet 4.6 and HyVE's access, is in progress. The paper reports no prompt-only control. This page adds one.
-- **MinAtar Breakout.** A Claude one-shot policy scores 54.2 against the published 517.4.
+- **MinAtar Breakout.** Breakout at the task's own effort (xhigh) scores 476.3, 261.5 and 513.5 in three runs, a mean of 417 ± 79 (standard error over runs), against the published 517.4. An earlier single run at high effort scored 54.2. The gap closed from tenfold to 0.8 times the published score once the run used the task's effort.
 
 ## Blog environments with Claude Opus 5.5
 
 Single runs, scored by the OpenWiSH scorers. The published agent is GPT-6 Astra, a different model.
 
-<p align="center"><img src="assets/charts/blog-envs.svg" alt="Four panels: Kinetix ties at 1,024 successes. Claude through OpenWiSH leads on Seaquest and Asterix, and trails on Breakout, 54 against 517." width="760"></p>
+<p align="center"><img src="assets/charts/blog-envs.svg" alt="Four panels: Kinetix ties at 1,024 successes. Claude through OpenWiSH leads on Seaquest and Asterix, and trails on Breakout, 417 (mean of 3 runs) against 517." width="760"></p>
 
 | Environment | Access | Published | Claude Opus 5.5 through OpenWiSH | Audit |
 |---|---|---|---|---|
@@ -69,11 +69,11 @@ Single runs, scored by the OpenWiSH scorers. The published agent is GPT-6 Astra,
 | Diffusion MLPs | weights in the prompt | 3 / 3 | 3 / 3 | no code run |
 | Kinetix car, fix a failing policy | one reply with edits | 1,024 / 1,024, 6,073 weights changed | 1,024 / 1,024, 2,921 weights changed | no code run |
 | MinAtar Seaquest / Asterix, write from zero | one reply with edits | 53.1 / 53.2 | **60.9 / 60.4** | no code run |
-| MinAtar Breakout | one reply with edits | 517.4 | 54.2 | no code run |
-| Char-level LM, name the corpus and copying heads | Python on the weights | python, recall 1.0 | python, recall 1.0, precision 0.6 | invalid, see below |
+| MinAtar Breakout | one reply with edits | 517.4 | 417 ± 79 (3 runs at xhigh: 476.3, 261.5, 513.5) | no code run |
+| Char-level LM, name the corpus and copying heads | Python on the weights | python, recall 1.0 | python, recall 1.0, precision 0.6 | valid on re-audit, see below |
 | Gemma pair 1, weights only (a published failure, pair rebuilt from the published script) | Python on the weights | wrong (A, 50 %) | right (B, 70 %) | invalid, see below |
 
-Both invalid audits deserve a look. The Gemma run multiplied gate and up projections of embedding-derived vectors, and the task rules forbid gates. The char-LM run fitted a permutation of weight-derived statistics with annealing. The task rules allow fitting. The auditor brief bans search for every task and overrode them. Both runs stay invalid in the tables. [Safety](safety.md) lists the conflict as a known gap.
+The Gemma run multiplied gate and up projections of embedding-derived vectors, and the task rules forbid gates, so the run stays invalid. The char-LM run fitted a permutation of weight-derived statistics with annealing. The task rules allow fitting, but the first auditor brief banned search for every task and overrode them. The brief now applies each task's rules first. A full re-audit with the same auditor (`gpt-6.1-sol`, medium effort) found 43 of 43 code runs allowed, so the run is valid. The first verdicts stay in the run folder as `audit-brief-v1.jsonl`.
 
 <p align="center"><img src="assets/charts/qwen-math.svg" alt="Grouped bars: Qwen MATH-500 accuracy, published against the OpenWiSH replay, for base, 10, 25 and 50 passes. The replay matches within one standard error band. A second panel shows the share cut at the token limit falling from 90 to 32 percent." width="760"></p>
 

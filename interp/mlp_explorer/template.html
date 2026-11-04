@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MLP explorer</title>
+<style>
+  :root { --bg: #fbfaf7; --fg: #1f1f1d; --muted: #6b6a66; --line: #dcdad3; --pos: #2f6db5; --neg: #c2512f;
+          --card: #ffffff; --hi: #f2c14e; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #1b1b1a; --fg: #ecebe6; --muted: #9c9a93; --line: #3a3936; --pos: #6fa3e0; --neg: #e5825f;
+            --card: #232322; --hi: #d9a62c; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 14px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; background: var(--bg); color: var(--fg); }
+  header { padding: 14px 20px; border-bottom: 1px solid var(--line); }
+  header h1 { font-size: 16px; margin: 0 0 4px; font-weight: 600; }
+  header .sub { color: var(--muted); font-size: 13px; }
+  main { display: grid; grid-template-columns: minmax(420px, 1.2fr) minmax(360px, 1fr); gap: 0; min-height: calc(100vh - 64px); }
+  #map { border-right: 1px solid var(--line); padding: 10px; }
+  #map svg { width: 100%; height: auto; display: block; }
+  #panel { padding: 16px 20px; overflow-y: auto; max-height: calc(100vh - 64px); }
+  .unit { cursor: pointer; }
+  .unit circle { stroke: var(--fg); stroke-width: 1; }
+  .unit.sel circle { stroke: var(--hi); stroke-width: 3; }
+  .lbl { fill: var(--muted); font-size: 10px; }
+  h2 { font-size: 15px; margin: 0 0 6px; }
+  h3 { font-size: 12px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); margin: 16px 0 6px; font-weight: 600; }
+  table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; }
+  td, th { padding: 2px 6px; text-align: left; border-bottom: 1px solid var(--line); font-size: 13px; }
+  th { color: var(--muted); font-weight: 500; }
+  code, .mono { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 12.5px; }
+  .pos { color: var(--pos); } .neg { color: var(--neg); }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 6px; padding: 10px 12px; margin-bottom: 10px; }
+  .bits { display: flex; gap: 2px; }
+  .bits div { flex: 1; text-align: center; font-size: 11px; padding: 3px 0; border-radius: 3px; }
+  .note { color: var(--muted); font-size: 12.5px; }
+  pre { white-space: pre-wrap; background: var(--card); border: 1px solid var(--line); border-radius: 6px; padding: 8px; font-size: 12px; }
+  .legend span { display: inline-block; margin-right: 12px; }
+  .sw { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 4px; vertical-align: -1px; }
+</style>
+</head>
+<body>
+<header>
+  <h1 id="title">MLP explorer</h1>
+  <div class="sub" id="sub"></div>
+</header>
+<main>
+  <section id="map"></section>
+  <section id="panel"></section>
+</main>
+<script>
+const D = /*DATA*/null;
+const PALETTE = ["#4e79a7", "#e15759", "#59a14f", "#b07aa1", "#f28e2b", "#76b7b2", "#edc948", "#9c755f"];
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;"}[c]));
+const fmt = (v, d = 3) => (v === null || v === undefined) ? "–" : (typeof v === "number" ? v.toFixed(d) : esc(v));
+
+const [nIn, nH1, nH2, nOut] = D.shape;
+const vars = (D.overlay && D.overlay.variables) || {};
+const varNames = Object.keys(vars);
+const varColor = Object.fromEntries(varNames.map((v, i) => [v, PALETTE[i % PALETTE.length]]));
+
+function unitVar(layer, u) {
+  // the variable with the largest load on this unit (load = squared norm of the unit's projection onto the place)
+  let best = null, bestLoad = 0.05;
+  for (const v of varNames) {
+    if (vars[v].layer !== layer) continue;
+    const l = vars[v].load[u];
+    if (l > bestLoad) { best = v; bestLoad = l; }
+  }
+  return best ? {name: best, load: bestLoad} : null;
+}
+
+$("#title").textContent = "MLP explorer: " + D.title;
+let sub = `${nIn} → ${nH1} → ${nH2} → ${nOut} ReLU MLP · ${D.n_inputs} inputs · class share ${D.class_share.join(" / ")}`;
+if (D.overlay && D.overlay.score) {
+  const s = D.overlay.score;
+  sub += s.invalid ? ` · run invalid: ${s.invalid}` :
+    ` · run: behaviour ${fmt(s.behaviour)}, mechanism ${fmt(s.mechanism)}, score ${fmt(s.score)}${s.exact ? " (exact)" : ""}`;
+}
+$("#sub").textContent = sub;
+
+// ---------------------------------------------------------------- map
+const W = 640, rowH = 22, topY = 30;
+const cols = [{n: nIn, x: 60, name: "x"}, {n: nH1, x: 240, name: "h1"}, {n: nH2, x: 420, name: "h2"}, {n: nOut, x: 580, name: "logit"}];
+const H = topY + Math.max(nIn, nH1, nH2, nOut) * rowH + 20;
+const ys = cols.map((c) => Array.from({length: c.n}, (_, i) => topY + (H - topY - 20 - c.n * rowH) / 2 + i * rowH + rowH / 2));
+const mats = [D.W1, D.W2, D.W3];
+const maxW = Math.max(...mats.flat(2).map(Math.abs));
+const units = Object.fromEntries(D.units.map((u) => [u.id, u]));
+const maxAbl = Math.max(0.01, ...D.units.map((u) => u.ablate.flips));
+
+let svg = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
+cols.forEach((c, k) => { svg += `<text class="lbl" x="${c.x}" y="16" text-anchor="middle">${c.name}</text>`; });
+mats.forEach((M, k) => {
+  for (let i = 0; i < M.length; i++) for (let j = 0; j < M[i].length; j++) {
+    const w = M[i][j]; if (w === 0) continue;
+    const op = (0.08 + 0.8 * Math.abs(w) / maxW).toFixed(3);
+    svg += `<line data-from="${k}:${i}" data-to="${k + 1}:${j}" x1="${cols[k].x}" y1="${ys[k][i]}" x2="${cols[k + 1].x}" y2="${ys[k + 1][j]}"
+             stroke="${w > 0 ? "var(--pos)" : "var(--neg)"}" stroke-opacity="${op}" stroke-width="${(0.5 + 2.5 * Math.abs(w) / maxW).toFixed(2)}"/>`;
+  }
+});
+cols.forEach((c, k) => {
+  for (let i = 0; i < c.n; i++) {
+    const id = k === 1 ? `h1[${i}]` : k === 2 ? `h2[${i}]` : null;
+    const u = id && units[id];
+    const r = u ? 4 + 7 * Math.sqrt(u.ablate.flips / maxAbl) : 5;
+    const v = u ? unitVar(c.name, i) : null;
+    const fill = v ? varColor[v.name] : (u && u.fire_rate === 0 ? "transparent" : "var(--card)");
+    const lab = k === 0 ? `x[${i}]` : k === 3 ? `${i}` : `${i}`;
+    svg += `<g class="unit${u ? "" : " io"}" ${u ? `data-id="${id}"` : ""}>
+      <circle cx="${c.x}" cy="${ys[k][i]}" r="${r.toFixed(1)}" fill="${fill}" ${v ? `fill-opacity="${(0.35 + 0.65 * v.load).toFixed(2)}"` : ""}/>
+      <text class="lbl" x="${c.x + (k === 0 ? -12 : 13)}" y="${ys[k][i] + 3}" text-anchor="${k === 0 ? "end" : "start"}">${lab}</text></g>`;
+  }
+});
+svg += `</svg>`;
+let legend = `<div class="note legend" style="margin-top:6px">Edges: <span class="pos">positive</span> / <span class="neg">negative</span> weights (opacity and width ∝ |w|; zero weights not drawn). Unit size ∝ share of inputs whose class flips when the unit is zeroed. Hollow: never fires.`;
+if (varNames.length) legend += `<br>Variables: ` + varNames.map((v) => `<span><span class="sw" style="background:${varColor[v]}"></span>${esc(v)} (${vars[v].layer})</span>`).join("");
+legend += `</div>`;
+$("#map").innerHTML = svg + legend;
+document.querySelectorAll(".unit[data-id]").forEach((g) => g.addEventListener("click", () => show(g.dataset.id)));
+
+// ---------------------------------------------------------------- panel
+function linkRows(list, key) {
+  if (!list.length) return `<tr><td colspan="2" class="note">none</td></tr>`;
+  return list.map((l) => `<tr><td class="mono">${esc(l[key])}</td><td class="${l.w > 0 ? "pos" : "neg"} mono">${l.w > 0 ? "+" : ""}${l.w.toFixed(3)}</td></tr>`).join("");
+}
+function bitsRow(bits) {
+  const m = Math.max(0.01, ...bits.map(Math.abs));
+  return `<div class="bits">` + bits.map((b, i) => {
+    const a = Math.abs(b) / m;
+    const col = b > 0 ? `rgba(47,109,181,${(0.12 + 0.7 * a).toFixed(2)})` : `rgba(194,81,47,${(0.12 + 0.7 * a).toFixed(2)})`;
+    return `<div style="background:${col}" title="x[${i}]: P(on|1) - P(on|0) = ${b}">x${i}<br>${b > 0 ? "+" : ""}${b.toFixed(2)}</div>`;
+  }).join("") + `</div>`;
+}
+function show(id) {
+  document.querySelectorAll(".unit").forEach((g) => g.classList.toggle("sel", g.dataset.id === id));
+  const u = units[id];
+  const v = unitVar(u.layer, u.unit);
+  let h = `<h2 class="mono">${esc(id)}</h2>`;
+  h += `<div class="note">max ${fmt(u.max)} · mean ${fmt(u.mean)} · fires on ${(100 * u.fire_rate).toFixed(1)}% of inputs · bias ${fmt(u.bias)}</div>`;
+  if (v) {
+    const pv = (D.overlay.per_variable || {})[v.name];
+    h += `<div class="card" style="margin-top:10px;border-left:4px solid ${varColor[v.name]}">Mapped by the agent to <b>${esc(v.name)}</b> (load ${fmt(v.load, 2)})` +
+      (pv ? ` · IIA ${fmt(pv.iia)} · changes net ${fmt(pv.changes_net)} · ${pv.counted ? "counted" : pv.inert ? "inert" : "trivial"}` : "") + `</div>`;
+  }
+  h += `<h3>Reads (fed by)</h3><table>${linkRows(u.reads, "from")}</table>`;
+  h += `<h3>Writes into</h3><table>${linkRows(u.writes, "to")}</table>`;
+  h += `<div class="note">Weight links are leads to check, not circuits: confirm with steering and ablation below.</div>`;
+  if (u.bits) h += `<h3>Which inputs switch it on</h3>${bitsRow(u.bits)}<div class="note">P(unit on | bit = 1) − P(unit on | bit = 0), over all inputs.</div>`;
+  h += `<h3>Strongest firings</h3><table><tr><th>input</th><th>act</th><th>class</th></tr>` +
+    u.top.map((t) => `<tr><td class="mono">${t.x}</td><td class="mono">${fmt(t.act)}</td><td>${t.cls}</td></tr>`).join("") + `</table>`;
+  if (u.near_misses && u.near_misses.length)
+    h += `<h3>Near misses</h3><table><tr><th>input (off)</th><th>one flip turns it on</th></tr>` +
+      u.near_misses.map((m) => `<tr><td class="mono">${m.x}</td><td class="mono">${m.flip_turns_on.map((k) => "x" + k).join(", ")}</td></tr>`).join("") + `</table>`;
+  h += `<h3>Steer and ablate</h3><table><tr><th>intervention</th><th>class flips</th><th>class share after</th></tr>` +
+    `<tr><td>zero it</td><td class="mono">${(100 * u.ablate.flips).toFixed(1)}%</td><td class="mono">${u.ablate.class_share.join(" / ")}</td></tr>` +
+    u.steer.map((s) => `<tr><td class="mono">add ${s.add > 0 ? "+" : ""}${s.add}</td><td class="mono">${(100 * s.flips).toFixed(1)}%</td><td class="mono">${s.class_share.join(" / ")}</td></tr>`).join("") +
+    `</table><div class="note">Base class share ${D.class_share.join(" / ")}. Doses are ±1 and ±2 × the unit's max activation (at least 1), added after the ReLU on every input.</div>`;
+  $("#panel").innerHTML = h + programCard();
+}
+function programCard() {
+  if (!D.overlay || !D.overlay.program) return "";
+  return `<h3>The agent's program</h3><pre>${esc(D.overlay.program)}</pre>`;
+}
+const first = D.units.slice().sort((a, b) => b.ablate.flips - a.ablate.flips)[0];
+if (first) show(first.id);
+</script>
+</body>
+</html>

@@ -61,6 +61,19 @@ pub const NEAR_MISSES: &[&str] = &[
     "py", "py3", "python3", "ipython", "jupyter", "sh", "bash", "shell", "zsh", "console",
 ];
 
+/// The tool named by a native tool-call tag such as `<invoke name="python">`, if it is one of ours.
+fn invoked_tool(reply: &str) -> Option<String> {
+    for (pos, _) in reply.match_indices("<invoke") {
+        let rest = &reply[pos..];
+        let Some(n) = rest.find("name=\"") else { continue };
+        let name: String = rest[n + 6..].chars().take_while(|c| *c != '"').collect::<String>().to_ascii_lowercase();
+        if KNOWN_TOOLS.contains(&name.as_str()) {
+            return Some(name);
+        }
+    }
+    None
+}
+
 pub fn parse(reply: &str, enabled: &[String]) -> Action {
     let bs: Vec<(String, String)> = blocks(reply)
         .into_iter()
@@ -86,6 +99,29 @@ pub fn parse(reply: &str, enabled: &[String]) -> Action {
         return Action::Error(format!(
             "The ```{tag} tool is not available in this task ({avail}). Nothing was run and nothing was counted."
         ));
+    }
+    if tools.is_empty() {
+        // a tool fence that does not start its line (e.g. "<b>```python") is a malformed tool call, not a final answer
+        for line in reply.lines() {
+            let t = line.trim_start();
+            if t.starts_with("```") {
+                continue;
+            }
+            if let Some(pos) = t.find("```") {
+                let tag = t[pos + 3..].split_whitespace().next().unwrap_or("").to_ascii_lowercase();
+                if KNOWN_TOOLS.contains(&tag.as_str()) {
+                    return Action::Error(format!(
+                        "Your reply has a ```{tag} fence after other text on the same line. A tool block must start on its own line with ```{tag}. Nothing was run and nothing was counted; your reply was not taken as a final answer."
+                    ));
+                }
+            }
+        }
+        // a native tool-call format (e.g. <invoke name="python"><parameter name="code">) is not this protocol
+        if let Some(tag) = invoked_tool(reply) {
+            return Action::Error(format!(
+                "Your reply uses a tool-call format (<invoke name=\"{tag}\">) that this task does not read. To call a tool, reply with exactly one block that starts with ```{tag} on its own line. Nothing was run and nothing was counted; your reply was not taken as a final answer."
+            ));
+        }
     }
     match tools.len() {
         0 => Action::Final(reply.to_string()),
@@ -152,6 +188,18 @@ mod tests {
         }
         // ordinary fences in a final answer are still text
         assert!(matches!(parse("```json\n{}\n```", &en(&["python"])), Action::Final(_)));
+    }
+
+    #[test]
+    fn a_tool_fence_after_text_on_its_line_is_an_error_not_a_final_answer() {
+        // seen in a real run: the reply began "<b>```python"
+        let r = "\n<b>```python\nprint(1)\n```\n";
+        assert!(matches!(parse(r, &en(&["python"])), Action::Error(m) if m.contains("own line")));
+        // seen in a real run: a native tool-call format instead of a fenced block
+        let r = "\n<invoke name=\"python\">\n<parameter name=\"code\">\nprint(1)\n</parameter>\n</invoke>\n";
+        assert!(matches!(parse(r, &en(&["python"])), Action::Error(m) if m.contains("```python")));
+        // inline code that merely mentions a fence in prose about something else stays a final answer
+        assert!(matches!(parse("Use a ```program block below.\n```program\nx=1\n```", &en(&["python"])), Action::Final(_)));
     }
 
     #[test]

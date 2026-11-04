@@ -19,3 +19,6 @@ effort = "xhigh"
 
 [score]
 command = ["python3", "-I", "{task}/score.py", "{root}/assets/exp3/heads.json", "english_L4_H6_d384_s0", "english"]
+
+[access]
+weights = "code"

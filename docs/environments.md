@@ -19,7 +19,11 @@ The bundled set follows the experiments of *Sparks of Weight-Space Programming*.
 | `tasks/wspbench` | six pilot tasks and 18 held-out development tasks, conditions A and OW (B and C run in WSPBench's own Inspect loop) | read, write and repair | none in A, Python in OW | strict WSPBench parser and scorer | `prepare_wspbench.sh` | WSPBench locked venv, `sandbox` for OW |
 | `tasks/moe` | `unlearn_python` | write | Python over the router and expert output weights, 40 runs, 12 `forward` probes on CPU | rise in hidden Python loss while English holds | `prepare_moe.py` | `qwen` |
 | `tasks/agentic_interp` | 84 InterpBench circuits, conditions A, WO and P | read | none in A, Python in WO, Python and a `forward` probe in P | tag accuracy on the 5-class taxonomy | `prepare_agentic_interp.sh` | `sandbox` |
+| `tasks/decompile` small ReLU MLPs on secret 10-bit programs | `d1-a` .. `d3-b`, each `native`, `read`, `probe` | decompile | `native`: all nonzero weights in the prompt, one reply. `read`: Python, 60 runs. `probe`: Python and 3 `forward` passes of 16 inputs with unit or subspace patches | behaviour on all 1,024 inputs × interchange-intervention accuracy × completeness | `prepare_decompile.py` | `sandbox` |
+| `tasks/exp1-perm`, `tasks/exp2-perm` | the same 4 and 3 networks with hidden units permuted | read, contamination control | none, the permuted weights in the prompt | the original answer keys | `prepare_contamination.py` | none |
 | `tasks/toy` | `task` | smoke test | Python, 3 runs | identity written | nothing | `sandbox` |
+
+Every spec declares its access in an `[access]` section, and OpenWiSH prints the full label (weights, code, network runs, behaviour shown, data, replies) with every run and score. See [Access levels](access-levels.md).
 
 ### Notes per environment
 
@@ -27,6 +31,8 @@ The bundled set follows the experiments of *Sparks of Weight-Space Programming*.
 - **exp6 Go.** The published 243-32-32-82 practice and hidden opponents were never released. `scripts/train_go_opponents.sh` trains replacements (94.7 / 92.2 % against random play), which are much easier than the originals. The headline score is the mean win rate against the published same-size PPO networks, which were released.
 - **exp7 Gemma pairs.** `scripts/prepare_exp7.sh` fine-tunes the six models with the published training script. You need to accept the Gemma licence on Hugging Face, log in (`hf auth login` or `HF_TOKEN`), and have a GPU. GPU training is not bit-reproducible, so the rebuilt models differ in bytes from the originals. Their behaviour matches: the sycophants follow 100 % of wrong guesses, the honest models 1.4 / 0.7 / 0.7 % (published: 100 % and 2.8 / 0.7 / 0.7 %).
 - **exp8 Qwen.** The forward probe and the scorer stage the edited tensors, run `python/adapters/qwen_worker.py` on a GPU, and copy the results back. The GPU machine is this computer, or a remote one named in `assets/exp8/remote.json` (see [Configuration](configuration.md#remote-gpu-for-tasksexp8)). `scripts/apply_published_edit.py` rebuilds a published edit on the text-only base and checks the published base and result hashes.
+
+- **decompile.** `scripts/prepare_decompile.py` draws six secret programs, trains the networks harness-side (half the inputs, 4 flipped labels the network memorises) and writes all three tiers. The agent answers with a ```` ```program ```` block: a short deterministic program and a map of its variables onto units or subspaces of the hidden layers. Literals may total one character per nonzero weight, so a copy of the network does not fit, and variables are discrete (at most 16 values). The sandbox tiers have a format-only `check_program(source)`. `scripts/calibrate_decompile.py` records how localised the secret variables are, as a reference shown with each score. Design: [decompile](decompile.md).
 
 ### AgenticInterpBench
 
@@ -122,6 +128,11 @@ effort = "high"
 
 [score]
 command = ["python3", "-I", "{task}/score.py", "{root}/assets/my-env/answer_key.json"]
+
+[access]
+weights = "code"                       # "prompt", "code", "both", "zero" or "none"
+shown = []                             # behaviour already in the prompt, e.g. "one sampled failure episode"
+data = ["practice problems with answers"]   # anything mounted besides the network
 ```
 
 | Section | Field | Default | Meaning |
@@ -146,6 +157,7 @@ command = ["python3", "-I", "{task}/score.py", "{root}/assets/my-env/answer_key.
 | `[editor]` | `backend`, `model`, `effort` | `claude`, per backend, none | Defaults. Command-line flags win |
 | `[hooks]` | `session_start`, `pre_tool`, `post_tool`, `on_edit`, `session_end`, `timeout_s` | empty, timeout 60 s | Host commands at run events. See [Configuration](configuration.md#hooks) |
 | `[score]` | `command` | none | The scorer |
+| `[access]` | `weights`, `shown`, `data` | required for bundled tasks | What the prompt and mounts give the agent. Code, network runs and replies are derived from the rest of the spec. See [Access levels](access-levels.md) |
 
 Commands accept three placeholders: `{openwish}` (the running binary, or `OPENWISH_BIN`), `{task}` (the spec folder) and `{root}` (the workspace, `OPENWISH_ROOT`).
 

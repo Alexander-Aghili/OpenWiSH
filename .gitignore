@@ -5,5 +5,6 @@ target/
 .venv/
 __pycache__/
 __pycache__/
+interp/vendor/
 HANDOFF.md
 /tasks/agentic_interp/

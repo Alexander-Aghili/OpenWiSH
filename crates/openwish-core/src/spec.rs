@@ -41,6 +41,8 @@ pub struct TaskSpec {
     /// backend defaults for this task (overridable on the command line)
     #[serde(default)]
     pub editor: EditorDefaults,
+    /// what the prompt and mounts give the agent (weights as text, behaviour shown, data); see access.rs
+    pub access: Option<crate::access::AccessSpec>,
     /// shell commands run at fixed points of a run, in the task folder (see `hooks`)
     #[serde(default)]
     pub hooks: crate::hooks::HooksSpec,
@@ -224,6 +226,9 @@ impl TaskSpec {
     /// Parse a spec and check it: its files exist, tool tags and pools are valid, no mount exposes a hidden asset.
     pub fn load(path: &Path) -> Result<TaskSpec> {
         let t = TaskSpec::parse(path)?;
+        if let Some(a) = &t.access {
+            a.check()?;
+        }
         t.check_files()?;
         t.check_tool_tags()?;
         t.check_pools()?;

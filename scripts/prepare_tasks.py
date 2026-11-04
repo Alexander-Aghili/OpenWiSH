@@ -12,8 +12,22 @@ A = os.path.join(ROOT, "assets")
 T = os.path.join(ROOT, "tasks")
 
 
+# What each experiment's prompt gives the agent, declared in its specs (see docs/access-levels.md).
+ACCESS = {
+    "exp1": 'weights = "prompt"',
+    "exp2": 'weights = "prompt"',
+    "exp3": 'weights = "code"',
+    "exp5": 'weights = "zero"',
+    "exp6": 'weights = "zero"',
+    "exp7": 'weights = "code"',
+}
+
+
 def write(path, text):
     os.makedirs(os.path.dirname(path), exist_ok=True)
+    exp = os.path.basename(os.path.dirname(path))
+    if path.endswith(".toml") and exp in ACCESS:
+        text = text.rstrip("\n") + "\n\n[access]\n" + ACCESS[exp] + "\n"
     with open(path, "w") as f:
         f.write(text)
 

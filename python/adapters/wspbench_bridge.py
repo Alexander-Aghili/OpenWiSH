@@ -58,6 +58,9 @@ effort = "high"
 
 [score]
 command = ["{py}", "-I", "{bridge}", "score", "--task", "{task_id}", "--condition", "{condition}"]
+
+[access]
+weights = "prompt"
 '''
     open(os.path.join(out, "task.toml"), "w").write(spec)
     print(json.dumps({"ok": True, "task": task_id, "family": task.family, "out": out, "prompt_bytes": len(canonical_json(payload))}))
@@ -160,6 +163,9 @@ effort = "high"
 
 [score]
 command = ["{py}", "-I", "{bridge}", "score", "--task", "{task_id}", "--condition", "OW"]
+
+[access]
+weights = "both"
 '''
     Path(out, "task.toml").write_text(spec)
     print(json.dumps({"ok": True, "task": task_id, "family": task.family, "out": out}))

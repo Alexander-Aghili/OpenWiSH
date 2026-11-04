@@ -1,0 +1,64 @@
+TASK. Decompile a neural network into a program. The network below was trained on some unknown rule over
+10 input bits, using only part of the 1,024 possible inputs, so on some inputs it may not follow any clean rule.
+Write a short, deterministic Python program that is the same system as the network: it must give the network's
+answer on every one of the 1,024 inputs, and its intermediate variables must correspond to the network's hidden
+units, as tested by interventions (below). Reproduce the network, not the rule you think it was trained on.
+
+THE NETWORK. Input x: 10 numbers, each 0 or 1 (x[0] .. x[9]). Then
+  h1 = relu(x @ W1 + b1)        W1: 10 x 24, b1: 24
+  h2 = relu(h1 @ W2 + b2)       W2: 24 x 12, b2: 12
+  logits = h2 @ W3 + b3         W3: 12 x 3, b3: 3
+and the answer is the class with the largest logit (0 .. 2). 142 weights are nonzero. Units are numbered
+from 0 within each layer.
+
+TOOLS.
+1. A Python sandbox (no internet, no GPU) with a working folder /work kept between runs. Available: numpy, scipy,
+   scikit-learn, pandas, sympy, networkx. Before your code runs these are defined: NAMES and SHAPES (the tensors),
+   load(name) (a float32 numpy array), W (a dict of all six tensors) and check_program(source), which checks a
+   program's format and size against the limits below with the scorer's own rules (it never runs the network and
+   does not grade). To run code, reply with exactly one block that starts with ```python and nothing else. Its printed output (cut at 20,000 characters) is sent back to
+   you. You may run code up to 60 times. The weights are read-only for this task.
+
+RULES. Not allowed: (a) running the network outside the declared tools: do not compute its output or activations
+on any input in the sandbox (no forward passes, whole or partial, over inputs); (b) fitting: no regression,
+decision-tree or program search, or any other fitting of a program or its parameters to the network's outputs;
+(c) internet access (there is none). Allowed: any analysis of the weights themselves (reading, sorting, comparing,
+linear algebra on the weight matrices, reasoning about which inputs can switch a unit on), and any analysis of
+the outputs of the declared tools.
+
+YOUR ANSWER. When you are done, reply WITHOUT a python block. Include exactly one block that starts with
+```program, containing pure Python (no imports, no file or system access, deterministic) that defines the two
+names below. It runs with these builtins only: abs, all, any, bin, bool, chr, dict, divmod, enumerate, filter, float, frozenset, hex, int, isinstance, iter, len, list, map, max, min, next, ord, pow, range, reversed, round, set, slice, sorted, str, sum, tuple, zip, ValueError, KeyError, IndexError, Exception.
+
+  VARIABLES = {"name": ("h1" or "h2", PLACE), ...}
+      # PLACE is a list of unit indices, e.g. [3, 7], or a subspace of the layer, {"basis": [[...], ...]}: one or
+      # more vectors of the layer's width (any spanning set; it is orthonormalised). Places of variables in the same
+      # layer must not overlap (no shared units; subspaces orthogonal). VARIABLES must be a plain literal; its
+      # numbers do not count toward the literal limit, and the program may not read it.
+  def program(x, fix={}):
+      # x: a tuple of 10 ints (0 or 1). fix: a dict that may set some of your variables.
+      # Every variable in VARIABLES must be computed here and must be replaced by fix[name] when name is in fix,
+      # and everything downstream must use the replaced value.
+      ...
+      return cls, {"name": value, ...}   # cls: the class (int); value: an int or bool
+  Each variable is a discrete causal variable: an int or bool taking at most 16 different values over the
+  1,024 inputs (not an activation level).
+
+For example:  a = fix["a"] if "a" in fix else (x[0] ^ x[4])
+
+HOW IT IS SCORED (all on the full set of inputs; the network is the one above).
+- behaviour: the fraction of the 1,024 inputs on which program(x)'s class equals the network's.
+- interventions: for each variable v placed in layer L, for many pairs of inputs (base, source): the network is
+  run on base with v's place in L replaced by its value on source (h = h_base + (h_source - h_base) P, where P
+  projects onto the units or subspace), and program(base, fix={v: program(source)'s value of v}) is run.
+  Agreement of the two classes is v's intervention accuracy (IIA).
+- completeness: in each layer that has variables, the part of the layer outside your variables' places (the
+  remaining units, or the orthogonal complement) is replaced by its value on another input on which your variables
+  in that layer have the same values; the network's answer must not change.
+- Not counted toward the mechanism score (but reported): variables whose intervention changes neither answer, and
+  variables that alone fix the answer (for example "all of h2 = the class").
+- mechanism = mean IIA over counted variables x mean completeness; score = behaviour x mechanism.
+- Size: the program must be much smaller than the network. All its literals together (every character of every
+  number and string as written, e.g. 0.25 is 4 characters; VARIABLES, docstrings and your variables' names are
+  free) may have at most 142 characters (one per nonzero weight of this network), and the program at most
+  3000 bytes. An answer over either limit, or one that copies the network's weights, scores 0.

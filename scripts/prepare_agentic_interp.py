@@ -118,6 +118,9 @@ effort = "high"
 
 [score]
 command = {SCORER}, "score", "--case", "{case}"]
+
+[access]
+weights = "{"none" if cond == "A" else "code"}"
 ''')
     return d
 

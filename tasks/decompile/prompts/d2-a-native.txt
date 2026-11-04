@@ -1,0 +1,81 @@
+TASK. Decompile a neural network into a program. The network below was trained on some unknown rule over
+10 input bits, using only part of the 1,024 possible inputs, so on some inputs it may not follow any clean rule.
+Write a short, deterministic Python program that is the same system as the network: it must give the network's
+answer on every one of the 1,024 inputs, and its intermediate variables must correspond to the network's hidden
+units, as tested by interventions (below). Reproduce the network, not the rule you think it was trained on.
+
+THE NETWORK. Input x: 10 numbers, each 0 or 1 (x[0] .. x[9]). Then
+  h1 = relu(x @ W1 + b1)        W1: 10 x 16, b1: 16
+  h2 = relu(h1 @ W2 + b2)       W2: 16 x 8, b2: 8
+  logits = h2 @ W3 + b3         W3: 8 x 3, b3: 3
+and the answer is the class with the largest logit (0 .. 2). 120 weights are nonzero. Units are numbered
+from 0 within each layer.
+
+TOOLS. None: no code, and the network is never run. Every nonzero weight is listed at the end of this message
+(all other entries are 0); work from them alone, and answer in a single reply.
+
+YOUR ANSWER. Reply once. Include exactly one block that starts with
+```program, containing pure Python (no imports, no file or system access, deterministic) that defines the two
+names below. It runs with these builtins only: abs, all, any, bin, bool, chr, dict, divmod, enumerate, filter, float, frozenset, hex, int, isinstance, iter, len, list, map, max, min, next, ord, pow, range, reversed, round, set, slice, sorted, str, sum, tuple, zip, ValueError, KeyError, IndexError, Exception.
+
+  VARIABLES = {"name": ("h1" or "h2", PLACE), ...}
+      # PLACE is a list of unit indices, e.g. [3, 7], or a subspace of the layer, {"basis": [[...], ...]}: one or
+      # more vectors of the layer's width (any spanning set; it is orthonormalised). Places of variables in the same
+      # layer must not overlap (no shared units; subspaces orthogonal). VARIABLES must be a plain literal; its
+      # numbers do not count toward the literal limit, and the program may not read it.
+  def program(x, fix={}):
+      # x: a tuple of 10 ints (0 or 1). fix: a dict that may set some of your variables.
+      # Every variable in VARIABLES must be computed here and must be replaced by fix[name] when name is in fix,
+      # and everything downstream must use the replaced value.
+      ...
+      return cls, {"name": value, ...}   # cls: the class (int); value: an int or bool
+  Each variable is a discrete causal variable: an int or bool taking at most 16 different values over the
+  1,024 inputs (not an activation level).
+
+For example:  a = fix["a"] if "a" in fix else (x[0] ^ x[4])
+
+HOW IT IS SCORED (all on the full set of inputs; the network is the one above).
+- behaviour: the fraction of the 1,024 inputs on which program(x)'s class equals the network's.
+- interventions: for each variable v placed in layer L, for many pairs of inputs (base, source): the network is
+  run on base with v's place in L replaced by its value on source (h = h_base + (h_source - h_base) P, where P
+  projects onto the units or subspace), and program(base, fix={v: program(source)'s value of v}) is run.
+  Agreement of the two classes is v's intervention accuracy (IIA).
+- completeness: in each layer that has variables, the part of the layer outside your variables' places (the
+  remaining units, or the orthogonal complement) is replaced by its value on another input on which your variables
+  in that layer have the same values; the network's answer must not change.
+- Not counted toward the mechanism score (but reported): variables whose intervention changes neither answer, and
+  variables that alone fix the answer (for example "all of h2 = the class").
+- mechanism = mean IIA over counted variables x mean completeness; score = behaviour x mechanism.
+- Size: the program must be much smaller than the network. All its literals together (every character of every
+  number and string as written, e.g. 0.25 is 4 characters; VARIABLES, docstrings and your variables' names are
+  free) may have at most 120 characters (one per nonzero weight of this network), and the program at most
+  3000 bytes. An answer over either limit, or one that copies the network's weights, scores 0.
+
+THE WEIGHTS (every nonzero entry; a unit's bias, then its incoming weights from the previous layer).
+h1[0]: bias +4.3496; x[3] +0.8059, x[5] -0.3135, x[7] -0.8246
+h1[1]: bias +2.6861; x[0] +1.4728, x[2] -0.0499, x[3] -0.2151, x[4] -0.0508, x[8] -0.0682
+h1[2]: bias +0.5906; x[0] -0.4113, x[2] -0.1624, x[3] +0.2067, x[4] -0.2718, x[5] +0.2584, x[6] +0.5553, x[7] -0.1162, x[8] +0.1088, x[9] -0.5114
+h1[3]: bias +1.0572; x[0] -1.4317, x[1] -0.1228, x[2] -1.1413, x[4] +0.4140, x[5] +0.0702, x[6] -0.2428, x[8] -1.1240, x[9] +0.1716
+h1[4]: bias -0.2529; no incoming weights
+h1[5]: bias -0.4637; x[0] -1.7064, x[1] -0.0410, x[2] +2.0973, x[3] +0.0336, x[6] +0.0460, x[7] -0.0750, x[8] +2.1225
+h1[6]: bias -0.2735; no incoming weights
+h1[7]: bias +1.3654; x[1] -1.5775, x[3] -0.3539, x[5] -0.0447, x[6] -0.0328, x[8] +0.0409, x[9] -1.3980
+h1[8]: bias -0.2754; no incoming weights
+h1[9]: bias -0.0745; x[2] +0.6498, x[4] -0.3090, x[5] +0.1837, x[6] +0.5104, x[8] +0.4655, x[9] -0.4505
+h1[10]: bias +0.3532; x[0] +0.1439, x[1] -0.5481, x[2] +0.1685, x[3] +0.0411, x[4] +1.7615, x[5] +0.6727, x[6] -1.3523, x[7] +0.0692, x[9] +0.8819
+h1[11]: bias -0.0661; no incoming weights
+h1[12]: bias -0.0668; no incoming weights
+h1[13]: bias +0.0507; no incoming weights
+h1[14]: bias +0.0442; x[1] -0.0209, x[2] -0.6532, x[3] -0.2458, x[4] +0.0502, x[5] +0.0226, x[6] -0.0695, x[8] +0.9816, x[9] +0.0628
+h1[15]: bias -0.0192; no incoming weights
+h2[0]: bias -0.1838; no incoming weights
+h2[1]: bias +0.6460; h1[1] +0.8050, h1[2] +2.5057, h1[7] -1.7653, h1[10] -1.7921, h1[14] -1.7563
+h2[2]: bias +2.5498; h1[0] +0.1397, h1[1] -0.1239, h1[2] +0.0604, h1[3] +3.5867, h1[5] -1.5798, h1[7] -1.1419, h1[9] +2.3525, h1[10] -1.0616, h1[13] -0.0227
+h2[3]: bias -0.0918; no incoming weights
+h2[4]: bias +0.6704; h1[0] +1.8930, h1[5] -0.8844, h1[10] -0.7491
+h2[5]: bias -0.0780; no incoming weights
+h2[6]: bias -0.0827; no incoming weights
+h2[7]: bias -2.4622; h1[0] -0.0530, h1[1] -0.9194, h1[5] +2.9176, h1[10] -1.4723, h1[14] -0.0924
+logit[0]: bias -4.8623; h2[1] +0.2122, h2[2] +7.2731, h2[4] +0.0520, h2[7] +2.1773
+logit[1]: bias +3.7980; h2[1] +4.8250, h2[4] -0.2470, h2[7] -3.7572
+logit[2]: bias -0.0238; h2[1] -3.9637, h2[2] -1.4878, h2[4] +2.9402

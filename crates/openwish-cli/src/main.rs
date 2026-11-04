@@ -40,7 +40,7 @@ struct Cli {
 
 #[derive(clap::Args, Clone)]
 struct EditorArgs {
-    /// claude | codex | api | scripted:<file>
+    /// claude | codex | api | openai (OpenAI-compatible: OpenRouter, LM Studio, llama.cpp, vLLM) | scripted:<file>
     #[arg(long)]
     backend: Option<String>,
     #[arg(long)]
@@ -267,7 +267,11 @@ fn score(run: &Path) -> Result<serde_json::Value> {
         ),
         ("OPENWISH_ROOT", root()?.display().to_string()),
     ];
-    let v = openwish_core::forward::run_command(&spec.argv(&sc.command), &envs, &spec.dir, SCORE_TIMEOUT_S)?;
+    let mut v = openwish_core::forward::run_command(&spec.argv(&sc.command), &envs, &spec.dir, SCORE_TIMEOUT_S)?;
+    // every score names the access it was earned under (scores from different access levels are not comparable)
+    if let Some(o) = v.as_object_mut() {
+        o.insert("access".into(), spec.access());
+    }
     std::fs::create_dir_all(run.join("eval"))?;
     std::fs::write(run.join("eval/score.json"), serde_json::to_string_pretty(&v)?)?;
     Ok(v)

@@ -1,0 +1,149 @@
+{
+  "access": {
+    "code": "Python, 60 runs",
+    "data": [],
+    "declared": true,
+    "label": "weights through code · Python, 60 runs · network runs: forward (3 passes) · multi-turn (up to 200)",
+    "network_runs": [
+      "forward (3 passes)"
+    ],
+    "replies": "multi-turn (up to 200)",
+    "shown": [],
+    "weights": "code"
+  },
+  "behaviour": 1.0,
+  "completeness": 1.0,
+  "exact": false,
+  "iia_mean": 0.9351399739583334,
+  "layers": {
+    "h1": {
+      "completeness": 1.0,
+      "unmapped_dims": 14
+    }
+  },
+  "mechanism": 0.9351399739583334,
+  "ok": true,
+  "quirk_agreement": 1.0,
+  "quirks": 14,
+  "reference": {
+    "secret_behaviour": 0.986328125,
+    "secret_var_best_iia": [
+      0.767,
+      0.8203333333333334,
+      0.899
+    ],
+    "units_at_most": 3
+  },
+  "score": 0.9351399739583334,
+  "secret_variable_recovery": {
+    "p": {
+      "s0": 0.375,
+      "s1": 1.0,
+      "s2": 0.875
+    },
+    "sm": {
+      "s0": 1.0,
+      "s1": 1.0,
+      "s2": 0.875
+    },
+    "z": {
+      "s0": 0.375,
+      "s1": 0.75,
+      "s2": 1.0
+    }
+  },
+  "secret_vars": [
+    {
+      "bits": [
+        1,
+        5,
+        6,
+        9
+      ],
+      "op": "count"
+    },
+    {
+      "lits": [
+        [
+          2,
+          0
+        ],
+        [
+          3,
+          1
+        ]
+      ],
+      "op": "or"
+    },
+    {
+      "lits": [
+        [
+          4,
+          1
+        ],
+        [
+          7,
+          0
+        ],
+        [
+          8,
+          0
+        ]
+      ],
+      "op": "or"
+    }
+  ],
+  "size": {
+    "bytes": 738,
+    "bytes_raw": 1033,
+    "bytes_without_mapping": 641,
+    "literal_budget": 142,
+    "literal_chars": 97,
+    "numeric_literals": 16
+  },
+  "variables": {
+    "p": {
+      "changes_net": 0.1279296875,
+      "changes_program": 0.13037109375,
+      "counted": true,
+      "iia": 0.970703125,
+      "inert": false,
+      "layer": "h1",
+      "place": [
+        16,
+        22
+      ],
+      "trivial": false
+    },
+    "sm": {
+      "changes_net": 0.630615234375,
+      "changes_program": 0.646728515625,
+      "counted": true,
+      "iia": 0.9205322265625,
+      "inert": false,
+      "layer": "h1",
+      "place": [
+        6,
+        7,
+        15,
+        20
+      ],
+      "trivial": false
+    },
+    "z": {
+      "changes_net": 0.203125,
+      "changes_program": 0.1826171875,
+      "counted": true,
+      "iia": 0.9141845703125,
+      "inert": false,
+      "layer": "h1",
+      "place": [
+        14,
+        17,
+        3,
+        23
+      ],
+      "trivial": false
+    }
+  }
+}

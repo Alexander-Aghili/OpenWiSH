@@ -9,6 +9,7 @@ OpenWiSH drives any agent through one trait. The run loop owns the turns, the bu
 | `claude` (default) | `claude -p` with every built-in tool, MCP server, slash command and settings source off | `claude-opus-5-5` | yes, `--resume <session>` | the `claude` CLI, logged in |
 | `codex` | `codex exec --json` with every tool feature off, read-only sandbox, no web search | the Codex default | yes, `codex exec resume <session>` | the `codex` CLI, logged in |
 | `api` | Anthropic Messages API over raw HTTP, adaptive thinking, the full message list kept by OpenWiSH | `claude-opus-5-5` | through a handoff | `ANTHROPIC_API_KEY` or `ANTHROPIC_AUTH_TOKEN` |
+| `openai` | Any OpenAI-compatible chat API: OpenAI, OpenRouter, LM Studio, llama.cpp, vLLM, Ollama. The full message list kept by OpenWiSH | none, `--model` is required | through a handoff | `OPENWISH_OPENAI_BASE_URL`, and a key in `OPENWISH_OPENAI_API_KEY` or `OPENAI_API_KEY` for hosted providers |
 | `scripted:<file>` | Fixed replies, separated by lines of exactly `=====` | none | yes, at the recorded position | the file |
 
 The Codex backend forwards task instructions through `developer_instructions`, uses a neutral base instruction file, and disables project-document loading and memories. New sessions and resumed sessions receive the same task instructions. The instruction file path is absolute, including when your run folder is relative.
@@ -22,7 +23,7 @@ Flags for every backend:
 | `--backend` | the task's `[editor] backend`, else `claude` | Which backend |
 | `--model` | the task's `[editor] model`, else per backend | Model id passed to the backend |
 | `--effort` | the task's `[editor] effort` | `low`, `medium`, `high`, `xhigh` or `max` |
-| `--max-tokens` | 64000 | Output tokens per reply (`api`) |
+| `--max-tokens` | 64000 | Output tokens per reply (`api`, `openai`) |
 | `--timeout` | 7200 | Seconds to wait for one reply |
 
 You set shared backend defaults in `openwish.toml`. Flags override task defaults, which override project defaults. Use [hooks](configuration.md#hooks) to inspect or block tool calls. Use `openwish tools <task.toml>` to inspect the agent surface before a run.
@@ -34,7 +35,11 @@ openwish run tasks/exp3/net-a.toml                                    # claude -
 openwish run tasks/exp6/budget_10.toml --backend codex --model <model> --effort xhigh
 openwish run tasks/exp4/task.toml --backend api --model claude-opus-5-5
 openwish run tasks/toy/task.toml --backend scripted:tasks/toy/script.txt
+OPENWISH_OPENAI_BASE_URL=http://localhost:1234/v1 openwish run tasks/exp1/a9f535cc.toml --backend openai --model <local model>
+OPENWISH_OPENAI_BASE_URL=https://openrouter.ai/api/v1 openwish run tasks/decompile/d2-a-native.toml --backend openai --model <provider/model>
 ```
+
+**Open and local models.** The `openai` backend sends `--effort` as `reasoning_effort`. Set `OPENWISH_OPENAI_NO_EFFORT=1` when your server refuses the field. A local model needs a context window large enough for the prompt plus its reasoning. The Experiment 1 prompts hold 17,253 weights, and a reasoning model thinks for tens of thousands of tokens and close to an hour per reply on a laptop, so raise the server's context length and timeout, and pass a matching `--max-tokens` and `--timeout`. The `native` decompile tier fits much smaller contexts: its prompts are 5.5 to 7 KB.
 
 ## What the agent sees
 

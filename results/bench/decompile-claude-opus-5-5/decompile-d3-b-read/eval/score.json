@@ -1,0 +1,131 @@
+{
+  "access": {
+    "code": "Python, 60 runs",
+    "data": [],
+    "declared": true,
+    "label": "weights through code · Python, 60 runs · network never run · multi-turn (up to 200)",
+    "network_runs": [],
+    "replies": "multi-turn (up to 200)",
+    "shown": [],
+    "weights": "code"
+  },
+  "behaviour": 0.9912109375,
+  "completeness": 1.0,
+  "exact": false,
+  "iia_mean": 0.92095947265625,
+  "layers": {
+    "h1": {
+      "completeness": 1.0,
+      "unmapped_dims": 14
+    }
+  },
+  "mechanism": 0.92095947265625,
+  "ok": true,
+  "quirk_agreement": 0.35714285714285715,
+  "quirks": 14,
+  "reference": {
+    "secret_behaviour": 0.986328125,
+    "secret_var_best_iia": [
+      0.767,
+      0.8203333333333334,
+      0.899
+    ],
+    "units_at_most": 3
+  },
+  "score": 0.9128651022911072,
+  "secret_variable_recovery": {
+    "count": {
+      "s0": 1.0,
+      "s1": 1.0,
+      "s2": 0.875
+    },
+    "lowpair": {
+      "s0": 0.375,
+      "s1": 0.75,
+      "s2": 1.0
+    }
+  },
+  "secret_vars": [
+    {
+      "bits": [
+        1,
+        5,
+        6,
+        9
+      ],
+      "op": "count"
+    },
+    {
+      "lits": [
+        [
+          2,
+          0
+        ],
+        [
+          3,
+          1
+        ]
+      ],
+      "op": "or"
+    },
+    {
+      "lits": [
+        [
+          4,
+          1
+        ],
+        [
+          7,
+          0
+        ],
+        [
+          8,
+          0
+        ]
+      ],
+      "op": "or"
+    }
+  ],
+  "size": {
+    "bytes": 587,
+    "bytes_raw": 802,
+    "bytes_without_mapping": 496,
+    "literal_budget": 142,
+    "literal_chars": 48,
+    "numeric_literals": 28
+  },
+  "variables": {
+    "count": {
+      "changes_net": 0.6317138671875,
+      "changes_program": 0.64013671875,
+      "counted": true,
+      "iia": 0.9210205078125,
+      "inert": false,
+      "layer": "h1",
+      "place": [
+        6,
+        7,
+        15,
+        16,
+        20,
+        22
+      ],
+      "trivial": false
+    },
+    "lowpair": {
+      "changes_net": 0.203125,
+      "changes_program": 0.1904296875,
+      "counted": true,
+      "iia": 0.9208984375,
+      "inert": false,
+      "layer": "h1",
+      "place": [
+        3,
+        14,
+        17,
+        23
+      ],
+      "trivial": false
+    }
+  }
+}

@@ -35,3 +35,6 @@ effort = "high"
 
 [score]
 command = ["{root}/assets/wspbench/.venv/bin/python", "-I", "{root}/python/adapters/wspbench_bridge.py", "score", "--task", "0e688589bf551b1f", "--condition", "OW"]
+
+[access]
+weights = "both"

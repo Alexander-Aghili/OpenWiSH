@@ -40,6 +40,29 @@ class Charts(unittest.TestCase):
         self.check(charts.chart_qwen([{"config": "base", "published": 0.08, "score": 0.1, "se": 0.01, "cut": 0.9}]))
         self.check(charts.chart_blog([("Game", "return", 10.0, 12.0, 1.0), ("Other", "return", 500.0, 50.0, 2.0)]))
 
+    def test_decompile_chart_has_a_bar_per_network_and_tier(self):
+        rows = {"d2-a": {"native": 0.976, "read": 0.983, "probe": 0.978}, "d3-b": {"native": 0.881, "read": None, "probe": 0.935}}
+        root = self.check(charts.chart_decompile(rows))
+        bars = [e for e in root.iter(NS + "path") if "bar" in e.get("class", "")]
+        self.assertEqual(len(bars), 5)
+        texts = [t.text for t in root.iter(NS + "text")]
+        self.assertIn("0.98", texts)
+        self.assertEqual(texts.count("not run"), 1)
+
+    def test_repeats_pool_into_mean_and_standard_error(self):
+        m, se, n = charts.pool_repeats([{"mean": 470.0}, {"mean": 480.0}, {"mean": 490.0}])
+        self.assertEqual((round(m, 6), n), (480.0, 3))
+        self.assertAlmostEqual(se, 10.0 / 3 ** 0.5)
+        self.assertEqual(charts.pool_repeats([{"mean": 5.0, "se": 1.5}]), (5.0, 1.5, 1))
+        self.assertIsNone(charts.pool_repeats([]))
+
+    def test_conformance_chart_marks_every_check(self):
+        rows = [("Game MLPs", "grades", 4, 4), ("MinAtar Breakout", "return", 517.4, 502.9)]
+        root = self.check(charts.chart_conformance(rows))
+        dots = [e for e in root.iter(NS + "circle")]
+        self.assertEqual(len(dots), 2)
+        self.assertTrue(any("517.4" in (d.find(NS + "title").text or "") for d in dots))
+
 
 if __name__ == "__main__":
     unittest.main()

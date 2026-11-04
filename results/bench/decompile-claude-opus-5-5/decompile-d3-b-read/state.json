@@ -1,0 +1,32 @@
+{
+  "turn": 9,
+  "runs_used": 8,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 0,
+  "nudges": 0,
+  "handoffs": 0,
+  "since_handoff": 9,
+  "conv_tokens": 36827,
+  "session": "9fbae890-5537-4882-b454-a778e4939ed4",
+  "next_message": "OUTPUT of Python run 8 of at most 60:\n```\n[6, 7, 15, 16, 20, 22] [3, 14, 17, 23] {'T': (42, 346), 'A': (55, 303)}\n[6, 7, 15, 16, 20, 22, 23] [3, 14, 17] {'T': (55, 366), 'A': (63, 312)}\n[6, 7, 15, 16, 20, 22, 3, 23] [14, 17] {'T': (160, 337), 'A': (154, 318)}\n[6, 7, 16, 20, 22] [3, 14, 15, 17, 23] {'T': (759, 298), 'A': (730, 294)}\n[6, 7, 15, 16, 20, 22, 3] [14, 17, 23] {'T': (115, 372), 'A': (110, 342)}\n```\n[budget: python runs used 8/60]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 34,
+    "output": 29464,
+    "cache_read": 120171,
+    "cache_write": 34618,
+    "reasoning": 25096
+  },
+  "cost_usd": 4.0540976,
+  "tool_free_turns": 9
+}

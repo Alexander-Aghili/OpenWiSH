@@ -16,8 +16,8 @@
 </style>
 <rect class="bg" width="760" height="380" rx="12"/>
 <text x="24.0" y="34.0" class="t" text-anchor="start">Blog environments: Claude Opus 5.5 through OpenWiSH against the published agent</text>
-<text x="24.0" y="54.0" class="st" text-anchor="start">One reply with an edits block, single runs. Each panel has its own scale. The published agent is GPT-6 Astra.</text>
-<text x="24.0" y="366.0" class="tk" text-anchor="start">Source: runs/bench/claude-opus-5-5/exp4-task, exp5-*, published results from RikiyaT/lm_understand-logs.</text>
+<text x="24.0" y="54.0" class="st" text-anchor="start">One reply with an edits block. Single runs unless a panel names repeats. Each panel has its own scale.</text>
+<text x="24.0" y="366.0" class="tk" text-anchor="start">Source: runs/bench/claude-opus-5-5*/exp4-task, exp5-*. Published agent: GPT-6 Astra (RikiyaT/lm_understand-logs).</text>
 <rect x="24" y="73" width="12" height="12" rx="3" class="s2"/>
 <text x="42.0" y="83.0" class="lb2" text-anchor="start">published agent</text>
 <rect x="172.0" y="73" width="12" height="12" rx="3" class="s1"/>
@@ -48,10 +48,10 @@
 <text x="469.0" y="320.0" class="tk" text-anchor="middle">OpenWiSH ahead</text>
 <line x1="568.0" y1="300" x2="726.0" y2="300" class="ax"/>
 <text x="647.0" y="112.0" class="lb2" text-anchor="middle">MinAtar Breakout</text>
-<text x="647.0" y="126.0" class="tk" text-anchor="middle">mean return</text>
-<path d="M606.0,300.0V165.0Q606.0,161.0 610.0,161.0H642.0Q646.0,161.0 646.0,165.0V300.0Z" class="s2 bar" style="animation-delay:0.36s"><title>MinAtar Breakout, write from zero, published: 517.4 mean return</title></path>
+<text x="647.0" y="126.0" class="tk" text-anchor="middle">mean return, 3 runs at xhigh</text>
+<path d="M606.0,300.0V165.0Q606.0,161.0 610.0,161.0H642.0Q646.0,161.0 646.0,165.0V300.0Z" class="s2 bar" style="animation-delay:0.36s"><title>MinAtar Breakout, write from zero, published: 517.4 mean return, 3 runs at xhigh</title></path>
 <text x="626.0" y="155.0" class="lb" text-anchor="middle">517</text>
-<path d="M648.0,300.0V289.4Q648.0,285.4 652.0,285.4H684.0Q688.0,285.4 688.0,289.4V300.0Z" class="s1 bar" style="animation-delay:0.42s"><title>MinAtar Breakout, write from zero, OpenWiSH: 54.2 mean return</title></path>
-<text x="668.0" y="279.4" class="lb" text-anchor="middle">54.2</text>
+<path d="M648.0,300.0V192.0Q648.0,188.0 652.0,188.0H684.0Q688.0,188.0 688.0,192.0V300.0Z" class="s1 bar" style="animation-delay:0.42s"><title>MinAtar Breakout, write from zero, OpenWiSH: 417.1 mean return, 3 runs at xhigh</title></path>
+<text x="668.0" y="182.0" class="lb" text-anchor="middle">417</text>
 <text x="647.0" y="320.0" class="tk" text-anchor="middle">published ahead</text>
 </svg>

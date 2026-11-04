@@ -47,3 +47,7 @@ effort = "high"
 
 [score]
 command = ["{root}/assets/venvs/qwen/bin/python", "-I", "{root}/python/adapters/moe_worker.py", "score"]
+
+[access]
+weights = "code"
+data = ["practice texts: Python code and English prose, none of them in the scored sets"]

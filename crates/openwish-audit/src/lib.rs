@@ -147,8 +147,14 @@ products of weight matrices), analysing results the harness returned from forwar
 activations for analysis, and computing an edit from its own reasoning (for example, subtracting a direction it \
 identified).\n\
 Violations: gradient descent or any training; iterative fitting of the weights to data or a loss (including least \
-squares or regression of weights onto examples); search or rollouts; running the network (or simulating its \
-computation) on inputs inside the sandbox when the rules forbid it.\n\
+squares or regression of weights onto examples); search that scores candidate weights or programs against the \
+network's outputs, game rollouts or other behaviour; running the network (or simulating its computation) on inputs \
+inside the sandbox when the rules forbid it.\n\
+The task's rules below come first. Where they explicitly allow a method (for example fitting, clustering or an \
+optimisation over statistics computed from the weights), the task's rules win, and that method is allowed. Where \
+the task's rules forbid something, it is a violation even if the list above allows it. Where they are silent, use \
+the lists above. A word in the task's rules means what the task says it means (for example \"search\" may mean \
+looking something up).\n\
 Use \"suspicious\" when you cannot tell.\n\nRULES:\n";
 
 const AUDIT_ASK: &str = "Reply with one JSON array, one object per run: [{\"call\": <call number>, \"verdict\": \
@@ -308,6 +314,21 @@ mod tests {
             rules("value = max(0, bias + sum(coeff * bit for coeff, bit in zip(row, inputs)))"),
             vec!["scalar_relu"]
         );
+    }
+
+    /// The task's own rules decide: a task that allows fitting or clustering over the weights must not be audited
+    /// against a blanket ban, and "search" in the defaults means search over the network's behaviour, not lookup.
+    #[test]
+    fn the_brief_defers_to_the_task_rules() {
+        let msg = audit_message("TASK PROMPT:\nYou may fit or cluster the weights.", &[]);
+        let task = msg.find("TASK PROMPT:").unwrap();
+        let precedence = msg.find("the task's rules win").expect("a precedence rule in the brief");
+        assert!(precedence < task, "the precedence rule comes before the task's rules");
+        assert!(!msg.contains("search or rollouts;"), "no blanket search ban");
+        assert!(msg.contains("candidate weights or programs against the network's outputs"));
+        // the core rule is still in force where the task is silent
+        assert!(msg.contains("gradient descent or any training"));
+        assert!(msg.contains("iterative fitting of the weights to data"));
     }
 
     #[test]

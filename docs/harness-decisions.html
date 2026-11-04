@@ -269,6 +269,17 @@ ops: assign · replace · add_rank1 · project_out · revert</div>
   </div>
 </section>
 
+<section aria-labelledby="access">
+  <h2 id="access">Access levels: every result names its channels</h2>
+  <p class="sub">Reading weights as text, analysing them with code, running the network and being shown its behaviour are different channels, and they are evidence of different capabilities (Honnibal's critique of the blog, 2026-11-03). Every task declares an <code>[access]</code> section, the harness derives the rest, and the label is stored with every run and score. Results from different access levels are never pooled. Full rules: <code>docs/access-levels.md</code>.</p>
+  <div class="layers">
+    <div class="layer"><span class="n">native reading</span><h3>Weights in the prompt</h3><p>No code, network never run, nothing shown, one reply. The only level that supports “understood the network from its weights”. Small networks: Experiments 1 and 2, <code>decompile/*-native</code>.</p></div>
+    <div class="layer"><span class="n">analysis</span><h3>Weights through code</h3><p>Python over the weights; the network is never run. Engineering over weights: what a coding harness for weights is for. Experiment 3, <code>decompile/*-read</code>.</p></div>
+    <div class="layer"><span class="n">experiment</span><h3>Budgeted network runs</h3><p>Outputs, activations, interventions or games, counted against a budget. Results depend partly on behaviour, so they are reported as ladders over budgets with black-box baselines. Experiments 6–8, <code>decompile/*-probe</code>.</p></div>
+    <div class="layer"><span class="n">disclosed</span><h3>Shown behaviour and data</h3><p>Behaviour already in the prompt (Experiment 4's failure episode) or data mounted (Experiment 8's practice problems) is declared and printed in the label.</p></div>
+  </div>
+</section>
+
 <section aria-labelledby="register">
   <h2 id="register">Decision register</h2>
   <div class="filters" role="group" aria-label="Filter decisions">

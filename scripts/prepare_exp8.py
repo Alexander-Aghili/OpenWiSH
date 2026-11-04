@@ -152,6 +152,10 @@ effort = "max"
 
 [score]
 command = ["{{root}}/assets/venvs/sandbox/bin/python", "-I", "{{root}}/python/adapters/qwen_pass.py", "--evaluate", "--sets", "math500", "--limit", "500"]
+
+[access]
+weights = "code"
+data = ["practice problems with answers (GSM8K and MATH training sets)"]
 ''')
     print("tasks written")
 

@@ -12,3 +12,6 @@ max_turns = 1
 
 [score]
 command = ["python3", "-I", "{task}/score.py", "{root}/assets/exp1/answer_key.json", "a9f535cc"]
+
+[access]
+weights = "prompt"
