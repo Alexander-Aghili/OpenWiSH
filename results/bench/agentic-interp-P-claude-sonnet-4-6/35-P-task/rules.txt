@@ -1,0 +1,22 @@
+Task: Alternates capitalization of each character in words.
+Examples (input tokens -> output per position):
+  ['BOS', 'oCLrZaW', 'V', 'b', 'oCLrZaW', 'TPSI', 'poiVg', 'b', 'b', 'oCLrZaW'] -> ['BOS', 'OcLrZaW', 'V', 'B', 'OcLrZaW', 'TpSi', 'PoIvG', 'B', 'B', 'OcLrZaW']
+  ['BOS', 'LB', 'TPSI', 'oCLrZaW', 'TPSI', 'TPSI', 'poiVg', 'b', 'V', 'poiVg'] -> ['BOS', 'Lb', 'TpSi', 'OcLrZaW', 'TpSi', 'TpSi', 'PoIvG', 'B', 'V', 'PoIvG']
+  ['BOS', 'poiVg', 'TPSI', 'no', 'b', 'LB', 'poiVg', 'V', 'no', 'no'] -> ['BOS', 'PoIvG', 'TpSi', 'No', 'B', 'Lb', 'PoIvG', 'V', 'No', 'No']
+  ['BOS', 'V', 'J', 'J', 'TPSI', 'TPSI', 'oCLrZaW', 'LB', 'poiVg', 'V'] -> ['BOS', 'V', 'J', 'J', 'TpSi', 'TpSi', 'OcLrZaW', 'Lb', 'PoIvG', 'V']
+  ['BOS', 'LB', 'poiVg', 'V', 'b', 'J', 'V', 'LB', 'no', 'b'] -> ['BOS', 'Lb', 'PoIvG', 'V', 'B', 'J', 'V', 'Lb', 'No', 'B']
+Input token ids: {"BOS": 0, "J": 1, "LB": 2, "PAD": 3, "TPSI": 4, "V": 5, "b": 6, "no": 7, "oCLrZaW": 8, "poiVg": 9}
+Output classes: {"0": "B", "1": "J", "2": "Lb", "3": "No", "4": "OcLrZaW", "5": "PoIvG", "6": "TpSi", "7": "V"}
+Architecture: 2 layers, d_model 9, 4 heads of size 2, MLP width 36 with gelu, causal attention, normalization none, learned positions, context 10. Residual stream: x = W_E[token] + W_pos[position]. Each block adds its attention heads, then its MLP. Logits = x W_U + b_U at every position.
+Components:
+  L0_MLP: the MLP output of block 0
+
+
+OPENWISH SUBMISSION PROTOCOL
+Your final submission is checked for format only, never correctness. Repair format errors when requested. OpenWiSH executes your tool blocks, even when the provider's own tool list is empty.
+Python is available through text blocks, with at most 60 runs. Reply with one block to execute code, for example:
+```python
+print(NAMES)
+```
+The declared forward probe accepts one ```forward block with a JSON request.
+Write your submission to /work/submission.json or put the submission in your final reply.

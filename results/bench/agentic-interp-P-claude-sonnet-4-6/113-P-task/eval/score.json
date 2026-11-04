@@ -1,0 +1,51 @@
+{
+  "case": 113,
+  "components": 10,
+  "correct": 5,
+  "exact": false,
+  "ok": true,
+  "per_component": {
+    "L0H0_ATTN": {
+      "answer": "INDICATOR",
+      "gold": "AGGREGATOR"
+    },
+    "L0H1_ATTN": {
+      "answer": "INDICATOR",
+      "gold": "ROUTER"
+    },
+    "L0_MLP": {
+      "answer": "MAPPER",
+      "gold": "MAPPER"
+    },
+    "L1_MLP": {
+      "answer": "MAPPER",
+      "gold": "COMBINER"
+    },
+    "L2H0_ATTN": {
+      "answer": "AGGREGATOR",
+      "gold": "AGGREGATOR"
+    },
+    "L2_MLP": {
+      "answer": "COMBINER",
+      "gold": "COMBINER"
+    },
+    "L3_MLP": {
+      "answer": "MAPPER",
+      "gold": "MAPPER"
+    },
+    "L4_MLP": {
+      "answer": "MAPPER",
+      "gold": "COMBINER"
+    },
+    "L5_MLP": {
+      "answer": "MAPPER",
+      "gold": "COMBINER"
+    },
+    "L6H0_ATTN": {
+      "answer": "ROUTER",
+      "gold": "ROUTER"
+    }
+  },
+  "score": 0.5,
+  "valid": true
+}

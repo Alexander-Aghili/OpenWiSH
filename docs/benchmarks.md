@@ -189,14 +189,14 @@ The first Codex backend joined progress messages to the final answer and dropped
 
 #### AgenticInterpBench
 
-The agent tags each of 163 localized components in 84 InterpBench circuits with one of 5 classes. Tag accuracy pools all components, as in the paper. A prompt only reply sees the task, the examples and the component list, with no weights. HyVE, the published agent, reads activations and runs ablations and patching. OpenWiSH condition P gives the same access through a forward probe. The paper reports no prompt-only control. For Sol, weights and probes add nothing. HyVE adds 9 points over a prompt-only Sonnet reply. The like-for-like Sonnet run of condition P is in progress.
+The agent tags each of 163 localized components in 84 InterpBench circuits with one of 5 classes. Tag accuracy pools all components, as in the paper. A prompt only reply sees the task, the examples and the component list, with no weights. HyVE, the published agent, reads activations and runs ablations and patching. OpenWiSH condition P gives the same access through a forward probe. With Sonnet 4.6, HyVE scores 79.0 % and OpenWiSH 61.3 % (68.7 % before audit). In OpenWiSH, Sonnet answered most cases after one Python run. HyVE runs a fixed per-component loop. The paper reports no prompt-only control.
 
 | Model | AgenticInterpBench condition | Cases | Tag accuracy | Audit | Source |
 |---|---|---|---|---|---|
 | claude-sonnet-4-6 | prompt only, one reply | 84 | 69.9 % | no code run | this repo |
 | gpt-6.1-sol | prompt only, one reply | 84 | 73.0 % | no code run | this repo |
 | gpt-6.1-sol | weights only, no execution | 84 | 73.0 % | 75/75 valid | this repo |
-| claude-sonnet-4-6 | weights and forward probe | 29 | 66.7 % | 0/27 valid, 27 not audited | this repo |
+| claude-sonnet-4-6 | weights and forward probe | 84 | 61.3 % | 69/75 valid, 6 invalid | this repo |
 | gpt-6.1-sol | weights and forward probe | 84 | 71.8 % | 75/76 valid, 1 invalid | this repo |
 | gpt-5.4 | HyVE: activations, ablation, patching | 84 | 74.0 % | - | arXiv 2606.24026 |
 | claude-sonnet-4-6 | HyVE: activations, ablation, patching | 84 | 79.0 % | - | arXiv 2606.24026 |

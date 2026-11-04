@@ -51,12 +51,12 @@ The audit changes the story of the tuning rounds. Before the round 4 guard, most
   | Model | Prompt only, one reply | Weights only | Weights and forward probe | Published HyVE agent |
   |---|---:|---:|---:|---:|
   | gpt-6.1-sol | 73.0 % | 73.0 % | 71.8 % | n/a |
-  | claude-sonnet-4-6 | 69.9 % | not run | running | 79.0 % |
+  | claude-sonnet-4-6 | 69.9 % | not run | 61.3 % (68.7 % before audit) | 79.0 % |
 
 
   <p align="center"><img src="assets/charts/agentic-interp.svg" alt="Dot plot: AgenticInterpBench tag accuracy. Published HyVE agents score 67 to 79 percent. OpenWiSH rows score 67 to 73 percent. Fixed baselines sit at 44.2 and 63.8 percent." width="760"></p>
 
-  A fixed rule (MLP means MAPPER, attention means AGGREGATOR) scores 63.8 %. Tools add nothing for Sol here. HyVE adds 9 points over a prompt-only Sonnet reply. The like-for-like run, OpenWiSH with Sonnet 4.6 and HyVE's access, is in progress. The paper reports no prompt-only control. This page adds one.
+  A fixed rule (MLP means MAPPER, attention means AGGREGATOR) scores 63.8 %. With the same model and the same access, the published HyVE agent beats OpenWiSH by 17.7 points, 79.0 % against 61.3 %. The transcripts show why. Sonnet answered 59 of 84 cases after one Python run, with a median of two turns and 38 probe calls across all 84 cases. Before audit, its 68.7 % matches its own prompt-only reply. HyVE runs a fixed observe, hypothesise and validate loop for every component. Six OpenWiSH runs computed attention in Python instead of calling the probe, and failed audit. The lesson for OpenWiSH: open-ended access does not make an agent investigate. A per-component protocol does. The paper reports no prompt-only control. This page adds one.
 - **MinAtar Breakout.** Breakout at the task's own effort (xhigh) scores 476.3, 261.5 and 513.5 in three runs, a mean of 417 ± 79 (standard error over runs), against the published 517.4. An earlier single run at high effort scored 54.2. The gap closed from tenfold to 0.8 times the published score once the run used the task's effort.
 
 ## Blog environments with Claude Opus 5.5

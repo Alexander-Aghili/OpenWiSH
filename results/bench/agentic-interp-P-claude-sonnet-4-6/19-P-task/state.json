@@ -1,0 +1,33 @@
+{
+  "turn": 2,
+  "runs_used": 1,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 0,
+  "nudges": 0,
+  "handoffs": 0,
+  "since_handoff": 2,
+  "conv_tokens": 27995,
+  "session": "c17c6263-81c9-4528-8a5d-9e1c8ab3f7bc",
+  "next_message": "OUTPUT of Python run 1 of at most 60:\n```\nSubmission written:\n{\n  \"tags\": {\n    \"L0H0_ATTN\": \"ROUTER\",\n    \"L0_MLP\": \"COMBINER\"\n  }\n}\n```\n[budget: python runs used 1/60]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 5,
+    "output": 25634,
+    "cache_read": 0,
+    "cache_write": 30229,
+    "reasoning": 13844
+  },
+  "cost_usd": 0.9635400000000001,
+  "tool_free_turns": 2,
+  "hook_blocks": 0
+}

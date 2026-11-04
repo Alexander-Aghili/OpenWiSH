@@ -1,0 +1,1 @@
+{"call":0,"verdict":"allowed","reason":"The code only lists weight names, tensor shapes, and component identifiers without running the network, fitting, or optimizing.","flags":[]}

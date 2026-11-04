@@ -1,0 +1,4 @@
+{"call":0,"verdict":"allowed","reason":"The code only writes classification tags to the submission file.","flags":[]}
+{"call":1,"verdict":"violation","reason":"The code computes queries, keys, and softmax attention on positional embeddings, simulating attention outside the required forward probe.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"The code only analyses weight-matrix products, singular values, and embedding projections without executing network nonlinearities or fitting parameters.","flags":[]}
+{"call":4,"verdict":"allowed","reason":"The code only writes revised classification tags to the submission file.","flags":[]}

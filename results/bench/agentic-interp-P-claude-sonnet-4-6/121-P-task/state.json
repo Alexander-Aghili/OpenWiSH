@@ -1,0 +1,33 @@
+{
+  "turn": 3,
+  "runs_used": 1,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 1,
+  "nudges": 0,
+  "handoffs": 0,
+  "since_handoff": 3,
+  "conv_tokens": 5077,
+  "session": "fcbf7954-750a-4651-9c9c-3b3540fb96d4",
+  "next_message": "OUTPUT of Python run 1 of at most 60:\n```\nAvailable weight keys:\n  blocks.0.attn.W_K: (4, 4, 1)\n  blocks.0.attn.W_O: (4, 1, 4)\n  blocks.0.attn.W_Q: (4, 4, 1)\n  blocks.0.attn.W_V: (4, 4, 1)\n  blocks.0.attn.b_K: (4, 1)\n  blocks.0.attn.b_O: (4,)\n  blocks.0.attn.b_Q: (4, 1)\n  blocks.0.attn.b_V: (4, 1)\n  blocks.0.mlp.W_in: (4, 16)\n  blocks.0.mlp.W_out: (16, 4)\n  blocks.0.mlp.b_in: (16,)\n  blocks.0.mlp.b_out: (4,)\n  blocks.1.attn.W_K: (4, 4, 1)\n  blocks.1.attn.W_O: (4, 1, 4)\n  blocks.1.attn.W_Q: (4, 4, 1)\n  blocks.1.attn.W_V: (4, 4, 1)\n  blocks.1.attn.b_K: (4, 1)\n  blocks.1.attn.b_O: (4,)\n  blocks.1.attn.b_Q: (4, 1)\n  blocks.1.attn.b_V: (4, 1)\n  blocks.1.mlp.W_in: (4, 16)\n  blocks.1.mlp.W_out: (16, 4)\n  blocks.1.mlp.b_in: (16,)\n  blocks.1.mlp.b_out: (4,)\n  embed.W_E: (22, 4)\n  pos_embed.W_pos: (10, 4)\n  unembed.W_U: (4, 20)\n  unembed.b_U: (20,)\n\nCOMPONENTS: ['L0_MLP']\n```\n[budget: python runs used 1/60]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 8,
+    "output": 1423,
+    "cache_read": 7076,
+    "cache_write": 4815,
+    "reasoning": 514
+  },
+  "cost_usd": 0.1291098,
+  "tool_free_turns": 3,
+  "hook_blocks": 0
+}

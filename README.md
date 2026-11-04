@@ -73,13 +73,13 @@ All four published Qwen3.5-0.8B edits reproduce within noise on MATH-500. The 50
 
 Claude Opus 5.5 rewrites a trained network as a short program whose variables map onto its hidden units, with the network's weights as text in one reply, through Python, or through Python plus 48 probe inputs. Reading the weights in one reply already recovers most of each mechanism. On the harder network, each extra channel adds a little. Single runs.
 
-### AgenticInterpBench: no win yet
+### AgenticInterpBench: HyVE wins
 
 **Access:** prompt-only and weights-only rows are filled dots, with no network runs. Weights + probe rows and the published HyVE agent are hollow dots: they ran the network.
 
 <p align="center"><img src="docs/assets/charts/agentic-interp.svg" alt="Dot plot: AgenticInterpBench tag accuracy. Published HyVE agents score 67 to 79 percent. OpenWiSH rows score 67 to 73 percent. Fixed baselines sit at 44.2 and 63.8 percent." width="760"></p>
 
-On 84 InterpBench circuits, tools add nothing for Sol: a prompt-only reply scores 73.0 %, weights plus a forward probe 71.8 %. The published HyVE agent scores 79.0 % with Sonnet 4.6, against 69.9 % for a prompt-only Sonnet reply. The like-for-like run, OpenWiSH with Sonnet 4.6 and HyVE's access, is in progress.
+On 84 InterpBench circuits, the published HyVE agent beats OpenWiSH with the same model: Sonnet 4.6 scores 79.0 % in HyVE and 61.3 % in OpenWiSH with the same access (68.7 % before audit). In OpenWiSH, Sonnet answered most cases after one Python run, close to its prompt-only reply (69.9 %). HyVE walks every component through an observe, hypothesise and validate loop. For Sol, tools add nothing: 73.0 % prompt only, 71.8 % with weights and probes.
 
 ## Quickstart
 

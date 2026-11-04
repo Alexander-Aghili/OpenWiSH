@@ -1,0 +1,1 @@
+{"call":0,"verdict":"allowed","reason":"The code only inspects and prints weight tensor names and shapes, without running the network, fitting, or optimization.","flags":[]}

@@ -1,0 +1,15 @@
+{
+  "case": 24,
+  "components": 1,
+  "correct": 0,
+  "exact": false,
+  "ok": true,
+  "per_component": {
+    "L0H0_ATTN": {
+      "answer": "MAPPER",
+      "gold": "ROUTER"
+    }
+  },
+  "score": 0.0,
+  "valid": true
+}

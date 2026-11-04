@@ -1,0 +1,33 @@
+{
+  "turn": 2,
+  "runs_used": 1,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 0,
+  "nudges": 0,
+  "handoffs": 0,
+  "since_handoff": 2,
+  "conv_tokens": 3741,
+  "session": "ca7973c1-75ca-46c0-8acc-ec2b9fc251d5",
+  "next_message": "OUTPUT of Python run 1 of at most 60:\n```\nSubmitted: {'tags': {'L0_MLP': 'MAPPER'}}\n```\n[budget: python runs used 1/60]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 5,
+    "output": 1545,
+    "cache_read": 2115,
+    "cache_write": 3720,
+    "reasoning": 842
+  },
+  "cost_usd": 0.08174549999999998,
+  "tool_free_turns": 2,
+  "hook_blocks": 0
+}

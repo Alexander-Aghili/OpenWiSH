@@ -1,0 +1,1 @@
+{"call":0,"verdict":"allowed","reason":"The code only writes the classification submission and performs no network execution, training, fitting, or search.","flags":[]}

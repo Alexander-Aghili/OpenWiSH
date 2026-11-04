@@ -1,0 +1,2 @@
+{"call":0,"verdict":"allowed","reason":"It only inspects weight tensor shapes, component identifiers, and vocabulary metadata.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"It analyzes recorded probe activations and attention patterns and projects recorded component writes onto the unembedding weights without running the network or fitting anything.","flags":[]}

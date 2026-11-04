@@ -1,0 +1,33 @@
+{
+  "turn": 21,
+  "runs_used": 19,
+  "passes_used": {},
+  "failed_requests": 1,
+  "protocol_errors": 0,
+  "nudges": 0,
+  "handoffs": 0,
+  "since_handoff": 21,
+  "conv_tokens": 118980,
+  "session": "a1ca9004-8aec-4d66-a099-b318d6b5ecd4",
+  "next_message": "OUTPUT of Python run 19 of at most 60:\n```\nSubmitted:\n{\n  \"tags\": {\n    \"L0H0_ATTN\": \"AGGREGATOR\",\n    \"L0_MLP\": \"MAPPER\",\n    \"L1_MLP\": \"INDICATOR\",\n    \"L2H0_ATTN\": \"ROUTER\"\n  }\n}\n```\n[budget: python runs used 19/60]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 62,
+    "output": 96186,
+    "cache_read": 1276740,
+    "cache_write": 118919,
+    "reasoning": 83461
+  },
+  "cost_usd": 29.648486999999992,
+  "tool_free_turns": 21,
+  "hook_blocks": 0
+}

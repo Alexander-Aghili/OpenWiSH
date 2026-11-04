@@ -1,0 +1,2 @@
+{"code":"import json\n\nsubmission = {\n    \"tags\": {\n        \"L0_MLP\": \"MAPPER\"\n    }\n}\n\nwith open('/work/submission.json', 'w') as f:\n    json.dump(submission, f, indent=2)\n\nprint(\"Submitted:\", submission)\n","error":false,"flags":[],"kind":"python","output":"Submitted: {'tags': {'L0_MLP': 'MAPPER'}}\n","restarted":false,"run":1,"seconds":0.000683021,"turn":1}
+{"kind":"validation","result":{"ok":true},"turn":2}

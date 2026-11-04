@@ -1,0 +1,23 @@
+Task: Removes consecutive duplicate tokens from a sequence.
+Examples (input tokens -> output per position):
+  ['BOS', 'c', 'a', 'c', 'c', 'a', 'a', 'c', 'b', 'c', 'c', 'c', 'c', 'a', 'c'] -> ['BOS', None, 'a', 'c', None, 'a', None, 'c', 'b', 'c', None, None, None, 'a', 'c']
+  ['BOS', 'c', 'c', 'b', 'c', 'b', 'b', 'c', 'b', 'c', 'c', 'a', 'c', 'a', 'c'] -> ['BOS', None, None, 'b', 'c', 'b', None, 'c', 'b', 'c', None, 'a', 'c', 'a', 'c']
+  ['BOS', 'c', 'a', 'a', 'c', 'b', 'a', 'b', 'b', 'b', 'a', 'b', 'a', 'b', 'c'] -> ['BOS', None, 'a', None, 'c', 'b', 'a', 'b', None, None, 'a', 'b', 'a', 'b', 'c']
+  ['BOS', 'c', 'a', 'c', 'c', 'b', 'a', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'a'] -> ['BOS', None, 'a', 'c', None, 'b', 'a', 'b', None, None, None, None, None, None, 'a']
+  ['BOS', 'b', 'a', 'b', 'b', 'b', 'b', 'a', 'a', 'b', 'b', 'a', 'a', 'a', 'c'] -> ['BOS', None, 'a', 'b', None, None, None, 'a', None, 'b', None, 'a', None, None, 'c']
+Input token ids: {"BOS": 0, "PAD": 1, "a": 2, "b": 3, "c": 4}
+Output classes: {"0": "a", "1": "b", "2": "c"}
+Architecture: 2 layers, d_model 32, 4 heads of size 8, MLP width 128 with gelu, causal attention, normalization none, learned positions, context 15. Residual stream: x = W_E[token] + W_pos[position]. Each block adds its attention heads, then its MLP. Logits = x W_U + b_U at every position.
+Components:
+  L0H0_ATTN: attention head 0 of block 0
+  L0_MLP: the MLP output of block 0
+
+
+OPENWISH SUBMISSION PROTOCOL
+Your final submission is checked for format only, never correctness. Repair format errors when requested. OpenWiSH executes your tool blocks, even when the provider's own tool list is empty.
+Python is available through text blocks, with at most 60 runs. Reply with one block to execute code, for example:
+```python
+print(NAMES)
+```
+The declared forward probe accepts one ```forward block with a JSON request.
+Write your submission to /work/submission.json or put the submission in your final reply.

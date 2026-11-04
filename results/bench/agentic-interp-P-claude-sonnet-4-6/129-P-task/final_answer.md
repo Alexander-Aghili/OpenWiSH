@@ -1,0 +1,1 @@
+{"tags": {"L0_MLP": "INDICATOR", "L1H0_ATTN": "AGGREGATOR", "L1_MLP": "MAPPER", "L2_MLP": "MAPPER"}}

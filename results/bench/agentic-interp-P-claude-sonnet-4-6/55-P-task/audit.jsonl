@@ -1,0 +1,1 @@
+{"call":0,"verdict":"allowed","reason":"The code only writes the component classification to the submission file and prints it, without running the network, fitting, or optimisation.","flags":[]}

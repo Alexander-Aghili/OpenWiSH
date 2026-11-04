@@ -1,0 +1,1 @@
+{"tags": {"L0H0_ATTN": "COMBINER", "L0_MLP": "MAPPER", "L1_MLP": "MAPPER", "L2H0_ATTN": "ROUTER"}}

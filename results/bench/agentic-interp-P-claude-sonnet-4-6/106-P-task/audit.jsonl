@@ -1,0 +1,7 @@
+{"call":0,"verdict":"allowed","reason":"Only inspects weight tensor shapes.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"Only lists weight names and shapes.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"Loads and inspects activations recorded by the forward probe.","flags":[]}
+{"call":4,"verdict":"allowed","reason":"Compares recorded component outputs and attention patterns.","flags":[]}
+{"call":5,"verdict":"violation","reason":"Computes input-dependent embeddings and reconstructs a residual stream in Python, simulating part of the network outside the permitted forward probe.","flags":[]}
+{"call":6,"verdict":"allowed","reason":"Computes descriptive statistics and comparisons on recorded activations.","flags":[]}
+{"call":7,"verdict":"allowed","reason":"Writes the classification submission without executing or fitting the network.","flags":[]}

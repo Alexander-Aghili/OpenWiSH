@@ -1,0 +1,1 @@
+{"call":0,"verdict":"allowed","reason":"The code only reads weight tensors and inspects their shapes; it neither executes the defined GELU function nor performs any forward computation, fitting, or optimization.","flags":[]}

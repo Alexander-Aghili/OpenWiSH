@@ -46,10 +46,10 @@
 <line x1="300.0" y1="168" x2="559.5" y2="168" class="gl"/>
 <circle cx="559.5" cy="168.0" r="6" class="s3 ring fade" style="animation-delay:0.00s"><title>claude-sonnet-4-6, prompt only, one reply: 69.9 % over 84 cases (no code run)</title></circle>
 <text x="571.5" y="172.0" class="lb" text-anchor="start">69.9 %</text>
-<text x="286.0" y="202.0" class="lb2" text-anchor="end">claude-sonnet-4-6, weights + probe (76/84, running)</text>
-<line x1="300.0" y1="198" x2="567.0" y2="198" class="gl"/>
-<circle cx="567.0" cy="198.0" r="6" class="s1 hollow fade" style="animation-delay:0.04s"><title>claude-sonnet-4-6, weights and forward probe: 70.8 % over 76 cases (0/69 valid, 69 not audited)</title></circle>
-<text x="579.0" y="202.0" class="lb" text-anchor="start">70.8 %</text>
+<text x="286.0" y="202.0" class="lb2" text-anchor="end">claude-sonnet-4-6, weights + probe</text>
+<line x1="300.0" y1="198" x2="485.0" y2="198" class="gl"/>
+<circle cx="485.0" cy="198.0" r="6" class="s1 hollow fade" style="animation-delay:0.04s"><title>claude-sonnet-4-6, weights and forward probe: 61.3 % over 84 cases (69/75 valid, 6 invalid)</title></circle>
+<text x="497.0" y="202.0" class="lb" text-anchor="start">61.3 %</text>
 <text x="286.0" y="232.0" class="lb2" text-anchor="end">gpt-6.1-sol, prompt only</text>
 <line x1="300.0" y1="228" x2="586.1" y2="228" class="gl"/>
 <circle cx="586.1" cy="228.0" r="6" class="s3 ring fade" style="animation-delay:0.08s"><title>gpt-6.1-sol, prompt only, one reply: 73.0 % over 84 cases (no code run)</title></circle>

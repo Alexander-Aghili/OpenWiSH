@@ -1,0 +1,5 @@
+{"call":0,"verdict":"allowed","reason":"It only lists component names and weight tensor shapes.","flags":[]}
+{"call":1,"verdict":"violation","reason":"It simulates attention outside the probe by computing positional queries, keys, attention scores, and softmax attention patterns.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"It computes norms and variances of component writes recorded by the forward probe.","flags":[]}
+{"call":4,"verdict":"allowed","reason":"It reads and displays attention patterns recorded by the forward probe.","flags":[]}
+{"call":5,"verdict":"allowed","reason":"It writes the component classifications to the submission file.","flags":[]}
