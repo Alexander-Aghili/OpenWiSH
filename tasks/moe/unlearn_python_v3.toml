@@ -5,6 +5,10 @@ description = "Granite-3.1-1B-A400M (32 experts, top-8): remove Python-code skil
 prompt = "prompt_v3.txt"
 hidden = ["../../assets/moe/eval"]
 
+[access]
+weights = "code"
+data = ["practice texts: Python code, English prose and technical English, none of them in the scored sets"]
+
 [network]
 base = "../../assets/moe/base_net"
 

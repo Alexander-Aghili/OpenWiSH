@@ -5,6 +5,11 @@ description = "Granite-3.1-1B-A400M (32 experts, top-8): remove Python-code skil
 prompt = "prompt_v3_lens.txt"
 hidden = ["../../assets/moe/eval"]
 
+[access]
+weights = "code"
+data = ["practice texts: Python code, English prose and technical English, none of them in the scored sets"]
+instruments = ["J-lens of Granite (scripts/jlens.py) on 18 practice texts: 6 Python, 6 prose, 6 docs, 128 tokens each"]
+
 [network]
 base = "../../assets/moe/base_net"
 

@@ -28,6 +28,9 @@ pub struct AccessSpec {
     /// data the agent can read besides the network, e.g. "practice problems with answers"
     #[serde(default)]
     pub data: Vec<String>,
+    /// arrays the host computed before the run, e.g. "J-lens on 18 practice texts" (gradients belong to the host)
+    #[serde(default)]
+    pub instruments: Vec<String>,
 }
 
 impl AccessSpec {
@@ -64,6 +67,9 @@ impl TaskSpec {
         if !a.data.is_empty() {
             parts.push(format!("data: {}", a.data.join("; ")));
         }
+        if !a.instruments.is_empty() {
+            parts.push(format!("instruments: {}", a.instruments.join("; ")));
+        }
         parts.push(replies.clone());
         serde_json::json!({
             "declared": declared,
@@ -72,6 +78,7 @@ impl TaskSpec {
             "network_runs": runs,
             "shown": a.shown,
             "data": a.data,
+            "instruments": a.instruments,
             "replies": replies,
             "label": parts.join(" · "),
         })
@@ -102,6 +109,13 @@ mod tests {
         assert_eq!(t.access()["label"], "weights through code · Python, 30 runs · network runs: forward (8 passes) · data: practice problems · multi-turn (up to 400)");
         let t = spec("id = \"t\"\nprompt = \"prompt.txt\"\n");
         assert_eq!(t.access()["declared"], false);
+    }
+
+    #[test]
+    fn instruments_are_their_own_channel() {
+        let t = spec("id = \"t\"\nprompt = \"prompt.txt\"\n[access]\nweights = \"code\"\ninstruments = [\"J-lens\"]\n[python]\nruns = 3\n");
+        assert_eq!(t.access()["label"], "weights through code · Python, 3 runs · network never run · instruments: J-lens · multi-turn (up to 400)");
+        assert_eq!(t.access()["instruments"][0], "J-lens");
     }
 
     #[test]
