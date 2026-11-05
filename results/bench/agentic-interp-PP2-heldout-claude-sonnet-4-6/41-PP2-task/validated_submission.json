@@ -1,0 +1,12 @@
+{
+  "tags": {
+    "L0_MLP": "MAPPER"
+  },
+  "evidence": {
+    "L0_MLP": {
+      "hypothesis": "L0_MLP transforms each position's token independently into a non-binary representation related to |x|: writes vary dramatically by token value (within-class variance 3697) but are unaffected by tokens at other positions. Ablating L0_MLP (r9) breaks predictions from correct absolute values to mostly 5s and 7s, confirming its essential non-binary local transformation role.",
+      "test": "r9",
+      "supports": true
+    }
+  }
+}

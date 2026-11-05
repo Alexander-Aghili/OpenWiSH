@@ -1,0 +1,33 @@
+{
+  "turn": 13,
+  "runs_used": 9,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 3,
+  "nudges": 2,
+  "handoffs": 0,
+  "since_handoff": 13,
+  "conv_tokens": 47318,
+  "session": "2e3f86e7-449e-4eb0-a693-f9c9c3b4c6fc",
+  "next_message": "OUTPUT of Python run 9 of at most 60:\n```\n{\n  \"tags\": {\n    \"L0H0_ATTN\": \"ROUTER\",\n    \"L0_MLP\": \"COMBINER\"\n  },\n  \"evidence\": {\n    \"L0H0_ATTN\": {\n      \"hypothesis\": \"At every odd position p, attention concentrates with probability 1.0 on position (p+1)//2, copying that token's representation into position p; ablating it (r4) collapses all predictions to 10, confirming it is the sole routing mechanism.\",\n      \"test\": \"r4\",\n      \"supports\": true\n    },\n    \"L0_MLP\": {\n      \"hypothesis\": \"L0_MLP fuses two distinct upstream signals (token+position embedding and L0H0_ATTN write); ablating L0H0_ATTN (r4) causes ~1.35M norm change in MLP write at every position, and ablating L0_MLP (r8) collapses predictions to all 0s.\",\n      \"test\": \"r8\",\n      \"supports\": true\n    }\n  }\n}\n```\n[budget: python runs used 9/60]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 41,
+    "output": 38813,
+    "cache_read": 501676,
+    "cache_write": 46022,
+    "reasoning": 19954
+  },
+  "cost_usd": 1.0089528,
+  "tool_free_turns": 12,
+  "hook_blocks": 0
+}

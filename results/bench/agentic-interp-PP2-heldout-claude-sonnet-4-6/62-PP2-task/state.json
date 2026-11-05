@@ -1,0 +1,33 @@
+{
+  "turn": 17,
+  "runs_used": 15,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 1,
+  "nudges": 1,
+  "handoffs": 0,
+  "since_handoff": 17,
+  "conv_tokens": 28499,
+  "session": "1dca80a0-2437-45d6-815f-52bf5ce5a213",
+  "next_message": "OUTPUT of Python run 15 of at most 60:\n```\n{\n  \"tags\": {\n    \"L0_MLP\": \"COMBINER\"\n  },\n  \"evidence\": {\n    \"L0_MLP\": {\n      \"hypothesis\": \"L0_MLP fuses the current token's embedding with L0 attention context from prior positions: for the same token=5 at position 5, L0_MLP writes differ by up to 77 units (~25%) depending on what tokens occupied positions 1-4, proving it reads multiple distinct upstream signals (own-position token embedding plus attention-aggregated prior context).\",\n      \"test\": \"r13\",\n      \"supports\": true\n    }\n  }\n}\n```\n[budget: python runs used 15/60]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 50,
+    "output": 17393,
+    "cache_read": 210850,
+    "cache_write": 27267,
+    "reasoning": 13343
+  },
+  "cost_usd": 0.487902,
+  "tool_free_turns": 17,
+  "hook_blocks": 0
+}

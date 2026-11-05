@@ -1,0 +1,14 @@
+```json
+{
+  "tags": {
+    "L0_MLP": "COMBINER"
+  },
+  "evidence": {
+    "L0_MLP": {
+      "hypothesis": "L0_MLP fuses multiple distinct upstream signals (token embedding, position embedding W_pos, and L0 attention head outputs) into a single non-binary output encoding the number of distinct prime factors; ablating it collapses all predictions to class 2.",
+      "test": "r8",
+      "supports": true
+    }
+  }
+}
+```

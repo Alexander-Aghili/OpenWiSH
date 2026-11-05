@@ -1,0 +1,3 @@
+{"call":0,"verdict":"allowed","reason":"Only writes a submission file, without training, fitting, search, or network execution.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"Compares recorded harness activations and writes a classification, without fitting weights or executing the network.","flags":[]}
+{"call":5,"verdict":"allowed","reason":"Only writes a submission file, without training, fitting, search, or network execution.","flags":[]}

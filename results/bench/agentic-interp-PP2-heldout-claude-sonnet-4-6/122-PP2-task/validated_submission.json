@@ -1,0 +1,12 @@
+{
+  "tags": {
+    "L0_MLP": "COMBINER"
+  },
+  "evidence": {
+    "L0_MLP": {
+      "hypothesis": "L0_MLP fuses the current token's divisibility signal from the residual stream with the L0 attention heads' aggregated output into an amplified classification write, reading two distinct upstream signals.",
+      "test": "r10",
+      "supports": true
+    }
+  }
+}

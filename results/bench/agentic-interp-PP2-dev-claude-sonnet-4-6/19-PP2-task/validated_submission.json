@@ -1,0 +1,18 @@
+{
+  "tags": {
+    "L0H0_ATTN": "ROUTER",
+    "L0_MLP": "COMBINER"
+  },
+  "evidence": {
+    "L0H0_ATTN": {
+      "hypothesis": "L0H0_ATTN copies the previous token's representation to each position i by attending strongly to position i-1; ablating it breaks predictions on alternating sequences, confirming it routes previous-position content.",
+      "test": "r10",
+      "supports": true
+    },
+    "L0_MLP": {
+      "hypothesis": "L0_MLP fuses two distinct signals (current token embedding and L0H0_ATTN's routed previous-token signal) to compute the duplicate-detection output; ablating L0_MLP (r12) collapses predictions to mostly 'a', confirming it integrates both upstream sources.",
+      "test": "r12",
+      "supports": true
+    }
+  }
+}

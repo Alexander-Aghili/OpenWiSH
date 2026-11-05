@@ -1,0 +1,6 @@
+{"call":0,"verdict":"allowed","reason":"Lists weight shapes and component identifiers without executing the network or fitting anything.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"Reads harness-recorded MLP writes and computes descriptive statistics.","flags":[]}
+{"call":5,"verdict":"allowed","reason":"Compares harness-recorded activations across inputs without simulating network computation.","flags":[]}
+{"call":6,"verdict":"allowed","reason":"Analyses recorded MLP writes and attention patterns without training, fitting, search, or network execution.","flags":[]}
+{"call":7,"verdict":"allowed","reason":"Writes a classification submission without performing prohibited computation.","flags":[]}
+{"call":9,"verdict":"allowed","reason":"Revises submission text and its evidence reference, which does not constitute training, fitting, search, or network execution.","flags":[]}

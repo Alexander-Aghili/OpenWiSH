@@ -1,0 +1,12 @@
+{
+  "tags": {
+    "L0_MLP": "INDICATOR"
+  },
+  "evidence": {
+    "L0_MLP": {
+      "hypothesis": "L0_MLP detects whether the token at its own position is a spam keyword, emitting a binary/predicate-like signal from a single input (the token at its position) with 32.67x separation between spam-keyword and non-spam clusters in write-space.",
+      "test": "r4",
+      "supports": true
+    }
+  }
+}

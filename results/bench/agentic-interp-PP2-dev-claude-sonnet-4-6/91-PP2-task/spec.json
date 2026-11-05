@@ -1,0 +1,107 @@
+{
+  "spec": {
+    "id": "agentic-interp-91-PP2",
+    "description": "AgenticInterpBench case 91, condition PP2: tag each circuit component with the 5-class taxonomy.",
+    "prompt": "prompt.txt",
+    "appendix": null,
+    "instructions": "You are given a small transformer and a localized circuit inside it. The listed components are causally relevant to the task. Classify the functional role of every listed component with exactly one tag from the taxonomy.\n\nTaxonomy:\n- INDICATOR: Detects a property of a single input and emits a binary / predicate-like signal (a flag).\n- AGGREGATOR: Reduces content across multiple positions into a summary quantity (count, fraction, accumulated quantity). The information is collapsed after the operation.\n- ROUTER: Moves content from one position to another via positional / index-based selection. Content is copied across positions.\n- MAPPER: Transforms a single input at each position independently into a non-binary output (arithmetic, remap, lookup, reshape), including when the result is a control signal.\n- COMBINER: Reads two or more distinct upstream signals/inputs and fuses them into one output.\n\nWhen tags overlap, choose by the component's input-output behavior: how many distinct signals it uses, whether it produces a binary flag or a non-binary value, and whether information is summarized across positions or copied between positions.\n\nCondition P: weights and a forward probe. You read the weights with Python and numpy as in condition WO: W[\"<name>\"] holds every tensor with TransformerLens names, VOCAB the token maps, COMPONENTS the component ids. Reply with one ```python block to run code.\n\nYou run the network only through the forward probe. Reply with one ```forward block holding a JSON request:\n{\"inputs\": [[token, ...], ...], \"ablate\": {\"<component>\": \"zero\" or \"mean\"}, \"patch\": [{\"component\": \"<id>\", \"source\": j}]}\nInputs are up to 64 token sequences of equal length, written like the examples (start with \"BOS\"). ablate and patch are optional. A patch replaces the component's write into the residual stream with its write on input j, for every input (an interchange intervention). Each probe call and each Python run uses one run from the same budget. The reply shows the predictions. /work/fwd/r<k>/run.npz holds logits, every component's write, attention patterns (\"<head>_pattern\") and MLP activations (\"<mlp>_post\"), for loading in Python.\n\nForbidden: running the network outside the probe (no forward pass written in Python), gradients, fitting and optimisation.\n\nPROTOCOL. Work through the components one at a time, in the listed order. For each component:\n1. Observe. Run the probe on inputs that vary one thing at a time (a token's identity, its position, a repeated token) and look at what the component writes and, for a head, where it attends.\n2. Hypothesise. State in one sentence what the component computes, how many distinct signals it reads, and the tag this implies.\n3. Test. Say what you expect, then run one probe call that ablates or patches this component on inputs chosen to tell your hypothesis apart from the nearest other tag. Say whether the result supports the hypothesis. If not, revise and test again.\nDECIDING BETWEEN TAGS. Design each component's test to separate the tags it could have:\n- An MLP: zero-ablate each listed component upstream of it, one at a time, and compare this MLP's write (in run.npz) with and without each ablation. Count the distinct upstream sources its write depends on, with the token at its own position as one source. Two or more sources fused into one output: COMBINER. Only its own position's token, with a non-binary output: MAPPER. A binary or predicate-like output from one source: INDICATOR.\n- An attention head: look at its pattern on several inputs. Attention concentrated on one specific other position, copying that content: ROUTER. Attention spread over many positions, summarising them (a count, a fraction, an accumulated quantity): AGGREGATOR.\nCite the test that decided the tag.\n\nAssign the tags only after every component has a tested hypothesis. Never compute attention or MLP outputs in Python: the probe returns them.\n\nAnswer with one JSON object: {\"tags\": {\"<component id>\": \"<TAG>\", ...}, \"evidence\": {\"<component id>\": {\"hypothesis\": \"<one sentence>\", \"test\": \"r<k>\", \"supports\": true or false}, ...}}. \"test\" names the probe call of that component's test (/work/fwd/r<k>). The finish check refuses an answer without a finished ablation or patch of every component. The check never looks at whether a tag is right.\nWrite the answer to /work/submission.json from Python, or reply without a code block with the JSON object.",
+    "network": {
+      "base": "net"
+    },
+    "mounts": [],
+    "hidden": [
+      "../../../assets/agentic_interp"
+    ],
+    "python": {
+      "runs": 60,
+      "timeout_s": 120,
+      "mem_gb": 4,
+      "max_out": 15000,
+      "prelude": "prelude.py",
+      "threads": 8,
+      "fresh": false,
+      "venv": null,
+      "reject_flags": [
+        "forward_pass",
+        "backward",
+        "autograd",
+        "optimizer",
+        "scipy_optimize",
+        "manual_gradient_step",
+        "fit_into_weights",
+        "lstsq_into_weights"
+      ]
+    },
+    "forward": {
+      "forward": {
+        "command": [
+          "{root}/assets/venvs/sandbox/bin/python",
+          "-I",
+          "{root}/python/adapters/interpbench_forward.py"
+        ],
+        "passes": 0,
+        "max_out": 15000,
+        "timeout_s": 7200,
+        "pool": "python",
+        "out_dir": "fwd/r{k}"
+      }
+    },
+    "edits": {
+      "language": false,
+      "policy": {
+        "allowed": null,
+        "forbidden": [],
+        "forbid_whole_tensor_scale": false,
+        "max_frac_changed": null
+      }
+    },
+    "finish": {
+      "require_all_passes": false,
+      "max_turns": 70,
+      "max_nudges": 5,
+      "validation": {
+        "command": [
+          "python3",
+          "-I",
+          "{root}/python/adapters/agentic_interp.py",
+          "validate",
+          "--case",
+          "91",
+          "--components",
+          "L0_MLP",
+          "--protocol"
+        ],
+        "timeout_s": 10,
+        "submission_file": "submission.json"
+      }
+    },
+    "handoff": {
+      "max_conversation_tokens": 700000,
+      "max_turns_per_conversation": 0
+    },
+    "score": {
+      "command": [
+        "python3",
+        "-I",
+        "{root}/python/adapters/agentic_interp.py",
+        "score",
+        "--case",
+        "91"
+      ]
+    },
+    "editor": {
+      "backend": null,
+      "model": null,
+      "effort": "high"
+    },
+    "hooks": {
+      "session_start": [],
+      "pre_tool": [],
+      "post_tool": [],
+      "on_edit": [],
+      "session_end": [],
+      "timeout_s": null
+    }
+  },
+  "dir": "/home/alexsky2/Projects/WeightSpaceProgramming/tasks/agentic_interp/91-PP2"
+}

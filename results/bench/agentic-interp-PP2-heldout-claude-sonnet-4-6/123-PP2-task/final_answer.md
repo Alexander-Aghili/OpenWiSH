@@ -1,0 +1,14 @@
+```json
+{
+  "tags": {
+    "L0_MLP": "COMBINER"
+  },
+  "evidence": {
+    "L0_MLP": {
+      "hypothesis": "L0_MLP fuses the token embedding at its own position with outputs from L0 attention heads (which route BOS via L0H2/H3 and distribute prior-position info via L0H0/H1) into a non-binary arccosine-related signal, reading two or more distinct upstream sources; ablating all L0 attention heads (r4) changed L0_MLP's write by ~68% of its baseline magnitude, confirming it reads those heads as additional signals beyond the token embedding.",
+      "test": "r7",
+      "supports": true
+    }
+  }
+}
+```

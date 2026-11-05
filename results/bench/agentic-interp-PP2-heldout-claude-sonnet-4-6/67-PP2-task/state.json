@@ -1,0 +1,33 @@
+{
+  "turn": 22,
+  "runs_used": 17,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 4,
+  "nudges": 3,
+  "handoffs": 0,
+  "since_handoff": 22,
+  "conv_tokens": 57410,
+  "session": "3a7114d9-2c57-44ed-82d8-b4dc8af871ac",
+  "next_message": "OUTPUT of Python run 17 of at most 60:\n```\nSubmission written.\n{\n  \"tags\": {\n    \"L0H0_ATTN\": \"AGGREGATOR\",\n    \"L0_MLP\": \"COMBINER\",\n    \"L1_MLP\": \"COMBINER\"\n  },\n  \"evidence\": {\n    \"L0H0_ATTN\": {\n      \"hypothesis\": \"L0H0 spreads attention roughly uniformly across all positions (entropy 3.17/3.32 bits = 95.5% of maximum), computing an aggregate over all positions rather than routing content from one specific position.\",\n      \"test\": \"r6\",\n      \"supports\": true\n    },\n    \"L0_MLP\": {\n      \"hypothesis\": \"L0_MLP fuses the token at its position (primary signal) with L0H0's aggregated write (secondary signal), reading two distinct upstream sources into one output.\",\n      \"test\": \"r10\",\n      \"supports\": true\n    },\n    \"L1_MLP\": {\n      \"hypothesis\": \"L1_MLP fuses L0_MLP's processed token representation with other upstream signals; ablating L1_MLP breaks predictions (all-5s gives all 63 instead of 45), confirming it reads and combines multiple upstream sources.\",\n      \"test\": \"r16\",\n      \"supports\": true\n    }\n  }\n}\n```\n[budget: python runs used 17/60]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 65,
+    "output": 40262,
+    "cache_read": 687650,
+    "cache_write": 56074,
+    "reasoning": 29139
+  },
+  "cost_usd": 1.146864,
+  "tool_free_turns": 22,
+  "hook_blocks": 0
+}

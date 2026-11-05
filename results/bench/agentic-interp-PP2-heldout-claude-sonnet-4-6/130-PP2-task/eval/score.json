@@ -1,0 +1,23 @@
+{
+  "case": 130,
+  "components": 3,
+  "correct": 3,
+  "exact": true,
+  "ok": true,
+  "per_component": {
+    "L0_MLP": {
+      "answer": "MAPPER",
+      "gold": "MAPPER"
+    },
+    "L1_MLP": {
+      "answer": "COMBINER",
+      "gold": "COMBINER"
+    },
+    "L2_MLP": {
+      "answer": "COMBINER",
+      "gold": "COMBINER"
+    }
+  },
+  "score": 1.0,
+  "valid": true
+}

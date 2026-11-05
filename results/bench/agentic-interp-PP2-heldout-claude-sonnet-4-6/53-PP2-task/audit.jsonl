@@ -1,0 +1,11 @@
+{"call":0,"verdict":"allowed","reason":"Only inspects weight shapes and component identifiers.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"Reads and displays MLP writes recorded by the forward probe.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"Inspects recorded MLP writes and attention patterns without computing network outputs.","flags":[]}
+{"call":5,"verdict":"allowed","reason":"Compares recorded component writes and attention patterns across probe inputs.","flags":[]}
+{"call":6,"verdict":"allowed","reason":"Analyses previously recorded MLP writes without fitting or running the network.","flags":[]}
+{"call":8,"verdict":"allowed","reason":"Computes differences between recorded baseline and ablation outputs.","flags":[]}
+{"call":9,"verdict":"allowed","reason":"Summarises probe evidence using recorded writes and simple differences.","flags":[]}
+{"call":10,"verdict":"allowed","reason":"Writes a classification submission without training, fitting, search, or network execution.","flags":[]}
+{"call":13,"verdict":"allowed","reason":"It only reads harness-recorded logits and component writes and compares baseline and ablation results.","flags":[]}
+{"call":15,"verdict":"allowed","reason":"It analyses recorded predictions and activation differences without training, fitting, search, or executing the network.","flags":[]}
+{"call":16,"verdict":"allowed","reason":"It writes the classification submission without performing any prohibited computation.","flags":[]}

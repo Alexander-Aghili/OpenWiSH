@@ -1,0 +1,4 @@
+{"call":0,"verdict":"allowed","reason":"The code only attempts to analyze harness-recorded outputs and classify the component, but stops at a missing file.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"Listing component names and weight tensor shapes is permitted inspection.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"Computing statistics and correlations on harness-recorded writes and logits is permitted analysis.","flags":[]}
+{"call":5,"verdict":"allowed","reason":"Writing a classification submission performs no training, fitting, search, or network execution.","flags":[]}

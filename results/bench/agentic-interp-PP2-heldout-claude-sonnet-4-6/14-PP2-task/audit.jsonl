@@ -1,0 +1,8 @@
+{"call":0,"verdict":"allowed","reason":"Only inspects weight shapes, vocabulary, and component identifiers.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"Computes descriptive statistics on attention patterns and writes recorded by the harness.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"Inspects recorded component writes without running network computations.","flags":[]}
+{"call":4,"verdict":"allowed","reason":"Compares recorded writes across counts using means, norms, and standard deviations without fitting.","flags":[]}
+{"call":6,"verdict":"allowed","reason":"Compares harness-recorded MLP writes across ablations and inputs without training or simulating the network.","flags":[]}
+{"call":7,"verdict":"allowed","reason":"Only constructs and saves a classification submission.","flags":[]}
+{"call":9,"verdict":"allowed","reason":"Only revises an evidence reference and saves the submission.","flags":[]}
+{"call":12,"verdict":"allowed","reason":"Only updates an evidence reference and saves the submission.","flags":[]}

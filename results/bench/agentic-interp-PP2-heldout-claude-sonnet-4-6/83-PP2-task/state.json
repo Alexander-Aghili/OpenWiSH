@@ -1,0 +1,33 @@
+{
+  "turn": 8,
+  "runs_used": 5,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 2,
+  "nudges": 1,
+  "handoffs": 0,
+  "since_handoff": 8,
+  "conv_tokens": 29731,
+  "session": "dd668a20-55fe-4800-ab3a-edd660ff3cba",
+  "next_message": "OUTPUT of Python run 5 of at most 60:\n```\nL0_MLP write - NORMAL:\n[[-1390.545  -249.289  -206.723  -970.101]\n [-1695.572  -282.887  -109.912 -1072.819]\n [-1418.933  -223.646  -124.247  -866.5  ]\n [-1332.238  -189.893  -120.505  -753.188]\n [-1123.964  -160.604  -164.115  -651.504]\n [ -670.112  -105.186  -261.779  -434.198]\n [-1509.073  -226.687   -97.257  -878.762]\n [-1072.258  -255.956  -132.424  -918.024]\n [-1273.54   -221.584  -177.147  -856.184]\n [ -944.402  -136.474  -201.019  -554.228]]\n\nL0_MLP write - L0 attn heads zeroed:\n[[-242.388  -59.625  -32.312 -293.399]\n [-309.833  -58.272  -23.112 -344.973]\n [-189.488  -36.876  -15.657 -205.819]\n [-166.496  -27.927    7.959 -106.624]\n [ -34.503   -1.407   -7.825  -13.733]\n [ 356.101   63.56   -78.739  174.1  ]\n [-230.713  -35.443   -6.97  -226.825]\n [  39.578   -9.762  -30.129  -23.132]\n [-123.257  -40.041  -25.74  -159.005]\n [ 145.185   22.849  -44.692   83.389]]\n\nMax |diff|: 1385.7394\nMean |diff|: 543.0371\n\nConclusion: L0_MLP DOES depend on L0 attention heads\nTag: COMBINER\n\nSubmission written: {\n  \"tags\": {\n    \"L0_MLP\": \"COMBINER\"\n  },\n  \"evidence\": {\n    \"L0_MLP\": {\n      \"hypothesis\": \"L0_MLP fuses two distinct upstream signals at each position: the current token's embedding and the BOS-routed information written by L0 attention heads (all four L0 heads attend ~100% to BOS), producing a non-binary residual stream write.\",\n      \"test\": \"r1\",\n      \"supports\": true\n    }\n  }\n}\n```\n[budget: python runs used 5/60]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 23,
+    "output": 22136,
+    "cache_read": 136987,
+    "cache_write": 28687,
+    "reasoning": 12447
+  },
+  "cost_usd": 0.5453271,
+  "tool_free_turns": 8,
+  "hook_blocks": 0
+}

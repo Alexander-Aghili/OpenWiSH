@@ -1,0 +1,6 @@
+{"call":0,"verdict":"allowed","reason":"Only constructs and writes a submission, without training, fitting, search, or network execution.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"Inspects saved harness outputs and checks for zeroed component writes.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"Computes norms and cosine similarity of recorded writes and inspects harness-returned attention patterns.","flags":[]}
+{"call":5,"verdict":"allowed","reason":"Compares recorded activation norms across tokens without fitting weights or executing the network.","flags":[]}
+{"call":8,"verdict":"allowed","reason":"Analyzes recorded attention uniformity and differences between saved component writes without simulating network computation.","flags":[]}
+{"call":9,"verdict":"allowed","reason":"Only constructs and saves the final submission; unsupported evidence claims do not constitute the audited computational violations.","flags":[]}

@@ -1,0 +1,35 @@
+{
+  "turn": 17,
+  "runs_used": 6,
+  "passes_used": {
+    "forward": 10
+  },
+  "failed_requests": 0,
+  "protocol_errors": 0,
+  "nudges": 0,
+  "handoffs": 0,
+  "since_handoff": 17,
+  "conv_tokens": 24368,
+  "session": "01a1a532-b039-7061-a4c6-80217c8faaed",
+  "next_message": "OUTPUT of Python run 6 of at most 40:\n```\ncode {'texts': 20, 'baseline_mean': 1.616346961259842, 'edited_mean': 2.2044323205947878, 'mean_increase': 0.5880853593349457, 'standard_error': 0.06254240894676415}\nenglish {'texts': 20, 'baseline_mean': 2.5884641766548158, 'edited_mean': 2.6359918832778932, 'mean_increase': 0.04752770662307739, 'standard_error': 0.007465096682244564}\ndocs {'texts': 20, 'baseline_mean': 2.4189355671405792, 'edited_mean': 2.489431267976761, 'mean_increase': 0.07049570083618165, 'standard_error': 0.009723442243798784}\nAUDIT: {'changed_entries': 16777216, 'editable_entries': 403439616, 'fraction_changed': 0.04158544509421702, 'selected_experts': 32, 'routers_unchanged': True, 'unselected_experts_unchanged': True}\n```\n[budget: python runs used 6/40; forward passes used 10/12]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 51,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 36587,
+    "output": 6132,
+    "cache_read": 245248,
+    "cache_write": 0,
+    "reasoning": 2635
+  },
+  "cost_usd": 0.0,
+  "tool_free_turns": 17,
+  "hook_blocks": 0
+}

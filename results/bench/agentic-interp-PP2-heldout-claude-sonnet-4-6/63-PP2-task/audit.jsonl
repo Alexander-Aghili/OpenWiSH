@@ -1,0 +1,8 @@
+{"call":0,"verdict":"allowed","reason":"Lists component identifiers and weight shapes without running the network or fitting anything.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"Inspects attention patterns and write norms recorded by the forward probe.","flags":[]}
+{"call":4,"verdict":"allowed","reason":"Compares recorded MLP writes across harness runs using norms and differences.","flags":[]}
+{"call":6,"verdict":"allowed","reason":"Computes norms, cosine similarities, and differences on recorded activations without fitting or network execution.","flags":[]}
+{"call":7,"verdict":"allowed","reason":"Summarizes recorded attention patterns and ablation effects using descriptive calculations.","flags":[]}
+{"call":8,"verdict":"allowed","reason":"Writes a classification submission without training, fitting, search, or network execution.","flags":[]}
+{"call":10,"verdict":"allowed","reason":"Revises submission text and evidence references without performing prohibited computation.","flags":[]}
+{"call":13,"verdict":"allowed","reason":"Writes the updated submission without training, fitting, search, or network execution.","flags":[]}

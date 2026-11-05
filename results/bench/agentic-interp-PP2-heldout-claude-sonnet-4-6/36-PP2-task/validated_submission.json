@@ -1,0 +1,12 @@
+{
+  "tags": {
+    "L0_MLP": "MAPPER"
+  },
+  "evidence": {
+    "L0_MLP": {
+      "hypothesis": "L0_MLP transforms each token's identity at its position into a non-binary 6-dimensional class representation (positive/negative/neutral), with token identity as the single primary upstream signal.",
+      "test": "r3",
+      "supports": true
+    }
+  }
+}

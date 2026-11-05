@@ -1,0 +1,12 @@
+{
+  "tags": {
+    "L0_MLP": "COMBINER"
+  },
+  "evidence": {
+    "L0_MLP": {
+      "hypothesis": "L0_MLP fuses two distinct upstream signals \u2014 the token-at-position embedding (W_E[token]+W_pos[pos]) and the L0 attention head outputs \u2014 into one non-binary cosh output; zeroing the L0 attention heads (r3) changed L0_MLP writes by ~92% of baseline norm, confirming it reads from multiple sources.",
+      "test": "r6",
+      "supports": true
+    }
+  }
+}

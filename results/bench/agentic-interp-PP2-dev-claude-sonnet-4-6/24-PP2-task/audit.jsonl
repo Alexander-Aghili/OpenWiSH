@@ -1,0 +1,6 @@
+{"call":0,"verdict":"allowed","reason":"Only checks files, reads any recorded probe outputs, and lists weight names.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"Only inspects weight tensor shapes.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"Reads and displays attention patterns returned by the harness.","flags":[]}
+{"call":4,"verdict":"allowed","reason":"Analyses recorded attention patterns to identify attended positions and compare token identities.","flags":[]}
+{"call":6,"verdict":"allowed","reason":"Compares predictions from recorded baseline and ablation probes without running the network.","flags":[]}
+{"call":7,"verdict":"allowed","reason":"Writes a classification and supporting evidence without training, fitting, search, or network execution.","flags":[]}

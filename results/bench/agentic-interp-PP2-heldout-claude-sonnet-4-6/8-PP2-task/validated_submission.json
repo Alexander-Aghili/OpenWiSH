@@ -1,0 +1,12 @@
+{
+  "tags": {
+    "L0_MLP": "MAPPER"
+  },
+  "evidence": {
+    "L0_MLP": {
+      "hypothesis": "L0_MLP transforms the token identity at each position independently into a non-binary 4-dimensional output, with the token signal dominating by 205x over positional variation.",
+      "test": "r4",
+      "supports": true
+    }
+  }
+}

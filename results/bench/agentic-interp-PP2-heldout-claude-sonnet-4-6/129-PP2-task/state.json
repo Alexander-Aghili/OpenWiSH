@@ -1,0 +1,33 @@
+{
+  "turn": 14,
+  "runs_used": 12,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 1,
+  "nudges": 1,
+  "handoffs": 0,
+  "since_handoff": 14,
+  "conv_tokens": 64971,
+  "session": "0e84ff2b-d31b-4efa-805f-f89bf02fd735",
+  "next_message": "OUTPUT of Python run 12 of at most 60:\n```\nWritten.\n{\n  \"tags\": {\n    \"L0_MLP\": \"INDICATOR\",\n    \"L1H0_ATTN\": \"ROUTER\",\n    \"L1_MLP\": \"COMBINER\",\n    \"L2_MLP\": \"COMBINER\"\n  },\n  \"evidence\": {\n    \"L0_MLP\": {\n      \"hypothesis\": \"L0_MLP detects parity of each token independently, writing a binary signal (positive direction for even, negative for odd) from a single source (token at its position).\",\n      \"test\": \"r4\",\n      \"supports\": true\n    },\n    \"L1H0_ATTN\": {\n      \"hypothesis\": \"L1H0_ATTN routes content from the odd token's position to all other positions via perfect concentration of attention (1.0) on the odd position when one exists, acting as index-based content copying.\",\n      \"test\": \"r5\",\n      \"supports\": true\n    },\n    \"L1_MLP\": {\n      \"hypothesis\": \"L1_MLP fuses two distinct upstream signals\\u2014the parity indicator from L0_MLP and the routed odd-token signal from L1H0_ATTN\\u2014both ablations causing ~2000-unit changes in its write.\",\n      \"test\": \"r7\",\n      \"supports\": true\n    },\n    \"L2_MLP\": {\n      \"hypothesis\": \"L2_MLP combines multiple distinct upstream signals (L0_MLP, L1H0_ATTN, L1_MLP all cause large independent write changes) and is essential for correct predictions (ablating it makes all outputs predict 1).\",\n      \"test\": \"r9\",\n      \"supports\": true\n    }\n  }\n}\n```\n[budget: python runs used 12/60]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 47,
+    "output": 51244,
+    "cache_read": 630315,
+    "cache_write": 97157,
+    "reasoning": 32843
+  },
+  "cost_usd": 1.5408375,
+  "tool_free_turns": 13,
+  "hook_blocks": 0
+}

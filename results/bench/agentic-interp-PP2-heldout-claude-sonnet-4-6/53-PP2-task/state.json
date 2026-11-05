@@ -1,0 +1,33 @@
+{
+  "turn": 20,
+  "runs_used": 16,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 3,
+  "nudges": 1,
+  "handoffs": 0,
+  "since_handoff": 20,
+  "conv_tokens": 44538,
+  "session": "c0319cca-b906-4540-8b16-d42a4689a884",
+  "next_message": "OUTPUT of Python run 16 of at most 60:\n```\nSubmission written:\n{\n  \"tags\": {\n    \"L0_MLP\": \"COMBINER\",\n    \"L1_MLP\": \"COMBINER\"\n  },\n  \"evidence\": {\n    \"L0_MLP\": {\n      \"hypothesis\": \"L0_MLP fuses the token+position embedding at its own position with cross-position context routed by L0 attention heads into the residual stream, making it a COMBINER with at least 2 distinct input signals.\",\n      \"test\": \"r12\",\n      \"supports\": true\n    },\n    \"L1_MLP\": {\n      \"hypothesis\": \"L1_MLP fuses L0_MLP output (listed upstream component, confirmed by max diff 10.1 when L0_MLP ablated) with its residual stream from L1 attention heads, combining at least 2 distinct signals into one output.\",\n      \"test\": \"r14\",\n      \"supports\": true\n    }\n  }\n}\n```\n[budget: python runs used 16/60]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 59,
+    "output": 31027,
+    "cache_read": 365609,
+    "cache_write": 43231,
+    "reasoning": 25614
+  },
+  "cost_usd": 0.8346507,
+  "tool_free_turns": 20,
+  "hook_blocks": 0
+}

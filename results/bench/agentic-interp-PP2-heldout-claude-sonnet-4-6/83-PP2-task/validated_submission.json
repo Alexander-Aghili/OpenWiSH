@@ -1,0 +1,12 @@
+{
+  "tags": {
+    "L0_MLP": "COMBINER"
+  },
+  "evidence": {
+    "L0_MLP": {
+      "hypothesis": "L0_MLP fuses two distinct upstream signals at each position: the current token's embedding and the BOS-routed information written by L0 attention heads (all four L0 heads attend ~100% to BOS), producing a non-binary residual stream write.",
+      "test": "r1",
+      "supports": true
+    }
+  }
+}

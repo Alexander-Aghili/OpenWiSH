@@ -1,0 +1,30 @@
+{
+  "tags": {
+    "L0H0_ATTN": "MAPPER",
+    "L0_MLP": "MAPPER",
+    "L1_MLP": "MAPPER",
+    "L2H0_ATTN": "ROUTER"
+  },
+  "evidence": {
+    "L0H0_ATTN": {
+      "hypothesis": "Head 0 of layer 0 mostly self-attends in a token-dependent way and writes a non-binary 24-d vector at each position; ablating it leaves all predictions unchanged, confirming it is a per-position token-representation mapper (not a router or cross-position aggregator).",
+      "test": "r6",
+      "supports": true
+    },
+    "L0_MLP": {
+      "hypothesis": "Layer 0 MLP transforms the per-position residual (write norm ~8-14, sensitive primarily to own token value: diff 8.8 vs 0.79 for neighbor) into richer representations; ablation causes partial prediction failures, confirming an independent per-position mapping role.",
+      "test": "r8",
+      "supports": true
+    },
+    "L1_MLP": {
+      "hypothesis": "Layer 1 MLP applies the largest per-position transformation (write norm ~27-48, primarily own-token sensitive: diff 17.9 vs 2.3 for neighbor); ablation severely breaks predictions at most positions, confirming it is the dominant per-position mapper building the token representations that L2H0 reads.",
+      "test": "r9",
+      "supports": true
+    },
+    "L2H0_ATTN": {
+      "hypothesis": "Head 0 of layer 2 attends to the swap-partner position with probability 1.000 at every position (pos1\u2192pos2, pos2\u2192pos1, \u2026, pos9\u2192pos9) based purely on positional index; ablation completely destroys predictions, confirming it is the sole routing component that moves the swap-partner's representation to each output position.",
+      "test": "r7",
+      "supports": true
+    }
+  }
+}

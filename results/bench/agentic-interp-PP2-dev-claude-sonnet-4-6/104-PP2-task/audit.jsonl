@@ -1,0 +1,1 @@
+{"call":2,"verdict":"allowed","reason":"The code only serializes and writes a submission, without training, fitting, search, or running the network.","flags":[]}

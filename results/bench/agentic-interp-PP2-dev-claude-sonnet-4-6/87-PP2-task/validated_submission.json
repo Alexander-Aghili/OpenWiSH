@@ -1,0 +1,12 @@
+{
+  "tags": {
+    "L0_MLP": "COMBINER"
+  },
+  "evidence": {
+    "L0_MLP": {
+      "hypothesis": "L0_MLP fuses two distinct upstream signals: (1) the local token embedding (determines threshold-comparison direction) and (2) L0 attention head outputs (aggregate previous-position context, modulate magnitude). Ablating L0_MLP (r16) collapses all predictions to 0, confirming it is the essential output component; prior context-ablation (r13) showed L0_MLP writes change significantly when L0 attention heads are removed, proving it reads both sources.",
+      "test": "r16",
+      "supports": true
+    }
+  }
+}

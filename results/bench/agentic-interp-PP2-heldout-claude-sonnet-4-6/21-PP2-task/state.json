@@ -1,0 +1,33 @@
+{
+  "turn": 18,
+  "runs_used": 15,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 2,
+  "nudges": 1,
+  "handoffs": 0,
+  "since_handoff": 18,
+  "conv_tokens": 112344,
+  "session": "7e2248ce-d794-435d-9add-811b3f07b2e9",
+  "next_message": "OUTPUT of Python run 15 of at most 60:\n```\n{\n  \"tags\": {\n    \"L0_MLP\": \"MAPPER\",\n    \"L1H0_ATTN\": \"AGGREGATOR\",\n    \"L1_MLP\": \"COMBINER\",\n    \"L2_MLP\": \"COMBINER\",\n    \"L3H0_ATTN\": \"ROUTER\"\n  },\n  \"evidence\": {\n    \"L0_MLP\": {\n      \"hypothesis\": \"L0_MLP transforms the per-position token+position embedding (single source, no listed upstream components) into a rich non-binary feature vector; ablating it shifts L1_MLP by 1.35 mean abs, confirming it carries non-trivial information.\",\n      \"test\": \"r5\",\n      \"supports\": true\n    },\n    \"L1H0_ATTN\": {\n      \"hypothesis\": \"L1H0_ATTN aggregates over multiple prior positions; on alternating a/b at pos5 (3rd 'a'), attention spreads across 4 positions with ent=1.295 and max=0.387, inconsistent with ROUTER (which needs max>0.8).\",\n      \"test\": \"r7\",\n      \"supports\": true\n    },\n    \"L1_MLP\": {\n      \"hypothesis\": \"L1_MLP fuses two distinct upstream signals: ablating L0_MLP changes L1_MLP by 1.35, ablating L1H0_ATTN changes it by 0.30 \\u2014 both significant, confirming COMBINER.\",\n      \"test\": \"r9\",\n      \"supports\": true\n    },\n    \"L2_MLP\": {\n      \"hypothesis\": \"L2_MLP combines multiple upstream signals; ablating L0_MLP changes it by 2.45, ablating L1H0 by 0.33, ablating L1_MLP by 2.47 \\u2014 all significant, confirming COMBINER.\",\n      \"test\": \"r13\",\n      \"supports\": true\n    },\n    \"L3H0_ATTN\": {\n      \"hypothesis\": \"L3H0_ATTN is a ROUTER: on alternating a/b, 'b' positions route to the immediately preceding 'a' position with max=0.983; ablating it completely disrupts output (predictions shift from correct to random).\",\n      \"test\": \"r14\",\n      \"supports\": true\n    }\n  }\n}\n```\n[budget: python runs used 15/60]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 59,
+    "output": 95448,
+    "cache_read": 1536917,
+    "cache_write": 110769,
+    "reasoning": 50205
+  },
+  "cost_usd": 2.5575860999999995,
+  "tool_free_turns": 17,
+  "hook_blocks": 0
+}

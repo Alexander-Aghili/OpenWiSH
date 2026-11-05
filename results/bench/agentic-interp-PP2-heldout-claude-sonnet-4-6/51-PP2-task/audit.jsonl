@@ -1,0 +1,2 @@
+{"call":2,"verdict":"allowed","reason":"Only inspects harness-recorded predictions, logits, writes, and activations without running the network, fitting, or searching.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"Only formats and writes the classification submission, with no prohibited computation.","flags":[]}

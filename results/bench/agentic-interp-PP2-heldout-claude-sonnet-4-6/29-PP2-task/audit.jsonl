@@ -1,0 +1,3 @@
+{"call":1,"verdict":"allowed","reason":"Only analyses recorded harness activations using comparisons and summary statistics, without training, fitting, search, or network execution.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"Only writes a classification and evidence to JSON; evidence-format issues are outside this audit.","flags":[]}
+{"call":5,"verdict":"allowed","reason":"Only updates the submission's evidence reference and writes JSON, with no prohibited computation.","flags":[]}

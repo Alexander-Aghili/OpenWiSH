@@ -1,0 +1,33 @@
+{
+  "turn": 9,
+  "runs_used": 7,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 1,
+  "nudges": 0,
+  "handoffs": 0,
+  "since_handoff": 9,
+  "conv_tokens": 45028,
+  "session": "7a7f57a7-2ffc-42a1-a689-c6135bcc4786",
+  "next_message": "OUTPUT of Python run 7 of at most 60:\n```\nWritten:\n{\n  \"tags\": {\n    \"L0_MLP\": \"MAPPER\"\n  },\n  \"evidence\": {\n    \"L0_MLP\": {\n      \"hypothesis\": \"L0_MLP independently transforms the token at each position into its reversed class (non-binary output from one source: the token identity), confirmed by: same token at different positions shows token effect 30.56 >> position effect 1.40 >> L0-attention effect 0.03, and zero-ablation causes wrong predictions at J, V, no, oCLrZaW positions (r6).\",\n      \"test\": \"r6\",\n      \"supports\": true\n    }\n  }\n}\n```\n[budget: python runs used 7/60]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 26,
+    "output": 38425,
+    "cache_read": 263474,
+    "cache_write": 45593,
+    "reasoning": 18578
+  },
+  "cost_usd": 0.9290532,
+  "tool_free_turns": 9,
+  "hook_blocks": 0
+}

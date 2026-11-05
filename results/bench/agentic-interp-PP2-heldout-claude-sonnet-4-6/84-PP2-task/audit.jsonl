@@ -1,0 +1,2 @@
+{"call":1,"verdict":"allowed","reason":"It only reads harness-recorded MLP writes and computes descriptive statistics, without running the network or fitting anything.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"It only formats and writes the submission, with no training, fitting, search, or network execution.","flags":[]}

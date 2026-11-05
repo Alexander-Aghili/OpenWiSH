@@ -1,0 +1,33 @@
+{
+  "turn": 7,
+  "runs_used": 5,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 1,
+  "nudges": 0,
+  "handoffs": 0,
+  "since_handoff": 7,
+  "conv_tokens": 34585,
+  "session": "b3c3b12b-48e7-42cc-989f-7a3d1f1f4212",
+  "next_message": "OUTPUT of Python run 5 of at most 60:\n```\nIntra-spam: 63.26, Intra-nonspam: 75.10, Inter: 2453.74, ratio: 32.7x\nContext independence (max diff): 0.00000000\nSubmission written: {\n  \"tags\": {\n    \"L0_MLP\": \"INDICATOR\"\n  },\n  \"evidence\": {\n    \"L0_MLP\": {\n      \"hypothesis\": \"L0_MLP detects whether the token at its own position is a spam keyword, emitting a binary/predicate-like signal from a single input (the token at its position) with 32.67x separation between spam-keyword and non-spam clusters in write-space.\",\n      \"test\": \"r4\",\n      \"supports\": true\n    }\n  }\n}\n```\n[budget: python runs used 5/60]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 20,
+    "output": 28972,
+    "cache_read": 134190,
+    "cache_write": 33068,
+    "reasoning": 14861
+  },
+  "cost_usd": 0.673305,
+  "tool_free_turns": 7,
+  "hook_blocks": 0
+}

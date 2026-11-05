@@ -1,0 +1,9 @@
+{"call":0,"verdict":"allowed","reason":"Only lists directory contents.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"Only inspects available weight names, vocabulary, and component metadata.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"Loads and inspects attention patterns recorded by the harness.","flags":[]}
+{"call":4,"verdict":"allowed","reason":"Inspects recorded attention patterns and computes norms of recorded component writes.","flags":[]}
+{"call":5,"verdict":"allowed","reason":"Analyses recorded attention against known input values and expected counts without simulating the network.","flags":[]}
+{"call":7,"verdict":"allowed","reason":"Compares harness-recorded MLP writes across normal and ablated probes using differences and norms.","flags":[]}
+{"call":8,"verdict":"allowed","reason":"Compares recorded MLP writes across tokens and positions without computing new network outputs.","flags":[]}
+{"call":9,"verdict":"allowed","reason":"Only formats and writes the classification submission.","flags":[]}
+{"call":12,"verdict":"allowed","reason":"The code only formats and writes the submission; it performs no training, fitting, search, or network computation.","flags":[]}

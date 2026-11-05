@@ -1,0 +1,33 @@
+{
+  "turn": 21,
+  "runs_used": 17,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 3,
+  "nudges": 2,
+  "handoffs": 0,
+  "since_handoff": 21,
+  "conv_tokens": 82275,
+  "session": "c8de8aba-8387-4f75-b2c8-c4edbb3fe60b",
+  "next_message": "OUTPUT of Python run 17 of at most 60:\n```\nDone\n{\n  \"tags\": {\n    \"L0H0_ATTN\": \"AGGREGATOR\",\n    \"L0_MLP\": \"COMBINER\",\n    \"L1_MLP\": \"COMBINER\",\n    \"L2_MLP\": \"COMBINER\",\n    \"L3_MLP\": \"COMBINER\"\n  },\n  \"evidence\": {\n    \"L0H0_ATTN\": {\n      \"hypothesis\": \"Attention spreads across multiple positions (BOS ~60%, second-half positions ~6-8% each, first-half ~1-2% each on uniform input); ablating it changes L0_MLP writes uniformly across all positions (max|diff| 1.5-2.1 at every position), not concentrated at specific routing targets.\",\n      \"test\": \"r4\",\n      \"supports\": true\n    },\n    \"L0_MLP\": {\n      \"hypothesis\": \"Fuses own-position embedding with the L0H0_ATTN aggregate write; ablating L0_MLP (r6) makes all first-half positions output the halved value instead of the full value, showing it combines positional and token information from two distinct sources.\",\n      \"test\": \"r6\",\n      \"supports\": true\n    },\n    \"L1_MLP\": {\n      \"hypothesis\": \"Fuses own-position embedding with upstream contributions from L0H0_ATTN and L0_MLP; ablating L1_MLP (r8) causes the BOS position prediction to change from 4.5 to 0.5, showing it combines multiple upstream sources.\",\n      \"test\": \"r8\",\n      \"supports\": true\n    },\n    \"L2_MLP\": {\n      \"hypothesis\": \"Fuses own-position embedding with contributions from L0H0_ATTN, L0_MLP, and L1_MLP; ablating L2_MLP (r10) causes prediction errors at multiple positions, confirming it combines multiple upstream sources.\",\n      \"test\": \"r10\",\n      \"supports\": true\n    },\n    \"L3_MLP\": {\n      \"hypothesis\": \"Fuses own-position embedding with contributions from all upstream listed components; ablating L3_MLP (r16) causes prediction errors at multiple positions (e.g., input 1 pos5-9 becomes 5,4,3,5,1 instead of 2.5,2,1.5,1,0.5), confirming it combines multiple upstream sources.\",\n      \"test\": \"r16\",\n      \"supports\": true\n    }\n  }\n}\n```\n[budget: python runs used 17/60]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 65,
+    "output": 65099,
+    "cache_read": 1137584,
+    "cache_write": 80667,
+    "reasoning": 46228
+  },
+  "cost_usd": 1.8019572,
+  "tool_free_turns": 20,
+  "hook_blocks": 0
+}

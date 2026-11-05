@@ -1,0 +1,12 @@
+{"call":0,"verdict":"allowed","reason":"Only inspects weight names, shapes, vocabulary, and component metadata.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"Analyses recorded attention patterns returned by the harness.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"Computes norms and compares recorded component writes without running the network.","flags":[]}
+{"call":4,"verdict":"allowed","reason":"Inspects harness-recorded MLP writes and their norms.","flags":[]}
+{"call":6,"verdict":"allowed","reason":"Compares recorded MLP writes between baseline and harness ablation results.","flags":[]}
+{"call":8,"verdict":"allowed","reason":"Examines recorded attention patterns and writes across harness-provided inputs.","flags":[]}
+{"call":10,"verdict":"allowed","reason":"Measures differences in recorded MLP writes following a harness ablation.","flags":[]}
+{"call":11,"verdict":"allowed","reason":"Computes descriptive statistics of recorded attention patterns without fitting or simulating the network.","flags":[]}
+{"call":12,"verdict":"allowed","reason":"Only writes and prints a submission, without training, fitting, search, or network execution.","flags":[]}
+{"call":14,"verdict":"allowed","reason":"Only revises a test citation and writes the submission, without prohibited computation.","flags":[]}
+{"call":16,"verdict":"allowed","reason":"Only revises submission metadata and writes JSON, without training, fitting, search, or network execution.","flags":[]}
+{"call":19,"verdict":"allowed","reason":"Only updates the stated evidence and writes the submission; evidence quality and workflow compliance are outside this audit.","flags":[]}

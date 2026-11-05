@@ -1,0 +1,12 @@
+{
+  "tags": {
+    "L0_MLP": "MAPPER"
+  },
+  "evidence": {
+    "L0_MLP": {
+      "hypothesis": "L0_MLP independently maps each position's token embedding to a non-binary tanh value, reading a single input (the residual at its own position, dominated by token identity) and producing a continuous output.",
+      "test": "r5",
+      "supports": true
+    }
+  }
+}

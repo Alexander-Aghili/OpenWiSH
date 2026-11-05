@@ -1,0 +1,1 @@
+{"tags": {"L0_MLP": "MAPPER"}, "evidence": {"L0_MLP": {"hypothesis": "L0_MLP transforms the residual stream at each position independently to encode exp(token), reading a single input signal (token identity) and producing a non-binary output per position.", "test": "r1", "supports": true}}}

@@ -1,0 +1,33 @@
+{
+  "turn": 21,
+  "runs_used": 17,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 3,
+  "nudges": 2,
+  "handoffs": 0,
+  "since_handoff": 21,
+  "conv_tokens": 64130,
+  "session": "61edd02f-654e-42e1-bfb1-22eb5bdd6196",
+  "next_message": "OUTPUT of Python run 17 of at most 60:\n```\n{\n  \"tags\": {\n    \"L0H0_ATTN\": \"AGGREGATOR\",\n    \"L0_MLP\": \"COMBINER\",\n    \"L1_MLP\": \"COMBINER\",\n    \"L2H0_ATTN\": \"ROUTER\"\n  },\n  \"evidence\": {\n    \"L0H0_ATTN\": {\n      \"hypothesis\": \"L0H0_ATTN spreads attention across 2-4 positions with content-dependent weights, summarising neighbourhood information rather than copying from one specific position.\",\n      \"test\": \"r6\",\n      \"supports\": true\n    },\n    \"L0_MLP\": {\n      \"hypothesis\": \"L0_MLP fuses its own position's token embedding with the L0H0_ATTN write (mean write-diff=2.05 when L0H0 ablated), combining two distinct upstream signals.\",\n      \"test\": \"r8\",\n      \"supports\": true\n    },\n    \"L1_MLP\": {\n      \"hypothesis\": \"L1_MLP fuses at least two distinct upstream signals: the L0_MLP write (mean write-diff=10.57 when L0_MLP ablated) plus the position's own token embedding.\",\n      \"test\": \"r15\",\n      \"supports\": true\n    },\n    \"L2H0_ATTN\": {\n      \"hypothesis\": \"L2H0_ATTN attends with 1.000 weight to the swap-partner position (pos1<->pos2, pos3<->pos4, etc.) regardless of token content, copying content via purely positional indexing.\",\n      \"test\": \"r16\",\n      \"supports\": true\n    }\n  }\n}\n```\n[budget: python runs used 17/60]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 65,
+    "output": 52361,
+    "cache_read": 1006638,
+    "cache_write": 62710,
+    "reasoning": 22341
+  },
+  "cost_usd": 1.4638614,
+  "tool_free_turns": 20,
+  "hook_blocks": 0
+}

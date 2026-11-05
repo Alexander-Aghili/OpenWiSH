@@ -1,0 +1,16 @@
+The submission is complete. Here is my final answer:
+
+```json
+{
+  "tags": {
+    "L0_MLP": "MAPPER"
+  },
+  "evidence": {
+    "L0_MLP": {
+      "hypothesis": "L0_MLP takes the combined residual stream (single input containing token identity and position information) at each position and independently transforms it into the output class representation; ablating it causes systematic errors at specific position-token combinations (positions 1 and 6) while leaving other positions unaffected, confirming position-wise single-input mapping.",
+      "test": "r2",
+      "supports": true
+    }
+  }
+}
+```

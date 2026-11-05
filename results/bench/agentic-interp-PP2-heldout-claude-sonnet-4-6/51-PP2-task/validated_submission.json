@@ -1,0 +1,12 @@
+{
+  "tags": {
+    "L0_MLP": "INDICATOR"
+  },
+  "evidence": {
+    "L0_MLP": {
+      "hypothesis": "L0_MLP detects whether the current position's token is a Fibonacci number and emits a binary predicate-like flag from a single input (the token embedding); neuron activations are complementary for Fibonacci vs non-Fibonacci tokens.",
+      "test": "r1",
+      "supports": true
+    }
+  }
+}

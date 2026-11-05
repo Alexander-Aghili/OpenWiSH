@@ -1,0 +1,26 @@
+```json
+{
+  "tags": {
+    "L0_MLP": "MAPPER",
+    "L1_MLP": "COMBINER",
+    "L2_MLP": "COMBINER"
+  },
+  "evidence": {
+    "L0_MLP": {
+      "hypothesis": "L0_MLP transforms the token at each position independently into a non-binary 4D output with 7+ distinct patterns; ablating it changes predictions for some values (e.g. val=6 goes from 6 to 3), confirming it is a non-binary position-independent transform of the token.",
+      "test": "r20",
+      "supports": true
+    },
+    "L1_MLP": {
+      "hypothesis": "L1_MLP fuses two distinct upstream signals (L0_MLP output and the token embedding) into one output; ablating L1_MLP (r14) causes all predictions to collapse to class 5 (value 7), showing it is the dominant combiner of upstream signals.",
+      "test": "r14",
+      "supports": true
+    },
+    "L2_MLP": {
+      "hypothesis": "L2_MLP combines both L0_MLP and L1_MLP outputs directly; ablating L2_MLP (r22) collapses all predictions to class 4, and prior tests (r14, r16) show L2_MLP write changes massively (~81) when L1_MLP is ablated and further (~7.5) when L0_MLP is additionally ablated.",
+      "test": "r22",
+      "supports": true
+    }
+  }
+}
+```

@@ -1,0 +1,18 @@
+{
+  "tags": {
+    "L0H0_ATTN": "AGGREGATOR",
+    "L0_MLP": "COMBINER"
+  },
+  "evidence": {
+    "L0H0_ATTN": {
+      "hypothesis": "Attends nearly uniformly across all positions; the write at every non-BOS position encodes the global count of 'a' tokens as a position-invariant summary quantity that scales linearly with count.",
+      "test": "r6",
+      "supports": true
+    },
+    "L0_MLP": {
+      "hypothesis": "Fuses two distinct upstream signals: the token embedding (local token identity) and L0H0's aggregated count signal in the residual stream, with the count signal dominating (~90% of output norm).",
+      "test": "r10",
+      "supports": true
+    }
+  }
+}

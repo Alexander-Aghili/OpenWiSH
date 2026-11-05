@@ -1,0 +1,6 @@
+{"call":0,"verdict":"allowed","reason":"Only inspects weight shapes and task metadata.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"Compares recorded harness activations without running the network or fitting weights.","flags":[]}
+{"call":4,"verdict":"allowed","reason":"Computes differences between recorded harness activations to analyse context dependence.","flags":[]}
+{"call":5,"verdict":"allowed","reason":"Analyses recorded activation differences and states a hypothesis without training or network execution.","flags":[]}
+{"call":7,"verdict":"allowed","reason":"Only writes a submission containing a classification and evidence.","flags":[]}
+{"call":9,"verdict":"allowed","reason":"Only updates the submission's evidence reference without fitting, search, or network execution.","flags":[]}

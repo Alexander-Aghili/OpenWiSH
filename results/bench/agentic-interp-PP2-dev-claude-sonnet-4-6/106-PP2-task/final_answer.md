@@ -1,0 +1,1 @@
+{"tags": {"L0_MLP": "COMBINER"}, "evidence": {"L0_MLP": {"hypothesis": "L0_MLP fuses two distinct sources — position embedding (W_pos) and token embedding (W_E) — producing a large zeroing write at non-index-1 positions and a token-dependent write at position 2.", "test": "r6", "supports": true}}}

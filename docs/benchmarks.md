@@ -91,13 +91,13 @@ Game MLPs: 4/4 correct. Diffusion MLPs: 3/3 correct. Claude reports lower confid
 | exp2-246a5b58 | triangle (88 %) | triangle (45 %) | 1 | 0 | 1.33 | not audited |
 | exp2-a6a9dfb7 | square (77 %) | square (35 %) | 1 | 0 | 1.10 | not audited |
 | exp2-d88aba69 | circle (84 %) | circle (60 %) | 1 | 0 | 0.97 | not audited |
-| exp3-net-a | python, heads 2.1 3.1 3.5 | python, heads 2.1 3.0 3.1 3.4 3.5, P 0.6, R 1.0 | 44 | 43 | 148.17 | valid |
+| exp3-net-a | python, heads 2.1 3.1 3.5 | python, heads 2.1 3.0 3.1 3.4 3.5, P 0.6, R 1.0 | 44 | 43 | 8.22 | valid |
 | exp4-task | 1,024 / 1,024 | 1024 / 1024 (2921 weights changed) | 1 | 0 | 3.81 | not audited |
 | exp5-asterix | 53.2 | 60.4 ± 1.2 | 1 | 0 | 1.84 | not audited |
 | exp5-breakout, high effort | 517.4 | 54.2 ± 1.6 | 1 | 0 | 3.33 | not audited |
 | exp5-breakout, xhigh effort, 3 runs | 517.4 | 417 ± 79 (476.3, 261.5, 513.5) | 1 each | 0 | 1.79, 1.48, 2.49 | not audited |
 | exp5-seaquest | 53.1 | 60.9 ± 1.7 | 1 | 0 | 4.35 | not audited |
-| exp6-budget_0 | 42.6 / 26.3 / 36.3 % | 41.0 / 28.7 / 42.6 % | 18 | 17 | 112.47 | not audited |
+| exp6-budget_0 | 42.6 / 26.3 / 36.3 % | 41.0 / 28.7 / 42.6 % | 18 | 17 | 7.48 | not audited |
 
 | Qwen3.5-0.8B on MATH-500 (1 sample, 32,768 tokens) | Published (4 samples) | OpenWiSH | Share cut at 32,768 |
 |---|---|---|---|

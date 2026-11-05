@@ -1,0 +1,18 @@
+{
+  "tags": {
+    "L0H0_ATTN": "ROUTER",
+    "L0_MLP": "COMBINER"
+  },
+  "evidence": {
+    "L0H0_ATTN": {
+      "hypothesis": "Copies content from position i-1 to position i via purely positional/index-based attention selection, independent of token values.",
+      "test": "r8",
+      "supports": true
+    },
+    "L0_MLP": {
+      "hypothesis": "Fuses two distinct upstream signals\u2014the current position's token embedding and L0H0's routing output (previous token's content)\u2014into a single non-binary output computing the trend comparison.",
+      "test": "r14",
+      "supports": true
+    }
+  }
+}

@@ -19,11 +19,28 @@ const BASE_ARGS: &[&str] = &[
 pub struct ClaudeCli {
     cfg: BackendConfig,
     session: Option<String>,
+    /// total_cost_usd of the current conversation after the last turn; None after a resume, when it is unknown
+    conversation_cost: Option<f64>,
 }
 
 impl ClaudeCli {
     pub fn new(cfg: BackendConfig) -> Self {
-        ClaudeCli { cfg, session: None }
+        ClaudeCli {
+            cfg,
+            session: None,
+            conversation_cost: Some(0.0),
+        }
+    }
+
+    /// This turn's cost. `claude -p` reports total_cost_usd for the whole conversation, resumed turns included.
+    pub fn turn_cost(&mut self, total: Option<f64>, new_conversation: bool) -> Option<f64> {
+        let before = if new_conversation {
+            Some(0.0)
+        } else {
+            self.conversation_cost
+        };
+        self.conversation_cost = total;
+        Some((total? - before?).max(0.0))
     }
     pub fn args(&self, new_conversation: bool) -> Vec<String> {
         let mut a: Vec<String> = BASE_ARGS.iter().map(|s| s.to_string()).collect();
@@ -88,19 +105,37 @@ impl Editor for ClaudeCli {
             e => e,
         })?;
         self.session = r.session.clone();
-        Ok(r)
+        let cost_usd = self.turn_cost(r.cost_usd, new_conversation);
+        Ok(Reply { cost_usd, ..r })
     }
     fn session(&self) -> Option<String> {
         self.session.clone()
     }
     fn set_session(&mut self, s: Option<String>) {
         self.session = s;
+        self.conversation_cost = None;
     }
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn cost_is_the_increase_of_the_conversation_total() {
+        let mut c = ClaudeCli::new(test_cfg());
+        // `claude -p --resume` reports total_cost_usd for the whole conversation so far
+        assert_eq!(c.turn_cost(Some(1.5), true), Some(1.5));
+        let second = c.turn_cost(Some(1.75), false).unwrap();
+        assert!((second - 0.25).abs() < 1e-9, "{second}");
+        // a handoff starts a new conversation and a new total
+        assert_eq!(c.turn_cost(Some(0.5), true), Some(0.5));
+        // after a crash-resume the earlier total is unknown: report nothing rather than count it twice
+        c.set_session(Some("s".into()));
+        assert_eq!(c.turn_cost(Some(9.0), false), None);
+        let next = c.turn_cost(Some(9.5), false).unwrap();
+        assert!((next - 0.5).abs() < 1e-9, "{next}");
+    }
 
     #[test]
     fn parses_real_result() {
@@ -127,9 +162,8 @@ mod tests {
         ));
     }
 
-    #[test]
-    fn args_disable_tools_and_resume() {
-        let cfg = BackendConfig {
+    fn test_cfg() -> BackendConfig {
+        BackendConfig {
             kind: "claude".into(),
             model: Some("claude-opus-5-5".into()),
             effort: Some("max".into()),
@@ -139,8 +173,12 @@ mod tests {
             workdir: "/tmp".into(),
             max_tokens: 0,
             timeout_s: 1,
-        };
-        let mut c = ClaudeCli::new(cfg);
+        }
+    }
+
+    #[test]
+    fn args_disable_tools_and_resume() {
+        let mut c = ClaudeCli::new(test_cfg());
         let a = c.args(true);
         for want in [
             "-p",

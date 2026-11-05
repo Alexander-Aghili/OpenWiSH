@@ -1,0 +1,33 @@
+{
+  "turn": 31,
+  "runs_used": 28,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 2,
+  "nudges": 1,
+  "handoffs": 0,
+  "since_handoff": 31,
+  "conv_tokens": 161722,
+  "session": "ceddbf27-829b-4b05-847a-38537b25beed",
+  "next_message": "OUTPUT of Python run 28 of at most 60:\n```\nDone\n{\"hypothesis\": \"Aggregates from multiple positions via content-based spread attention (avg max ~30%); ablating it changes downstream MLP writes by ~0.6\\u20131.4, confirming it broadcasts a summary signal rather than copying from one fixed position.\", \"test\": \"r6\", \"supports\": true}\n{\"hypothesis\": \"Fuses the accumulated residual stream including L0_MLP (dominant source, diff 2.441) together with L0H0 and L0H1 contributions as distinct signals.\", \"test\": \"r18\", \"supports\": true}\n```\n[budget: python runs used 28/60]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 95,
+    "output": 111986,
+    "cache_read": 3195377,
+    "cache_write": 159671,
+    "reasoning": 86123
+  },
+  "cost_usd": 3.5967140999999994,
+  "tool_free_turns": 30,
+  "hook_blocks": 0
+}

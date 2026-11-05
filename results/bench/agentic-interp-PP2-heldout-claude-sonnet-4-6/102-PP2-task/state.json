@@ -1,0 +1,33 @@
+{
+  "turn": 18,
+  "runs_used": 16,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 1,
+  "nudges": 1,
+  "handoffs": 0,
+  "since_handoff": 18,
+  "conv_tokens": 25095,
+  "session": "7a6257dc-2cce-4497-85c0-13fa9f4f2f86",
+  "next_message": "OUTPUT of Python run 16 of at most 60:\n```\nL0_MLP write with ablation (should be ~0):\n  pos 1: [0. 0. 0. 0.]\n\nPredictions with L0_MLP zeroed:\n  all-4s: correct (4s)\n  all-2s: got 5s where 2s expected → WRONG → L0_MLP is causally important\n  all-7s: got 5s/4s where 7s expected → WRONG → L0_MLP is causally important\n{\n  \"tags\": {\n    \"L0_MLP\": \"COMBINER\"\n  },\n  \"evidence\": {\n    \"L0_MLP\": {\n      \"hypothesis\": \"L0_MLP reads both the token embedding and position embedding (two distinct upstream signals) and fuses them into a single non-binary output; ablating it causes wrong predictions, confirming causal relevance of this fusion.\",\n      \"test\": \"r15\",\n      \"supports\": true\n    }\n  }\n}\n```\n[budget: python runs used 16/60]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 53,
+    "output": 15271,
+    "cache_read": 214226,
+    "cache_write": 23899,
+    "reasoning": 10358
+  },
+  "cost_usd": 0.4368858000000001,
+  "tool_free_turns": 18,
+  "hook_blocks": 0
+}

@@ -1,0 +1,3 @@
+```json
+{"tags": {"L0_MLP": "MAPPER"}, "evidence": {"L0_MLP": {"hypothesis": "L0_MLP independently transforms each token's residual stream embedding at each position into a non-binary, token-specific write that encodes the correct output class (class 0 for below-threshold tokens, class 1–8 for above-threshold tokens), reading a single input signal per position.", "test": "r5", "supports": true}}}
+```

@@ -1,0 +1,9 @@
+{"call":0,"verdict":"allowed","reason":"It only attempts to import weights and inspect tensor names and shapes.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"It only lists directory contents.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"It only explores filesystem paths and directory contents.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"It only inspects a filesystem entry without running the network or fitting anything.","flags":[]}
+{"call":5,"verdict":"allowed","reason":"It compares recorded MLP writes returned by the harness across positions, tokens, and contexts.","flags":[]}
+{"call":6,"verdict":"allowed","reason":"It inspects harness-recorded attention patterns and writes without computing new network outputs.","flags":[]}
+{"call":7,"verdict":"allowed","reason":"It computes descriptive differences and norms of recorded activations to infer the component's role.","flags":[]}
+{"call":9,"verdict":"allowed","reason":"It analyzes harness-recorded ablation results and summarizes a classification without training, search, or a sandbox forward pass.","flags":[]}
+{"call":10,"verdict":"allowed","reason":"The run only constructs and writes a submission JSON; it performs no training, fitting, search, or network computation.","flags":[]}

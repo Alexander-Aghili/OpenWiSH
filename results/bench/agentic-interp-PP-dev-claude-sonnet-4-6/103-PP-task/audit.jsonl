@@ -1,0 +1,5 @@
+{"call":0,"verdict":"allowed","reason":"Only constructs and saves a submission, without training, fitting, search, or network execution.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"Inspects and ranks recorded attention probabilities returned by the harness without computing attention outputs.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"Compares recorded attention patterns and component writes using differences and norms.","flags":[]}
+{"call":4,"verdict":"allowed","reason":"Computes descriptive norms and differences of harness-recorded component writes.","flags":[]}
+{"call":9,"verdict":"allowed","reason":"Summarizes probe findings and saves a submission without any prohibited computation.","flags":[]}

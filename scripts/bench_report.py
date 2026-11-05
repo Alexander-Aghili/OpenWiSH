@@ -61,6 +61,20 @@ def ours(d):
     return v, st
 
 
+def run_cost(run):
+    """True cost of a run in USD. Claude reports a running total per conversation, so add the increases and start
+    over when the total drops (a handoff). Older runs summed the totals in state.json. Falls back to state.json."""
+    totals = [(load(p) or {}).get("cost_usd") for p in sorted(glob.glob(os.path.join(run, "turns", "t*", "run.json")))]
+    totals = [t for t in totals if isinstance(t, (int, float))]
+    if not totals:
+        return (load(os.path.join(run, "state.json")) or {}).get("cost_usd", 0) or 0
+    cost, prev = 0.0, 0.0
+    for t in totals:
+        cost += t - prev if t >= prev else t
+        prev = t
+    return cost
+
+
 def main():
     pub = published()
     print("| Environment | Published agent (GPT-6 Astra) | OpenWiSH + Claude Opus 5.5 | Turns | Python runs | Cost (USD) | Audit |")
@@ -73,7 +87,7 @@ def main():
         name = os.path.basename(d)
         audit = load(os.path.join(d, "audit_summary.json")) or {}
         status = {True: "valid", False: "invalid"}.get(audit.get("valid"), "not audited")
-        print(f"| {name} | {pub.get(name, '-')} | {v} | {st.get('turn', '-')} | {st.get('runs_used', '-')} | {st.get('cost_usd', 0):.2f} | {status} |")
+        print(f"| {name} | {pub.get(name, '-')} | {v} | {st.get('turn', '-')} | {st.get('runs_used', '-')} | {run_cost(d):.2f} | {status} |")
     rows = qwen_data()
     if rows:
         print()

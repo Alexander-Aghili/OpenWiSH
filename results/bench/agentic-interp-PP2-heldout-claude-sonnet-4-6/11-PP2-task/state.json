@@ -1,0 +1,33 @@
+{
+  "turn": 12,
+  "runs_used": 10,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 1,
+  "nudges": 0,
+  "handoffs": 0,
+  "since_handoff": 12,
+  "conv_tokens": 72899,
+  "session": "9e5adc9f-bba9-4493-b19d-b230eb7c4207",
+  "next_message": "OUTPUT of Python run 10 of at most 60:\n```\nL0_MLP position-dependence: oCLrZaW=1.886, TPSI=0.517\nL0_MLP ablated (r7) predictions seq0: [np.int64(0), np.int64(3), np.int64(3), np.int64(2), np.int64(2), np.int64(1), np.int64(1), np.int64(1), np.int64(1), np.int64(1)]\nBaseline seq0: [np.int64(0), np.int64(4), np.int64(0), np.int64(0), np.int64(4), np.int64(2), np.int64(3), np.int64(0), np.int64(0), np.int64(4)]\n\nL1H0_ATTN: mean max-attention value = 0.9476 (1.0 = fully concentrated)\nL1H0_ATTN ablated (r9) predictions seq0: [np.int64(2), np.int64(1), np.int64(1), np.int64(1), np.int64(1), np.int64(1), np.int64(1), np.int64(1), np.int64(1), np.int64(1)]\n\nSubmission written.\n{\n  \"tags\": {\n    \"L0_MLP\": \"COMBINER\",\n    \"L1H0_ATTN\": \"ROUTER\"\n  },\n  \"evidence\": {\n    \"L0_MLP\": {\n      \"hypothesis\": \"L0_MLP fuses the token-identity signal from the token embedding with the position embedding (a second distinct source), since identical tokens at different positions produce writes differing by up to 1.9 units; non-binary output, two or more sources \\u2192 COMBINER.\",\n      \"test\": \"r7\",\n      \"supports\": true\n    },\n    \"L1H0_ATTN\": {\n      \"hypothesis\": \"L1H0_ATTN concentrates nearly 100% of its attention on one specific previous (or self) position and copies that content to the current position, acting as a positional-index-based content router \\u2192 ROUTER.\",\n      \"test\": \"r9\",\n      \"supports\": true\n    }\n  }\n}\n```\n[budget: python runs used 10/60]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 38,
+    "output": 63653,
+    "cache_read": 635628,
+    "cache_write": 71624,
+    "reasoning": 30253
+  },
+  "cost_usd": 1.5753414,
+  "tool_free_turns": 11,
+  "hook_blocks": 0
+}

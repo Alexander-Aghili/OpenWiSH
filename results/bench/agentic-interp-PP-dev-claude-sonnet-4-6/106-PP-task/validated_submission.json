@@ -1,0 +1,12 @@
+{
+  "tags": {
+    "L0_MLP": "MAPPER"
+  },
+  "evidence": {
+    "L0_MLP": {
+      "hypothesis": "L0_MLP transforms the residual stream at each position independently into a non-binary output, encoding token identity at position 2 and processing attention-routed token[2] information at later positions; it reads a single combined input per position and maps it to a non-binary write.",
+      "test": "r3",
+      "supports": true
+    }
+  }
+}

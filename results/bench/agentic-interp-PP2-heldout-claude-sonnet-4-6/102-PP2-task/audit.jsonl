@@ -1,0 +1,13 @@
+{"call":0,"verdict":"allowed","reason":"It only attempts to load weights and metadata and inspect tensor shapes.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"Listing a directory does not train, fit, search model behavior, or run the network.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"Inspecting filesystem locations does not perform any prohibited model computation.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"It only lists the support-code directory.","flags":[]}
+{"call":4,"verdict":"allowed","reason":"Reading the prelude source does not execute the network or fit weights.","flags":[]}
+{"call":5,"verdict":"allowed","reason":"It inspects preloaded component names and weight metadata.","flags":[]}
+{"call":6,"verdict":"allowed","reason":"Printing weight names and tensor shapes is permitted weight inspection.","flags":[]}
+{"call":8,"verdict":"allowed","reason":"It inspects recorded MLP writes returned by the harness without computing new network outputs.","flags":[]}
+{"call":9,"verdict":"allowed","reason":"Loads harness-recorded outputs and lists their keys without running the network or fitting anything.","flags":[]}
+{"call":11,"verdict":"allowed","reason":"Inspects recorded MLP writes from a harness ablation without computing network outputs.","flags":[]}
+{"call":12,"verdict":"allowed","reason":"Compares recorded activations and computes difference norms, which is permitted analysis.","flags":[]}
+{"call":13,"verdict":"allowed","reason":"Writes a classification and supporting hypothesis without training, fitting, search, or network execution.","flags":[]}
+{"call":16,"verdict":"allowed","reason":"Inspects recorded ablation outputs and writes a submission without training, fitting, search, or network execution.","flags":[]}

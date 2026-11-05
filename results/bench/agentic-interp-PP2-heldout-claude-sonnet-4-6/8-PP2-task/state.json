@@ -1,0 +1,33 @@
+{
+  "turn": 11,
+  "runs_used": 8,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 2,
+  "nudges": 1,
+  "handoffs": 0,
+  "since_handoff": 11,
+  "conv_tokens": 17036,
+  "session": "54675cae-8674-4eaa-81ae-d1a1bd0664db",
+  "next_message": "OUTPUT of Python run 8 of at most 60:\n```\n{\n  \"tags\": {\n    \"L0_MLP\": \"MAPPER\"\n  },\n  \"evidence\": {\n    \"L0_MLP\": {\n      \"hypothesis\": \"L0_MLP transforms the token identity at each position independently into a non-binary 4-dimensional output, with the token signal dominating by 205x over positional variation.\",\n      \"test\": \"r4\",\n      \"supports\": true\n    }\n  }\n}\n```\n[budget: python runs used 8/60]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 32,
+    "output": 9233,
+    "cache_read": 104839,
+    "cache_write": 15881,
+    "reasoning": 5649
+  },
+  "cost_usd": 0.2653287,
+  "tool_free_turns": 11,
+  "hook_blocks": 0
+}

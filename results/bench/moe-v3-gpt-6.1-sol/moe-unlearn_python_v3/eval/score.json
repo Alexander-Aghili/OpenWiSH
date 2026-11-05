@@ -1,0 +1,18 @@
+{
+  "base_code": 1.5830781096592546,
+  "base_docs": 2.170345390215516,
+  "base_english": 2.830964408814907,
+  "code": 2.1002041064202785,
+  "delta_code": 0.517125996761024,
+  "delta_docs": 0.10215409845113754,
+  "delta_english": 0.06420686095952988,
+  "docs": 2.2724994886666536,
+  "english": 2.895171269774437,
+  "experts_changed": 32,
+  "experts_zeroed": 0,
+  "ok": true,
+  "retain_held": false,
+  "router_rows_changed": 0,
+  "score": 0.0,
+  "score_version": 3
+}

@@ -1,0 +1,5 @@
+{"call":0,"verdict":"allowed","reason":"Only checks submission formatting and writes a classification; no training, fitting, search, or network execution occurs.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"Only lists available probe-output directories.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"Computes descriptive statistics and differences from harness-recorded MLP outputs without executing the network.","flags":[]}
+{"call":4,"verdict":"allowed","reason":"Compares harness-recorded component outputs using simple statistics and a classification heuristic, with no fitting or network execution.","flags":[]}
+{"call":6,"verdict":"allowed","reason":"Only writes the classification and evidence to a submission file.","flags":[]}

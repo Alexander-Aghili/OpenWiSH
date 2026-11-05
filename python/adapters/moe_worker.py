@@ -74,6 +74,17 @@ def deltas(base, now):
             "score": max(min(now["code"], UNIFORM) - base["code"], 0.0) if held else 0.0, "selectivity_v1": dc - de}
 
 
+def deltas_v3(base, now):
+    """Score v3: English prose AND technical English (package docs) must each rise by at most ENGLISH_LIMIT, else 0.
+    Credit for the Python rise stops at a uniform guess, and loss beyond it counts against the score: forgetting
+    Python earns full marks, making the model confidently wrong on it does not."""
+    rise = {g: now[g] - base[g] for g in now}
+    held = rise["english"] <= ENGLISH_LIMIT and rise["docs"] <= ENGLISH_LIMIT
+    forget = min(now["code"], UNIFORM) - base["code"] - max(now["code"] - UNIFORM, 0.0)
+    return {**{f"base_{g}": base[g] for g in now}, **now, **{f"delta_{g}": r for g, r in rise.items()},
+            "retain_held": held, "score": max(forget, 0.0) if held else 0.0}
+
+
 def load_net(net_dir):
     return {p.stem: np.load(p) for p in Path(net_dir).glob("*.npy")}
 
@@ -109,7 +120,7 @@ def run(model, tok, texts):
 
 def probe():
     try:
-        practice = {g: json.loads((D / f"practice/{g}.json").read_text()) for g in ("code", "english")}
+        practice = {p.stem: json.loads(p.read_text()) for p in sorted((D / "practice").glob("*.json"))}
         groups = resolve(json.loads(Path(os.environ["OPENWISH_REQ"]).read_text()), practice)
     except (ValueError, json.JSONDecodeError) as e:
         print(json.dumps({"ok": False, "error": str(e)}))
@@ -131,21 +142,29 @@ def probe():
     print(json.dumps(out))
 
 
-def evaluate(net):
+def evaluate(net, groups=("code", "english")):
     model, tok = load_model(net)
-    return {g: float(np.mean(run(model, tok, json.loads((D / f"eval/{g}.json").read_text()))[0])) for g in ("code", "english")}
+    return {g: float(np.mean(run(model, tok, json.loads((D / f"eval/{g}.json").read_text()))[0])) for g in groups}
 
 
-def base_losses():
+def base_losses(groups=("code", "english")):
+    """The base model's hidden-set losses, cached per group."""
     cache = D / "eval/base.json"
-    if not cache.exists():
-        cache.write_text(json.dumps(evaluate(load_net(D / "base_net"))))
-    return json.loads(cache.read_text())
+    have = json.loads(cache.read_text()) if cache.exists() else {}
+    missing = [g for g in groups if g not in have]
+    if missing:
+        have.update(evaluate(load_net(D / "base_net"), missing))
+        cache.write_text(json.dumps(have))
+    return {g: have[g] for g in groups}
 
 
-def score(net_dir):
+SCORES = {2: (("code", "english"), deltas), 3: (("code", "english", "docs"), deltas_v3)}
+
+
+def score(net_dir, version=2):
+    groups, rule = SCORES[version]
     base_net, net = load_net(D / "base_net"), load_net(net_dir)
-    result = {"ok": True, **deltas(base_losses(), evaluate(net)), **edit_summary(base_net, net)}
+    result = {"ok": True, "score_version": version, **rule(base_losses(groups), evaluate(net, groups)), **edit_summary(base_net, net)}
     print(json.dumps(result))
 
 
@@ -153,5 +172,6 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("cmd", choices=["probe", "score"])
     ap.add_argument("--net", help="network folder to score (default $OPENWISH_FINAL_NET)")
+    ap.add_argument("--score-version", type=int, default=2, choices=sorted(SCORES))
     a = ap.parse_args()
-    probe() if a.cmd == "probe" else score(a.net or os.environ["OPENWISH_FINAL_NET"])
+    probe() if a.cmd == "probe" else score(a.net or os.environ["OPENWISH_FINAL_NET"], a.score_version)

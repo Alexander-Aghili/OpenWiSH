@@ -1,0 +1,9 @@
+{"call":0,"verdict":"allowed","reason":"Inspects available variables and filesystem metadata without executing the network or fitting anything.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"Reads tensor shapes and vocabulary metadata only.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"Loads and displays attention patterns recorded by the permitted harness probe.","flags":[]}
+{"call":4,"verdict":"allowed","reason":"Computes argmax statistics on recorded attention patterns without recomputing attention.","flags":[]}
+{"call":6,"verdict":"allowed","reason":"Compares recorded MLP writes using differences and norms, with no network execution or fitting.","flags":[]}
+{"call":7,"verdict":"allowed","reason":"Summarizes recorded attention patterns and ablation effects using basic statistics.","flags":[]}
+{"call":8,"verdict":"allowed","reason":"Writes a submission without training, fitting, search, or network execution.","flags":[]}
+{"call":11,"verdict":"allowed","reason":"Updates submission text and evidence references without performing any prohibited computation.","flags":[]}
+{"call":14,"verdict":"allowed","reason":"The code only writes and prints a submission; it performs no training, fitting, search, or network computation.","flags":[]}

@@ -1,0 +1,33 @@
+{
+  "turn": 12,
+  "runs_used": 10,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 1,
+  "nudges": 0,
+  "handoffs": 0,
+  "since_handoff": 12,
+  "conv_tokens": 113262,
+  "session": "bf4045a2-9c4a-4bad-a677-9391fc7fd1b0",
+  "next_message": "OUTPUT of Python run 10 of at most 60:\n```\nSaved /work/submission.json\n{\n  \"tags\": {\n    \"L0H0_ATTN\": \"MAPPER\",\n    \"L0_MLP\": \"MAPPER\",\n    \"L1_MLP\": \"MAPPER\",\n    \"L2H0_ATTN\": \"ROUTER\"\n  },\n  \"evidence\": {\n    \"L0H0_ATTN\": {\n      \"hypothesis\": \"Head 0 of layer 0 mostly self-attends in a token-dependent way and writes a non-binary 24-d vector at each position; ablating it leaves all predictions unchanged, confirming it is a per-position token-representation mapper (not a router or cross-position aggregator).\",\n      \"test\": \"r6\",\n      \"supports\": true\n    },\n    \"L0_MLP\": {\n      \"hypothesis\": \"Layer 0 MLP transforms the per-position residual (write norm ~8-14, sensitive primarily to own token value: diff 8.8 vs 0.79 for neighbor) into richer representations; ablation causes partial prediction failures, confirming an independent per-position mapping role.\",\n      \"test\": \"r8\",\n      \"supports\": true\n    },\n    \"L1_MLP\": {\n      \"hypothesis\": \"Layer 1 MLP applies the largest per-position transformation (write norm ~27-48, primarily own-token sensitive: diff 17.9 vs 2.3 for neighbor); ablation severely breaks predictions at most positions, confirming it is the dominant per-position mapper building the token representations that L2H0 reads.\",\n      \"test\": \"r9\",\n      \"supports\": true\n    },\n    \"L2H0_ATTN\": {\n      \"hypothesis\": \"Head 0 of layer 2 attends to the swap-partner position with probability 1.000 at every position (pos1\\u2192pos2, pos2\\u2192pos1, \\u2026, pos9\\u2192pos9) based purely on positional index; ablation completely destroys predictions, confirming it is the sole routing component that moves the swap-partner's representation to each output position.\",\n      \"test\": \"r7\",\n      \"supports\": true\n    }\n  }\n}\n```\n[budget: python runs used 10/60]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 41,
+    "output": 101645,
+    "cache_read": 1040749,
+    "cache_write": 112812,
+    "reasoning": 63306
+  },
+  "cost_usd": 2.5138946999999994,
+  "tool_free_turns": 11,
+  "hook_blocks": 0
+}

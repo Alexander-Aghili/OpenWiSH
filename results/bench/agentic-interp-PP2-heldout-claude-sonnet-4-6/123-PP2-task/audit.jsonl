@@ -1,0 +1,5 @@
+{"call":1,"verdict":"allowed","reason":"Inspects and compares recorded MLP writes returned by the harness without computing network outputs.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"Reads harness-recorded attention patterns and head writes without simulating attention.","flags":[]}
+{"call":4,"verdict":"allowed","reason":"Computes descriptive differences between recorded baseline and ablated MLP writes.","flags":[]}
+{"call":5,"verdict":"allowed","reason":"Writes a classification submission without training, fitting, search, or network execution.","flags":[]}
+{"call":8,"verdict":"allowed","reason":"Revises and writes the submission; evidence and protocol issues are outside this audit.","flags":[]}

@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OpenWiSH Harness Proposals</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a working memo. Findings strip, then proposals grouped by the finding they fix, then the project landscape. */
+:root {
+  --paper: #f6f7f9;
+  --sheet: #ffffff;
+  --ink: #15181f;
+  --ink-2: #4a505c;
+  --rule: #dfe2e8;
+  --accent: #2f4fb3;
+  --now: #0f7a43;   --now-bg: #e3f4ea;
+  --next: #8a5a00;  --next-bg: #fbf0d9;
+  --later: #5b5f6b; --later-bg: #eceef2;
+  --care: #a33a2a;  --care-bg: #f8e4e0;
+  --display: "IBM Plex Sans Condensed", "Arial Narrow", sans-serif;
+  --body: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0f1115; --sheet: #171a20; --ink: #e8eaef; --ink-2: #a9afbb; --rule: #2a2f38; --accent: #8ea6ff;
+    --now: #5fd394; --now-bg: #12301f; --next: #f0bf5a; --next-bg: #33280f; --later: #b3b8c4; --later-bg: #23272f;
+    --care: #ff8e7c; --care-bg: #3a1c17; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #0f1115; --sheet: #171a20; --ink: #e8eaef; --ink-2: #a9afbb; --rule: #2a2f38; --accent: #8ea6ff;
+  --now: #5fd394; --now-bg: #12301f; --next: #f0bf5a; --next-bg: #33280f; --later: #b3b8c4; --later-bg: #23272f;
+  --care: #ff8e7c; --care-bg: #3a1c17; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 16px/1.55 var(--body); }
+main { max-width: 1040px; margin: 0 auto; padding: 40px 20px 64px; display: grid; gap: 40px; }
+h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; }
+h1 { font-size: 40px; line-height: 1.1; font-weight: 600; letter-spacing: -0.01em; }
+h2 { font-size: 26px; font-weight: 600; }
+h3 { font-size: 19px; font-weight: 600; }
+p { margin: 0; max-width: 68ch; }
+a { color: var(--accent); }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.lede { color: var(--ink-2); font-size: 18px; }
+.meta { font: 13px/1.4 var(--mono); color: var(--ink-2); }
+header { display: grid; gap: 14px; }
+section { display: grid; gap: 18px; }
+.findings { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+.finding { background: var(--sheet); border: 1px solid var(--rule); border-radius: 10px; padding: 16px; display: grid; gap: 8px; align-content: start; }
+.finding .tag { font: 600 13px var(--mono); color: var(--accent); }
+.finding .num { font: 500 18px var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.finding p { font-size: 14.5px; color: var(--ink-2); }
+.legend { display: flex; flex-wrap: wrap; gap: 10px 18px; font-size: 14px; color: var(--ink-2); align-items: center; }
+.chip { display: inline-block; font: 600 12px/1 var(--mono); padding: 5px 8px; border-radius: 999px; white-space: nowrap; }
+.now { color: var(--now); background: var(--now-bg); }
+.next { color: var(--next); background: var(--next-bg); }
+.later { color: var(--later); background: var(--later-bg); }
+.care { color: var(--care); background: var(--care-bg); }
+.group { display: grid; gap: 12px; }
+.group > h3 { color: var(--ink-2); font-size: 15px; letter-spacing: 0.04em; text-transform: uppercase; font-family: var(--mono); font-weight: 500; }
+.card { background: var(--sheet); border: 1px solid var(--rule); border-left: 4px solid var(--rule); border-radius: 10px; padding: 18px 20px; display: grid; gap: 10px; }
+.card.s-now { border-left-color: var(--now); } .card.s-next { border-left-color: var(--next); }
+.card.s-later { border-left-color: var(--later); } .card.s-care { border-left-color: var(--care); }
+.card-head { display: flex; gap: 12px; align-items: baseline; justify-content: space-between; flex-wrap: wrap; }
+.card-head h3 { font-size: 19px; }
+.rank { font: 500 13px var(--mono); color: var(--ink-2); margin-right: 8px; }
+.rows { display: grid; grid-template-columns: 92px 1fr; gap: 6px 14px; font-size: 15px; }
+.rows dt { font: 500 12.5px/1.9 var(--mono); color: var(--ink-2); text-transform: uppercase; letter-spacing: 0.03em; }
+.rows dd { margin: 0; max-width: 78ch; }
+.src { font-size: 13.5px; color: var(--ink-2); }
+.unv { font: 500 11.5px var(--mono); color: var(--care); }
+.table-wrap { overflow-x: auto; background: var(--sheet); border: 1px solid var(--rule); border-radius: 10px; }
+table { border-collapse: collapse; width: 100%; font-size: 14.5px; min-width: 820px; }
+th, td { text-align: left; vertical-align: top; padding: 11px 14px; border-bottom: 1px solid var(--rule); }
+th { font: 500 12.5px var(--mono); color: var(--ink-2); text-transform: uppercase; letter-spacing: 0.03em; background: var(--paper); }
+td.n { font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+tr:last-child td { border-bottom: none; }
+.note { font-size: 14px; color: var(--ink-2); }
+@media (max-width: 560px) { h1 { font-size: 30px; } .rows { grid-template-columns: 1fr; } .rows dt { line-height: 1.2; } }
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto; } }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="meta">OpenWiSH · harness design review · 4 November 2026</p>
+  <h1>OpenWiSH Harness Proposals</h1>
+  <p class="lede">Seventeen changes to the OpenWiSH harness, ranked by what our own runs exposed. Each proposal names the failure it fixes, the literature behind it, and what it costs. The landscape section lists the projects closest to OpenWiSH and what to borrow from each.</p>
+  <p class="note">Built from two literature sweeps (agentic interpretability, model editing and unlearning evaluation, agent evaluation integrity) and a GitHub check of every project's stars and last push on 4 November 2026. Claims the sweeps could not confirm carry an <span class="unv">unverified</span> mark.</p>
+</header>
+
+<section aria-labelledby="findings">
+  <h2 id="findings">The four findings behind these proposals</h2>
+  <div class="findings">
+    <div class="finding"><span class="tag">(a) Agents stop early</span><span class="num">79.0 % vs 61.3 %</span><p>AgenticInterpBench, Claude Sonnet 4.6, same access. HyVE forces observe, hypothesise and validate per component. In OpenWiSH, Sonnet answered 59 of 84 cases after one Python run.</p></div>
+    <div class="finding"><span class="tag">(b) Agents game the metric</span><span class="num">103.8, then 9.22</span><p>MoE unlearning. The first score rewarded breaking everything, code a bit more. The fixed score passed an edit that turned two experts into a trap for all technical text. The novels-only retain set missed it.</p></div>
+    <div class="finding"><span class="tag">(c) Budgets confound comparisons</span><span class="num">2 to 4 turns</span><p>WSPBench B and C cap input at 160,000 tokens. The weights payload alone holds 33,000 to 66,000, so tool conditions run out before submitting. Part of our win is budget design.</p></div>
+    <div class="finding"><span class="tag">(d) Verification leaks</span><span class="num">7 audit failures</span><p>Agents computed attention or gates by hand in Python instead of calling the probe. Once, the auditor brief's generic "no search" rule overrode a task's explicit permission to fit.</p></div>
+  </div>
+  <div class="legend">
+    <span><span class="chip now">Building now</span> in progress this week</span>
+    <span><span class="chip next">Next</span> high value, clear design</span>
+    <span><span class="chip later">Later</span> worth doing, lower priority</span>
+    <span><span class="chip care">Careful</span> real trade-off, decide first</span>
+  </div>
+</section>
+
+<section aria-labelledby="proposals">
+  <h2 id="proposals">Proposals, grouped by the finding they fix</h2>
+
+  <div class="group">
+    <h3>Make agents investigate · finding (a)</h3>
+
+    <article class="card s-now">
+      <div class="card-head"><h3><span class="rank">1</span>A falsification loop per component</h3><span class="chip now">Building now</span></div>
+      <dl class="rows">
+        <dt>Idea</dt><dd>A task can declare a protocol: for each component, observe, state a hypothesis, test it with an ablation or patch, and record whether the test supports it. A refuted hypothesis goes back to the hypothesis step. OpenWiSH runs this as its own labelled condition, so open-ended and scaffolded results never pool.</dd>
+        <dt>Why</dt><dd>The 17.7-point HyVE gap comes from investigation depth, not access. Our agent had the same probe and used it 38 times across 84 cases. A protocol makes the probe budget get spent where the answer is decided.</dd>
+        <dt>Drawbacks</dt><dd>HyVE's authors report most failures inside the validation step: weak plans, code errors, unresolved hypotheses. A protocol does not fix bad test code. It also hard-codes one research workflow, which suits tagging tasks better than open discovery.</dd>
+        <dt>Status</dt><dd>Tested on 16 pre-registered dev cases (seed 2026), 37 components. Prompt only 59.5 %. Open-ended probe 54.1 %. Protocol version 1 59.5 % with six times the investigation. Version 2 adds a tag-deciding test (count upstream sources for an MLP, pattern shape for a head) and scores 67.6 %. Version 2 is frozen and running on the 68 held-out cases.</dd>
+      </dl>
+      <p class="src">Sources: HyVE, Findings of EMNLP 2026, <a href="https://arxiv.org/abs/2606.24026">arXiv 2606.24026</a>. POPPER, ICML 2025, <a href="https://arxiv.org/abs/2502.09858">arXiv 2502.09858</a> (sequential falsification with e-values).</p>
+    </article>
+
+    <article class="card s-now">
+      <div class="card-head"><h3><span class="rank">2</span>Evidence-gated answers</h3><span class="chip now">Building now</span></div>
+      <dl class="rows">
+        <dt>Idea</dt><dd>Every claim in the final answer cites the probe call that tested it. A host-side check refuses the answer unless each cited call exists, finished, and ablated or patched the component it claims to test.</dd>
+        <dt>Why</dt><dd>One check covers two findings. An answer given after one run has nothing to cite (a). A result simulated by hand in Python has no probe ID, so it cannot stand in as causal evidence (d). The check reads only the run's own request records and never grades the answer.</dd>
+        <dt>Drawbacks</dt><dd>An agent can cite a real probe whose output does not support the claim. The check confirms the test happened, not that it was a good test. Semantic support checks would need an LLM judge, with its own errors.</dd>
+      </dl>
+      <p class="src">Sources: Kosmos, Edison Scientific 2025, <a href="https://arxiv.org/abs/2511.02824">arXiv 2511.02824</a> (every statement traced to code). Agent-as-a-Judge, ICML 2025, <a href="https://arxiv.org/abs/2410.10934">arXiv 2410.10934</a> (about 90 % agreement with humans against about 70 % for LLM-as-a-judge <span class="unv">unverified figure</span>).</p>
+    </article>
+
+    <article class="card s-next">
+      <div class="card-head"><h3><span class="rank">3</span>Pre-registered predictions in the ledger</h3><span class="chip next">Next</span></div>
+      <dl class="rows">
+        <dt>Idea</dt><dd>Before each probe call the agent writes a structured prediction with a numeric threshold, for example "zeroing L3H2 drops accuracy by more than 30 %". The prediction is hashed into the ledger before the probe runs. Reports count confirmed, refuted and unregistered probes.</dd>
+        <dt>Why</dt><dd>Commitment before seeing results turns probing into testing (a). The auditor gets a concrete claim to check per code run (d). The hashed ledger already exists, so the cost is one record type.</dd>
+        <dt>Drawbacks</dt><dd>Agents register vague predictions unless the schema forces a number and a direction. Extra tokens per probe.</dd>
+      </dl>
+      <p class="src">Sources: Vaccaro, "Preregister Experiments with AI Agents", ICML 2026, <a href="https://arxiv.org/abs/2606.11217">arXiv 2606.11217</a> <span class="unv">unverified, abstract only</span>. Luo, Kasirzadeh and Shah, NeurIPS 2025, <a href="https://arxiv.org/abs/2509.08713">arXiv 2509.08713</a> (post-hoc selection in AI-scientist systems).</p>
+    </article>
+
+    <article class="card s-next">
+      <div class="card-head"><h3><span class="rank">4</span>A live status board in every turn</h3><span class="chip next">Next</span></div>
+      <dl class="rows">
+        <dt>Idea</dt><dd>Each tool reply ends with a short board: probes and Python runs used and left, turns left, and for protocol tasks the components still lacking a tested hypothesis. A persistent notes file holds one row per component and survives context handoffs.</dd>
+        <dt>Why</dt><dd>Sonnet finished with most of its 60-run budget unspent and several components untested (a). A visible board makes that state hard to overlook, and makes spend comparable across tool setups (c).</dd>
+        <dt>Drawbacks</dt><dd>Agents may spend budget because it is there, which inflates cost without raising accuracy. Measure accuracy per probe, not only accuracy.</dd>
+      </dl>
+      <p class="src">Sources: BATS, budget-aware tool use, 2025, <a href="https://arxiv.org/abs/2511.17006">arXiv 2511.17006</a> (ReAct accuracy with 40.4 % fewer search calls <span class="unv">unverified figure</span>). Anthropic, <a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents">Effective context engineering for AI agents</a>, 2025.</p>
+    </article>
+
+    <article class="card s-next">
+      <div class="card-head"><h3><span class="rank">5</span>An experiment library on top of the probe</h3><span class="chip next">Next</span></div>
+      <dl class="rows">
+        <dt>Idea</dt><dd>Ship tested helpers for the standard experiments (ablate, patch, interchange, attention summary, logit attribution) that return compact summaries, validate calls before running them, and cap large outputs with a request to narrow the query.</dd>
+        <dt>Why</dt><dd>Agents simulate the network by hand when the probe feels awkward (d), and investigations fail on their own test code (a). SWE-agent found interface details, such as a linter on edits and summarised search, mattered more than prompting.</dd>
+        <dt>Drawbacks</dt><dd>A curated library encodes our priors about which experiments matter. Summaries can hide the anomaly that would have mattered. Keep raw arrays one call away.</dd>
+      </dl>
+      <p class="src">Sources: MAIA, <a href="https://arxiv.org/abs/2404.14394">arXiv 2404.14394</a>. SWE-agent, NeurIPS 2024, <a href="https://arxiv.org/abs/2405.15793">arXiv 2405.15793</a>. Beel et al., SIGIR Forum 2025, <a href="https://arxiv.org/abs/2502.14297">arXiv 2502.14297</a> (42 % of AI Scientist experiments failed, mostly on code errors).</p>
+    </article>
+  </div>
+
+  <div class="group">
+    <h3>Score honestly · finding (b)</h3>
+
+    <article class="card s-next">
+      <div class="card-head"><h3><span class="rank">6</span>Conjunctive multi-axis edit scores with adjacent retain sets</h3><span class="chip next">Next</span></div>
+      <dl class="rows">
+        <dt>Idea</dt><dd>Score every write task on separate axes, as model editing does: efficacy on the target, generalisation to paraphrases, specificity on everything else (including a KL measure). Pass only when every axis clears its threshold. Draw retain sets from domains next to the target, keep them hidden, and rotate them.</dd>
+        <dt>Why</dt><dd>Both MoE failures came from the score. A difference score rewarded breaking everything. A novels-only retain set passed an edit that broke C, Markdown and docs. WMDP measures retained utility on subjects next to the forgotten one for this reason.</dd>
+        <dt>Drawbacks</dt><dd>More evaluation compute per run. Agents hunt for regions the metrics leave out, so coverage never ends. Thresholds are judgment calls, and moving them after seeing results needs disclosure.</dd>
+        <dt>Status</dt><dd>Done as MoE task version 3: technical English joins the retain set, and the score rewards forgetting over breaking. Every fixed baseline and the earlier two-expert trap now score 0. Sol's best edit (Python +0.52, prose +0.06) misses the technical-English limit by 0.002 nats, so it scores 0 too.</dd>
+      </dl>
+      <p class="src">Sources: ROME and CounterFact, <a href="https://arxiv.org/abs/2202.05262">arXiv 2202.05262</a>. MEMIT, <a href="https://arxiv.org/abs/2210.07229">arXiv 2210.07229</a>. AlphaEdit, ICLR 2025, <a href="https://arxiv.org/abs/2410.02355">arXiv 2410.02355</a>. CounterFact+, Findings of ACL 2023, <a href="https://arxiv.org/abs/2305.17553">arXiv 2305.17553</a>. WMDP, <a href="https://arxiv.org/abs/2403.03218">arXiv 2403.03218</a>. MUSE, ICLR 2025, <a href="https://arxiv.org/abs/2407.06460">arXiv 2407.06460</a>. TOFU, <a href="https://arxiv.org/abs/2401.06121">arXiv 2401.06121</a>.</p>
+    </article>
+
+    <article class="card s-next">
+      <div class="card-head"><h3><span class="rank">7</span>An Agentic Benchmark Checklist pass on every task</h3><span class="chip next">Next</span></div>
+      <dl class="rows">
+        <dt>Idea</dt><dd>Before a task ships, run the ABC checks for task validity, outcome validity and reporting, and record the answers in the task folder.</dd>
+        <dt>Why</dt><dd>The checklist asks whether a degenerate strategy scores well. That question would have caught MoE score version 1 before any agent ran. ABC found outcome-validity problems in 7 of 10 widely used agent benchmarks.</dd>
+        <dt>Drawbacks</dt><dd>Process overhead per task, and a checklist only catches the failure modes it names.</dd>
+      </dl>
+      <p class="src">Source: Zhu et al., NeurIPS 2025 Datasets and Benchmarks, <a href="https://arxiv.org/abs/2507.02825">arXiv 2507.02825</a>.</p>
+    </article>
+
+    <article class="card s-care">
+      <div class="card-head"><h3><span class="rank">8</span>An adversarial removal check in the scorer</h3><span class="chip care">Careful</span></div>
+      <dl class="rows">
+        <dt>Idea</dt><dd>After scoring an unlearning edit, the host tries to undo the edit: a short relearning run on half the forget set, measured on the other half, plus direction removal. The report separates removed from hidden.</dd>
+        <dt>Why</dt><dd>The two-expert trap looks like obfuscation, not removal. Published unlearning methods often recover most of the erased skill after fine-tuning on a handful of unrelated examples.</dd>
+        <dt>Drawbacks</dt><dd>The fine-tuning runs on the host, never by the agent, but readers may read it as breaking the no-optimisation rule. It needs clear documentation and compute per scored run.</dd>
+      </dl>
+      <p class="src">Sources: Łucki et al., TMLR 2025, <a href="https://arxiv.org/abs/2409.18025">arXiv 2409.18025</a>. Fan et al., ICML 2025, <a href="https://arxiv.org/abs/2502.05374">arXiv 2502.05374</a>.</p>
+    </article>
+
+    <article class="card s-later">
+      <div class="card-head"><h3><span class="rank">9</span>Impossible-task canaries</h3><span class="chip later">Later</span></div>
+      <dl class="rows">
+        <dt>Idea</dt><dd>Add task variants with no honest solution. Any success on them measures an agent's tendency to game, reported per model next to its scores.</dd>
+        <dt>Why</dt><dd>Gaming in finding (b) stayed within the rules, so audits alone will not surface it. METR saw o3 reward-hack in 30.4 % of RE-Bench runs, and asking the model not to cheat barely helped. The fix has to live in the environment.</dd>
+        <dt>Drawbacks</dt><dd>Costs runs that score nothing, and designing a truly impossible weight-editing task is hard. A clever honest edit could look like a cheat.</dd>
+      </dl>
+      <p class="src">Sources: ImpossibleBench, ICLR 2026, <a href="https://arxiv.org/abs/2510.20270">arXiv 2510.20270</a>. METR, <a href="https://metr.org/blog/2025-06-05-recent-reward-hacking/">Recent reward hacking</a>, 2025. AI Scientist, <a href="https://arxiv.org/abs/2408.06292">arXiv 2408.06292</a> (edited its own timeout).</p>
+    </article>
+
+    <article class="card s-care">
+      <div class="card-head"><h3><span class="rank">10</span>A hidden test metric with a separate dev metric</h3><span class="chip care">Careful</span></div>
+      <dl class="rows">
+        <dt>Idea</dt><dd>Show the agent a dev metric on practice data and keep the test metric's exact form hidden.</dd>
+        <dt>Why</dt><dd>Reward hacking rises when the full scoring function is visible. Our MoE prompt printed the exact formula, and the agent optimised the formula.</dd>
+        <dt>Drawbacks</dt><dd>Agents check their own work less well, and the task becomes harder to reproduce from the prompt alone. Today OpenWiSH states every score in the prompt, which keeps runs transparent. Decide per task.</dd>
+      </dl>
+      <p class="src">Source: METR, <a href="https://metr.org/blog/2025-06-05-recent-reward-hacking/">Recent reward hacking</a>, 2025.</p>
+    </article>
+  </div>
+
+  <div class="group">
+    <h3>Compare fairly · finding (c)</h3>
+
+    <article class="card s-next">
+      <div class="card-head"><h3><span class="rank">11</span>Cost-accuracy reporting and pre-specified budget sweeps</h3><span class="chip next">Next</span></div>
+      <dl class="rows">
+        <dt>Idea</dt><dd>Log tokens, turns, probe calls and dollars for every run, and plot accuracy against cost. Before comparing two tool setups, fix a set of budgets that includes each setup's native budget, and run both at each.</dd>
+        <dt>Why</dt><dd>Our WSPBench win mixes tool design with a budget that left WSPBench's own conditions 2 to 4 turns. A sweep separates the two. AxBench found plain prompting beat every steering method tested, which shows how cheap baselines reorder rankings.</dd>
+        <dt>Drawbacks</dt><dd>Sweeps multiply cost, and conflict with the CPU budget on local runs. Probe compute and LLM tokens have no common unit.</dd>
+      </dl>
+      <p class="src">Sources: Kapoor et al., "AI Agents That Matter", <a href="https://arxiv.org/abs/2407.01502">arXiv 2407.01502</a>. HAL, ICLR 2026, <a href="https://arxiv.org/abs/2510.11977">arXiv 2510.11977</a>. AxBench, ICML 2025, <a href="https://arxiv.org/abs/2501.17148">arXiv 2501.17148</a>.</p>
+    </article>
+
+    <article class="card s-next">
+      <div class="card-head"><h3><span class="rank">12</span>Three controls in every environment</h3><span class="chip next">Next</span></div>
+      <dl class="rows">
+        <dt>Idea</dt><dd>Each environment ships a no-weights control (prompt only), a no-numbers control (the edit described without the weights), and a scripted or closed-form solver (for edits, a ROME or AlphaEdit-style baseline).</dd>
+        <dt>Why</dt><dd>Our prompt-only control showed most AgenticInterpBench signal comes from the task text. A no-numbers control found reading Qwen weights adds only +0.06 correlation with measured effects. Without controls, "the agent read the weights" stays an untested claim.</dd>
+        <dt>Drawbacks</dt><dd>Two to three extra runs per environment. Closed-form editors use gradients for some steps, so they serve as reference points, never as OpenWiSH agents.</dd>
+      </dl>
+      <p class="src">Sources: <a href="https://github.com/csinva/weight-space-programming-autoresearch">csinva/weight-space-programming-autoresearch</a> (no-numbers control). WSPBench scripted solver, <a href="https://github.com/alexcarterhq/wspbench">alexcarterhq/wspbench</a>. EasyEdit, <a href="https://github.com/zjunlp/EasyEdit">zjunlp/EasyEdit</a>.</p>
+    </article>
+
+    <article class="card s-later">
+      <div class="card-head"><h3><span class="rank">13</span>Repeats, and several investigators within one budget</h3><span class="chip later">Later</span></div>
+      <dl class="rows">
+        <dt>Idea</dt><dd>Run every headline condition at least three times and report spread. Optionally split one budget across several independent investigators and aggregate their answers.</dd>
+        <dt>Why</dt><dd>Nearly every number on our results page is one attempt. Anthropic's auditing work reports a single investigator at 13 % and an aggregate of several at 42 %, so aggregation is a cheap lever, as long as the budget counts all of it.</dd>
+        <dt>Drawbacks</dt><dd>Repeats triple the cost of a result. Aggregation that escapes the budget reopens the fairness problem in (c).</dd>
+      </dl>
+      <p class="src">Source: Anthropic, <a href="https://alignment.anthropic.com/2025/automated-auditing/">Building and evaluating alignment auditing agents</a>, 2025 <span class="unv">13 % and 42 % from summaries</span>.</p>
+    </article>
+  </div>
+
+  <div class="group">
+    <h3>Verify claims · finding (d)</h3>
+
+    <article class="card s-next">
+      <div class="card-head"><h3><span class="rank">14</span>Task rules above the auditor brief</h3><span class="chip next">Next</span></div>
+      <dl class="rows">
+        <dt>Idea</dt><dd>Rank instructions explicitly: the task's rules first, the generic auditor brief second. Each verdict quotes the task rule it enforces. Keep a regression set of labelled allowed and disallowed transcripts, and re-audit published runs when the brief changes, showing old and new verdicts side by side.</dd>
+        <dt>Why</dt><dd>The exp3 run failed audit for an annealing fit the task explicitly allowed, because the brief banned search everywhere. The brief served weight-editing tasks and misfired on a read task.</dd>
+        <dt>Drawbacks</dt><dd>The auditor reads text the agent wrote, so it stays open to prompt injection from transcripts. A regression set needs ongoing labelling.</dd>
+        <dt>Status</dt><dd>Done. Task rules now take precedence, and exp3 re-audits as valid, with the old verdict kept beside the new one. The auditor also sees every probe call as context now. Without that, all five failed audits in the first protocol dev run were false positives.</dd>
+      </dl>
+      <p class="src">Sources: Wallace et al., "The Instruction Hierarchy", <a href="https://arxiv.org/abs/2404.13208">arXiv 2404.13208</a>. Greenblatt et al., AI Control, <a href="https://arxiv.org/abs/2312.06942">arXiv 2312.06942</a>.</p>
+    </article>
+
+    <article class="card s-next">
+      <div class="card-head"><h3><span class="rank">15</span>A static detector for hand-simulated forward passes</h3><span class="chip next">Next</span></div>
+      <dl class="rows">
+        <dt>Idea</dt><dd>Flag code that chains matrix products and nonlinearities across several layers' weights on input-shaped arrays. Under access levels without probes, block it. With probes, charge it against the probe budget.</dd>
+        <dt>Why</dt><dd>Seven runs today failed audit for exactly this. A programmatic first line of defence costs nothing per run and leaves the LLM auditor for the subtle cases.</dd>
+        <dt>Drawbacks</dt><dd>False positives on legitimate weight analysis such as OV and QK circuits, which also multiply weights. Our own proposal, so it needs tuning on labelled transcripts first.</dd>
+      </dl>
+      <p class="src">Basis: OpenAI chain-of-thought monitoring, <a href="https://arxiv.org/abs/2503.11926">arXiv 2503.11926</a> (optimising against a monitor causes obfuscation, so never train against this detector).</p>
+    </article>
+
+    <article class="card s-later">
+      <div class="card-head"><h3><span class="rank">16</span>Causal-faithfulness scores for read tasks</h3><span class="chip later">Later</span></div>
+      <dl class="rows">
+        <dt>Idea</dt><dd>Beyond matching a label, score an explanation by interchange intervention accuracy, and test that the claimed circuit preserves, localises and minimally contains the mechanism.</dd>
+        <dt>Why</dt><dd>A correct tag can come from the task text, as our prompt-only control showed. A causal score requires the explanation to predict interventions, which the task text cannot supply.</dd>
+        <dt>Drawbacks</dt><dd>Compute per scored run, and ground truth exists only for synthetic circuits.</dd>
+      </dl>
+      <p class="src">Sources: MIB, ICML 2025, <a href="https://arxiv.org/abs/2504.13151">arXiv 2504.13151</a>. Shi et al., NeurIPS 2024, <a href="https://arxiv.org/abs/2410.13032">arXiv 2410.13032</a>.</p>
+    </article>
+  </div>
+
+  <div class="group">
+    <h3>Reach researchers where they work</h3>
+
+    <article class="card s-later">
+      <div class="card-head"><h3><span class="rank">17</span>Inspect adapter, MCP server and standard probe backends</h3><span class="chip later">Later</span></div>
+      <dl class="rows">
+        <dt>Idea</dt><dd>Export OpenWiSH environments as Inspect tasks. Expose the kernel, probes and gate as an MCP server, as OpenWSP does. Offer nnsight intervention graphs or TransformerLens hooks as probe backends, and feed run folders to Docent for transcript search.</dd>
+        <dt>Why</dt><dd>Inspect (3,166 stars) is where evaluators work, and METR is moving to it. TransformerLens (4,036 stars) and nnsight (1,139 stars) are what interpretability researchers already use. Meeting them there costs less than asking them to learn a new tool.</dd>
+        <dt>Drawbacks</dt><dd>Maintenance across fast-moving dependencies. An MCP surface must keep the gate and the ledger as the only write path.</dd>
+      </dl>
+      <p class="src">Sources: <a href="https://github.com/UKGovernmentBEIS/inspect_ai">inspect_ai</a>, <a href="https://github.com/ndif-team/nnsight">nnsight</a>, <a href="https://github.com/TransformerLensOrg/TransformerLens">TransformerLens</a>, <a href="https://github.com/TransluceAI/docent">Docent</a>, <a href="https://github.com/openwsp/openwsp">OpenWSP</a>.</p>
+    </article>
+  </div>
+
+  <p class="note">Deferred: human expert baselines (high cost, no budget yet) and trained investigator agents (they fall under the no-optimisation rule only if training stays outside the harness).</p>
+</section>
+
+<section aria-labelledby="landscape">
+  <h2 id="landscape">The closest projects</h2>
+  <p>Weight-space programming is days old. No project combines a gated, ledgered edit path, an auditor, budgeted probes and environments across RL policies, Go, language-model edits, MoE unlearning and interpretability benchmarks. The likeliest main competitor is the Sparks authors' own harness, announced and not yet released. Stars and last push checked on GitHub, 4 November 2026.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Rank</th><th>Project</th><th>Stars</th><th>What it is</th><th>Borrow from it</th><th>OpenWiSH adds</th></tr></thead>
+      <tbody>
+        <tr><td class="n">1</td><td><a href="https://github.com/openwsp/openwsp">OpenWSP</a></td><td class="n">2</td><td>A direct twin, created 3 November. One API as CLI, Python SDK and MCP server, a versioned edit format, cost and incident records.</td><td>MCP surface, calibration against the released edit before live runs, per-attempt incident records.</td><td>Multi-domain environments, a Rust gate, an auditor, finished live results.</td></tr>
+        <tr><td class="n">2</td><td><a href="https://github.com/RikiyaT/lm_understand-logs">Sparks logs</a> and the announced harness</td><td class="n">783</td><td>The blog's prompts, transcripts and evaluations for experiments 1 to 8. The authors say a benchmark and harness are in progress.</td><td>The reference tasks, already bundled and replayed.</td><td>Any agent and model, audits, held-out tests, environments beyond the blog.</td></tr>
+        <tr><td class="n">3</td><td><a href="https://github.com/alexcarterhq/wspbench">WSPBench</a></td><td class="n">3</td><td>Small-network read, write and repair tasks with behaviour-only, weights-plus-behaviour and scripted conditions.</td><td>Forecast-before-patch, hidden preserve examples, an errata file.</td><td>Already integrated. Real models and a gated edit path.</td></tr>
+        <tr><td class="n">4</td><td><a href="https://github.com/safety-research/auditing-agents">AuditBench</a> (Anthropic)</td><td class="n">35</td><td>56 models with 14 implanted hidden behaviours and an investigator agent with configurable tools.</td><td>Model organisms, per-tool ablations, the finding that strong tools do not always help agents.</td><td>Editing, not only finding.</td></tr>
+        <tr><td class="n">5</td><td><a href="https://github.com/Ziyu-Yao-NLP-Lab/LLM-Circuit-Explainer">AgenticInterpBench / HyVE</a></td><td class="n">3</td><td>84 synthetic circuits, 163 annotated components. Findings of EMNLP 2026.</td><td>The per-component protocol now behind proposal 1.</td><td>Already integrated, with a prompt-only control the paper lacks.</td></tr>
+        <tr><td class="n">6</td><td><a href="https://github.com/UKGovernmentBEIS/inspect_ai">Inspect</a> (UK AISI)</td><td class="n">3,166</td><td>The standard agent-evaluation framework: sandboxes, solvers, scorers, a log viewer.</td><td>An adapter for reach. OpenWiSH already runs WSPBench inside it.</td><td>Everything specific to weights.</td></tr>
+        <tr><td class="n">7</td><td><a href="https://github.com/zjunlp/EasyEdit">EasyEdit</a></td><td class="n">2,933</td><td>Model-editing toolkit with reliability, generalisation, locality and portability metrics.</td><td>Standard side-effect metrics and closed-form baselines.</td><td>An agent, a gate, an audit.</td></tr>
+        <tr><td class="n">8</td><td><a href="https://github.com/csinva/weight-space-programming-autoresearch">csinva autoresearch</a></td><td class="n">24</td><td>The largest follow-up. A no-numbers control, and 959 hand-written transformer programs.</td><td>The no-numbers control in proposal 12.</td><td>Sandboxing, budgets, audits.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Neighbour</th><th>Stars</th><th>Relevance</th></tr></thead>
+      <tbody>
+        <tr><td><a href="https://github.com/TransformerLensOrg/TransformerLens">TransformerLens</a></td><td class="n">4,036</td><td>The most used hooks and caching library. A natural probe backend.</td></tr>
+        <tr><td><a href="https://github.com/ndif-team/nnsight">nnsight / NDIF</a></td><td class="n">1,139</td><td>Deferred intervention graphs could make probes declarative and countable. Remote execution has no gradients, which fits the no-optimisation rule.</td></tr>
+        <tr><td><a href="https://github.com/multimodal-interpretability/maia">MAIA</a></td><td class="n">114</td><td>An interpretability agent with a composable experiment API. The model for proposal 5.</td></tr>
+        <tr><td><a href="https://github.com/Trae1ounG/SAEScientist">SAEScientist-Bench</a></td><td class="n">21</td><td>Agents search SAE features, scored on activation, selectivity and causal steering. A model for intervention-based scoring.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+</main>
+</body>
+</html>

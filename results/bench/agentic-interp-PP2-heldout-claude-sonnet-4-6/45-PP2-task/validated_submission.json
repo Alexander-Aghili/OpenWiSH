@@ -1,0 +1,30 @@
+{
+  "tags": {
+    "L0H0_ATTN": "ROUTER",
+    "L0_MLP": "COMBINER",
+    "L1_MLP": "COMBINER",
+    "L2_MLP": "COMBINER"
+  },
+  "evidence": {
+    "L0H0_ATTN": {
+      "hypothesis": "Attends to positions sharing the same token value as the query, copying their content (content-matched routing); in r2 baseline, max attention per query is 0.37-0.64 concentrated on 1-2 same-valued positions; zeroing it in r4 leaves predictions intact, consistent with routing rather than aggregating.",
+      "test": "r4",
+      "supports": true
+    },
+    "L0_MLP": {
+      "hypothesis": "Fuses two distinct upstream signals\u2014the token+position embedding and the L0H0_ATTN write\u2014into a non-binary output; r4 shows its write changes by mean 0.29 when L0H0_ATTN is ablated, confirming two distinct sources.",
+      "test": "r6",
+      "supports": true
+    },
+    "L1_MLP": {
+      "hypothesis": "Fuses three distinct upstream signals\u2014token embedding, L0H0_ATTN, and L0_MLP writes; r4 shows change 0.54 when L0H0_ATTN ablated, r6 shows change 1.49 when L0_MLP ablated.",
+      "test": "r8",
+      "supports": true
+    },
+    "L2_MLP": {
+      "hypothesis": "Fuses four distinct upstream signals\u2014token embedding, L0H0_ATTN, L0_MLP, and L1_MLP writes; ablating it in r11 badly disrupts predictions (e.g. [3,6,6,6,12,6,8,6,3,3] vs correct [9,4,8,4,12,8,8,6,1,3]).",
+      "test": "r11",
+      "supports": true
+    }
+  }
+}

@@ -1,0 +1,1 @@
+{"tags": {"L0_MLP": "MAPPER"}, "evidence": {"L0_MLP": {"hypothesis": "L0_MLP transforms the token at each position independently into a non-binary output (e^x), reading only the single signal at its own position.", "test": "r1", "supports": true}}}

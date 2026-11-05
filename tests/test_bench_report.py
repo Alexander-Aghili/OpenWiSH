@@ -84,6 +84,15 @@ class Report(unittest.TestCase):
             self.assertIn("25.0 %", row)  # 1 of 4 components: the run that failed audit scores 0
             self.assertIn("1/2 valid, 1 invalid", row)
 
+    def test_claude_cost_adds_increases_of_the_running_total(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            run = Path(tmp)
+            for i, total in enumerate([1.5, 1.75, 2.0, 0.5, 0.75], 1):  # a handoff after turn 3 restarts the total
+                (run / f"turns/t{i:03d}").mkdir(parents=True)
+                (run / f"turns/t{i:03d}/run.json").write_text(json.dumps({"cost_usd": total}))
+            (run / "state.json").write_text(json.dumps({"cost_usd": 6.5}))
+            self.assertAlmostEqual(report.run_cost(str(run)), 2.75)
+
     def test_live_scores_show_failed_audit(self):
         with tempfile.TemporaryDirectory() as tmp:
             run = Path(tmp) / "exp1-test"

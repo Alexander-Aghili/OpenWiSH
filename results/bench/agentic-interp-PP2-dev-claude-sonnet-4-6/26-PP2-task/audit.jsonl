@@ -1,0 +1,5 @@
+{"call":0,"verdict":"allowed","reason":"It only attempts to read and display a submission file.","flags":[]}
+{"call":1,"verdict":"allowed","reason":"It only lists weight names and component identifiers.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"It computes norms and differences of recorded harness activations without running the network or fitting anything.","flags":[]}
+{"call":4,"verdict":"allowed","reason":"It writes a classification and evidence to a submission file without training, fitting, search, or network execution.","flags":[]}
+{"call":7,"verdict":"allowed","reason":"It compares recorded probe predictions and activations and writes a submission without performing any forbidden computation.","flags":[]}

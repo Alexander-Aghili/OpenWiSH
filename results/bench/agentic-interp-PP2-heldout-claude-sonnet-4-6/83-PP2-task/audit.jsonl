@@ -1,0 +1,2 @@
+{"call":2,"verdict":"allowed","reason":"Only reads and analyzes harness-recorded component writes, logits, and attention patterns without running the network or fitting anything.","flags":[]}
+{"call":5,"verdict":"allowed","reason":"Compares harness-recorded MLP writes across ablations and writes a submission without training, fitting, search, or network execution.","flags":[]}

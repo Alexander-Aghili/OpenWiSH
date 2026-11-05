@@ -1,0 +1,4 @@
+{"call":0,"verdict":"allowed","reason":"Only writes a classification and evidence to a JSON file, without training, fitting, search, or network execution.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"Compares recorded MLP writes returned by the harness, without computing new network outputs.","flags":[]}
+{"call":4,"verdict":"allowed","reason":"Computes variation statistics on recorded activations, which is permitted analysis rather than fitting or search.","flags":[]}
+{"call":5,"verdict":"allowed","reason":"Only writes an updated classification and evidence to a JSON file, without any prohibited computation.","flags":[]}

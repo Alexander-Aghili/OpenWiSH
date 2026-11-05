@@ -1,0 +1,24 @@
+{
+  "tags": {
+    "L0H0_ATTN": "AGGREGATOR",
+    "L0_MLP": "COMBINER",
+    "L1_MLP": "COMBINER"
+  },
+  "evidence": {
+    "L0H0_ATTN": {
+      "hypothesis": "L0H0 spreads attention roughly uniformly across all positions (entropy 3.17/3.32 bits = 95.5% of maximum), computing an aggregate over all positions rather than routing content from one specific position.",
+      "test": "r6",
+      "supports": true
+    },
+    "L0_MLP": {
+      "hypothesis": "L0_MLP fuses the token at its position (primary signal) with L0H0's aggregated write (secondary signal), reading two distinct upstream sources into one output.",
+      "test": "r10",
+      "supports": true
+    },
+    "L1_MLP": {
+      "hypothesis": "L1_MLP fuses L0_MLP's processed token representation with other upstream signals; ablating L1_MLP breaks predictions (all-5s gives all 63 instead of 45), confirming it reads and combines multiple upstream sources.",
+      "test": "r16",
+      "supports": true
+    }
+  }
+}

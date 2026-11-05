@@ -1,0 +1,3 @@
+{"call":3,"verdict":"allowed","reason":"Computes descriptive statistics and position comparisons on harness-recorded activations without fitting or running the network.","flags":[]}
+{"call":4,"verdict":"allowed","reason":"Normalizes recorded writes and computes directional statistics and cosine similarities, which are permitted activation analysis.","flags":[]}
+{"call":5,"verdict":"allowed","reason":"Writes the classification submission without training, fitting, search, or network execution.","flags":[]}

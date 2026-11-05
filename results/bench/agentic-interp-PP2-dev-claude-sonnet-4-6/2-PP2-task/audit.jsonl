@@ -1,0 +1,8 @@
+{"call":1,"verdict":"allowed","reason":"Only loads and displays attention patterns recorded by the harness.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"Compares recorded attention patterns and computes descriptive statistics without running the network.","flags":[]}
+{"call":4,"verdict":"allowed","reason":"Computes differences and norms of harness-recorded MLP writes without fitting or network execution.","flags":[]}
+{"call":6,"verdict":"allowed","reason":"Analyses recorded ablation effects using differences and norms.","flags":[]}
+{"call":8,"verdict":"allowed","reason":"Summarises dependencies from recorded ablation results without training or simulation.","flags":[]}
+{"call":10,"verdict":"allowed","reason":"Compares harness-recorded attention patterns and writes under ablation.","flags":[]}
+{"call":12,"verdict":"allowed","reason":"Only constructs and writes the submission JSON.","flags":[]}
+{"call":14,"verdict":"allowed","reason":"Only revises and writes the submission JSON, with no fitting, search, or network execution.","flags":[]}

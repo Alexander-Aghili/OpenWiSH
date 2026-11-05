@@ -1,0 +1,33 @@
+{
+  "turn": 14,
+  "runs_used": 11,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 2,
+  "nudges": 1,
+  "handoffs": 0,
+  "since_handoff": 14,
+  "conv_tokens": 59793,
+  "session": "785376cd-4236-4db7-9942-55db31b29e65",
+  "next_message": "OUTPUT of Python run 11 of at most 60:\n```\nSubmission written.\n{\n  \"tags\": {\n    \"L0H0_ATTN\": \"AGGREGATOR\",\n    \"L0H1_ATTN\": \"AGGREGATOR\",\n    \"L0_MLP\": \"COMBINER\",\n    \"L1_MLP\": \"COMBINER\"\n  },\n  \"evidence\": {\n    \"L0H0_ATTN\": {\n      \"hypothesis\": \"L0H0 spreads attention across all same-token positions (aggregating count), confirmed by r1 showing ~0.52-0.56 same-token attention; ablating it (r3) causes L0_MLP write to change by mean 36-104.\",\n      \"test\": \"r3\",\n      \"supports\": true\n    },\n    \"L0H1_ATTN\": {\n      \"hypothesis\": \"L0H1 spreads attention across same-token positions ('d' at pos 4 attends 0.98 to same-token positions); ablating it (r7) dramatically changes both L0_MLP write (mean 35-99) and final predictions.\",\n      \"test\": \"r7\",\n      \"supports\": true\n    },\n    \"L0_MLP\": {\n      \"hypothesis\": \"L0_MLP fuses the token embedding with aggregated count signals from upstream heads (ablating L0H0 or L0H1 each change its write by 35-104), making it a COMBINER with 2+ distinct upstream sources.\",\n      \"test\": \"r5\",\n      \"supports\": true\n    },\n    \"L1_MLP\": {\n      \"hypothesis\": \"L1_MLP fuses L0_MLP output with other residual contributions; ablating L0_MLP (r5) changes L1_MLP write by mean 46-85, and ablating L1_MLP itself (r10) collapses all predictions to 'common'.\",\n      \"test\": \"r10\",\n      \"supports\": true\n    }\n  }\n}\n```\n[budget: python runs used 11/60]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 44,
+    "output": 49427,
+    "cache_read": 579019,
+    "cache_write": 58312,
+    "reasoning": 24997
+  },
+  "cost_usd": 1.2651147,
+  "tool_free_turns": 13,
+  "hook_blocks": 0
+}

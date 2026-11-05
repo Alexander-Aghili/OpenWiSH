@@ -1,0 +1,33 @@
+{
+  "turn": 16,
+  "runs_used": 14,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 1,
+  "nudges": 1,
+  "handoffs": 0,
+  "since_handoff": 16,
+  "conv_tokens": 67041,
+  "session": "03d762c8-f8f3-44a7-ad62-43fae18132a2",
+  "next_message": "OUTPUT of Python run 14 of at most 60:\n```\nFixed submission written.\n{\n  \"tags\": {\n    \"L0H0_ATTN\": \"AGGREGATOR\",\n    \"L0_MLP\": \"MAPPER\",\n    \"L1_MLP\": \"MAPPER\",\n    \"L2H0_ATTN\": \"ROUTER\"\n  },\n  \"evidence\": {\n    \"L0H0_ATTN\": {\n      \"hypothesis\": \"L0H0 reads from multiple sequence positions via soft content-based attention (mean entropy 1.47, not one-hot), producing a non-binary summary write per position that is not critical for the main swap task (0/36 errors when ablated).\",\n      \"test\": \"r7\",\n      \"supports\": true\n    },\n    \"L0_MLP\": {\n      \"hypothesis\": \"L0_MLP transforms each position's token+position embedding independently into a form suitable for L2H0 to copy as values; ablating it breaks all cross-routing positions (2-9) but leaves self-routing (pos1) correct.\",\n      \"test\": \"r8\",\n      \"supports\": true\n    },\n    \"L1_MLP\": {\n      \"hypothesis\": \"L1_MLP transforms each position's representation independently into the final logit-compatible form; ablating it breaks all positions including self-routing pos1, confirming it is a per-position non-binary transformation downstream of routing.\",\n      \"test\": \"r9\",\n      \"supports\": true\n    },\n    \"L2H0_ATTN\": {\n      \"hypothesis\": \"L2H0 routes content from adjacent positions via purely positional index-based selection (even positions read from pos+1, odd from pos-1, pos0/1 from themselves); ablating it causes 27/36 errors and breaks all swap positions.\",\n      \"test\": \"r10\",\n      \"supports\": true\n    }\n  }\n}\n```\n[budget: python runs used 14/60]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 47,
+    "output": 52268,
+    "cache_read": 604789,
+    "cache_write": 69196,
+    "reasoning": 37561
+  },
+  "cost_usd": 1.3807736999999998,
+  "tool_free_turns": 16,
+  "hook_blocks": 0
+}

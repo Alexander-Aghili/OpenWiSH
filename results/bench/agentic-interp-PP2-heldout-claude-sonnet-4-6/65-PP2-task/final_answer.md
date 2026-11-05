@@ -1,0 +1,1 @@
+{"tags": {"L0_MLP": "MAPPER"}, "evidence": {"L0_MLP": {"hypothesis": "L0_MLP independently maps each position's token embedding to a non-binary cube root representation; token identity is the sole dominant input (position-induced write variation is only 0.5% of token-induced variation), and zeroing it (r3) destroys predictions.", "test": "r3", "supports": true}}}

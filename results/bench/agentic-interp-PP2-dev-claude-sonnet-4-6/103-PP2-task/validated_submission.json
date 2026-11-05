@@ -1,0 +1,30 @@
+{
+  "tags": {
+    "L0H0_ATTN": "AGGREGATOR",
+    "L0_MLP": "COMBINER",
+    "L1_MLP": "COMBINER",
+    "L2H0_ATTN": "ROUTER"
+  },
+  "evidence": {
+    "L0H0_ATTN": {
+      "hypothesis": "L0H0_ATTN spreads attention across 2-4 positions with content-dependent weights, summarising neighbourhood information rather than copying from one specific position.",
+      "test": "r6",
+      "supports": true
+    },
+    "L0_MLP": {
+      "hypothesis": "L0_MLP fuses its own position's token embedding with the L0H0_ATTN write (mean write-diff=2.05 when L0H0 ablated), combining two distinct upstream signals.",
+      "test": "r8",
+      "supports": true
+    },
+    "L1_MLP": {
+      "hypothesis": "L1_MLP fuses at least two distinct upstream signals: the L0_MLP write (mean write-diff=10.57 when L0_MLP ablated) plus the position's own token embedding.",
+      "test": "r15",
+      "supports": true
+    },
+    "L2H0_ATTN": {
+      "hypothesis": "L2H0_ATTN attends with 1.000 weight to the swap-partner position (pos1<->pos2, pos3<->pos4, etc.) regardless of token content, copying content via purely positional indexing.",
+      "test": "r16",
+      "supports": true
+    }
+  }
+}

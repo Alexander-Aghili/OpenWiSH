@@ -1,0 +1,3 @@
+```json
+{"tags": {"L0_MLP": "INDICATOR"}, "evidence": {"L0_MLP": {"hypothesis": "L0_MLP detects whether the current token is prime and emits a binary directional flag: all prime tokens (2,3,5,7) write in one direction (cosine ≈ 1.000 within group), all non-prime tokens write in the opposite direction (between-group distance 23.4), determined solely by the current position's token identity.", "test": "r8", "supports": true}}}
+```

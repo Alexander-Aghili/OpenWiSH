@@ -1,0 +1,12 @@
+{
+  "tags": {
+    "L0_MLP": "INDICATOR"
+  },
+  "evidence": {
+    "L0_MLP": {
+      "hypothesis": "L0_MLP reads the token embedding at each position (single source) and writes a strongly bimodal binary-predicate signal \u2014 squares cluster at ~[16,-19,-17,-20] and non-squares at ~[-5,7,7,6], bimodality ratio ~47 \u2014 detecting whether the token is a perfect square.",
+      "test": "r1",
+      "supports": false
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "tags": {
+    "L0_MLP": "INDICATOR"
+  },
+  "evidence": {
+    "L0_MLP": {
+      "hypothesis": "L0_MLP detects whether the current position's token is 'findme' or '-', reading only one source (the token at its own position), and emits a constant binary flag vector that steers predictions to '-'; all other tokens get near-zero writes.",
+      "test": "r2",
+      "supports": true
+    }
+  }
+}

@@ -1,0 +1,3 @@
+```json
+{"tags": {"L0_MLP": "INDICATOR"}, "evidence": {"L0_MLP": {"hypothesis": "L0_MLP detects whether the token is at or above the threshold (≥3) at each position independently and emits a binary-direction signal ([+,+,-,-] for below, [-,-,+,+] for above), reading the single residual vector at each position.", "test": "r5", "supports": true}}}
+```

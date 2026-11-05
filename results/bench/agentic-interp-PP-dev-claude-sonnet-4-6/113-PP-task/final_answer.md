@@ -1,0 +1,70 @@
+The submission has been written to `/work/submission.json`. Here is my final answer:
+
+```json
+{
+  "tags": {
+    "L0H0_ATTN": "AGGREGATOR",
+    "L0H1_ATTN": "COMBINER",
+    "L0_MLP": "MAPPER",
+    "L1_MLP": "MAPPER",
+    "L2H0_ATTN": "AGGREGATOR",
+    "L2_MLP": "MAPPER",
+    "L3_MLP": "MAPPER",
+    "L4_MLP": "MAPPER",
+    "L5_MLP": "MAPPER",
+    "L6H0_ATTN": "MAPPER"
+  },
+  "evidence": {
+    "L0H0_ATTN": {
+      "hypothesis": "BOS aggregates content from multiple positions by attending non-uniformly to high-value positions, writing a summary to BOS while non-BOS writes are redundant.",
+      "test": "r13",
+      "supports": true
+    },
+    "L0H1_ATTN": {
+      "hypothesis": "Reads from multiple distinct upstream positions at each location and fuses their representations into a single output, with write magnitude varying by token-value context.",
+      "test": "r15",
+      "supports": false
+    },
+    "L0_MLP": {
+      "hypothesis": "Transforms each position's token representation independently (non-binary), with critical effect at BOS for high-value token sequences.",
+      "test": "r20",
+      "supports": true
+    },
+    "L1_MLP": {
+      "hypothesis": "Transforms each position's accumulated representation independently, primarily affecting BOS prediction across all sequence types.",
+      "test": "r22",
+      "supports": true
+    },
+    "L2H0_ATTN": {
+      "hypothesis": "Uniformly attends to all positions from BOS (~0.1 each) to aggregate the average token content into BOS as a permutation-invariant summary.",
+      "test": "r21",
+      "supports": false
+    },
+    "L2_MLP": {
+      "hypothesis": "Transforms each position's accumulated representation independently, primarily affecting BOS prediction across all sequence types.",
+      "test": "r23",
+      "supports": true
+    },
+    "L3_MLP": {
+      "hypothesis": "Transforms each position's accumulated representation independently, with critical effect at BOS specifically for high-value token sequences.",
+      "test": "r24",
+      "supports": true
+    },
+    "L4_MLP": {
+      "hypothesis": "Transforms each position's accumulated representation independently, with critical effect at BOS specifically for low-value token (1-9) sequences.",
+      "test": "r25",
+      "supports": true
+    },
+    "L5_MLP": {
+      "hypothesis": "Transforms each position's accumulated representation independently, with critical effect at BOS for descending and high-value token sequences.",
+      "test": "r26",
+      "supports": true
+    },
+    "L6H0_ATTN": {
+      "hypothesis": "Pure self-attention (each position attends to itself with weight ~1.0) that applies a large independent transformation to each position's accumulated residual stream.",
+      "test": "r19",
+      "supports": true
+    }
+  }
+}
+```

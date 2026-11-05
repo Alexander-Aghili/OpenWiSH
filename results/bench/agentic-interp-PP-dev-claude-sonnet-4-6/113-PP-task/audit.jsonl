@@ -1,0 +1,14 @@
+{"call":2,"verdict":"allowed","reason":"Loads and inspects attention patterns returned by the harness without computing network outputs.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"Computes norms of recorded component writes for analysis.","flags":[]}
+{"call":4,"verdict":"allowed","reason":"Inspects recorded attention patterns and write vectors to assess a hypothesis.","flags":[]}
+{"call":5,"verdict":"allowed","reason":"Computes descriptive norms of harness-recorded activations.","flags":[]}
+{"call":6,"verdict":"allowed","reason":"Reads recorded MLP writes and attention patterns without simulating either component.","flags":[]}
+{"call":7,"verdict":"allowed","reason":"Ranks logits already returned by the harness rather than running the network.","flags":[]}
+{"call":8,"verdict":"allowed","reason":"Displays recorded attention patterns and computes norms of recorded writes.","flags":[]}
+{"call":9,"verdict":"allowed","reason":"Computes distances between recorded component writes without training, fitting, search, or forward computation.","flags":[]}
+{"call":10,"verdict":"allowed","reason":"Computes similarities and distances between recorded component writes returned by the harness.","flags":[]}
+{"call":11,"verdict":"allowed","reason":"Analyses recorded writes and attention patterns without computing network outputs.","flags":[]}
+{"call":13,"verdict":"allowed","reason":"Measures norms of recorded component writes and compares them with token identities.","flags":[]}
+{"call":15,"verdict":"allowed","reason":"Inspects and sorts norms of harness-recorded ablated writes without fitting or running the network.","flags":[]}
+{"call":17,"verdict":"allowed","reason":"Compares recorded write norms with token values using ordinary descriptive analysis.","flags":[]}
+{"call":26,"verdict":"allowed","reason":"Constructs and saves a submission without training, fitting, search, or network execution.","flags":[]}

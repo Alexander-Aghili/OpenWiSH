@@ -1,0 +1,18 @@
+{
+  "tags": {
+    "L0H0_ATTN": "ROUTER",
+    "L0_MLP": "COMBINER"
+  },
+  "evidence": {
+    "L0H0_ATTN": {
+      "hypothesis": "At every odd position p, attention concentrates with probability 1.0 on position (p+1)//2, copying that token's representation into position p; ablating it (r4) collapses all predictions to 10, confirming it is the sole routing mechanism.",
+      "test": "r4",
+      "supports": true
+    },
+    "L0_MLP": {
+      "hypothesis": "L0_MLP fuses two distinct upstream signals (token+position embedding and L0H0_ATTN write); ablating L0H0_ATTN (r4) causes ~1.35M norm change in MLP write at every position, and ablating L0_MLP (r8) collapses predictions to all 0s.",
+      "test": "r8",
+      "supports": true
+    }
+  }
+}

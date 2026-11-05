@@ -1,0 +1,25 @@
+Task: Return fraction of previous open tokens minus the fraction of close tokens.
+Examples (input tokens -> output per position):
+  ['BOS', '(', 'b', ')', 'c', 'b', '(', '(', 'a', 'a'] -> ['BOS', 1.0, 0.5, 0.0, 0.0, 0.0, 0.16666666666666666, 0.2857142857142857, 0.25, 0.2222222222222222]
+  ['BOS', ')', 'b', 'b', 'a', 'b', 'b', '(', 'a', 'c'] -> ['BOS', -1.0, -0.5, -0.3333333333333333, -0.25, -0.2, -0.16666666666666666, 0.0, 0.0, 0.0]
+  ['BOS', 'a', 'c', '(', ')', 'b', '(', 'b', ')', ')'] -> ['BOS', 0.0, 0.0, 0.3333333333333333, 0.0, 0.0, 0.16666666666666666, 0.14285714285714285, 0.0, -0.1111111111111111]
+  ['BOS', 'c', 'b', 'a', 'c', ')', 'b', ')', 'b', 'c'] -> ['BOS', 0.0, 0.0, 0.0, 0.0, -0.2, -0.16666666666666666, -0.2857142857142857, -0.25, -0.2222222222222222]
+  ['BOS', 'b', 'c', 'a', 'c', 'c', ')', 'a', 'a', 'a'] -> ['BOS', 0.0, 0.0, 0.0, 0.0, 0.0, -0.16666666666666666, -0.14285714285714285, -0.125, -0.1111111111111111]
+Input token ids: {"(": 0, ")": 1, "BOS": 2, "PAD": 3, "a": 4, "b": 5, "c": 6}
+Output classes: null
+Architecture: 2 layers, d_model 20, 4 heads of size 5, MLP width 80 with gelu, causal attention, normalization none, learned positions, context 10. Residual stream: x = W_E[token] + W_pos[position]. Each block adds its attention heads, then its MLP. Logits = x W_U + b_U at every position.
+Components:
+  L0_MLP: the MLP output of block 0
+  L1H0_ATTN: attention head 0 of block 1
+  L1H1_ATTN: attention head 1 of block 1
+  L1_MLP: the MLP output of block 1
+
+
+OPENWISH SUBMISSION PROTOCOL
+Your final submission is checked for format only, never correctness. Repair format errors when requested. OpenWiSH executes your tool blocks, even when the provider's own tool list is empty.
+Python is available through text blocks, with at most 60 runs. Reply with one block to execute code, for example:
+```python
+print(NAMES)
+```
+The declared forward probe accepts one ```forward block with a JSON request.
+Write your submission to /work/submission.json or put the submission in your final reply.

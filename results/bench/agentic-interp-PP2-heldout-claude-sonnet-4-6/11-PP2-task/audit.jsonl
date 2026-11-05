@@ -1,0 +1,7 @@
+{"call":1,"verdict":"allowed","reason":"Only compares recorded MLP writes and inspects harness-returned attention patterns.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"Only analyses recorded attention patterns to identify attended positions.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"Only inspects harness-returned attention distributions.","flags":[]}
+{"call":4,"verdict":"allowed","reason":"Only compares recorded MLP writes across tokens, positions, and contexts.","flags":[]}
+{"call":5,"verdict":"allowed","reason":"Only extracts predictions from recorded logits without running or fitting the network.","flags":[]}
+{"call":7,"verdict":"allowed","reason":"Only compares recorded attention patterns from baseline and harness-ablation runs.","flags":[]}
+{"call":9,"verdict":"allowed","reason":"Only summarises recorded outputs and writes the submission, with no training, fitting, search, or network execution.","flags":[]}

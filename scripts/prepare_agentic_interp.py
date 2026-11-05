@@ -49,6 +49,26 @@ Forbidden: running the network outside the probe (no forward pass written in Pyt
 
 When you finish, write the answer to /work/submission.json from Python, or reply without a code block with the JSON object. """ + ANSWER
 
+
+PROTOCOL = """PROTOCOL. Work through the components one at a time, in the listed order. For each component:
+1. Observe. Run the probe on inputs that vary one thing at a time (a token's identity, its position, a repeated token) and look at what the component writes and, for a head, where it attends.
+2. Hypothesise. State in one sentence what the component computes, how many distinct signals it reads, and the tag this implies.
+3. Test. Say what you expect, then run one probe call that ablates or patches this component on inputs chosen to tell your hypothesis apart from the nearest other tag. Say whether the result supports the hypothesis. If not, revise and test again.
+Assign the tags only after every component has a tested hypothesis. Never compute attention or MLP outputs in Python: the probe returns them.
+
+Answer with one JSON object: {"tags": {"<component id>": "<TAG>", ...}, "evidence": {"<component id>": {"hypothesis": "<one sentence>", "test": "r<k>", "supports": true or false}, ...}}. "test" names the probe call of that component's test (/work/fwd/r<k>). The finish check refuses an answer without a finished ablation or patch of every component. The check never looks at whether a tag is right.
+Write the answer to /work/submission.json from Python, or reply without a code block with the JSON object."""
+
+RULES_PP = RULES_P[:RULES_P.index("When you finish, write the answer")].rstrip() + "\n\n" + PROTOCOL
+
+
+DECIDE = """DECIDING BETWEEN TAGS. Design each component's test to separate the tags it could have:
+- An MLP: zero-ablate each listed component upstream of it, one at a time, and compare this MLP's write (in run.npz) with and without each ablation. Count the distinct upstream sources its write depends on, with the token at its own position as one source. Two or more sources fused into one output: COMBINER. Only its own position's token, with a non-binary output: MAPPER. A binary or predicate-like output from one source: INDICATOR.
+- An attention head: look at its pattern on several inputs. Attention concentrated on one specific other position, copying that content: ROUTER. Attention spread over many positions, summarising them (a count, a fraction, an accumulated quantity): AGGREGATOR.
+Cite the test that decided the tag."""
+
+RULES_PP2 = RULES_PP.replace("Assign the tags only after", DECIDE + "\n\nAssign the tags only after")
+
 PROBE = """
 [forward.forward]
 command = ["{root}/assets/venvs/sandbox/bin/python", "-I", "{root}/python/adapters/interpbench_forward.py"]
@@ -125,7 +145,7 @@ weights = "{"none" if cond == "A" else "code"}"
     return d
 
 
-def python_section(case, ids, runs, probe=""):
+def python_section(case, ids, runs, probe="", protocol=False):
     validate = ", ".join(json.dumps(x) for x in ids)
     return f'''
 [network]
@@ -144,7 +164,7 @@ reject_flags = ["forward_pass", "backward", "autograd", "optimizer", "scipy_opti
 max_turns = {runs + 10}
 
 [finish.validation]
-command = {SCORER}, "validate", "--case", "{case}", "--components", {validate}]
+command = {SCORER}, "validate", "--case", "{case}", "--components", {validate}{', "--protocol"' if protocol else ''}]
 submission_file = "submission.json"
 timeout_s = 10
 '''
@@ -175,6 +195,12 @@ def prepare(case, gold, m):
     write_task(case, "A", text, head + "\n\n" + RULES_A, "\n[finish]\nmax_turns = 1\n")
     write_weights(write_task(case, "WO", text, head + "\n\n" + RULES_WO, python_section(case, ids, 30)), case, enc, ids)
     d = write_task(case, "P", text, head + "\n\n" + RULES_P, python_section(case, ids, 60, PROBE))
+    write_weights(d, case, enc, ids)
+    (d / "arch.json").write_text(json.dumps(arch(m, enc)))
+    d = write_task(case, "PP", text, head + "\n\n" + RULES_PP, python_section(case, ids, 60, PROBE, protocol=True))
+    write_weights(d, case, enc, ids)
+    (d / "arch.json").write_text(json.dumps(arch(m, enc)))
+    d = write_task(case, "PP2", text, head + "\n\n" + RULES_PP2, python_section(case, ids, 60, PROBE, protocol=True))
     write_weights(d, case, enc, ids)
     (d / "arch.json").write_text(json.dumps(arch(m, enc)))
 

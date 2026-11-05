@@ -1,0 +1,30 @@
+{
+  "tags": {
+    "L0H0_ATTN": "AGGREGATOR",
+    "L0_MLP": "COMBINER",
+    "L1_MLP": "COMBINER",
+    "L2H0_ATTN": "ROUTER"
+  },
+  "evidence": {
+    "L0H0_ATTN": {
+      "hypothesis": "Aggregates content from multiple positions: ablating L0H0 (r12) reduces distant pos9's influence on pos1's MLP write by half (0.1843\u21920.0926), confirming multi-position read collapsed into one write per position.",
+      "test": "r12",
+      "supports": true
+    },
+    "L0_MLP": {
+      "hypothesis": "Combines own-position token embedding with L0H0's aggregated write: ablating L0_MLP (r6) collapses predictions; independently, ablating upstream L0H0 (r4) changes L0_MLP write by max=4.05, confirming it fuses two distinct upstream signals.",
+      "test": "r6",
+      "supports": true
+    },
+    "L1_MLP": {
+      "hypothesis": "Fuses multiple upstream signals: ablating L1_MLP (r15) collapses predictions; ablating upstream L0_MLP (r6) changes L1_MLP write by max=41.4, confirming dependence on L0_MLP as a distinct second signal beyond the token embedding.",
+      "test": "r15",
+      "supports": true
+    },
+    "L2H0_ATTN": {
+      "hypothesis": "Pure positional router: ablating L2H0 (r16) destroys all swap predictions; independently, its attention pattern is identical across all token inputs (diff=0), weight=1.0, with tops [0,1,3,2,5,4,7,6,9,8] implementing exact pair swaps.",
+      "test": "r16",
+      "supports": true
+    }
+  }
+}

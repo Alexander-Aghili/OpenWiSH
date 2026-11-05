@@ -1,0 +1,30 @@
+{
+  "tags": {
+    "L0_MLP": "MAPPER",
+    "L1H0_ATTN": "AGGREGATOR",
+    "L1H1_ATTN": "AGGREGATOR",
+    "L1_MLP": "COMBINER"
+  },
+  "evidence": {
+    "L0_MLP": {
+      "hypothesis": "Transforms token identity at each position into a non-binary 20-dim signal distinguishing '(', ')', and other tokens (single-position input, no listed upstream components).",
+      "test": "r7",
+      "supports": true
+    },
+    "L1H0_ATTN": {
+      "hypothesis": "Aggregates token-type signals from all previous positions using near-uniform attention (~1/t weight per position), spreading across all t past tokens.",
+      "test": "r4",
+      "supports": true
+    },
+    "L1H1_ATTN": {
+      "hypothesis": "Aggregates token-type signals from all previous positions using near-uniform attention, similar to L1H0 but with slightly different weighting.",
+      "test": "r5",
+      "supports": true
+    },
+    "L1_MLP": {
+      "hypothesis": "Fuses the aggregated signals from both L1H0 and L1H1 into the final output; ablating L1_MLP (r10) destroys all predictions, and ablating either upstream head independently (r4, r5) substantially changes L1_MLP's write, confirming it reads two distinct upstream signals.",
+      "test": "r10",
+      "supports": true
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "tags": {
+    "L0H0_ATTN": "AGGREGATOR",
+    "L0H1_ATTN": "AGGREGATOR",
+    "L0_MLP": "COMBINER",
+    "L1_MLP": "COMBINER"
+  },
+  "evidence": {
+    "L0H0_ATTN": {
+      "hypothesis": "L0H0 spreads attention across all same-token positions (aggregating count), confirmed by r1 showing ~0.52-0.56 same-token attention; ablating it (r3) causes L0_MLP write to change by mean 36-104.",
+      "test": "r3",
+      "supports": true
+    },
+    "L0H1_ATTN": {
+      "hypothesis": "L0H1 spreads attention across same-token positions ('d' at pos 4 attends 0.98 to same-token positions); ablating it (r7) dramatically changes both L0_MLP write (mean 35-99) and final predictions.",
+      "test": "r7",
+      "supports": true
+    },
+    "L0_MLP": {
+      "hypothesis": "L0_MLP fuses the token embedding with aggregated count signals from upstream heads (ablating L0H0 or L0H1 each change its write by 35-104), making it a COMBINER with 2+ distinct upstream sources.",
+      "test": "r5",
+      "supports": true
+    },
+    "L1_MLP": {
+      "hypothesis": "L1_MLP fuses L0_MLP output with other residual contributions; ablating L0_MLP (r5) changes L1_MLP write by mean 46-85, and ablating L1_MLP itself (r10) collapses all predictions to 'common'.",
+      "test": "r10",
+      "supports": true
+    }
+  }
+}

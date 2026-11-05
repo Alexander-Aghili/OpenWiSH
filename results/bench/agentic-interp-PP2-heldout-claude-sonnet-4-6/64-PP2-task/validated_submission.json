@@ -1,0 +1,12 @@
+{
+  "tags": {
+    "L0_MLP": "MAPPER"
+  },
+  "evidence": {
+    "L0_MLP": {
+      "hypothesis": "L0_MLP transforms the residual stream at its own position (token embedding + position embedding, with L0 attention contributing only a constant BOS signal) into a non-binary output that contributes to computing the cube of the input token, reading a single upstream source per position.",
+      "test": "r8",
+      "supports": true
+    }
+  }
+}

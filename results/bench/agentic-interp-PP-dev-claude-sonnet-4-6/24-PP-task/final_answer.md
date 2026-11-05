@@ -1,0 +1,14 @@
+```json
+{
+  "tags": {
+    "L0H0_ATTN": "INDICATOR"
+  },
+  "evidence": {
+    "L0H0_ATTN": {
+      "hypothesis": "L0H0_ATTN detects whether the current position's token is 'b' and emits a binary flag-like signal that enables 'b' predictions; it reads a single input (current token) and its output is functionally on/off for 'b'.",
+      "test": "r2",
+      "supports": true
+    }
+  }
+}
+```

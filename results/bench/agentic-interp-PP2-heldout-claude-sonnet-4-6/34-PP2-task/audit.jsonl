@@ -1,0 +1,3 @@
+{"call":0,"verdict":"allowed","reason":"The code only attempts to analyse recorded probe outputs and write a submission, but stops at a missing file.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"It computes norms, differences, and cosine similarities of recorded activations without training, fitting, search, or running the network.","flags":[]}
+{"call":4,"verdict":"allowed","reason":"It writes the classification submission and prints evidence without performing any prohibited computation.","flags":[]}

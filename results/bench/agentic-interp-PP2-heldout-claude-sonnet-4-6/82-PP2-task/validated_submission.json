@@ -1,0 +1,36 @@
+{
+  "tags": {
+    "L0H0_ATTN": "AGGREGATOR",
+    "L0_MLP": "COMBINER",
+    "L1_MLP": "COMBINER",
+    "L2_MLP": "COMBINER",
+    "L3_MLP": "COMBINER"
+  },
+  "evidence": {
+    "L0H0_ATTN": {
+      "hypothesis": "Attention spreads across multiple positions (BOS ~60%, second-half positions ~6-8% each, first-half ~1-2% each on uniform input); ablating it changes L0_MLP writes uniformly across all positions (max|diff| 1.5-2.1 at every position), not concentrated at specific routing targets.",
+      "test": "r4",
+      "supports": true
+    },
+    "L0_MLP": {
+      "hypothesis": "Fuses own-position embedding with the L0H0_ATTN aggregate write; ablating L0_MLP (r6) makes all first-half positions output the halved value instead of the full value, showing it combines positional and token information from two distinct sources.",
+      "test": "r6",
+      "supports": true
+    },
+    "L1_MLP": {
+      "hypothesis": "Fuses own-position embedding with upstream contributions from L0H0_ATTN and L0_MLP; ablating L1_MLP (r8) causes the BOS position prediction to change from 4.5 to 0.5, showing it combines multiple upstream sources.",
+      "test": "r8",
+      "supports": true
+    },
+    "L2_MLP": {
+      "hypothesis": "Fuses own-position embedding with contributions from L0H0_ATTN, L0_MLP, and L1_MLP; ablating L2_MLP (r10) causes prediction errors at multiple positions, confirming it combines multiple upstream sources.",
+      "test": "r10",
+      "supports": true
+    },
+    "L3_MLP": {
+      "hypothesis": "Fuses own-position embedding with contributions from all upstream listed components; ablating L3_MLP (r16) causes prediction errors at multiple positions (e.g., input 1 pos5-9 becomes 5,4,3,5,1 instead of 2.5,2,1.5,1,0.5), confirming it combines multiple upstream sources.",
+      "test": "r16",
+      "supports": true
+    }
+  }
+}

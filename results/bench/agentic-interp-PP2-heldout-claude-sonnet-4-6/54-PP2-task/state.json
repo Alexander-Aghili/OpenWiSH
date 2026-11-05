@@ -1,0 +1,33 @@
+{
+  "turn": 8,
+  "runs_used": 6,
+  "passes_used": {},
+  "failed_requests": 1,
+  "protocol_errors": 0,
+  "nudges": 0,
+  "handoffs": 0,
+  "since_handoff": 8,
+  "conv_tokens": 32218,
+  "session": "e3467e45-dc0f-4c95-95f7-a0e58c56979d",
+  "next_message": "OUTPUT of Python run 6 of at most 60:\n```\n{\n  \"tags\": {\n    \"L0_MLP\": \"MAPPER\"\n  },\n  \"evidence\": {\n    \"L0_MLP\": {\n      \"hypothesis\": \"L0_MLP independently maps each position's token embedding to a non-binary tanh value, reading a single input (the residual at its own position, dominated by token identity) and producing a continuous output.\",\n      \"test\": \"r5\",\n      \"supports\": true\n    }\n  }\n}\n```\n[budget: python runs used 6/60]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 23,
+    "output": 25052,
+    "cache_read": 119775,
+    "cache_write": 31026,
+    "reasoning": 16501
+  },
+  "cost_usd": 0.5979375,
+  "tool_free_turns": 8,
+  "hook_blocks": 0
+}

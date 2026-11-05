@@ -1,0 +1,33 @@
+{
+  "turn": 8,
+  "runs_used": 5,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 2,
+  "nudges": 1,
+  "handoffs": 0,
+  "since_handoff": 8,
+  "conv_tokens": 34487,
+  "session": "a1a5b274-1206-406a-bb87-7a01767ea151",
+  "next_message": "OUTPUT of Python run 5 of at most 60:\n```\n{\n  \"tags\": {\n    \"L0_MLP\": \"INDICATOR\"\n  },\n  \"evidence\": {\n    \"L0_MLP\": {\n      \"hypothesis\": \"L0_MLP reads the token embedding at each position (single source) and writes a strongly bimodal binary-predicate signal \\u2014 squares cluster at ~[16,-19,-17,-20] and non-squares at ~[-5,7,7,6], bimodality ratio ~47 \\u2014 detecting whether the token is a perfect square.\",\n      \"test\": \"r1\",\n      \"supports\": false\n    }\n  }\n}\n```\n[budget: python runs used 5/60]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 7,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 26,
+    "output": 17892,
+    "cache_read": 159817,
+    "cache_write": 33297,
+    "reasoning": 9915
+  },
+  "cost_usd": 0.5161851,
+  "tool_free_turns": 7,
+  "hook_blocks": 0
+}

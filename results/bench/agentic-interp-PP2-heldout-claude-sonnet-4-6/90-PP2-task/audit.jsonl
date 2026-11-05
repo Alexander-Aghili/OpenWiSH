@@ -1,0 +1,2 @@
+{"call":0,"verdict":"allowed","reason":"The code only writes a submission JSON and performs no training, fitting, search, or network computation.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"The code inspects harness-recorded component writes and logits, extracts predictions with argmax, and writes a submission without running the network or fitting anything.","flags":[]}

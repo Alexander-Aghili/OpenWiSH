@@ -1,0 +1,18 @@
+{
+  "tags": {
+    "L0_MLP": "MAPPER",
+    "L1_MLP": "COMBINER"
+  },
+  "evidence": {
+    "L0_MLP": {
+      "hypothesis": "Transforms each token's embedding into an intermediate digit-feature representation with a single source (the token at its position) and a non-binary output; ablating it collapses all predictions to a constant.",
+      "test": "r3",
+      "supports": true
+    },
+    "L1_MLP": {
+      "hypothesis": "Fuses two distinct upstream signals\u2014the original token embedding (source 1) and L0_MLP's write (source 2)\u2014into the final digit sum; ablating L1_MLP collapses all predictions to a constant (r9), and ablating L0_MLP massively changes L1_MLP's write (max diff 590 vs norm 757), confirming two sources.",
+      "test": "r9",
+      "supports": true
+    }
+  }
+}

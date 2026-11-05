@@ -1,0 +1,18 @@
+{
+  "tags": {
+    "L0_MLP": "INDICATOR",
+    "L1H0_ATTN": "AGGREGATOR"
+  },
+  "evidence": {
+    "L0_MLP": {
+      "hypothesis": "L0_MLP detects whether the current token is 'x' and emits a binary/predicate-like flag: 'x' produces write-norm ~2.27 while all other tokens (a-w, y-z) produce norms 0.72\u20131.08. No listed component is upstream, so it reads from a single source (its own position's token). Ablating L0_MLP collapses predictions to ~0.",
+      "test": "r7",
+      "supports": true
+    },
+    "L1H0_ATTN": {
+      "hypothesis": "L1H0_ATTN attends approximately uniformly over all previous positions (pattern at q=7: [0.113, 0.127, 0.127, 0.128, ...] \u2248 1/8), aggregating the x-indicator signals from L0_MLP into a running fraction. Ablating it collapses predictions to ~0, and its write changes 94% when L0_MLP is ablated.",
+      "test": "r8",
+      "supports": true
+    }
+  }
+}

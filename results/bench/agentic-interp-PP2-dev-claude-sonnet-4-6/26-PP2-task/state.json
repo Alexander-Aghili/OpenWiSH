@@ -1,0 +1,33 @@
+{
+  "turn": 10,
+  "runs_used": 7,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 2,
+  "nudges": 1,
+  "handoffs": 0,
+  "since_handoff": 10,
+  "conv_tokens": 34309,
+  "session": "e4c8ce98-ec57-4077-b71c-9c65b32cf797",
+  "next_message": "OUTPUT of Python run 7 of at most 60:\n```\nAblating L0_MLP: 25/30 predictions unchanged\n  Normal (r3) preds: [[ 0  0  1  2  3  4  5  6  7  8]\n [ 0  9 10 11 12 13 14 15 16 17]\n [ 0 18 19 20 21 22 23 24 25 26]]\n  Ablated (r6) preds: [[ 0  0  1  0  3  4  5  6  7  8]\n [ 0  9 10 20 12 13  5 15 16 17]\n [ 0 19 19 20 21 22 23 24  7 26]]\n\nL0_MLP position variation (same 'a' token): max L2 = 263.73\nL0_MLP token variation (a vs b at pos 1): L2 = 241.78\nBoth position AND token affect L0_MLP → COMBINER\n\nSubmission written.\n{\n  \"tags\": {\n    \"L0_MLP\": \"COMBINER\"\n  },\n  \"evidence\": {\n    \"L0_MLP\": {\n      \"hypothesis\": \"L0_MLP combines token identity and positional information from the residual stream into a joint encoding: for the same token 'a', the write varies by L2=129\\u2013263 across positions 1\\u20139 (comparable to inter-token variation of L2\\u2248242), and zero-ablating it corrupts predictions at multiple positions.\",\n      \"test\": \"r6\",\n      \"supports\": true\n    }\n  }\n}\n```\n[budget: python runs used 7/60]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 29,
+    "output": 27293,
+    "cache_read": 242344,
+    "cache_write": 34968,
+    "reasoning": 10359
+  },
+  "cost_usd": 0.6919932,
+  "tool_free_turns": 10,
+  "hook_blocks": 0
+}

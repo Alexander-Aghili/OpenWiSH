@@ -1,0 +1,12 @@
+{
+  "tags": {
+    "L0_MLP": "INDICATOR"
+  },
+  "evidence": {
+    "L0_MLP": {
+      "hypothesis": "L0_MLP reads the token at each position (single source) and emits a binary parity direction flag: all even-length tokens write in one direction (cosine sim within-even=0.9999), all odd-length tokens in the opposite direction (cosine sim within-odd=0.979, cross=-0.937), indicating the odd/even property of that token's length.",
+      "test": "r1",
+      "supports": true
+    }
+  }
+}

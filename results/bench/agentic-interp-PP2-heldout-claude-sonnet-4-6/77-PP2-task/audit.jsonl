@@ -1,0 +1,5 @@
+{"call":0,"verdict":"allowed","reason":"Lists available components, recorded runs, and weight names without executing the network or fitting anything.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"Analyses harness-recorded MLP writes using position comparisons and difference statistics.","flags":[]}
+{"call":4,"verdict":"allowed","reason":"Compares harness-recorded baseline and ablated activations without computing network outputs.","flags":[]}
+{"call":5,"verdict":"allowed","reason":"Writes a classification and evidence to a submission file without training, fitting, search, or network execution.","flags":[]}
+{"call":8,"verdict":"allowed","reason":"Updates the submission using probe evidence without training, fitting, search, or network execution.","flags":[]}

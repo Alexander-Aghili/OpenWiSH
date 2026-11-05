@@ -1,0 +1,1 @@
+{"tags": {"L0_MLP": "MAPPER"}, "evidence": {"L0_MLP": {"hypothesis": "L0_MLP independently transforms the token at each position into a non-binary abbreviation representation, with zero dependence on other positions' tokens.", "test": "r3", "supports": true}}}

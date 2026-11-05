@@ -1,0 +1,33 @@
+{
+  "turn": 14,
+  "runs_used": 10,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 3,
+  "nudges": 2,
+  "handoffs": 0,
+  "since_handoff": 14,
+  "conv_tokens": 58058,
+  "session": "e54a392f-41b7-4a1f-9c86-4d5f07888e50",
+  "next_message": "OUTPUT of Python run 10 of at most 60:\n```\n{\n  \"tags\": {\n    \"L0_MLP\": \"MAPPER\",\n    \"L1_MLP\": \"COMBINER\"\n  },\n  \"evidence\": {\n    \"L0_MLP\": {\n      \"hypothesis\": \"Transforms the residual stream at each position independently (single source: own-position residual) into a non-binary output \\u2014 magnitude ~412 at non-zeroed positions, ~12 at zeroed positions (3,6,9) \\u2014 with no listed upstream component to ablate, confirming single-source MAPPER.\",\n      \"test\": \"r7\",\n      \"supports\": true\n    },\n    \"L1_MLP\": {\n      \"hypothesis\": \"Fuses two distinct upstream signals \\u2014 L0_MLP's output (ablating L0_MLP in r3 caused ~1300-unit change in L1_MLP's write) and the original token identity (write varies ~30-60 units across tokens) \\u2014 confirmed by r9: zeroing L1_MLP causes all predictions to collapse to token 10.\",\n      \"test\": \"r9\",\n      \"supports\": true\n    }\n  }\n}\n```\n[budget: python runs used 10/60]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 44,
+    "output": 48953,
+    "cache_read": 613929,
+    "cache_write": 56754,
+    "reasoning": 26097
+  },
+  "cost_usd": 1.2591297,
+  "tool_free_turns": 13,
+  "hook_blocks": 0
+}

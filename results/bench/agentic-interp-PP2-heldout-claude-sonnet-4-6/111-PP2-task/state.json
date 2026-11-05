@@ -1,0 +1,33 @@
+{
+  "turn": 23,
+  "runs_used": 17,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 5,
+  "nudges": 4,
+  "handoffs": 0,
+  "since_handoff": 23,
+  "conv_tokens": 75741,
+  "session": "8d3b8980-2568-460b-a7f0-2febc13873fd",
+  "next_message": "OUTPUT of Python run 17 of at most 60:\n```\nWritten.\n```\n[budget: python runs used 17/60]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 71,
+    "output": 60142,
+    "cache_read": 1295941,
+    "cache_write": 74194,
+    "reasoning": 19505
+  },
+  "cost_usd": 1.7362893,
+  "tool_free_turns": 22,
+  "hook_blocks": 0
+}

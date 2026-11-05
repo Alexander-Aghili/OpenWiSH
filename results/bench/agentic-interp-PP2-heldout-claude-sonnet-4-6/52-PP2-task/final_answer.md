@@ -1,0 +1,16 @@
+The submission is written. Here is my final answer:
+
+```json
+{
+  "tags": {
+    "L0_MLP": "MAPPER"
+  },
+  "evidence": {
+    "L0_MLP": {
+      "hypothesis": "L0_MLP transforms the token embedding at each position independently into a non-binary sqrt representation, reading a single input (the residual stream at its own position) and producing continuous sqrt values.",
+      "test": "r1",
+      "supports": true
+    }
+  }
+}
+```

@@ -3,8 +3,8 @@
 usage: assets/venvs/qwen/bin/python -I scripts/prepare_moe.py
 Needs assets/moe/model (HF ibm-granite/granite-3.1-1b-a400m-base, Apache-2.0). Writes:
   assets/moe/base_net/   the editable tensors (router and expert output weights of every layer), float32 .npy
-  assets/moe/practice/   32 code and 32 English texts the agent may probe
-  assets/moe/eval/       64 code and 64 English hidden texts, and the base model's losses on them
+  assets/moe/practice/   32 code, 32 English prose and 32 technical English texts the agent may probe
+  assets/moe/eval/       64 of each kind, hidden, and the base model's losses on them
 Code comes from the Python 3.12 standard library, prose from three Project Gutenberg books. Practice and eval
 texts come from disjoint files and books."""
 import json
@@ -87,12 +87,34 @@ def prose_texts(tok, books, n):
     return out[:n]
 
 
+CODE_MARK = re.compile(r"^\s*(def |class |import |from \S+ import |>>> )", re.M)
+
+
+def docs_texts(tok):
+    """Technical English: package docs and READMEs, no Python packages, no window holding Python code."""
+    files = sorted(p for p in Path("/usr/share/doc").glob("*/*")
+                   if p.is_file() and not p.is_symlink() and p.suffix in ("", ".md", ".txt", ".rst")
+                   and p.name.lower().startswith(("readme", "news", "changes", "faq", "usage", "howto", "intro", "manual"))
+                   or p.suffix in (".md", ".rst") and p.is_file() and not p.is_symlink())
+    files = [p for p in files if "python" not in p.parent.name.lower()]
+    random.Random(1).shuffle(files)
+    out = []
+    for p in files:
+        t = window(tok, p.read_text(errors="ignore"))
+        if t and not CODE_MARK.search(t) and len(re.findall(r"[A-Za-z]{3,}", t)) > 120:
+            out.append(t)
+        if len(out) == 96:
+            break
+    return out[:32], out[32:]
+
+
 def main():
     tok = Tokenizer.from_file(str(D / "model/tokenizer.json"))
     write_base_net()
     code_practice, code_eval = code_texts(tok)
-    sets = {"practice": {"code": code_practice, "english": prose_texts(tok, BOOKS["practice"], 32)},
-            "eval": {"code": code_eval, "english": prose_texts(tok, BOOKS["eval"], 64)}}
+    docs_practice, docs_eval = docs_texts(tok)
+    sets = {"practice": {"code": code_practice, "english": prose_texts(tok, BOOKS["practice"], 32), "docs": docs_practice},
+            "eval": {"code": code_eval, "english": prose_texts(tok, BOOKS["eval"], 64), "docs": docs_eval}}
     for split, groups in sets.items():
         (D / split).mkdir(exist_ok=True)
         for g, texts in groups.items():

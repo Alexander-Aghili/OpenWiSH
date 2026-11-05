@@ -1,0 +1,12 @@
+{
+  "tags": {
+    "L0_MLP": "COMBINER"
+  },
+  "evidence": {
+    "L0_MLP": {
+      "hypothesis": "L0_MLP fuses the token embedding at each position with the L0 attention-head writes (all four ablated in r4 caused ~1000-unit change in L0_MLP output), combining at least two distinct upstream signals\u2014the residual-stream token embedding and the attention-head outputs\u2014into one non-binary write.",
+      "test": "r7",
+      "supports": true
+    }
+  }
+}

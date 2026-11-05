@@ -1,0 +1,36 @@
+{
+  "tags": {
+    "L0_MLP": "MAPPER",
+    "L1H0_ATTN": "AGGREGATOR",
+    "L1_MLP": "COMBINER",
+    "L2_MLP": "COMBINER",
+    "L3H0_ATTN": "ROUTER"
+  },
+  "evidence": {
+    "L0_MLP": {
+      "hypothesis": "L0_MLP transforms the per-position token+position embedding (single source, no listed upstream components) into a rich non-binary feature vector; ablating it shifts L1_MLP by 1.35 mean abs, confirming it carries non-trivial information.",
+      "test": "r5",
+      "supports": true
+    },
+    "L1H0_ATTN": {
+      "hypothesis": "L1H0_ATTN aggregates over multiple prior positions; on alternating a/b at pos5 (3rd 'a'), attention spreads across 4 positions with ent=1.295 and max=0.387, inconsistent with ROUTER (which needs max>0.8).",
+      "test": "r7",
+      "supports": true
+    },
+    "L1_MLP": {
+      "hypothesis": "L1_MLP fuses two distinct upstream signals: ablating L0_MLP changes L1_MLP by 1.35, ablating L1H0_ATTN changes it by 0.30 \u2014 both significant, confirming COMBINER.",
+      "test": "r9",
+      "supports": true
+    },
+    "L2_MLP": {
+      "hypothesis": "L2_MLP combines multiple upstream signals; ablating L0_MLP changes it by 2.45, ablating L1H0 by 0.33, ablating L1_MLP by 2.47 \u2014 all significant, confirming COMBINER.",
+      "test": "r13",
+      "supports": true
+    },
+    "L3H0_ATTN": {
+      "hypothesis": "L3H0_ATTN is a ROUTER: on alternating a/b, 'b' positions route to the immediately preceding 'a' position with max=0.983; ablating it completely disrupts output (predictions shift from correct to random).",
+      "test": "r14",
+      "supports": true
+    }
+  }
+}

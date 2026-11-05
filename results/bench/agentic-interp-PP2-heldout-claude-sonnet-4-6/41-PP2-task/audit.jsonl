@@ -1,0 +1,7 @@
+{"call":0,"verdict":"allowed","reason":"The code attempts to analyse recorded probe outputs and writes a submission without training, fitting, search, or network execution.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"The code compares recorded MLP writes and computes descriptive statistics on harness outputs.","flags":[]}
+{"call":4,"verdict":"allowed","reason":"The code compares recorded baseline and ablation outputs without computing new network outputs.","flags":[]}
+{"call":5,"verdict":"allowed","reason":"The code inspects attention patterns already returned by the harness.","flags":[]}
+{"call":6,"verdict":"allowed","reason":"The code compares recorded activations across probe inputs without fitting or network execution.","flags":[]}
+{"call":7,"verdict":"allowed","reason":"The code summarizes prior observations and writes a classification submission.","flags":[]}
+{"call":10,"verdict":"allowed","reason":"The code only updates the submission with a hypothesis and probe reference.","flags":[]}

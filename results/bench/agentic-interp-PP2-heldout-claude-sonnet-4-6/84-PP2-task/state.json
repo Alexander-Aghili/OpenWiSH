@@ -1,0 +1,33 @@
+{
+  "turn": 5,
+  "runs_used": 4,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 0,
+  "nudges": 0,
+  "handoffs": 0,
+  "since_handoff": 5,
+  "conv_tokens": 25884,
+  "session": "15d1fb63-3e3f-4596-9f5d-05abc6cd1880",
+  "next_message": "OUTPUT of Python run 4 of at most 60:\n```\nSubmission written:\n{\n  \"tags\": {\n    \"L0_MLP\": \"MAPPER\"\n  },\n  \"evidence\": {\n    \"L0_MLP\": {\n      \"hypothesis\": \"L0_MLP independently transforms each position's token embedding into a non-binary arctan value, using the token at its own position as the primary (single dominant) source.\",\n      \"test\": \"r3\",\n      \"supports\": true\n    }\n  }\n}\n```\n[budget: python runs used 4/60]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 14,
+    "output": 19064,
+    "cache_read": 46143,
+    "cache_write": 24700,
+    "reasoning": 13383
+  },
+  "cost_usd": 0.4480449,
+  "tool_free_turns": 5,
+  "hook_blocks": 0
+}

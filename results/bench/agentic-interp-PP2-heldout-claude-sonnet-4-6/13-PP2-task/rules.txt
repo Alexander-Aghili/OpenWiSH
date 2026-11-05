@@ -1,0 +1,23 @@
+Task: Analyzes the trend [increasing, decreasing, constant] of numeric tokens.
+Examples (input tokens -> output per position):
+  ['BOS', 1, 1, 0, 0, 1, 1, 0, 0, 0] -> ['BOS', 'constant', 'decreasing', 'constant', 'increasing', 'constant', 'decreasing', 'constant', 'constant', None]
+  ['BOS', 2, 2, 0, 2, 0, 2, 2, 0, 0] -> ['BOS', 'constant', 'decreasing', 'increasing', 'decreasing', 'increasing', 'constant', 'decreasing', 'constant', None]
+  ['BOS', 2, 0, 2, 2, 0, 0, 2, 1, 2] -> ['BOS', 'decreasing', 'increasing', 'constant', 'decreasing', 'constant', 'increasing', 'decreasing', 'increasing', None]
+  ['BOS', 2, 2, 2, 1, 2, 1, 1, 2, 1] -> ['BOS', 'constant', 'constant', 'decreasing', 'increasing', 'decreasing', 'constant', 'increasing', 'decreasing', None]
+  ['BOS', 2, 2, 2, 0, 2, 1, 0, 1, 1] -> ['BOS', 'constant', 'constant', 'decreasing', 'increasing', 'decreasing', 'decreasing', 'increasing', 'constant', None]
+Input token ids: {"0": 0, "1": 1, "2": 2, "BOS": 3, "PAD": 4}
+Output classes: {"0": "constant", "1": "decreasing", "2": "increasing"}
+Architecture: 2 layers, d_model 20, 4 heads of size 5, MLP width 80 with gelu, bidirectional attention, normalization none, learned positions, context 10. Residual stream: x = W_E[token] + W_pos[position]. Each block adds its attention heads, then its MLP. Logits = x W_U + b_U at every position.
+Components:
+  L0H0_ATTN: attention head 0 of block 0
+  L0_MLP: the MLP output of block 0
+
+
+OPENWISH SUBMISSION PROTOCOL
+Your final submission is checked for format only, never correctness. Repair format errors when requested. OpenWiSH executes your tool blocks, even when the provider's own tool list is empty.
+Python is available through text blocks, with at most 60 runs. Reply with one block to execute code, for example:
+```python
+print(NAMES)
+```
+The declared forward probe accepts one ```forward block with a JSON request.
+Write your submission to /work/submission.json or put the submission in your final reply.

@@ -1,0 +1,1 @@
+{"tags": {"L0_MLP": "COMBINER"}, "evidence": {"L0_MLP": {"hypothesis": "L0_MLP fuses two distinct upstream sources—the token+position embedding at its own position and the L0 attention heads output—into a single non-binary output vector; ablating it destroys predictions entirely.", "test": "r9", "supports": true}}}

@@ -1,0 +1,8 @@
+{"call":1,"verdict":"allowed","reason":"Loads and inspects MLP writes recorded by the harness.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"Inspects harness-recorded MLP writes under attention ablation.","flags":[]}
+{"call":5,"verdict":"allowed","reason":"Computes differences between recorded baseline and ablated activations without running the network.","flags":[]}
+{"call":6,"verdict":"allowed","reason":"Displays attention patterns returned by the harness rather than computing attention.","flags":[]}
+{"call":7,"verdict":"allowed","reason":"Compares differences and signs of recorded activations without fitting or optimisation.","flags":[]}
+{"call":8,"verdict":"allowed","reason":"Writes a classification submission without training, search, or network execution.","flags":[]}
+{"call":11,"verdict":"allowed","reason":"Inspects recorded activations and prints hard-coded predictions and interpretations without simulating the network.","flags":[]}
+{"call":12,"verdict":"allowed","reason":"Writes a revised submission without performing any prohibited computation.","flags":[]}

@@ -1,0 +1,2 @@
+{"call":1,"verdict":"allowed","reason":"Reads and compares recorded component outputs from a harness probe without running the network, fitting, or searching.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"Writes a classification and evidence to the submission file without any prohibited computation.","flags":[]}

@@ -1,0 +1,12 @@
+{
+  "tags": {
+    "L0_MLP": "COMBINER"
+  },
+  "evidence": {
+    "L0_MLP": {
+      "hypothesis": "L0_MLP fuses token-identity information with position/attention context from the residual stream, producing position-varying writes even for the same token (max 4.4 variation vs 78 token difference), reading two or more distinct upstream signals.",
+      "test": "r1",
+      "supports": true
+    }
+  }
+}

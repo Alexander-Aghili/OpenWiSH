@@ -1,0 +1,12 @@
+{
+  "tags": {
+    "L0_MLP": "MAPPER"
+  },
+  "evidence": {
+    "L0_MLP": {
+      "hypothesis": "L0_MLP independently transforms the residual stream vector at each position into a non-binary output, implementing per-position arithmetic (subtract 2), reading a single input signal per position.",
+      "test": "r3",
+      "supports": true
+    }
+  }
+}

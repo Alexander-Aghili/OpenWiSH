@@ -1,0 +1,33 @@
+{
+  "turn": 10,
+  "runs_used": 8,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 1,
+  "nudges": 1,
+  "handoffs": 0,
+  "since_handoff": 10,
+  "conv_tokens": 21837,
+  "session": "591c0bf5-2e88-425d-9bbb-7c0322784729",
+  "next_message": "OUTPUT of Python run 8 of at most 60:\n```\n{\n  \"tags\": {\n    \"L0_MLP\": \"COMBINER\"\n  },\n  \"evidence\": {\n    \"L0_MLP\": {\n      \"hypothesis\": \"L0_MLP fuses the token embedding at its own position with outputs from L0 attention heads (which route BOS via L0H2/H3 and distribute prior-position info via L0H0/H1) into a non-binary arccosine-related signal, reading two or more distinct upstream sources; ablating all L0 attention heads (r4) changed L0_MLP's write by ~68% of its baseline magnitude, confirming it reads those heads as additional signals beyond the token embedding.\",\n      \"test\": \"r7\",\n      \"supports\": true\n    }\n  }\n}\n```\n[budget: python runs used 8/60]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 29,
+    "output": 12895,
+    "cache_read": 120044,
+    "cache_write": 20574,
+    "reasoning": 8556
+  },
+  "cost_usd": 0.3529692,
+  "tool_free_turns": 10,
+  "hook_blocks": 0
+}

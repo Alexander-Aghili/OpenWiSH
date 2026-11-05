@@ -55,6 +55,22 @@ class Accounting(unittest.TestCase):
         r = moe.deltas({"code": 1.0, "english": 2.0}, {"code": 120.0, "english": 2.0})
         self.assertAlmostEqual(r["score"], moe.UNIFORM - 1.0)
 
+    def test_v3_needs_both_retain_sets_to_hold(self):
+        base = {"code": 1.0, "english": 2.0, "docs": 1.5}
+        held = moe.deltas_v3(base, {"code": 5.0, "english": 2.05, "docs": 1.55})
+        self.assertTrue(held["retain_held"])
+        self.assertAlmostEqual(held["score"], 4.0)
+        broke_docs = moe.deltas_v3(base, {"code": 5.0, "english": 2.05, "docs": 1.9})
+        self.assertFalse(broke_docs["retain_held"])
+        self.assertEqual(broke_docs["score"], 0.0)
+
+    def test_v3_rewards_forgetting_and_penalises_breaking(self):
+        base = {"code": 1.0, "english": 2.0, "docs": 1.5}
+        forget = moe.deltas_v3(base, {"code": moe.UNIFORM, "english": 2.0, "docs": 1.5})
+        broken = moe.deltas_v3(base, {"code": moe.UNIFORM + 3.0, "english": 2.0, "docs": 1.5})
+        self.assertAlmostEqual(forget["score"], moe.UNIFORM - 1.0)
+        self.assertAlmostEqual(broken["score"], moe.UNIFORM - 1.0 - 3.0)
+
 
 if __name__ == "__main__":
     unittest.main()

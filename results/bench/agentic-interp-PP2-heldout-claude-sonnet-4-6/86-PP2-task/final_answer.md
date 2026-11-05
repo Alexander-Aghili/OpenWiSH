@@ -1,0 +1,14 @@
+```json
+{
+  "tags": {
+    "L0_MLP": "INDICATOR"
+  },
+  "evidence": {
+    "L0_MLP": {
+      "hypothesis": "L0_MLP detects whether the token at each position is a power of 2 (from the local token as single source) and emits a binary flag: the sign of its write vector encodes is-power-of-2 (-, -, -, +) vs not (+, +, +, -); ablating it causes many non-powers-of-2 to be misclassified as 1.",
+      "test": "r14",
+      "supports": true
+    }
+  }
+}
+```

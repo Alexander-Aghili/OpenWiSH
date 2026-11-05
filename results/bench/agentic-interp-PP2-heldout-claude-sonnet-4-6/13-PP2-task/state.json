@@ -1,0 +1,33 @@
+{
+  "turn": 18,
+  "runs_used": 15,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 2,
+  "nudges": 2,
+  "handoffs": 0,
+  "since_handoff": 18,
+  "conv_tokens": 28446,
+  "session": "3858793c-fb9e-4ff2-a4da-e93e38b03212",
+  "next_message": "OUTPUT of Python run 15 of at most 60:\n```\n{\n  \"tags\": {\n    \"L0H0_ATTN\": \"ROUTER\",\n    \"L0_MLP\": \"COMBINER\"\n  },\n  \"evidence\": {\n    \"L0H0_ATTN\": {\n      \"hypothesis\": \"Copies content from position i-1 to position i via purely positional/index-based attention selection, independent of token values.\",\n      \"test\": \"r8\",\n      \"supports\": true\n    },\n    \"L0_MLP\": {\n      \"hypothesis\": \"Fuses two distinct upstream signals\\u2014the current position's token embedding and L0H0's routing output (previous token's content)\\u2014into a single non-binary output computing the trend comparison.\",\n      \"test\": \"r14\",\n      \"supports\": true\n    }\n  }\n}\n```\n[budget: python runs used 15/60]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 53,
+    "output": 17466,
+    "cache_read": 276398,
+    "cache_write": 27220,
+    "reasoning": 11997
+  },
+  "cost_usd": 0.5083884000000001,
+  "tool_free_turns": 18,
+  "hook_blocks": 0
+}

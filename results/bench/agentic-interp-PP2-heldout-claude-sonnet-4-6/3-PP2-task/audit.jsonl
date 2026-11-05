@@ -1,0 +1,4 @@
+{"call":0,"verdict":"allowed","reason":"Only constructs and writes a submission, without training, fitting, search, or network execution.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"Reads harness-recorded component writes and attention patterns and computes descriptive differences without executing the network.","flags":[]}
+{"call":4,"verdict":"allowed","reason":"Only constructs and writes a revised submission using reported observations.","flags":[]}
+{"call":8,"verdict":"allowed","reason":"Only constructs and writes a submission describing harness probe results, with no prohibited computation.","flags":[]}

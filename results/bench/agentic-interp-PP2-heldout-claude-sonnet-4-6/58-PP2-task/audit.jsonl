@@ -1,0 +1,7 @@
+{"call":1,"verdict":"allowed","reason":"Inspects and compares harness-recorded attention patterns without computing network outputs.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"Prints and compares recorded attention patterns using descriptive statistics only.","flags":[]}
+{"call":4,"verdict":"allowed","reason":"Measures differences between component writes returned by baseline and ablation probes.","flags":[]}
+{"call":6,"verdict":"allowed","reason":"Analyses recorded component writes and ablation effects without training, fitting, or executing the network.","flags":[]}
+{"call":7,"verdict":"allowed","reason":"Writes a classification submission without performing any prohibited computation.","flags":[]}
+{"call":9,"verdict":"allowed","reason":"Revises submission text and evidence references without training, search, or network execution.","flags":[]}
+{"call":13,"verdict":"allowed","reason":"Writes revised classifications and evidence without performing training, fitting, search, or network execution.","flags":[]}

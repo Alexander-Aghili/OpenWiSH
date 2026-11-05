@@ -1,0 +1,2 @@
+{"call":3,"verdict":"allowed","reason":"It only loads and compares recorded probe activations, without training, fitting, search, or running the network.","flags":[]}
+{"call":4,"verdict":"allowed","reason":"It only writes the classification and evidence to a submission file.","flags":[]}

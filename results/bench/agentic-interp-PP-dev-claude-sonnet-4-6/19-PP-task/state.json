@@ -1,0 +1,33 @@
+{
+  "turn": 9,
+  "runs_used": 7,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 1,
+  "nudges": 1,
+  "handoffs": 0,
+  "since_handoff": 9,
+  "conv_tokens": 75536,
+  "session": "068e0486-dab5-4529-a4b9-306fbef4c43b",
+  "next_message": "OUTPUT of Python run 7 of at most 60:\n```\n{\n  \"tags\": {\n    \"L0H0_ATTN\": \"ROUTER\",\n    \"L0_MLP\": \"MAPPER\"\n  },\n  \"evidence\": {\n    \"L0H0_ATTN\": {\n      \"hypothesis\": \"Attends to position i-1 via positional index-based selection and routes the previous token's value vector to the current position; ablating it (r6) causes the model to lose duplicate-suppression at positions where the current token equals the previous one (e.g., pos 5 predicts 'c' instead of the dup-default 'a').\",\n      \"test\": \"r6\",\n      \"supports\": true\n    },\n    \"L0_MLP\": {\n      \"hypothesis\": \"Transforms the residual stream independently at each position (single input vector) into a non-binary class output; ablating it (r4) collapses most predictions to 'a', confirming it converts the combined current+previous token residual into the dedup classification.\",\n      \"test\": \"r4\",\n      \"supports\": true\n    }\n  }\n}\n```\n[budget: python runs used 7/60]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 29,
+    "output": 68214,
+    "cache_read": 524282,
+    "cache_write": 75308,
+    "reasoning": 34132
+  },
+  "cost_usd": 1.6324296,
+  "tool_free_turns": 8,
+  "hook_blocks": 0
+}

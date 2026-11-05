@@ -1,0 +1,3 @@
+{"call":2,"verdict":"allowed","reason":"Loads and inspects component writes recorded by the harness without running the network or fitting weights.","flags":[]}
+{"call":4,"verdict":"allowed","reason":"Analyses recorded activations using comparisons and summary statistics, without training, search, or network execution.","flags":[]}
+{"call":5,"verdict":"allowed","reason":"Writes a classification submission without performing any prohibited computation.","flags":[]}

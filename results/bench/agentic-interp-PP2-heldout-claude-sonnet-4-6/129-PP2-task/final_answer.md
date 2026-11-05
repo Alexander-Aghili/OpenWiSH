@@ -1,0 +1,32 @@
+```json
+{
+  "tags": {
+    "L0_MLP": "INDICATOR",
+    "L1H0_ATTN": "ROUTER",
+    "L1_MLP": "COMBINER",
+    "L2_MLP": "COMBINER"
+  },
+  "evidence": {
+    "L0_MLP": {
+      "hypothesis": "L0_MLP detects parity of each token independently, writing a binary signal (positive direction for even, negative for odd) from a single source (token at its position).",
+      "test": "r4",
+      "supports": true
+    },
+    "L1H0_ATTN": {
+      "hypothesis": "L1H0_ATTN routes content from the odd token's position to all other positions via perfect concentration of attention (1.0) on the odd position when one exists, acting as index-based content copying.",
+      "test": "r5",
+      "supports": true
+    },
+    "L1_MLP": {
+      "hypothesis": "L1_MLP fuses two distinct upstream signals—the parity indicator from L0_MLP and the routed odd-token signal from L1H0_ATTN—both ablations causing ~2000-unit changes in its write.",
+      "test": "r7",
+      "supports": true
+    },
+    "L2_MLP": {
+      "hypothesis": "L2_MLP combines multiple distinct upstream signals (L0_MLP, L1H0_ATTN, L1_MLP all cause large independent write changes) and is essential for correct predictions (ablating it makes all outputs predict 1).",
+      "test": "r9",
+      "supports": true
+    }
+  }
+}
+```

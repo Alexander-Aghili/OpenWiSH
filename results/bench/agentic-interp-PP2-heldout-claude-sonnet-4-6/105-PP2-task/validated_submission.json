@@ -1,0 +1,12 @@
+{
+  "tags": {
+    "L0_MLP": "MAPPER"
+  },
+  "evidence": {
+    "L0_MLP": {
+      "hypothesis": "L0_MLP independently transforms each position's token into a non-binary next-prime representation; zeroing it collapses all predictions to a fixed value (17/19), showing it encodes the per-token mapping non-binary and position-locally.",
+      "test": "r2",
+      "supports": true
+    }
+  }
+}

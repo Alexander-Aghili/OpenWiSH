@@ -1,0 +1,12 @@
+{
+  "tags": {
+    "L0_MLP": "MAPPER"
+  },
+  "evidence": {
+    "L0_MLP": {
+      "hypothesis": "L0_MLP independently transforms each position's token embedding into a non-binary arctan value, using the token at its own position as the primary (single dominant) source.",
+      "test": "r3",
+      "supports": true
+    }
+  }
+}

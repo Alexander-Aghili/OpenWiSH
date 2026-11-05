@@ -1,0 +1,33 @@
+{
+  "turn": 6,
+  "runs_used": 5,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 0,
+  "nudges": 0,
+  "handoffs": 0,
+  "since_handoff": 6,
+  "conv_tokens": 54929,
+  "session": "e6956047-4234-44f8-bb35-86f527d7b6c3",
+  "next_message": "OUTPUT of Python run 5 of at most 60:\n```\nr2: pos std max=1.7080, mean_abs=366.9, relative=0.0047\nr4 ablated preds: [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]\nCorrect preds without ablation would be ~[3,5,3,7,5,9,7,2,4] area\n{\n  \"tags\": {\n    \"L0_MLP\": \"MAPPER\"\n  },\n  \"evidence\": {\n    \"L0_MLP\": {\n      \"hypothesis\": \"L0_MLP independently maps the token at each position to a non-binary increment direction; position variation in writes is <0.5% relative (r2), confirming it reads only the local token identity, not position.\",\n      \"test\": \"r4\",\n      \"supports\": true\n    }\n  }\n}\n```\n[budget: python runs used 5/60]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 20,
+    "output": 49545,
+    "cache_read": 238257,
+    "cache_write": 53627,
+    "reasoning": 24015
+  },
+  "cost_usd": 1.1364740999999998,
+  "tool_free_turns": 5,
+  "hook_blocks": 0
+}

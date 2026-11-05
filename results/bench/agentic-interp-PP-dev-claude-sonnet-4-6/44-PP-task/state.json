@@ -1,0 +1,33 @@
+{
+  "turn": 12,
+  "runs_used": 10,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 1,
+  "nudges": 0,
+  "handoffs": 0,
+  "since_handoff": 12,
+  "conv_tokens": 33151,
+  "session": "9da30def-48a5-42d2-adbb-b01dbb44eece",
+  "next_message": "OUTPUT of Python run 10 of at most 60:\n```\nSubmission written:\n{\n  \"tags\": {\n    \"L0H0_ATTN\": \"MAPPER\",\n    \"L0_MLP\": \"MAPPER\"\n  },\n  \"evidence\": {\n    \"L0H0_ATTN\": {\n      \"hypothesis\": \"L0H0 transforms each position's token value independently into a scaled direction vector in the residual stream \\u2014 magnitude increases monotonically with token value (correlation 0.99), same token at different positions gives identical write direction (cosine=1.0), and ablation causes all predictions to collapse to 8 uniformly.\",\n      \"test\": \"r5\",\n      \"supports\": true\n    },\n    \"L0_MLP\": {\n      \"hypothesis\": \"L0_MLP amplifies the per-position token value encoding (~1000x) into a large-magnitude direction proportional to token value \\u2014 same token at any position gives cosine=1.000, and ablation causes all predictions to collapse to 3-4 (median), losing all rank discrimination.\",\n      \"test\": \"r6\",\n      \"supports\": true\n    }\n  }\n}\n```\n[budget: python runs used 10/60]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 35,
+    "output": 23611,
+    "cache_read": 178014,
+    "cache_write": 32883,
+    "reasoning": 17190
+  },
+  "cost_usd": 0.6049722000000001,
+  "tool_free_turns": 12,
+  "hook_blocks": 0
+}

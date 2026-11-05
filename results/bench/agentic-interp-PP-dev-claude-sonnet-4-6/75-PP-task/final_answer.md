@@ -1,0 +1,14 @@
+```json
+{
+  "tags": {
+    "L0_MLP": "MAPPER"
+  },
+  "evidence": {
+    "L0_MLP": {
+      "hypothesis": "L0_MLP reads the local residual stream (dominated by token embedding) at each position independently and transforms it into a non-binary 4D vector encoding the token's value for the doubling arithmetic, with 25-250x more variation from token identity than position.",
+      "test": "r6",
+      "supports": true
+    }
+  }
+}
+```

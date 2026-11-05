@@ -1,0 +1,2 @@
+{"call":0,"verdict":"allowed","reason":"Only writes a submission; the unsupported test reference is a workflow issue, not prohibited computation.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"Computes descriptive statistics on harness-recorded activations and writes a submission, without training, fitting, search, or running the network.","flags":[]}

@@ -1,0 +1,33 @@
+{
+  "turn": 16,
+  "runs_used": 14,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 1,
+  "nudges": 1,
+  "handoffs": 0,
+  "since_handoff": 16,
+  "conv_tokens": 75450,
+  "session": "f49e9183-928e-4737-a8ff-684233cd8b85",
+  "next_message": "OUTPUT of Python run 14 of at most 60:\n```\nL2_MLP ablation effect on itself: ['492.6', '702.0', '910.3', '597.8', '495.7']\nr13 predictions: [[np.int64(1), np.int64(1), np.int64(1), np.int64(1), np.int64(1), np.int64(1), np.int64(1), np.int64(1), np.int64(1), np.int64(1)], [np.int64(0), np.int64(0), np.int64(0), np.int64(0), np.int64(0), np.int64(0), np.int64(0), np.int64(0), np.int64(0), np.int64(0)], [np.int64(0), np.int64(0), np.int64(0), np.int64(0), np.int64(0), np.int64(0), np.int64(0), np.int64(0), np.int64(0), np.int64(0)], [np.int64(0), np.int64(0), np.int64(0), np.int64(0), np.int64(0), np.int64(0), np.int64(0), np.int64(0), np.int64(0), np.int64(0)], [np.int64(1), np.int64(1), np.int64(1), np.int64(1), np.int64(1), np.int64(1), np.int64(1), np.int64(1), np.int64(1), np.int64(1)]]\nWritten.\n{\n  \"L0H0_ATTN\": \"AGGREGATOR\",\n  \"L0_MLP\": \"COMBINER\",\n  \"L1H0_ATTN\": \"ROUTER\",\n  \"L1_MLP\": \"COMBINER\",\n  \"L2_MLP\": \"COMBINER\"\n}\n```\n[budget: python runs used 14/60]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 50,
+    "output": 62042,
+    "cache_read": 873022,
+    "cache_write": 73926,
+    "reasoning": 28360
+  },
+  "cost_usd": 1.6362426,
+  "tool_free_turns": 15,
+  "hook_blocks": 0
+}

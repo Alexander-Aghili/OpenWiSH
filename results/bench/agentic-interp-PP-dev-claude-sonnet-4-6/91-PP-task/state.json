@@ -1,0 +1,33 @@
+{
+  "turn": 8,
+  "runs_used": 6,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 1,
+  "nudges": 0,
+  "handoffs": 0,
+  "since_handoff": 8,
+  "conv_tokens": 36231,
+  "session": "37988ff6-7a21-4ce3-8514-34ff65ed0c7f",
+  "next_message": "OUTPUT of Python run 6 of at most 60:\n```\n{\n  \"tags\": {\n    \"L0_MLP\": \"MAPPER\"\n  },\n  \"evidence\": {\n    \"L0_MLP\": {\n      \"hypothesis\": \"L0_MLP independently transforms each token's residual stream embedding at each position into a non-binary, token-specific write that encodes the correct output class (class 0 for below-threshold tokens, class 1\\u20138 for above-threshold tokens), reading a single input signal per position.\",\n      \"test\": \"r5\",\n      \"supports\": true\n    }\n  }\n}\n```\n[budget: python runs used 6/60]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 23,
+    "output": 30215,
+    "cache_read": 170910,
+    "cache_write": 36113,
+    "reasoning": 16162
+  },
+  "cost_usd": 0.7212449999999998,
+  "tool_free_turns": 8,
+  "hook_blocks": 0
+}

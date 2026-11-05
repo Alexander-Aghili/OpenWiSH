@@ -1,0 +1,30 @@
+{
+  "tags": {
+    "L0H0_ATTN": "ROUTER",
+    "L0_MLP": "COMBINER",
+    "L1_MLP": "COMBINER",
+    "L2H0_ATTN": "ROUTER"
+  },
+  "evidence": {
+    "L0H0_ATTN": {
+      "hypothesis": "Concentrated attention head that copies content between specific positions (mostly self-attention for first-half, mostly BOS for second-half); ablating it in r4 leaves final predictions unchanged, consistent with a routing head whose contribution is absorbed downstream.",
+      "test": "r4",
+      "supports": true
+    },
+    "L0_MLP": {
+      "hypothesis": "Fuses two distinct upstream signals \u2014 the token at its own position and L0H0_ATTN's write \u2014 into a non-binary output; ablating L0_MLP (r6) breaks second-half predictions, confirming it as a COMBINER.",
+      "test": "r6",
+      "supports": true
+    },
+    "L1_MLP": {
+      "hypothesis": "Fuses the token at its own position with L0_MLP's write (ablating L0_MLP causes max diff 14.3 in L1_MLP output); ablating L1_MLP (r10) breaks predictions, confirming COMBINER with at least two distinct sources.",
+      "test": "r10",
+      "supports": true
+    },
+    "L2H0_ATTN": {
+      "hypothesis": "Perfect positional router attending with prob 1.0 to mirror-target positions (6\u21924, 7\u21923, 8\u21922, 9\u21921) regardless of token values; ablating it (r11) completely destroys mirroring predictions.",
+      "test": "r11",
+      "supports": true
+    }
+  }
+}

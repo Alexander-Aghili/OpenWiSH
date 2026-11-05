@@ -1,0 +1,33 @@
+{
+  "turn": 15,
+  "runs_used": 13,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 1,
+  "nudges": 0,
+  "handoffs": 0,
+  "since_handoff": 15,
+  "conv_tokens": 119488,
+  "session": "ca342203-5bcf-4645-a59d-6e76e066a833",
+  "next_message": "OUTPUT of Python run 13 of at most 60:\n```\nWritten.\n{\n  \"tags\": {\n    \"L0H0_ATTN\": \"AGGREGATOR\",\n    \"L0_MLP\": \"MAPPER\",\n    \"L1_MLP\": \"MAPPER\",\n    \"L2_MLP\": \"MAPPER\",\n    \"L3H0_ATTN\": \"ROUTER\"\n  },\n  \"evidence\": {\n    \"L0H0_ATTN\": {\n      \"hypothesis\": \"L0H0 reads from multiple positions (entropy 0.6\\u20132.2), produces continuous writes (range \\u22120.62 to 0.58) that vary by both token and position, reducing sequence content into a per-position summary; ablation has zero effect, confirming it is not a router or indicator.\",\n      \"test\": \"r7\",\n      \"supports\": true\n    },\n    \"L0_MLP\": {\n      \"hypothesis\": \"L0_MLP is a MAPPER that transforms each position's representation independently and non-linearly; it is strongly token-sensitive (cos=0.22 for same-pos different-token) and its ablation breaks reversal for most positions by corrupting token representations read by L3H0's value circuit.\",\n      \"test\": \"r8\",\n      \"supports\": true\n    },\n    \"L1_MLP\": {\n      \"hypothesis\": \"L1_MLP is a MAPPER that transforms each position's representation independently; ablation causes minor errors (2 wrong in input 0, 0 in others), consistent with a supporting per-position transformation.\",\n      \"test\": \"r9\",\n      \"supports\": true\n    },\n    \"L2_MLP\": {\n      \"hypothesis\": \"L2_MLP is a MAPPER that transforms each position independently; it writes a near-constant signal (cos\\u22480.81 across both token and position changes) and ablation has no effect, indicating a redundant per-position transformation.\",\n      \"test\": \"r10\",\n      \"supports\": true\n    },\n    \"L3H0_ATTN\": {\n      \"hypothesis\": \"L3H0 is a ROUTER with a perfect anti-diagonal attention pattern (positions 1\\u20139 attend to position 10\\u2212i with probability \\u22481), copying the partner token to implement sequence reversal; ablation destroys all reversal structure.\",\n      \"test\": \"r6\",\n      \"supports\": true\n    }\n  }\n}\n```\n[budget: python runs used 13/60]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 50,
+    "output": 105209,
+    "cache_read": 1407114,
+    "cache_write": 118997,
+    "reasoning": 57489
+  },
+  "cost_usd": 2.7144011999999993,
+  "tool_free_turns": 14,
+  "hook_blocks": 0
+}

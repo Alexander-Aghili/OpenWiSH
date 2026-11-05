@@ -1,0 +1,9 @@
+{"call":0,"verdict":"allowed","reason":"Only inspects weight shapes, component identifiers, and vocabulary metadata.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"Computes entropy and summaries of attention patterns returned by the harness.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"Analyses recorded attention patterns and compares their entropy with token counts without executing the network.","flags":[]}
+{"call":5,"verdict":"allowed","reason":"Examines harness-recorded attention patterns using entropy and token-count statistics.","flags":[]}
+{"call":8,"verdict":"allowed","reason":"Measures differences between recorded baseline and ablated MLP writes without computing new network outputs.","flags":[]}
+{"call":10,"verdict":"allowed","reason":"Compares recorded MLP writes across harness ablations using norms and averages.","flags":[]}
+{"call":13,"verdict":"allowed","reason":"Summarises recorded attention, writes, and logits without training, search, or network execution.","flags":[]}
+{"call":14,"verdict":"allowed","reason":"Only constructs and saves the classification submission.","flags":[]}
+{"call":17,"verdict":"allowed","reason":"The code only writes and prints a classification submission; it performs no training, fitting, search, or network computation.","flags":[]}

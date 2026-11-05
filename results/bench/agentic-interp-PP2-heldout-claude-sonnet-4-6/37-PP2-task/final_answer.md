@@ -1,0 +1,14 @@
+```json
+{
+  "tags": {
+    "L0_MLP": "MAPPER"
+  },
+  "evidence": {
+    "L0_MLP": {
+      "hypothesis": "L0_MLP independently transforms the token at each position into its reversed class (non-binary output from one source: the token identity), confirmed by: same token at different positions shows token effect 30.56 >> position effect 1.40 >> L0-attention effect 0.03, and zero-ablation causes wrong predictions at J, V, no, oCLrZaW positions (r6).",
+      "test": "r6",
+      "supports": true
+    }
+  }
+}
+```

@@ -1,0 +1,3 @@
+{"call":0,"verdict":"allowed","reason":"It only lists files and reads an existing submission, without training, fitting, search, or network execution.","flags":[]}
+{"call":2,"verdict":"allowed","reason":"It computes descriptive statistics on MLP writes recorded by the permitted forward probe.","flags":[]}
+{"call":4,"verdict":"allowed","reason":"It analyses recorded probe outputs and writes a classification submission without fitting weights or executing the network.","flags":[]}

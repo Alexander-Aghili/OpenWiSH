@@ -1,0 +1,12 @@
+{
+  "tags": {
+    "L0_MLP": "MAPPER"
+  },
+  "evidence": {
+    "L0_MLP": {
+      "hypothesis": "L0_MLP independently transforms the token at each position into a non-binary 4D residual-stream representation encoding (token - 2), with write magnitude dominated by token identity (L2 diff ~750 across tokens) and negligible position (~4) or cross-positional context (~1.2) effects.",
+      "test": "r9",
+      "supports": true
+    }
+  }
+}

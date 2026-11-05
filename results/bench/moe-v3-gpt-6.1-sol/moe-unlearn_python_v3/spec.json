@@ -1,0 +1,107 @@
+{
+  "spec": {
+    "id": "moe-unlearn-python-v3",
+    "description": "Granite-3.1-1B-A400M (32 experts, top-8): remove Python-code skill, keep English, by editing expert output and router weights. Python over the weights and 12 forward probes on CPU.",
+    "prompt": "prompt_v3.txt",
+    "appendix": null,
+    "instructions": "Answer the user's request.",
+    "network": {
+      "base": "../../assets/moe/base_net"
+    },
+    "mounts": [
+      {
+        "host": "../../assets/moe/model",
+        "guest": "/model",
+        "rw": false
+      },
+      {
+        "host": "../../assets/moe/practice",
+        "guest": "/practice",
+        "rw": false
+      }
+    ],
+    "hidden": [
+      "../../assets/moe/eval"
+    ],
+    "python": {
+      "runs": 40,
+      "timeout_s": 600,
+      "mem_gb": 12,
+      "max_out": 12000,
+      "prelude": "prelude.py",
+      "threads": 8,
+      "fresh": false,
+      "venv": null,
+      "reject_flags": [
+        "backward",
+        "autograd",
+        "optimizer",
+        "scipy_optimize",
+        "manual_gradient_step",
+        "fit_into_weights",
+        "lstsq_into_weights"
+      ]
+    },
+    "forward": {
+      "forward": {
+        "command": [
+          "{root}/assets/venvs/qwen/bin/python",
+          "-I",
+          "{root}/python/adapters/moe_worker.py",
+          "probe"
+        ],
+        "passes": 12,
+        "max_out": 12000,
+        "timeout_s": 900,
+        "pool": null,
+        "out_dir": "fwd/r{k}"
+      }
+    },
+    "edits": {
+      "language": false,
+      "policy": {
+        "allowed": [
+          "*block_sparse_moe.router.layer.weight",
+          "*block_sparse_moe.output_linear.weight"
+        ],
+        "forbidden": [],
+        "forbid_whole_tensor_scale": true,
+        "max_frac_changed": 0.0835
+      }
+    },
+    "finish": {
+      "require_all_passes": false,
+      "max_turns": 70,
+      "max_nudges": 5,
+      "validation": null
+    },
+    "handoff": {
+      "max_conversation_tokens": 700000,
+      "max_turns_per_conversation": 40
+    },
+    "score": {
+      "command": [
+        "{root}/assets/venvs/qwen/bin/python",
+        "-I",
+        "{root}/python/adapters/moe_worker.py",
+        "score",
+        "--score-version",
+        "3"
+      ]
+    },
+    "editor": {
+      "backend": null,
+      "model": null,
+      "effort": "high"
+    },
+    "hooks": {
+      "session_start": [],
+      "pre_tool": [],
+      "post_tool": [],
+      "on_edit": [],
+      "session_end": [],
+      "timeout_s": null
+    }
+  },
+  "dir": "/home/alexsky2/Projects/WeightSpaceProgramming/tasks/moe"
+}

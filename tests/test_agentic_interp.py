@@ -50,5 +50,42 @@ class Scoring(unittest.TestCase):
                 self.assertEqual(ai.answer_text(), '{"tags": {"L0_MLP": "MAPPER"}}')
 
 
+class Protocol(unittest.TestCase):
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.req = Path(self.tmp.name)
+        self.write(3, {"inputs": [["BOS", 1]], "ablate": {"L0_MLP": "zero"}})
+        self.write(4, {"inputs": [["BOS", 1], ["BOS", 2]], "patch": [{"component": "L1H2_ATTN", "source": 1}]})
+        self.write(5, {"inputs": [["BOS", 1]]})
+
+    def tearDown(self):
+        self.tmp.cleanup()
+
+    def write(self, k, body, done=True):
+        (self.req / f"forward_{k}.json").write_text(json.dumps(body))
+        if done:
+            (self.req / f"forward_{k}.done.json").write_text("{}")
+
+    def sub(self, **tests):
+        ev = {c: {"hypothesis": "copies the previous token into this position", "test": t, "supports": True} for c, t in tests.items()}
+        return {"tags": {"L0_MLP": "MAPPER", "L1H2_ATTN": "ROUTER"}, "evidence": ev}
+
+    def test_each_component_cites_a_finished_probe_that_ablated_or_patched_it(self):
+        self.assertEqual(ai.check(self.sub(L0_MLP="r3", L1H2_ATTN="r4"), IDS, protocol=True, requests=self.req), "ok")
+
+    def test_missing_or_unrelated_evidence_is_refused(self):
+        for sub in (self.sub(L0_MLP="r3"), self.sub(L0_MLP="r3", L1H2_ATTN="r5"), self.sub(L0_MLP="r4", L1H2_ATTN="r4"),
+                    self.sub(L0_MLP="r3", L1H2_ATTN="r9"), self.sub(L0_MLP="r3", L1H2_ATTN="../x")):
+            self.assertNotEqual(ai.check(sub, IDS, protocol=True, requests=self.req), "ok")
+
+    def test_an_unfinished_probe_does_not_count(self):
+        self.write(6, {"inputs": [["BOS", 1]], "ablate": {"L1H2_ATTN": "mean"}}, done=False)
+        self.assertNotEqual(ai.check(self.sub(L0_MLP="r3", L1H2_ATTN="r6"), IDS, protocol=True, requests=self.req), "ok")
+
+    def test_scoring_reads_the_tags_of_a_protocol_answer(self):
+        gold = {"components": [{"id": "L0_MLP", "role": {"tag": "MAPPER"}}, {"id": "L1H2_ATTN", "role": {"tag": "ROUTER"}}]}
+        self.assertEqual(ai.grade(gold, self.sub(L0_MLP="r3", L1H2_ATTN="r4"))["score"], 1.0)
+
+
 if __name__ == "__main__":
     unittest.main()

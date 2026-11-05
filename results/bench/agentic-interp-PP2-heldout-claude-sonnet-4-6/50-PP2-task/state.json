@@ -1,0 +1,33 @@
+{
+  "turn": 9,
+  "runs_used": 7,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 1,
+  "nudges": 1,
+  "handoffs": 0,
+  "since_handoff": 9,
+  "conv_tokens": 20913,
+  "session": "500c7f26-463c-4f87-896c-b0b763aa9e2a",
+  "next_message": "OUTPUT of Python run 7 of at most 60:\n```\n{\n  \"tags\": {\n    \"L0_MLP\": \"COMBINER\"\n  },\n  \"evidence\": {\n    \"L0_MLP\": {\n      \"hypothesis\": \"L0_MLP fuses two distinct upstream signals \\u2014 the token-at-position embedding (W_E[token]+W_pos[pos]) and the L0 attention head outputs \\u2014 into one non-binary cosh output; zeroing the L0 attention heads (r3) changed L0_MLP writes by ~92% of baseline norm, confirming it reads from multiple sources.\",\n      \"test\": \"r6\",\n      \"supports\": true\n    }\n  }\n}\n```\n[budget: python runs used 7/60]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 26,
+    "output": 12445,
+    "cache_read": 104150,
+    "cache_write": 19680,
+    "reasoning": 7247
+  },
+  "cost_usd": 0.336078,
+  "tool_free_turns": 9,
+  "hook_blocks": 0
+}

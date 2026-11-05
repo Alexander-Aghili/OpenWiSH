@@ -57,6 +57,7 @@ The audit changes the story of the tuning rounds. Before the round 4 guard, most
   <p align="center"><img src="assets/charts/agentic-interp.svg" alt="Dot plot: AgenticInterpBench tag accuracy. Published HyVE agents score 67 to 79 percent. OpenWiSH rows score 67 to 73 percent. Fixed baselines sit at 44.2 and 63.8 percent." width="760"></p>
 
   A fixed rule (MLP means MAPPER, attention means AGGREGATOR) scores 63.8 %. With the same model and the same access, the published HyVE agent beats OpenWiSH by 17.7 points, 79.0 % against 61.3 %. The transcripts show why. Sonnet answered 59 of 84 cases after one Python run, with a median of two turns and 38 probe calls across all 84 cases. Before audit, its 68.7 % matches its own prompt-only reply. HyVE runs a fixed observe, hypothesise and validate loop for every component. Six OpenWiSH runs computed attention in Python instead of calling the probe, and failed audit. The lesson for OpenWiSH: open-ended access does not make an agent investigate. A per-component protocol does. The paper reports no prompt-only control. This page adds one.
+- **A per-component protocol on AgenticInterpBench.** HyVE's edge looked like investigation depth, so OpenWiSH gained a protocol condition: observe, hypothesise and test each component, with a finish check: each component's test must be a finished probe call ablating or patching the component. Claude Sonnet 4.6, pre-registered 16 dev cases (seed 2026), then 68 held-out cases. Version 1 matched prompt only on dev (59.5 %). Version 2 added a test for telling tags apart (count an MLP's upstream sources, read a head's attention shape) and reached 67.6 % on dev. On the 64 held-out cases with a score (4 ended on a lost login), the frozen version 2 scores 55.0 %, against 71.7 % prompt only and 62.5 % for open probing. The added test over-counts sources: 35 of its 54 errors read a MAPPER as a COMBINER. A gain on 37 dev components did not hold, and the protocol stays out of the headline. The audits of these runs also exposed an auditor flaw, now fixed: the auditor never saw probe calls, so answers citing probe tests read as citing tests never run.
 - **MinAtar Breakout.** Breakout at the task's own effort (xhigh) scores 476.3, 261.5 and 513.5 in three runs, a mean of 417 ± 79 (standard error over runs), against the published 517.4. An earlier single run at high effort scored 54.2. The gap closed from tenfold to 0.8 times the published score once the run used the task's effort.
 
 ## Blog environments with Claude Opus 5.5
@@ -97,6 +98,15 @@ Experiment 8 replays the published Qwen3.5-0.8B edits on MATH-500 with one sampl
 | Sol, two experts times -128 | 2 | +11.33 | +0.04 | 9.22, the maximum |
 
 **What the edit removed.** On text the score never used, the two-expert edit breaks C headers (+10.6), Markdown READMEs (+10.7) and reStructuredText docs (+8.7). The 64-expert baseline raises the same three by 0.7 to 0.8. In this model the router separates prose from technical text, not Python from the rest. Both edits cut the technical cluster. Sol's edit turns two experts into a trap: when the router picks them, the output becomes confidently wrong. The English test set held only novels, so the score missed this. A better score holds out technical English as a retain set. Records: [`results/moe/`](../results/moe).
+
+**Version 3** keeps both English prose and technical English (package docs and READMEs with no Python code), each within 0.1 nats per token, and subtracts any Python loss beyond a uniform guess, so forgetting beats breaking. Under this rule every fixed baseline scores 0, and so does the two-expert trap (technical English +9.32). On a fresh run, Sol attenuated or reversed 32 code-selective experts:
+
+| Edit | Python rise | English prose rise | Technical English rise | Score v3 |
+|---|---:|---:|---:|---:|
+| 64 experts most routed to code over prose and docs | +0.61 | +0.16 | +0.23 | 0 |
+| Sol, 32 experts attenuated or reversed | +0.52 | +0.06 | +0.102 | 0 |
+
+Sol's edit is the most selective so far, and misses the technical-English limit by 0.002 nats. On the practice texts the same edit read +0.070. The threshold stays as the prompt stated. The audit passed every code run. Separating Python from technical English inside this router is the open problem the task now measures.
 
 ## What OpenWiSH is for
 

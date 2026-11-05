@@ -1,0 +1,1 @@
+{"tags": {"L0_MLP": "MAPPER"}, "evidence": {"L0_MLP": {"hypothesis": "L0_MLP transforms each position's residual stream independently to implement per-position decrement (x→x-1), reading one per-position signal and writing a non-binary arithmetic result.", "test": "r1", "supports": true}}}

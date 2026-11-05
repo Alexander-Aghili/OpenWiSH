@@ -1,0 +1,33 @@
+{
+  "turn": 10,
+  "runs_used": 7,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 2,
+  "nudges": 1,
+  "handoffs": 0,
+  "since_handoff": 10,
+  "conv_tokens": 21436,
+  "session": "cb206351-5b6f-445f-ba9f-5ce48c93188c",
+  "next_message": "OUTPUT of Python run 7 of at most 60:\n```\nNormal predictions (input 1: 1,2,7,4,5,6,7,8,9): [4 1 1 6 3 4 5 6 7 8]\nAblated L0_MLP (input 1): [18 18 18 18 18 18 18 18 18 18]\n\nAblating L0_MLP destroys all position-specific predictions → MAPPER confirmed\n\n{\n  \"tags\": {\n    \"L0_MLP\": \"MAPPER\"\n  },\n  \"evidence\": {\n    \"L0_MLP\": {\n      \"hypothesis\": \"L0_MLP independently transforms each position's token+position embedding into a non-binary vector for the Fibonacci lookup (one source, non-binary output); ablating it collapses all predictions to 4181, confirming it carries the token-specific Fibonacci signal independently at each position.\",\n      \"test\": \"r6\",\n      \"supports\": true\n    }\n  }\n}\n```\n[budget: python runs used 7/60]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 29,
+    "output": 15247,
+    "cache_read": 135756,
+    "cache_write": 20257,
+    "reasoning": 6797
+  },
+  "cost_usd": 0.3910608000000001,
+  "tool_free_turns": 10,
+  "hook_blocks": 0
+}

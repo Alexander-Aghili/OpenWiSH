@@ -1,0 +1,33 @@
+{
+  "turn": 14,
+  "runs_used": 12,
+  "passes_used": {},
+  "failed_requests": 0,
+  "protocol_errors": 1,
+  "nudges": 1,
+  "handoffs": 0,
+  "since_handoff": 14,
+  "conv_tokens": 27303,
+  "session": "18651f07-e198-49ca-89bd-7d330409865f",
+  "next_message": "OUTPUT of Python run 12 of at most 60:\n```\nSubmission written:\n{\n  \"tags\": {\n    \"L0_MLP\": \"COMBINER\"\n  },\n  \"evidence\": {\n    \"L0_MLP\": {\n      \"hypothesis\": \"L0_MLP fuses the current token's divisibility signal from the residual stream with the L0 attention heads' aggregated output into an amplified classification write, reading two distinct upstream signals.\",\n      \"test\": \"r10\",\n      \"supports\": true\n    }\n  }\n}\n```\n[budget: python runs used 12/60]",
+  "new_conversation": false,
+  "pending_reply": null,
+  "ledger_mark": 0,
+  "force_handoff": false,
+  "refusals": 0,
+  "refusal_streak": 0,
+  "backend_errors": 0,
+  "kernel_restarts": 0,
+  "done": true,
+  "end_reason": "final answer",
+  "usage_total": {
+    "input": 41,
+    "output": 17166,
+    "cache_read": 181215,
+    "cache_write": 26112,
+    "reasoning": 13539
+  },
+  "cost_usd": 0.4686495,
+  "tool_free_turns": 14,
+  "hook_blocks": 0
+}

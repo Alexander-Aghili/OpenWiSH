@@ -1,0 +1,3 @@
+{"call":0,"verdict":"allowed","reason":"Only writes a submission, with no training, fitting, search, or network execution.","flags":[]}
+{"call":4,"verdict":"allowed","reason":"Computes statistics and inspects component writes recorded by harness forward probes.","flags":[]}
+{"call":5,"verdict":"allowed","reason":"Analyzes recorded logits and activations and writes a submission without fitting weights or executing the network.","flags":[]}

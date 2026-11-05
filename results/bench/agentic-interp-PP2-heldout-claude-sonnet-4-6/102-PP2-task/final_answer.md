@@ -1,0 +1,14 @@
+```json
+{
+  "tags": {
+    "L0_MLP": "COMBINER"
+  },
+  "evidence": {
+    "L0_MLP": {
+      "hypothesis": "L0_MLP reads both the token embedding and position embedding (two distinct upstream signals) and fuses them into a single non-binary output; ablating it causes wrong predictions, confirming causal relevance of this fusion.",
+      "test": "r15",
+      "supports": true
+    }
+  }
+}
+```

@@ -1,0 +1,12 @@
+{
+  "tags": {
+    "L0_MLP": "COMBINER"
+  },
+  "evidence": {
+    "L0_MLP": {
+      "hypothesis": "L0_MLP fuses two distinct upstream signals: the token embedding at its position (primary, ~50% write change per token change) and the L0 attention output (secondary, ~1% contextual effect from L0 heads that partially attend to neighboring positions).",
+      "test": "r4",
+      "supports": true
+    }
+  }
+}

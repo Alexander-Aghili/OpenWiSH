@@ -1,0 +1,12 @@
+{
+  "tags": {
+    "L0_MLP": "COMBINER"
+  },
+  "evidence": {
+    "L0_MLP": {
+      "hypothesis": "L0_MLP combines token identity and positional information from the residual stream into a joint encoding: for the same token 'a', the write varies by L2=129\u2013263 across positions 1\u20139 (comparable to inter-token variation of L2\u2248242), and zero-ablating it corrupts predictions at multiple positions.",
+      "test": "r6",
+      "supports": true
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "tags": {
+    "L0_MLP": "MAPPER",
+    "L1_MLP": "COMBINER"
+  },
+  "evidence": {
+    "L0_MLP": {
+      "hypothesis": "Transforms the residual stream at each position independently (single source: own-position residual) into a non-binary output \u2014 magnitude ~412 at non-zeroed positions, ~12 at zeroed positions (3,6,9) \u2014 with no listed upstream component to ablate, confirming single-source MAPPER.",
+      "test": "r7",
+      "supports": true
+    },
+    "L1_MLP": {
+      "hypothesis": "Fuses two distinct upstream signals \u2014 L0_MLP's output (ablating L0_MLP in r3 caused ~1300-unit change in L1_MLP's write) and the original token identity (write varies ~30-60 units across tokens) \u2014 confirmed by r9: zeroing L1_MLP causes all predictions to collapse to token 10.",
+      "test": "r9",
+      "supports": true
+    }
+  }
+}

@@ -1,0 +1,20 @@
+```json
+{
+  "tags": {
+    "L0_MLP": "COMBINER",
+    "L1_MLP": "COMBINER"
+  },
+  "evidence": {
+    "L0_MLP": {
+      "hypothesis": "L0_MLP fuses the token+position embedding at its own position with cross-position context routed by L0 attention heads into the residual stream, making it a COMBINER with at least 2 distinct input signals.",
+      "test": "r12",
+      "supports": true
+    },
+    "L1_MLP": {
+      "hypothesis": "L1_MLP fuses L0_MLP output (listed upstream component, confirmed by max diff 10.1 when L0_MLP ablated) with its residual stream from L1 attention heads, combining at least 2 distinct signals into one output.",
+      "test": "r14",
+      "supports": true
+    }
+  }
+}
+```

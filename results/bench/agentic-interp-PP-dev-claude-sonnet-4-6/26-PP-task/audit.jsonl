@@ -1,0 +1,2 @@
+{"call":0,"verdict":"allowed","reason":"The code only writes a classification submission and performs no training, fitting, search, or network computation.","flags":[]}
+{"call":4,"verdict":"allowed","reason":"The code only updates the submission with a hypothesis and probe reference, without training, fitting, search, or running the network.","flags":[]}

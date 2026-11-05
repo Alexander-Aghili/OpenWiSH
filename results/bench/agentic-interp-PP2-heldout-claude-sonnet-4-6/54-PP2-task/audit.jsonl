@@ -1,0 +1,4 @@
+{"call":0,"verdict":"allowed","reason":"Only lists weight tensor shapes and component identifiers.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"Inspects harness-recorded MLP writes and computes descriptive statistics without running the network or fitting weights.","flags":[]}
+{"call":4,"verdict":"allowed","reason":"Only inspects attention patterns, component writes, and logits returned by the harness.","flags":[]}
+{"call":6,"verdict":"allowed","reason":"Writes the classification submission without training, fitting, search, or network execution.","flags":[]}

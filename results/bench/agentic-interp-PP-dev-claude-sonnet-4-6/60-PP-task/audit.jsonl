@@ -1,0 +1,2 @@
+{"call":0,"verdict":"allowed","reason":"The run only writes a submission JSON file, without training, fitting, search, or network execution.","flags":[]}
+{"call":3,"verdict":"allowed","reason":"The run only updates and writes the submission JSON file, without training, fitting, search, or network execution.","flags":[]}
