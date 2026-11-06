@@ -13,6 +13,7 @@ All notable changes to OpenWiSH. The format follows [Keep a Changelog](https://k
 - Codex progress messages no longer become part of the final reply. Raw events stay in the run record.
 - The kernel retains the optimiser base class while replacing forbidden constructors.
 - Temporary edit arrays are removed after refused or interrupted RPCs.
+- Experiment 8 teacher-forced passes with `attn_layers` return attention probabilities. Before, every such request failed with `IndexError`: transformers returns one attention array per full-attention layer, not one per layer.
 
 ### Added
 
