@@ -21,6 +21,7 @@ All notable changes to OpenWiSH. The format follows [Keep a Changelog](https://k
 - Optional pre-execution static-rule blocking, including matrix and scalar ReLU patterns.
 - Pinned benchmark binaries and nonzero batch status on failed runs.
 - Per-task comparison checks for regressions, missing scores, external backend tools and audit gaps.
+- `openwish run --max-conversation-tokens <n>` sets the handoff threshold of a new run, for an editor with a context window below the task's `[handoff]` value.
 
 ### Documentation
 
