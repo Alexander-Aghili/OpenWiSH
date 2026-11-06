@@ -21,6 +21,7 @@ All notable changes to OpenWiSH. The format follows [Keep a Changelog](https://k
 - Optional pre-execution static-rule blocking, including matrix and scalar ReLU patterns.
 - Pinned benchmark binaries and nonzero batch status on failed runs.
 - Per-task comparison checks for regressions, missing scores, external backend tools and audit gaps.
+- Per-episode editor caps: `[finish] max_editor_output_tokens`, `max_editor_total_tokens` and `max_editor_cost_usd`. Past a cap, the run ends and submits the current edit.
 
 ### Documentation
 
