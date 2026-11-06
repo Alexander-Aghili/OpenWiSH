@@ -22,6 +22,10 @@ All notable changes to OpenWiSH. The format follows [Keep a Changelog](https://k
 - Pinned benchmark binaries and nonzero batch status on failed runs.
 - Per-task comparison checks for regressions, missing scores, external backend tools and audit gaps.
 
+### Changed
+
+- Tensor values are shared copy-on-write. A gate's current network holds new memory only for edited tensors. Peak `openwish run` memory on experiment 8 fell from 6.0 GB to 4.0 GB.
+
 ### Documentation
 
 - Project configuration, hooks, environment scaffolding, tool inspection and HTML replay.

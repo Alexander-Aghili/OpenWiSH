@@ -152,7 +152,7 @@ pub fn read_npy(bytes: &[u8]) -> Result<Tensor> {
     if h.fortran && h.shape.len() > 1 {
         data = fortran_to_c(&data, &h.shape);
     }
-    Ok(Tensor { shape: h.shape, data })
+    Ok(Tensor { shape: h.shape, data: data.into() })
 }
 
 /// The magic string, version 1.0, header length and header (padded to 64 bytes) of an .npy file.

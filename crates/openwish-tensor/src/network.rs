@@ -8,22 +8,77 @@ use std::path::Path;
 
 use crate::npy::{read_npy, write_npy};
 
+/// Tensor values, shared copy-on-write. A clone of a tensor or of a whole network shares the values, and the first
+/// write through `DerefMut` copies them. A gate's `current` network then holds new memory only for the edited
+/// tensors. Before, base and current held two full copies: 6.4 GB for Qwen3.5-0.8B in float32.
+#[derive(Clone, Debug, Default, PartialEq)]
+pub struct Data(std::sync::Arc<Vec<f32>>);
+
+impl Serialize for Data {
+    fn serialize<S: serde::Serializer>(&self, s: S) -> std::result::Result<S::Ok, S::Error> {
+        self.0.as_slice().serialize(s)
+    }
+}
+impl<'de> Deserialize<'de> for Data {
+    fn deserialize<D: serde::Deserializer<'de>>(d: D) -> std::result::Result<Data, D::Error> {
+        Vec::<f32>::deserialize(d).map(Data::from)
+    }
+}
+
+impl std::ops::Deref for Data {
+    type Target = Vec<f32>;
+    fn deref(&self) -> &Vec<f32> {
+        &self.0
+    }
+}
+impl std::ops::DerefMut for Data {
+    fn deref_mut(&mut self) -> &mut Vec<f32> {
+        std::sync::Arc::make_mut(&mut self.0)
+    }
+}
+impl From<Vec<f32>> for Data {
+    fn from(v: Vec<f32>) -> Data {
+        Data(std::sync::Arc::new(v))
+    }
+}
+impl PartialEq<Vec<f32>> for Data {
+    fn eq(&self, other: &Vec<f32>) -> bool {
+        *self.0 == *other
+    }
+}
+impl<'a> IntoIterator for &'a Data {
+    type Item = &'a f32;
+    type IntoIter = std::slice::Iter<'a, f32>;
+    fn into_iter(self) -> Self::IntoIter {
+        self.0.iter()
+    }
+}
+impl Data {
+    /// Whether two values share one allocation, with no copy made.
+    pub fn shares(&self, other: &Data) -> bool {
+        std::sync::Arc::ptr_eq(&self.0, &other.0)
+    }
+}
+
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct Tensor {
     pub shape: Vec<usize>,
-    pub data: Vec<f32>,
+    pub data: Data,
 }
 
 impl Tensor {
     pub fn new(shape: Vec<usize>, data: Vec<f32>) -> Self {
         assert_eq!(shape.iter().product::<usize>(), data.len(), "shape/data mismatch");
-        Tensor { shape, data }
+        Tensor {
+            shape,
+            data: data.into(),
+        }
     }
     pub fn zeros(shape: Vec<usize>) -> Self {
         let n = shape.iter().product();
         Tensor {
             shape,
-            data: vec![0.0; n],
+            data: vec![0.0; n].into(),
         }
     }
     pub fn numel(&self) -> usize {
@@ -193,5 +248,23 @@ mod tests {
         let a = Tensor::new(vec![3], vec![1., 2., 3.]);
         let b = Tensor::new(vec![3], vec![1., 0., 0.]);
         assert_eq!(a.count_diff(&b), 2);
+    }
+
+    #[test]
+    fn a_cloned_network_shares_values_until_a_tensor_is_written() {
+        let mut base = Network::default();
+        base.tensors.insert("a".into(), Tensor::new(vec![2], vec![1.0, 2.0]));
+        base.tensors.insert("b".into(), Tensor::new(vec![2], vec![3.0, 4.0]));
+        let mut cur = base.clone();
+        assert!(cur.tensors["a"].data.shares(&base.tensors["a"].data));
+        cur.tensors.get_mut("a").unwrap().data[0] = 9.0;
+        assert!(!cur.tensors["a"].data.shares(&base.tensors["a"].data));
+        assert!(cur.tensors["b"].data.shares(&base.tensors["b"].data));
+        assert_eq!(base.tensors["a"].data, vec![1.0, 2.0]);
+        assert_eq!(cur.tensors["a"].data, vec![9.0, 2.0]);
+        let json = serde_json::to_string(&cur.tensors["a"]).unwrap();
+        assert_eq!(json, r#"{"shape":[2],"data":[9.0,2.0]}"#);
+        let back: Tensor = serde_json::from_str(&json).unwrap();
+        assert_eq!(back, cur.tensors["a"]);
     }
 }
