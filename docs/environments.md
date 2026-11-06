@@ -154,6 +154,7 @@ data = ["practice problems with answers"]   # anything mounted besides the netwo
 | `[finish]` | `require_all_passes`, `max_turns`, `max_nudges` | `false`, 400, 5 | End conditions. The nudge cap also bounds format repairs |
 | `[finish.validation]` | `command`, `timeout_s`, `submission_file` | no validator, 60 s, none | Optional format check. A plain file under `/work` takes precedence over the final reply |
 | `[handoff]` | `max_conversation_tokens`, `max_turns_per_conversation` | 700000, 0 | When to start a new conversation |
+| `[rationale]` | `min_words`, `tools`, `max_rejects_in_row` | 0 (off), every tool, 2 | Words of plain English a reply needs outside its tool block. The run sends a block with fewer words back unrun and uncharged, at most `max_rejects_in_row` times in a row, then runs the block and logs `rationale-missing` in `tool_calls.jsonl` |
 | `[editor]` | `backend`, `model`, `effort` | `claude`, per backend, none | Defaults. Command-line flags win |
 | `[hooks]` | `session_start`, `pre_tool`, `post_tool`, `on_edit`, `session_end`, `timeout_s` | empty, timeout 60 s | Host commands at run events. See [Configuration](configuration.md#hooks) |
 | `[score]` | `command` | none | The scorer |
