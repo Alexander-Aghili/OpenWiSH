@@ -13,6 +13,7 @@ All notable changes to OpenWiSH. The format follows [Keep a Changelog](https://k
 - Codex progress messages no longer become part of the final reply. Raw events stay in the run record.
 - The kernel retains the optimiser base class while replacing forbidden constructors.
 - Temporary edit arrays are removed after refused or interrupted RPCs.
+- An empty reply is an uncharged protocol error, not a final answer. More than 3 in a row end the run. Before, an open model emitting an end-of-turn token at the start of a reply ended the run.
 
 ### Added
 
