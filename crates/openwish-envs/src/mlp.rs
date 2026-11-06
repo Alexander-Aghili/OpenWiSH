@@ -39,7 +39,7 @@ impl Mlp {
         let mut width: Option<usize> = None;
         for name in names {
             let w = n.get(&format!("{name}.W"))?.clone();
-            let b = n.get(&format!("{name}.b"))?.data.clone();
+            let b: Vec<f32> = n.get(&format!("{name}.b"))?.data.to_vec();
             if w.shape.len() != 2 || w.shape[1] != b.len() {
                 bail!("{name}: W {:?} and b ({}) do not fit", w.shape, b.len());
             }
