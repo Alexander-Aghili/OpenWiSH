@@ -13,6 +13,7 @@ All notable changes to OpenWiSH. The format follows [Keep a Changelog](https://k
 - Codex progress messages no longer become part of the final reply. Raw events stay in the run record.
 - The kernel retains the optimiser base class while replacing forbidden constructors.
 - Temporary edit arrays are removed after refused or interrupted RPCs.
+- The experiment 8 adapter no longer follows a symlink the agent planted at `/work/gen_<k>.jsonl` when copying generation results.
 
 ### Added
 
@@ -21,6 +22,7 @@ All notable changes to OpenWiSH. The format follows [Keep a Changelog](https://k
 - Optional pre-execution static-rule blocking, including matrix and scalar ReLU patterns.
 - Pinned benchmark binaries and nonzero batch status on failed runs.
 - Per-task comparison checks for regressions, missing scores, external backend tools and audit gaps.
+- Activations in experiment 8 generation passes (`"activations"`), as the published prompt offers. Before, the worker refused them.
 
 ### Documentation
 
