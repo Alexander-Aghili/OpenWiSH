@@ -47,5 +47,17 @@ class Lens(unittest.TestCase):
         torch.testing.assert_close(back.result()[0][1], acc.result()[0][1])
 
 
+    def test_logit_lens_control_is_identity(self):
+        import json, tempfile
+        import numpy as np
+        with tempfile.TemporaryDirectory() as tmp:
+            jl.write_logit_lens(tmp, layers=3, d=4)
+            meta = json.loads((Path(tmp) / "meta.json").read_text())
+            self.assertEqual(meta["layers"], 3)
+            self.assertIn("identity", meta["definition"])
+            for l in range(3):
+                np.testing.assert_array_equal(np.load(Path(tmp) / f"J_{l}.npy"), np.eye(4, dtype=np.float32))
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -1,0 +1,58 @@
+# MoE environment, logit-lens control for the J-lens access level, score v3 (two retain sets, forget not break): remove Python-code skill from Granite-3.1-1B-A400M by editing router and expert weights.
+# Prepare with: assets/venvs/qwen/bin/python -I scripts/prepare_moe.py
+id = "moe-unlearn-python-v3-logitlens"
+description = "Granite-3.1-1B-A400M (32 experts, top-8): remove Python-code skill, keep English, by editing expert output and router weights. Python over the weights and 12 forward probes on CPU."
+prompt = "prompt_v3_logitlens.txt"
+hidden = ["../../assets/moe/eval"]
+
+[access]
+weights = "code"
+data = ["practice texts: Python code, English prose and technical English, none of them in the scored sets"]
+instruments = ["logit lens of Granite (scripts/jlens.py --logit-lens): J_l = identity, a control for the J-lens"]
+
+[network]
+base = "../../assets/moe/base_net"
+
+[[mounts]]
+host = "../../assets/moe/model"
+guest = "/model"
+
+[[mounts]]
+host = "../../assets/moe/logit_lens"
+guest = "/lens"
+
+[[mounts]]
+host = "../../assets/moe/practice"
+guest = "/practice"
+
+[python]
+runs = 40
+timeout_s = 600
+mem_gb = 12
+max_out = 12000
+prelude = "prelude.py"
+reject_flags = ["backward", "autograd", "optimizer", "scipy_optimize", "manual_gradient_step", "fit_into_weights", "lstsq_into_weights"]
+
+[forward.forward]
+command = ["{root}/assets/venvs/qwen/bin/python", "-I", "{root}/python/adapters/moe_worker.py", "probe"]
+passes = 12
+out_dir = "fwd/r{k}"
+max_out = 12000
+timeout_s = 900
+
+[edits.policy]
+allowed = ["*block_sparse_moe.router.layer.weight", "*block_sparse_moe.output_linear.weight"]
+forbid_whole_tensor_scale = true
+max_frac_changed = 0.0835
+
+[finish]
+max_turns = 70
+
+[handoff]
+max_turns_per_conversation = 40
+
+[editor]
+effort = "high"
+
+[score]
+command = ["{root}/assets/venvs/qwen/bin/python", "-I", "{root}/python/adapters/moe_worker.py", "score", "--score-version", "3"]

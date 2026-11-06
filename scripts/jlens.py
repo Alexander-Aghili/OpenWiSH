@@ -108,6 +108,17 @@ def run(model_dir, corpus, per_group, tokens, out, batch):
         "relative_dispersion": [round(r, 4) for r in rel]}, indent=1))
 
 
+def write_logit_lens(out, layers, d):
+    """Control for the J-lens: the plain logit lens, J_l = identity for every layer (later layers ignored)."""
+    out = Path(out)
+    out.mkdir(parents=True, exist_ok=True)
+    for l in range(layers):
+        np.save(out / f"J_{l}.npy", np.eye(d, dtype=np.float32))
+    (out / "meta.json").write_text(json.dumps({
+        "layers": layers, "definition": "logit lens: J_l = identity for every layer, so L_l = W_U diag(final norm)",
+        "relative_dispersion": None}, indent=1))
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--model", required=True)
@@ -116,7 +127,11 @@ def main():
     ap.add_argument("--tokens", type=int, default=128)
     ap.add_argument("--batch", type=int, default=8, help="output dims per backward pass; memory grows with it")
     ap.add_argument("--out", required=True)
+    ap.add_argument("--logit-lens", action="store_true", help="write the identity control instead (no gradients)")
     a = ap.parse_args()
+    if a.logit_lens:
+        cfg = json.loads((Path(a.model) / "config.json").read_text())
+        return write_logit_lens(a.out, cfg["num_hidden_layers"] - 1, cfg["hidden_size"])
     run(a.model, a.corpus, a.per_group, a.tokens, a.out, a.batch)
 
 
