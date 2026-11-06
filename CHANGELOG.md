@@ -21,6 +21,7 @@ All notable changes to OpenWiSH. The format follows [Keep a Changelog](https://k
 - Optional pre-execution static-rule blocking, including matrix and scalar ReLU patterns.
 - Pinned benchmark binaries and nonzero batch status on failed runs.
 - Per-task comparison checks for regressions, missing scores, external backend tools and audit gaps.
+- `"texts_file"` in experiment 8 teacher-forced passes: the texts as a JSON file under `/work`, so an agent never types special tokens into a reply.
 
 ### Documentation
 
