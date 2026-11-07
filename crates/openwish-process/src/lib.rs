@@ -115,16 +115,7 @@ pub fn last_json_line(stdout: &str) -> Option<&str> {
     stdout.lines().rev().find(|l| l.trim_start().starts_with('{'))
 }
 
-/// The last `n` characters of `s`.
-pub fn tail_chars(s: &str, n: usize) -> &str {
-    if n == 0 {
-        return "";
-    }
-    match s.char_indices().rev().nth(n - 1) {
-        Some((i, _)) => &s[i..],
-        None => s,
-    }
-}
+pub use openwish_text::tail as tail_chars;
 
 /// Write `input` from its own thread, so a large input cannot block the child. A child that does not read
 /// its stdin is fine.

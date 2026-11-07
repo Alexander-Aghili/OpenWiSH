@@ -1,4 +1,5 @@
 //! Weight store, edit ops, edit gate, ledger, rendering and the edit language.
+pub mod delta;
 pub mod editlang;
 pub mod editset;
 pub mod gate;

@@ -8,11 +8,16 @@
 Grading reports a strict parse (WSPBench's own parse_submission over the whole reply, as in its pilot) and a
 lenient parse (the last JSON object in the reply). The strict result is the comparable one."""
 import argparse
+import importlib.util
 import json
 import os
-import re
 import sys
 from pathlib import Path
+
+# loaded by path: these scripts run under python -I or another project's interpreter
+_spec = importlib.util.spec_from_file_location("subm", Path(__file__).resolve().parent / "submission.py")
+subm = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(subm)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 BENCH = os.path.join(ROOT, "assets", "wspbench")
@@ -31,8 +36,7 @@ def load_task(task_id):
     return PublicTask.from_dict(json.load(open(os.path.join(d, "task.json"))), Path(d))  # released answer keys
 
 
-def toml_string(s):
-    return '"""' + s.replace("\\", "\\\\").replace('"""', '\\"\\"\\"') + '"""'
+toml_string = subm.toml_string
 
 
 def export(task_id, condition):
@@ -172,26 +176,8 @@ weights = "both"
 
 
 def last_json_object(text):
-    """The last top-level {...} in the text that parses as a JSON object."""
-    fenced = re.findall(r"```(?:json)?\s*\n(.*?)```", text, re.S)
-    for block in reversed(fenced):
-        try:
-            v = json.loads(block)
-            if isinstance(v, dict):
-                return v
-        except json.JSONDecodeError:
-            pass
-    dec = json.JSONDecoder()
-    found = None
-    for i, ch in enumerate(text):
-        if ch == "{":
-            try:
-                v, _ = dec.raw_decode(text[i:])
-                if isinstance(v, dict):
-                    found = v
-            except json.JSONDecodeError:
-                continue
-    return found
+    """The last ```json block that parses as an object, else the last {...} in the prose."""
+    return subm.last_json_object(text, prefer_fenced=True)
 
 
 def headline(family, metrics):
@@ -217,13 +203,7 @@ def grade(task, submission):
 
 def score(task_id, condition):
     task = load_task(task_id)
-    text = Path(os.environ["OPENWISH_FINAL_ANSWER"]).read_text()
-    validated = Path(os.environ.get("OPENWISH_RUN", ""), "validated_submission.json")
-    sub_file = os.path.join(os.environ.get("OPENWISH_RUN", ""), "work", "submission.json")
-    if condition == "OW" and validated.is_file() and not validated.is_symlink():
-        text = validated.read_text()
-    elif condition == "OW" and os.path.isfile(sub_file) and not os.path.islink(sub_file):
-        text = Path(sub_file).read_text()
+    text = subm.submission_text(use_files=condition == "OW")
     out = {"ok": True, "task": task_id, "family": task.family, "condition": condition}
     try:
         out["strict"] = grade(task, parse_submission(text))

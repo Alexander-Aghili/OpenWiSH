@@ -145,14 +145,37 @@ pub fn read_npy(bytes: &[u8]) -> Result<Tensor> {
     if body.len() < n * width {
         bail!("truncated .npy data: need {} bytes, have {}", n * width, body.len());
     }
-    let mut data = body[..n * width]
-        .chunks_exact(width)
-        .map(|b| decode(&h.code, b))
-        .collect::<Result<Vec<f32>>>()?;
+    let body = &body[..n * width];
+    let mut data: Vec<f32> = if h.code == "f4" {
+        // the common case: one exact-size allocation, no per-entry dtype dispatch
+        body.as_chunks::<4>().0.iter().map(|b| f32::from_le_bytes(*b)).collect()
+    } else {
+        let mut v = Vec::with_capacity(n);
+        for b in body.chunks_exact(width) {
+            v.push(decode(&h.code, b)?);
+        }
+        v
+    };
     if h.fortran && h.shape.len() > 1 {
         data = fortran_to_c(&data, &h.shape);
     }
-    Ok(Tensor { shape: h.shape, data })
+    Ok(Tensor::new(h.shape, data))
+}
+
+/// True when the file at `path` is a little-endian float32 C-order .npy: any reader gets the same values and
+/// dtype from it as from the file `write_npy` would write (only the header is read).
+pub fn is_plain_f32(path: &std::path::Path) -> bool {
+    use std::io::Read;
+    let mut head = vec![0u8; 512];
+    let Ok(mut f) = std::fs::File::open(path) else {
+        return false;
+    };
+    let Ok(n) = f.read(&mut head) else { return false };
+    head.truncate(n);
+    match parse_header(&head) {
+        Ok(h) => h.code == "f4" && !h.fortran,
+        Err(_) => false,
+    }
 }
 
 /// The magic string, version 1.0, header length and header (padded to 64 bytes) of an .npy file.
@@ -180,11 +203,15 @@ fn npy_header(descr: &str, fortran: bool, shape: &[usize]) -> Vec<u8> {
 
 /// `t` as a little-endian float32 .npy file in C order.
 pub fn write_npy(t: &Tensor) -> Vec<u8> {
-    let mut out = npy_header("<f4", false, &t.shape);
-    for v in &t.data {
-        out.extend_from_slice(&v.to_le_bytes());
-    }
+    let mut out = Vec::with_capacity(128 + t.numel() * 4);
+    write_npy_to(&mut out, t).expect("writing to a Vec cannot fail");
     out
+}
+
+/// Stream `t` as a little-endian float32 C-order .npy file into `w`, without building it in memory.
+pub fn write_npy_to(w: &mut impl std::io::Write, t: &Tensor) -> std::io::Result<()> {
+    w.write_all(&npy_header("<f4", false, &t.shape))?;
+    w.write_all(&t.le_bytes())
 }
 
 #[cfg(test)]

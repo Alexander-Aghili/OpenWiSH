@@ -5,4 +5,5 @@ version.workspace = true
 license.workspace = true
 
 [dependencies]
+openwish-text = { path = "../openwish-text" }
 libc = "0.2"

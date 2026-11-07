@@ -10,11 +10,12 @@ OpenWiSH splits into three layers with narrow interfaces. Tasks and agents touch
 
 | Crate | Layer | Holds |
 |---|---|---|
-| `openwish-tensor` | Read, Write | `.npy` and `.npz` store (f32, f16 and bf16 reads), edit ops (`ops.rs`), the edit gate and ledger (`gate.rs`), the ```` ```edits ```` language (`editlang.rs`), weights as text (`render.rs`), portable edit sets (`editset.rs`) |
+| `openwish-tensor` | Read, Write | `.npy` and `.npz` store (f32, f16 and bf16 reads), edit ops (`ops.rs`), the edit gate and ledger (`gate.rs`), the ```` ```edits ```` language (`editlang.rs`), weights as text (`render.rs`), portable edit sets (`editset.rs`), sparse deltas against the base (`delta.rs`) |
 | `openwish-sandbox` | Read | The persistent Python kernel inside bubblewrap, and the edit RPCs back to the gate |
 | `openwish-llm` | Harness | The `Editor` trait and four backends: `claude -p`, `codex exec`, the Anthropic Messages API, scripted replay |
 | `openwish-audit` | Harness | Static checks on each code run, and the auditor review |
-| `openwish-core` | Harness | Task specs (`spec.rs`), the reply protocol (`protocol.rs`), the run loop (`run.rs`), probe commands (`forward.rs`), path rules (`paths.rs`), the CPU budget (`cpu.rs`) |
+| `openwish-text` | Text helpers | Character-safe truncation and Markdown fences, shared by every crate |
+| `openwish-core` | Harness | Task specs (`spec.rs`), the reply protocol (`protocol.rs`), the run loop (`run/`: the turn loop, budgets, the Python and probe tools, kernel RPCs, hooks, finishing), probe commands (`forward.rs`), path rules (`paths.rs`), the CPU budget (`cpu.rs`) |
 | `openwish-envs` | Environments | The 9x9 Go engine, MLP policies, match play, the Go probes, opponent training |
 | `openwish-cli` | Harness | The `openwish` binary |
 
@@ -92,7 +93,21 @@ Statements apply in order. The parser skips an unreadable statement and lists th
 
 ### Edit sets
 
-At the end of a run, `final/editset/` holds `manifest.json` and `edit.npz`: only the changed tensors, in full, with base and result hashes. `openwish_tensor::editset::apply` checks the hashes and applies the set to another copy of the same base.
+At the end of a run, `final/editset/` holds `manifest.json` and one `<tensor>.delta` file per changed tensor, with base and result hashes. `openwish_tensor::editset::apply` checks the hashes and applies the set to another copy of the same base. Older runs hold the changed tensors in full in `edit.npz`. `apply` reads both formats.
+
+### Storage
+
+An edit usually changes a small part of a large tensor, so the gate stores sparse deltas.
+
+| What | How | Cost for a 1 GB network |
+|---|---|---|
+| Network in memory | The base and the current network share every tensor no edit has touched. An edit copies only its own tensor | one copy of the network plus the edited tensors |
+| Blobs | `edits/blobs/<sha>.delta`: the changed flat indices and their new f32 bit patterns, against the base tensor. A full `.npy` when the delta would be bigger | kilobytes per edit |
+| `edits/current/` | Untouched tensors are hardlinks to the base files. Edited tensors are fresh files, written by rename | the edited tensors |
+| `final/net/` | Hardlinks to `edits/current/` | nothing extra |
+| Checkpoints | `checkpoints/<name>.json`: the blob of each changed tensor | a few lines |
+
+A delta applied to its base rebuilds the tensor bit for bit, so every ledger hash still checks. Hardlinks need the base and the run folder on one filesystem. Elsewhere the gate writes full files. `scripts/compact_run.py` shrinks run folders written before this change.
 
 ## Long sessions
 
@@ -118,9 +133,9 @@ runs/<task id>-<time>/
   requests/              <tag>_<k>.json (the probe request) and <tag>_<k>.done.json (its summary)
   work/                  /work in the sandbox: notes.md, probe folders, .rpc/
   kernel/                kernel.py and prelude.py, mounted read-only at /openwish
-  edits/                 ledger.jsonl, current/ (mounted read-only at /net), blobs/, checkpoints/<name>/
+  edits/                 ledger.jsonl, current/ (mounted read-only at /net), blobs/, checkpoints/<name>.json
   final_answer.md        the last reply
-  final/                 net/, editset/ (manifest.json, edit.npz), edits_report.json
+  final/                 net/, editset/ (manifest.json, <tensor>.delta), edits_report.json
   eval/score.json        the scorer output
   audit.jsonl            one verdict per code run, after openwish audit
   audit_summary.json     counts and the valid flag

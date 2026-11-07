@@ -108,7 +108,7 @@ Experiment 8 replays the published Qwen3.5-0.8B edits on MATH-500 with one sampl
 
 Sol's edit is the most selective so far, and misses the technical-English limit by 0.002 nats. On the practice texts the same edit read +0.070. The threshold stays as the prompt stated. The audit passed every code run. Separating Python from technical English inside this router is the open problem the task now measures.
 
-**The J-lens.** Following Meyers' J-Vision, the host computes the J-lens once, before any run: J_l is the Jacobian of the last layer's residual output with respect to the residual stream after layer l, averaged over position pairs on 18 practice texts. The computation ran with gradients on the host, about 3.3 hours on 4 CPU threads. The agent gets the result as read-only arrays at a new access level, `instruments`, plus `lens_rows(l, ids)`, the direction after layer l along which each token's logit rises. The agent still runs no gradients. We ran Sol in three arms, four runs each, on the hidden v3 sets. The first arm gets no lens. The second gets the J-lens. The third is a control: the same prompt paragraph and the same helpers, but the plain logit lens (J_l = identity), so later layers count for nothing. The control separates the Jacobian from the method the lens paragraph suggests, reading each expert's output columns through lens rows.
+**The J-lens.** Following Meyers' J-Vision, the host computes the J-lens once, before any run: J_l is the Jacobian of the last layer's residual output with respect to the residual stream after layer l, averaged over position pairs on 18 practice texts. The computation ran with gradients on the host, about 3.3 hours on 4 CPU threads. The agent gets the result as read-only arrays at a new access level, `instruments`, plus `lens_rows(l, ids)`, the direction after layer l along which each token's logit rises. The agent still runs no gradients. We ran Sol in three arms on the hidden v3 sets. The first arm gets no lens (4 runs). The second gets the J-lens (8 runs). The third is a control: the same prompt paragraph and the same helpers, but the plain logit lens (J_l = identity), so later layers count for nothing (8 runs). The control separates the Jacobian from the method the lens paragraph suggests, reading each expert's output columns through lens rows.
 
 | Arm | Run | Python rise | English prose rise | Technical English rise | Audit | Score v3 |
 |---|---|---:|---:|---:|---|---:|
@@ -120,20 +120,54 @@ Sol's edit is the most selective so far, and misses the technical-English limit 
 | logit lens | 2 | +0.78 | +0.05 | +0.09 | pass | 0.78 |
 | logit lens | 3 | +0.74 | +0.05 | +0.08 | pass | 0.74 |
 | logit lens | 4 | +0.55 | +0.04 | +0.07 | fail | 0 (0.55 before audit) |
+| logit lens | 5 | +0.59 | +0.04 | +0.07 | pass | 0.59 |
+| logit lens | 6 | +0.24 | +0.04 | +0.06 | pass | 0.24 |
+| logit lens | 7 | +0.98 | +0.04 | +0.106 | pass | 0 |
+| logit lens | 8 | +0.27 | +0.05 | +0.08 | pass | 0.27 |
 | J-lens | 1 | +0.93 | +0.03 | +0.07 | pass | 0.93 |
 | J-lens | 2 | +0.53 | +0.05 | +0.09 | pass | 0.53 |
-| J-lens | 3 | +0.98 | +0.05 | +0.09 | pass | **0.98** |
+| J-lens | 3 | +0.98 | +0.05 | +0.09 | pass | 0.98 |
 | J-lens | 4 | +0.83 | +0.05 | +0.09 | pass | 0.83 |
+| J-lens | 5 | +0.88 | +0.02 | +0.08 | pass | 0.88 |
+| J-lens | 6 | +0.79 | +0.04 | +0.07 | pass | 0.79 |
+| J-lens | 7 | +1.24 | +0.03 | +0.06 | fail | 0 (**1.24** before audit) |
+| J-lens | 8 | +0.81 | +0.04 | +0.06 | pass | 0.81 |
 
-Mean scores: no lens 0.16, logit lens 0.38, J-lens 0.82. Before the audit, the logit lens averages 0.61.
+Mean scores: no lens 0.16, logit lens 0.33, J-lens 0.72. Before the audit, the logit lens averages 0.44 and the J-lens 0.87. Mean Python rise, limits aside: no lens 0.47, logit lens 0.56, J-lens 0.87.
 
-**Reading lens rows is the big step.** Without a lens, Sol scales down or flips whole code-routed experts. Technical English uses the same experts, so two of four runs break the docs limit. With either lens, all eight runs did the same thing. Each took the lens rows of Python-only tokens such as indentation, `):` and triple quotes. Each removed from them the span of a few hundred common prose and docs tokens. Each then projected the rest out of the output weights of about 60 code-routed experts. The edit removes what an expert writes toward Python syntax and keeps what the expert writes toward shared words. All eight lens runs stay within both retain limits. Every J-lens run beats every no-lens run: with four runs per arm, a split this clean has a 1 in 70 chance when the lens makes no difference.
+**All lens runs used one method.** Without a lens, Sol scales down or flips whole code-routed experts. Technical English uses the same experts, so two of four runs break the docs limit. With either lens, all sixteen runs did the same thing. Each took the lens rows of Python-only tokens such as indentation, `):` and triple quotes. Each removed from them the span of a few hundred common prose and docs tokens. Each then projected the rest out of the output weights of 60 to 125 code-routed experts. The edit removes what an expert writes toward Python syntax and keeps what the expert writes toward shared words. Logit-lens run 6 also erased seven experts outright. Fifteen of the sixteen lens runs stay within both retain limits. Logit-lens run 7 misses the technical-English limit by 0.006 nats.
 
-**The Jacobian adds a smaller gain we cannot yet confirm.** Before the audit, the J-lens beats the logit lens in mean Python rise (0.82 against 0.61), and its edits carry over to unseen text: run 1 read +0.74 on practice texts and +0.93 on the hidden set. With four runs each, a rank test puts the chance of a gap this size at 1 in 10. The audit widens the gap. Two logit-lens runs failed the audit: one raised the edit strength over several probed edits against the docs loss, and one ran a 60-step binary search over strength. J-lens run 1 also changed its strength once after a probe, and passed. So part of the audit gap is the auditor's judgment, not the lens.
+**The Jacobian carries the gain.** The two lens arms differ only in J_l, and the J-lens arm wins on every measure. Python rise: 0.87 against 0.56, and a rank test puts the chance of a gap this size at 1 in 100 when J_l makes no difference. Audited score: 0.72 against 0.33, 1 in 130. The logit lens alone does not beat no lens by a clear margin: mean Python rise 0.56 against 0.47 (1 in 4), mean score 0.33 against 0.16 (1 in 4). Without later layers, the projection keeps the docs loss in check but removes less Python. The J-lens edits also carry over to unseen text: J-lens run 1 read +0.74 on practice texts and +0.93 on the hidden set.
+
+**The audit.** Three lens runs failed, two with the logit lens and one with the J-lens. Each tuned the edit strength against the docs loss over several probes. Logit-lens run 4 ran a 60-step binary search over strength. J-lens run 7 tried a third strength after the second one broke the limit, and scored the highest Python rise of any run, +1.24. J-lens run 1 changed its strength once after a probe, and passed. The auditor judges where reasoning ends and search begins, so the line between runs 1 and 7 is a judgment call.
 
 The J-lens is least reliable in early layers. Between-text dispersion is larger than the mean lens itself up to layer 7, and falls below 0.1 only from layer 20. The J-lens runs edited layers 8 to 23.
 
-**What to take from this.** Telling the agent how to read an expert through the unembedding moves the score most, and costs nothing to compute. The J-lens costs 3.3 host hours per model and scored higher in our runs. Ruling the Jacobian in or out needs more runs per arm. Records: `runs/bench/moe-v3*-gpt-6.1-sol/`.
+**What to take from this.** Telling the agent how to read an expert through the unembedding keeps its edits inside the retain limits, and costs nothing to compute. The Jacobian then roughly doubles the score, at 3.3 host hours per model. Records: `runs/bench/moe-v3*-gpt-6.1-sol/`.
+
+## Catching NULL dereferences in C
+
+A public post reported Opus 5.5 editing Qwen3.5-0.8B so the model catches NULL pointer dereferences in NIST Juliet CWE-476 programs, with no gradients, training, classifiers or parameter sweeps. We rebuilt the experiment as `tasks/vuln` from the public suite, without the post's code.
+
+**The task.** The model reads one C program and answers YES or NO to one question: `Can calling entry() reach a NULL pointer dereference on any execution path?` The hidden set holds 186 matched Juliet pairs, a vulnerable and a safe version of the same code, each under 3 naming seeds: 1116 programs. Comments and every label-bearing name are gone. The agent edits MLP weights only (at most 0.05 % of them), reads activations through 30 probes, and writes its own probe programs. The agent never sees a Juliet program. The score is recall, if false positives stay at or below the base model's. Probes and scoring ran on a rented GPU.
+
+| Model | Vulnerable caught (of 558) | False positives (of 558) | Accuracy | Weights changed | Audit |
+|---|---:|---:|---:|---:|---|
+| Qwen3.5-0.8B as released | 407 | 407 | 50.0 % | 0 | |
+| A one-line text rule: YES unless the code compares a pointer with NULL | 432 | 108 | 79.0 % | | |
+| Opus 5.5, run 1 | 478 | 174 | 77.2 % | 3,072 (1 neuron) | **fail** |
+| Opus 5.5, run 2 | **522** | 156 | **82.8 %** | 9,216 (3 neurons) | pass, 27 of 27 code runs |
+
+The post reports 48.3 % to 76.6 % accuracy on its own 77 pairs, with 2 neurons changed.
+
+**Run 1 broke the rules.** Opus recomputed an MLP layer in Python on saved activations, and swept thresholds and strengths over those activations. The auditor flagged both, so the run scores 0. The rules then said "no search" and "no running the model in Python". They did not say a sweep over saved activations counts as search. Rules version 2 says so: reason a value out, check the value with a probe, and adjust the value at most twice.
+
+**Run 2 stayed inside the rules and beats the text rule.** Opus found the base model reads the word NULL as a sign of danger and ignores the guard around the dereference. A guarded program looked more dangerous than the unguarded one. From matched pairs of its own programs, Opus took mean-difference directions for "the dereference is guarded" and "the pointer holds valid memory". Opus then rebuilt three nearly silent neurons in layer 22:
+- A guard neuron and a valid-memory neuron. Each fires above a threshold of two standard deviations and pushes toward NO.
+- A damping term. In Juliet families where both versions compare a pointer with NULL, the term fades the first two neurons.
+- A neuron with a constant push toward YES on every program, for recall.
+
+The third neuron is a bias, not a reading of the code. The bias moves the answer threshold. The first two neurons carry the discrimination: false positives fell from 407 to 156 while catches rose. Opus adjusted each value at most once after a probe, and the auditor allowed every code run. The result holds across the 3 naming seeds: 174 catches and 51 to 53 false positives per seed. Records: `runs/bench/vuln-r*-claude-opus-5-5/`.
 
 ## What OpenWiSH is for
 

@@ -24,28 +24,11 @@ pub const MAX_ABS: f64 = 1e6;
 
 /// The body of the LAST ```edits block in a reply, if any.
 pub fn last_edits_block(reply: &str) -> Option<String> {
-    let mut last = None;
-    let mut cur: Option<String> = None;
-    for line in reply.lines() {
-        let t = line.trim_end();
-        match &mut cur {
-            None => {
-                if t.trim_start().starts_with("```edits") {
-                    cur = Some(String::new());
-                }
-            }
-            Some(buf) => {
-                if t.trim_start().starts_with("```") {
-                    last = cur.take();
-                } else {
-                    buf.push_str(line);
-                    buf.push('\n');
-                }
-            }
-        }
-    }
-    // an unterminated final block still counts
-    cur.or(last)
+    openwish_text::fences(reply)
+        .into_iter()
+        .rev()
+        .find(|f| f.info.starts_with("edits"))
+        .map(|f| f.body)
 }
 
 fn start_re() -> &'static regex::Regex {

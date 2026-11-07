@@ -30,7 +30,7 @@ def expert_out(layer):
 def zero_experts(layer, experts, reason):
     """Zero the output weights of these experts in one layer: when the router picks them, they add nothing."""
     name = f"model.layers.{layer}.block_sparse_moe.output_linear.weight"
-    w = load(name).copy()
+    w = load(name)  # load returns a private copy
     w[list(experts)] = 0
     return save_edit(name, w, reason)
 

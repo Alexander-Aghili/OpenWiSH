@@ -62,7 +62,7 @@ pub fn parse_result(stdout: &str) -> Result<Reply, BackendError> {
     let v: Value = last_json_line(stdout)
         .and_then(|l| serde_json::from_str(l).ok())
         .ok_or_else(|| {
-            let head: String = stdout.chars().take(500).collect();
+            let head = openwish_text::head(stdout, 500);
             classify(&format!("unparseable claude output: {head}"))
         })?;
     let text = v["result"].as_str().unwrap_or("").to_string();

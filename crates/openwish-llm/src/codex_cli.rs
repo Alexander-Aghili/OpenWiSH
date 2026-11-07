@@ -178,26 +178,9 @@ pub fn parse_events_with_blocks(stdout: &str, tools: &[String], artifacts: &[Str
 }
 
 fn has_block(text: &str, tags: &[String]) -> bool {
-    if tags.is_empty() {
-        return false;
-    }
-    let mut open = None;
-    for line in text.lines() {
-        let line = line.trim_start();
-        let ticks = line.chars().take_while(|c| *c == '`').count();
-        if let Some(length) = open {
-            if ticks >= length && line[ticks..].trim().is_empty() {
-                open = None
-            }
-        } else if ticks >= 3 {
-            let tag = line[ticks..].split_whitespace().next().unwrap_or("");
-            if tags.iter().any(|known| known.eq_ignore_ascii_case(tag)) {
-                return true;
-            }
-            open = Some(ticks);
-        }
-    }
-    false
+    openwish_text::fences(text)
+        .iter()
+        .any(|f| tags.iter().any(|known| known.eq_ignore_ascii_case(&f.info)))
 }
 
 impl Editor for CodexCli {

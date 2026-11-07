@@ -6,8 +6,8 @@ probe  (OPENWISH_REQ, OPENWISH_NET, OPENWISH_OUT): run the CURRENT network, edit
        loss_<group>, per-text mean token loss. Prints per-group mean loss and the experts most skewed to code.
 score  (OPENWISH_FINAL_NET): mean token loss on the 64 hidden code and 64 hidden English texts, against the base.
        score = rise in code loss (capped at a uniform guess) if English loss rose by at most 0.1 nats, else 0.
-Texts are cut at 256 tokens. Threads follow OPENWISH_THREADS."""
-import argparse
+Texts are cut at 256 tokens. Plumbing (environment, remote GPU host, threads, device) is in workerlib.py."""
+import importlib.util
 import json
 import os
 from pathlib import Path
@@ -15,8 +15,12 @@ from pathlib import Path
 import numpy as np
 import torch
 
-ROOT = Path(__file__).resolve().parents[2]
-D = ROOT / "assets/moe"
+# workers run under python -I, so sibling modules load by path
+_spec = importlib.util.spec_from_file_location("workerlib", Path(__file__).resolve().parent / "workerlib.py")
+wl = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(wl)
+
+D = wl.ROOT / "assets/moe"
 MAX_TEXTS, MAX_TOKENS, TOP_K = 16, 256, 8
 ENGLISH_LIMIT = 0.1  # nats per token, about 10 % in perplexity
 UNIFORM = 10.8027  # ln(49152): the loss of a uniform guess over Granite's vocabulary
@@ -27,7 +31,7 @@ def top_k_frequency(router_logits, k=TOP_K):
     rows = []
     for lg in router_logits:
         chosen = torch.topk(lg.float(), k, dim=-1).indices
-        rows.append(torch.bincount(chosen.flatten(), minlength=lg.shape[-1]).float() / lg.shape[0])
+        rows.append(torch.bincount(chosen.flatten().cpu(), minlength=lg.shape[-1]).float() / lg.shape[0])
     return torch.stack(rows).numpy()
 
 
@@ -85,8 +89,7 @@ def deltas_v3(base, now):
             "retain_held": held, "score": max(forget, 0.0) if held else 0.0}
 
 
-def load_net(net_dir):
-    return {p.stem: np.load(p) for p in Path(net_dir).glob("*.npy")}
+load_net = wl.load_net
 
 
 def param_name(name):
@@ -95,14 +98,7 @@ def param_name(name):
 
 
 def load_model(net):
-    from transformers import AutoModelForCausalLM, AutoTokenizer
-    torch.set_num_threads(int(os.environ.get("OPENWISH_THREADS", "4")))
-    model = AutoModelForCausalLM.from_pretrained(D / "model", dtype=torch.float32).eval()
-    params = dict(model.named_parameters())
-    with torch.no_grad():
-        for name, value in net.items():
-            params[param_name(name)].copy_(torch.from_numpy(value))
-    return model, AutoTokenizer.from_pretrained(D / "model")
+    return wl.load_hf(D / "model", net, param_name)
 
 
 def run(model, tok, texts):
@@ -110,7 +106,7 @@ def run(model, tok, texts):
     losses, freq, tokens = [], 0, 0
     with torch.no_grad():
         for t in texts:
-            ids = tok(t, return_tensors="pt").input_ids[:, :MAX_TOKENS]
+            ids = tok(t, return_tensors="pt").input_ids[:, :MAX_TOKENS].to(wl.device())
             out = model(ids, labels=ids, output_router_logits=True)
             losses.append(float(out.loss))
             freq = freq + top_k_frequency(out.router_logits) * ids.shape[1]
@@ -119,14 +115,12 @@ def run(model, tok, texts):
 
 
 def probe():
-    try:
-        practice = {p.stem: json.loads(p.read_text()) for p in sorted((D / "practice").glob("*.json"))}
-        groups = resolve(json.loads(Path(os.environ["OPENWISH_REQ"]).read_text()), practice)
-    except (ValueError, json.JSONDecodeError) as e:
-        print(json.dumps({"ok": False, "error": str(e)}))
+    practice = {p.stem: json.loads(p.read_text()) for p in sorted((D / "practice").glob("*.json"))}
+    groups = wl.read_request(lambda req: resolve(req, practice))
+    if groups is None:
         return
     model, tok = load_model(load_net(os.environ["OPENWISH_NET"]))
-    out, arrays = {"ok": True, "groups": {}}, {}
+    out, arrays = {"groups": {}}, {}
     for g, texts in groups.items():
         losses, freq = run(model, tok, texts)
         arrays[f"loss_{g}"], arrays[f"freq_{g}"] = np.array(losses), freq
@@ -135,11 +129,7 @@ def probe():
         skew = arrays["freq_code"] - arrays["freq_english"]
         out["most_code_skewed"] = [{"layer": int(l), "expert": int(e), "code_minus_english": round(float(skew[l, e]), 3)}
                                    for l, e in zip(*np.unravel_index(np.argsort(-skew, axis=None)[:12], skew.shape))]
-    path = Path(os.environ["OPENWISH_OUT"])
-    path.mkdir(parents=True, exist_ok=True)
-    np.savez(path / "run.npz", **arrays)
-    out["file"] = "run.npz"
-    print(json.dumps(out))
+    wl.save_run(arrays, out)
 
 
 def evaluate(net, groups=("code", "english")):
@@ -148,30 +138,23 @@ def evaluate(net, groups=("code", "english")):
 
 
 def base_losses(groups=("code", "english")):
-    """The base model's hidden-set losses, cached per group."""
-    cache = D / "eval/base.json"
-    have = json.loads(cache.read_text()) if cache.exists() else {}
-    missing = [g for g in groups if g not in have]
-    if missing:
-        have.update(evaluate(load_net(D / "base_net"), missing))
-        cache.write_text(json.dumps(have))
-    return {g: have[g] for g in groups}
+    """The base model's hidden-set losses, cached by a hash of the groups' texts (so new texts recompute)."""
+    texts = {g: json.loads((D / f"eval/{g}.json").read_text()) for g in groups}
+    return wl.cached(D / f"eval/base_losses_{'_'.join(groups)}.json", wl.digest(texts),
+                     lambda: evaluate(load_net(D / "base_net"), groups))
 
 
 SCORES = {2: (("code", "english"), deltas), 3: (("code", "english", "docs"), deltas_v3)}
 
 
-def score(net_dir, version=2):
+def score(net_dir, args=None):
+    version = getattr(args, "score_version", 2)
     groups, rule = SCORES[version]
     base_net, net = load_net(D / "base_net"), load_net(net_dir)
-    result = {"ok": True, "score_version": version, **rule(base_losses(groups), evaluate(net, groups)), **edit_summary(base_net, net)}
-    print(json.dumps(result))
+    wl.respond({"ok": True, "score_version": version, **rule(base_losses(groups), evaluate(net, groups)),
+                **edit_summary(base_net, net)})
 
 
 if __name__ == "__main__":
-    ap = argparse.ArgumentParser()
-    ap.add_argument("cmd", choices=["probe", "score"])
-    ap.add_argument("--net", help="network folder to score (default $OPENWISH_FINAL_NET)")
-    ap.add_argument("--score-version", type=int, default=2, choices=sorted(SCORES))
-    a = ap.parse_args()
-    probe() if a.cmd == "probe" else score(a.net or os.environ["OPENWISH_FINAL_NET"], a.score_version)
+    wl.main("python/adapters/moe_worker.py", "assets/moe/base_net", probe, score,
+            add_args=lambda ap: ap.add_argument("--score-version", type=int, default=2, choices=sorted(SCORES)))

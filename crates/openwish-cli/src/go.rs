@@ -108,12 +108,7 @@ fn opponent(spec: &str) -> Result<(String, Box<dyn Policy>)> {
             spec,
         ),
     };
-    let policy: Box<dyn Policy> = if path == "random" {
-        Box::new(Uniform)
-    } else {
-        Box::new(load_mlp(Path::new(path))?)
-    };
-    Ok((name, policy))
+    Ok((name, gopass::policy_at(Path::new(path))?))
 }
 
 fn eval(a: EvalArgs) -> Result<()> {

@@ -50,19 +50,7 @@ table{border-collapse:collapse;width:100%;font-size:14px}td,th{border:1px solid 
 .bad{color:#b00020}.ok{color:#1b7f3b}summary{cursor:pointer;color:#444}";
 
 /// The counters of `state.json` shown in the page's first table, in order.
-const COUNTERS: &[&str] = &[
-    "turn",
-    "runs_used",
-    "passes_used",
-    "failed_requests",
-    "protocol_errors",
-    "hook_blocks",
-    "nudges",
-    "handoffs",
-    "refusals",
-    "backend_errors",
-    "kernel_restarts",
-];
+use openwish_core::run::COUNTERS;
 
 /// The whole page for the run in `run`.
 pub fn render(run: &Path) -> Result<String> {
@@ -110,7 +98,7 @@ fn counters(run: &Path, state: &Value) -> String {
             "running or stopped".into()
         },
     );
-    for k in COUNTERS.iter().filter(|k| !state[**k].is_null()) {
+    for k in COUNTERS.iter().filter(|k| !state[**k].is_null() && **k != "cost_usd") {
         row(k, state[*k].to_string());
     }
     row("cost", format!("${:.2}", state["cost_usd"].as_f64().unwrap_or(0.0)));

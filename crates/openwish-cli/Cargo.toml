@@ -9,6 +9,7 @@ name = "openwish"
 path = "src/main.rs"
 
 [dependencies]
+openwish-text = { path = "../openwish-text" }
 anyhow.workspace = true
 serde.workspace = true
 serde_json.workspace = true

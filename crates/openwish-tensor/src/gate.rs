@@ -1,13 +1,19 @@
 //! The edit gate: every weight change passes through here, is checked against the task's policy,
 //! and is appended to the ledger. The materialised current network lives in `<dir>/current/`.
+//!
+//! Memory and disk: the current network shares every untouched tensor with the base (copy-on-write), so
+//! the gate holds one copy of the network plus the edited tensors. Blobs are sparse deltas against the base
+//! when that is smaller (`delta`), checkpoints are references to blobs, and `current/` hardlinks untouched
+//! tensors to the base files when the base is a folder of float32 .npy files.
 use anyhow::{bail, Context, Result};
 use serde::{Deserialize, Serialize};
 use std::collections::BTreeMap;
 use std::io::Write;
 use std::path::{Path, PathBuf};
 
+use crate::delta;
 use crate::network::{name_to_file, save_npy, Network, Tensor};
-use crate::npy::write_npy;
+use crate::npy::{is_plain_f32, write_npy_to};
 use crate::ops::{compute, EditOp};
 
 #[derive(Clone, Debug, Default, PartialEq, Serialize, Deserialize)]
@@ -101,6 +107,15 @@ fn whole_tensor_constant(old: &Tensor, new: &Tensor) -> Option<f64> {
     }
 }
 
+/// True when `a` and `b` are the same file on disk (hardlinks of one inode).
+fn same_file(a: &Path, b: &Path) -> bool {
+    use std::os::unix::fs::MetadataExt;
+    match (std::fs::metadata(a), std::fs::metadata(b)) {
+        (Ok(x), Ok(y)) => x.dev() == y.dev() && x.ino() == y.ino(),
+        _ => false,
+    }
+}
+
 /// Checkpoint names are plain words: letters, digits, '-' and '_' (so they stay inside the checkpoints folder).
 fn check_checkpoint_name(name: &str) -> Result<()> {
     if name.is_empty() || name.len() > 64 || !name.chars().all(|c| c.is_ascii_alphanumeric() || c == '-' || c == '_') {
@@ -114,25 +129,46 @@ pub struct Gate {
     pub base: Network,
     pub current: Network,
     pub policy: EditPolicy,
+    /// The folder the base was loaded from, if it is one: untouched tensors in current/ link to its files.
+    base_dir: Option<PathBuf>,
     lines: Vec<LedgerLine>,
     diff_vs_base: BTreeMap<String, usize>,
+    /// sha256 of current tensors, filled on first use, so each edit hashes only its new value.
+    sha: BTreeMap<String, String>,
+}
+
+/// Saved state of a checkpoint: the blob of every tensor that differs from the base.
+#[derive(Debug, Default, Serialize, Deserialize)]
+struct CheckpointRefs {
+    tensors: BTreeMap<String, String>,
 }
 
 impl Gate {
     /// Open (or create) a gate in `dir` over `base`. An existing ledger is replayed onto the base,
     /// and every recorded `sha_after` is checked.
     pub fn open(dir: &Path, base: Network, policy: EditPolicy) -> Result<Gate> {
+        Self::open_linked(dir, base, None, policy)
+    }
+
+    /// Like `open`, with the folder `base` was loaded from, so current/ can hardlink untouched tensors.
+    pub fn open_linked(dir: &Path, base: Network, base_dir: Option<&Path>, policy: EditPolicy) -> Result<Gate> {
         std::fs::create_dir_all(dir.join("blobs"))?;
         let mut g = Gate {
             dir: dir.to_path_buf(),
             current: base.clone(),
             base,
             policy,
+            base_dir: base_dir.filter(|d| d.is_dir()).map(Path::to_path_buf),
             lines: vec![],
             diff_vs_base: BTreeMap::new(),
+            sha: BTreeMap::new(),
         };
         g.replay_ledger()?;
-        g.current.save_dir(&g.current_dir())?;
+        std::fs::create_dir_all(g.current_dir())?;
+        let names: Vec<String> = g.current.tensors.keys().cloned().collect();
+        for name in names {
+            g.write_current(&name)?;
+        }
         Ok(g)
     }
 
@@ -158,6 +194,7 @@ impl Gate {
                 }
                 let n = t.count_diff(self.base.get(r.op.tensor())?);
                 self.diff_vs_base.insert(r.op.tensor().to_string(), n);
+                self.sha.insert(r.op.tensor().to_string(), r.sha_after.clone());
                 self.current.tensors.insert(r.op.tensor().to_string(), t);
             }
             self.lines.push(l);
@@ -190,6 +227,18 @@ impl Gate {
 
     /// Check and apply one op. On refusal nothing changes (no ledger line, no file).
     pub fn apply(&mut self, op: EditOp, reason: &str, source: &str) -> Result<EditRecord, Refusal> {
+        self.apply_with(op, None, reason, source)
+    }
+
+    /// `apply`, with the op's result already in memory (a Replace whose blob was just written), so the
+    /// blob is not read back and the tensor is not hashed twice.
+    fn apply_with(
+        &mut self,
+        op: EditOp,
+        known: Option<(Tensor, String)>,
+        reason: &str,
+        source: &str,
+    ) -> Result<EditRecord, Refusal> {
         let name = op.tensor().to_string();
         let old = self
             .current
@@ -198,7 +247,21 @@ impl Gate {
             .ok_or_else(|| Refusal(format!("unknown tensor {name}")))?
             .clone();
         self.check_editable(&name)?;
-        let new = compute(&op, &self.current, &self.base, &self.blob_root()).map_err(|e| Refusal(format!("{e:#}")))?;
+        let (new, sha_after) = match known {
+            Some((t, sha)) if t.shape == old.shape => (t, sha),
+            Some((t, _)) => {
+                return Err(Refusal(format!(
+                    "{name}: replacement has shape {:?}, tensor has {:?}",
+                    t.shape, old.shape
+                )))
+            }
+            None => {
+                let t = compute(&op, &self.current, &self.base, &self.blob_root())
+                    .map_err(|e| Refusal(format!("{e:#}")))?;
+                let sha = t.sha256();
+                (t, sha)
+            }
+        };
         self.check_result(&name, &old, &new)?;
         let base_t = self.base.get(&name).map_err(|e| Refusal(e.to_string()))?;
         let n_vs_base = new.count_diff(base_t);
@@ -217,18 +280,83 @@ impl Gate {
             changed: new.count_diff(&old),
             changed_vs_base: total_vs_base,
             frac_changed_vs_base: frac,
-            sha_before: old.sha256(),
-            sha_after: new.sha256(),
+            sha_before: self.sha_of(&name),
+            sha_after,
             op,
             reason: reason.to_string(),
             source: source.to_string(),
         };
-        self.record(&name, &new, &rec)
-            .map_err(|e| Refusal(format!("could not record the edit: {e:#}")))?;
+        let prev = self.current.tensors.insert(name.clone(), new);
+        if let Err(e) = self
+            .write_current(&name)
+            .and_then(|_| self.append_ledger(&LedgerLine::Edit(rec.clone())))
+        {
+            // put the old value back in memory and on disk, so a failed write changes nothing
+            if let Some(p) = prev {
+                self.current.tensors.insert(name.clone(), p);
+            }
+            let _ = self.write_current(&name);
+            return Err(Refusal(format!("could not record the edit: {e:#}")));
+        }
         self.diff_vs_base.insert(name.clone(), n_vs_base);
-        self.current.tensors.insert(name, new);
+        self.sha.insert(name, rec.sha_after.clone());
         self.lines.push(LedgerLine::Edit(rec.clone()));
         Ok(rec)
+    }
+
+    /// sha256 of the current value of `name`, computed once and then kept up to date by every edit.
+    fn sha_of(&mut self, name: &str) -> String {
+        if let Some(s) = self.sha.get(name) {
+            return s.clone();
+        }
+        let s = self.current.tensors[name].sha256();
+        self.sha.insert(name.to_string(), s.clone());
+        s
+    }
+
+    /// True when the current value of `name` is the base value, bit for bit.
+    fn is_base(&self, name: &str) -> bool {
+        let (c, b) = (&self.current.tensors[name], &self.base.tensors[name]);
+        c.shares_data(b) || (c.shape == b.shape && delta::diff_indices(b, c).is_empty())
+    }
+
+    /// Write the current value of `name` into current/: a hardlink to the base file when the tensor is
+    /// untouched and the base file is plain float32, else a fresh .npy file (written by rename, so earlier
+    /// links such as final/ never change).
+    fn write_current(&self, name: &str) -> Result<()> {
+        let file = format!("{}.npy", name_to_file(name));
+        let target = self.current_dir().join(&file);
+        if let Some(src) = self.base_dir.as_ref().map(|d| d.join(&file)) {
+            if self.is_base(name) && is_plain_f32(&src) {
+                if same_file(&src, &target) {
+                    return Ok(());
+                }
+                let _ = std::fs::remove_file(&target);
+                if std::fs::hard_link(&src, &target).is_ok() {
+                    return Ok(());
+                }
+            }
+        }
+        save_npy(&target, &self.current.tensors[name])
+    }
+
+    /// Put every file of current/ into `out` as a hardlink (a copy across filesystems). Later edits replace
+    /// files in current/ by rename, so `out` keeps this state.
+    pub fn link_current_to(&self, out: &Path) -> Result<()> {
+        std::fs::create_dir_all(out)?;
+        for e in std::fs::read_dir(self.current_dir())? {
+            let p = e?.path();
+            let Some(f) = p.file_name() else { continue };
+            if p.extension().is_none_or(|x| x != "npy") {
+                continue;
+            }
+            let dst = out.join(f);
+            let _ = std::fs::remove_file(&dst);
+            if std::fs::hard_link(&p, &dst).is_err() {
+                std::fs::copy(&p, &dst)?;
+            }
+        }
+        Ok(())
     }
 
     /// The policy's allowed and forbidden tensor names.
@@ -263,12 +391,6 @@ impl Gate {
         Ok(())
     }
 
-    /// Write the tensor's new value into current/ and append its ledger line.
-    fn record(&self, name: &str, new: &Tensor, rec: &EditRecord) -> Result<()> {
-        save_npy(&self.current_dir().join(format!("{}.npy", name_to_file(name))), new)?;
-        self.append_ledger(&LedgerLine::Edit(rec.clone()))
-    }
-
     fn append_ledger(&self, line: &LedgerLine) -> Result<()> {
         let mut f = std::fs::OpenOptions::new()
             .create(true)
@@ -280,34 +402,64 @@ impl Gate {
 
     /// Store `t` as a blob and apply a Replace op for it.
     pub fn replace(&mut self, name: &str, t: Tensor, reason: &str, source: &str) -> Result<EditRecord, Refusal> {
-        let blob = format!("{}.npy", t.sha256());
-        let p = self.blob_root().join(&blob);
-        if !p.exists() {
-            std::fs::write(&p, write_npy(&t)).map_err(|e| Refusal(format!("could not store blob: {e}")))?;
-        }
-        self.apply(
-            EditOp::Replace {
-                tensor: name.to_string(),
-                blob,
-            },
-            reason,
-            source,
-        )
+        let (blob, sha) = self
+            .store_blob(name, &t)
+            .map_err(|e| Refusal(format!("could not store blob: {e:#}")))?;
+        let op = EditOp::Replace {
+            tensor: name.to_string(),
+            blob,
+        };
+        self.apply_with(op, Some((t, sha)), reason, source)
     }
 
-    /// Save every tensor that differs from the base under `checkpoints/<name>`.
-    pub fn checkpoint(&mut self, name: &str) -> Result<()> {
-        let cdir = self.checkpoint_dir(name)?;
-        if cdir.exists() {
-            std::fs::remove_dir_all(&cdir)?;
-        }
-        let mut changed = Network::default();
-        for (k, t) in &self.current.tensors {
-            if self.diff_vs_base.get(k).copied().unwrap_or(0) > 0 {
-                changed.tensors.insert(k.clone(), t.clone());
+    /// Store `t` (a value for tensor `name`) under blobs/, content-addressed by its sha256: as a delta
+    /// against the base tensor when that is smaller, else as a full .npy. Returns the blob name and the sha.
+    fn store_blob(&self, name: &str, t: &Tensor) -> Result<(String, String)> {
+        let sha = t.sha256();
+        let base = self.base.tensors.get(name).filter(|b| b.shape == t.shape);
+        let idx = base.map(|b| delta::diff_indices(b, t));
+        let blob = match &idx {
+            Some(idx) if delta::worth_it(t.numel(), idx.len()) => format!("{sha}.{}", delta::EXT),
+            _ => format!("{sha}.npy"),
+        };
+        let p = self.blob_root().join(&blob);
+        if !p.exists() {
+            match &idx {
+                Some(idx) if blob.ends_with(delta::EXT) => delta::save(&p, t, idx)?,
+                _ => {
+                    let tmp = p.with_extension("npy.tmp");
+                    let mut w = std::io::BufWriter::new(std::fs::File::create(&tmp)?);
+                    write_npy_to(&mut w, t)?;
+                    w.into_inner().map_err(|e| e.into_error())?.sync_all()?;
+                    std::fs::rename(&tmp, &p)?;
+                }
             }
         }
-        changed.save_dir(&cdir)?;
+        Ok((blob, sha))
+    }
+
+    /// Record a checkpoint: for every tensor that differs from the base, the blob holding its value
+    /// (`checkpoints/<name>.json`). Blobs are content-addressed, so a checkpoint copies no tensor data.
+    pub fn checkpoint(&mut self, name: &str) -> Result<()> {
+        let path = self.checkpoint_path(name)?;
+        let old_dir = path.with_extension("");
+        if old_dir.is_dir() {
+            std::fs::remove_dir_all(&old_dir)?;
+        }
+        let mut refs = CheckpointRefs::default();
+        let changed: Vec<String> = self
+            .current
+            .tensors
+            .keys()
+            .filter(|k| self.diff_vs_base.get(*k).copied().unwrap_or(0) > 0)
+            .cloned()
+            .collect();
+        for k in changed {
+            let (blob, _) = self.store_blob(&k, &self.current.tensors[&k])?;
+            refs.tensors.insert(k, blob);
+        }
+        std::fs::create_dir_all(path.parent().expect("checkpoints folder"))?;
+        std::fs::write(&path, serde_json::to_string_pretty(&refs)?)?;
         let l = LedgerLine::Checkpoint {
             name: name.to_string(),
             after_id: self.last_edit_id(),
@@ -320,14 +472,35 @@ impl Gate {
 
     /// Bring every tensor back to its state at checkpoint `name` (as new ledger edits).
     pub fn restore(&mut self, name: &str, source: &str) -> Result<Vec<EditRecord>> {
-        let cdir = self.checkpoint_dir(name)?;
-        if !cdir.is_dir() {
-            bail!("no checkpoint named {name}");
-        }
-        let ck = Network::load_dir(&cdir)?;
+        let path = self.checkpoint_path(name)?;
+        let old_dir = path.with_extension("");
         let reason = format!("restore checkpoint {name}");
         let mut out = vec![];
         let names: Vec<String> = self.current.tensors.keys().cloned().collect();
+        if path.is_file() {
+            let refs: CheckpointRefs = serde_json::from_str(&std::fs::read_to_string(&path)?)?;
+            for k in names {
+                let r = match refs.tensors.get(&k) {
+                    Some(blob) if blob.split('.').next() == Some(self.sha_of(&k).as_str()) => continue,
+                    Some(blob) => {
+                        let op = EditOp::Replace {
+                            tensor: k.clone(),
+                            blob: blob.clone(),
+                        };
+                        self.apply(op, &reason, source)
+                    }
+                    None if self.current.tensors[&k] == self.base.tensors[&k] => continue,
+                    None => self.apply(EditOp::Revert { tensor: k.clone() }, &reason, source),
+                };
+                out.push(r.map_err(|e| anyhow::anyhow!("{e}"))?);
+            }
+            return Ok(out);
+        }
+        if !old_dir.is_dir() {
+            bail!("no checkpoint named {name}");
+        }
+        // checkpoints written before references: a folder of full tensors
+        let ck = Network::load_dir(&old_dir)?;
         for k in names {
             let r = match ck.tensors.get(&k) {
                 Some(t) if *t == self.current.tensors[&k] => continue,
@@ -340,9 +513,10 @@ impl Gate {
         Ok(out)
     }
 
-    fn checkpoint_dir(&self, name: &str) -> Result<PathBuf> {
+    /// `checkpoints/<name>.json`; the name must be a plain word so the path stays inside the folder.
+    fn checkpoint_path(&self, name: &str) -> Result<PathBuf> {
         check_checkpoint_name(name)?;
-        Ok(self.dir.join("checkpoints").join(name))
+        Ok(self.dir.join("checkpoints").join(format!("{name}.json")))
     }
 
     /// One line per edit, for prompts and handoffs.
@@ -507,6 +681,104 @@ mod tests {
         assert_eq!(g2.current, cur);
         assert_eq!(g2.edits().count(), 3);
         assert_eq!(g2.changed_vs_base(), 4);
+    }
+
+    fn big_base() -> Network {
+        let mut n = Network::default();
+        n.tensors.insert(
+            "W".into(),
+            Tensor::new(vec![10, 10], (0..100).map(|i| i as f32).collect()),
+        );
+        n.tensors.insert("b".into(), Tensor::new(vec![10], vec![0.5; 10]));
+        n
+    }
+
+    #[test]
+    fn untouched_tensors_share_memory_with_the_base() {
+        let d = tempfile::tempdir().unwrap();
+        let mut g = Gate::open(d.path(), big_base(), EditPolicy::default()).unwrap();
+        g.apply(set("W", 0, 0, -1.0), "a", "t").unwrap();
+        assert!(g.current.tensors["b"].shares_data(&g.base.tensors["b"]));
+        assert!(!g.current.tensors["W"].shares_data(&g.base.tensors["W"]));
+    }
+
+    #[test]
+    fn a_sparse_replace_is_stored_as_a_delta_and_replays() {
+        let d = tempfile::tempdir().unwrap();
+        let mut g = Gate::open(d.path(), big_base(), EditPolicy::default()).unwrap();
+        let mut t = g.base.tensors["W"].clone();
+        t.data[7] = -0.0;
+        t.data[42] = 1e9;
+        let r = g.replace("W", t.clone(), "sparse", "t").unwrap();
+        let EditOp::Replace { blob, .. } = &r.op else { panic!() };
+        assert!(blob.ends_with(".delta"), "{blob}");
+        assert_eq!(r.sha_after, t.sha256());
+        // a dense replace still uses a full .npy blob
+        let dense = Tensor::new(vec![10, 10], (0..100).map(|i| -(i as f32) - 1.0).collect());
+        let r2 = g.replace("W", dense, "dense", "t").unwrap();
+        let EditOp::Replace { blob, .. } = &r2.op else { panic!() };
+        assert!(blob.ends_with(".npy"), "{blob}");
+        let cur = g.current.clone();
+        drop(g);
+        assert_eq!(
+            Gate::open(d.path(), big_base(), EditPolicy::default()).unwrap().current,
+            cur
+        );
+    }
+
+    #[test]
+    fn current_links_untouched_tensors_to_the_base_files() {
+        use std::os::unix::fs::MetadataExt;
+        let d = tempfile::tempdir().unwrap();
+        let base_dir = d.path().join("base");
+        big_base().save_dir(&base_dir).unwrap();
+        let gdir = d.path().join("gate");
+        let mut g = Gate::open_linked(&gdir, big_base(), Some(&base_dir), EditPolicy::default()).unwrap();
+        g.apply(set("W", 1, 1, 3.0), "a", "t").unwrap();
+        let ino = |p: &Path| std::fs::metadata(p).unwrap().ino();
+        assert_eq!(ino(&gdir.join("current/b.npy")), ino(&base_dir.join("b.npy")));
+        assert_ne!(ino(&gdir.join("current/W.npy")), ino(&base_dir.join("W.npy")));
+        // a revert links the base file again, and the base file never changes
+        g.apply(EditOp::Revert { tensor: "W".into() }, "r", "t").unwrap();
+        assert_eq!(ino(&gdir.join("current/W.npy")), ino(&base_dir.join("W.npy")));
+        assert_eq!(Network::load_dir(&base_dir).unwrap(), big_base());
+        assert_eq!(Network::load_dir(&g.current_dir()).unwrap(), g.current);
+        // final copies share the current files
+        let fin = d.path().join("final");
+        g.apply(set("W", 2, 2, 5.0), "b", "t").unwrap();
+        g.link_current_to(&fin).unwrap();
+        assert_eq!(Network::load_dir(&fin).unwrap(), g.current);
+        assert_eq!(ino(&fin.join("W.npy")), ino(&gdir.join("current/W.npy")));
+        // a later edit replaces current/W.npy without touching the final copy
+        g.apply(set("W", 3, 3, 6.0), "c", "t").unwrap();
+        assert_eq!(Network::load_dir(&fin).unwrap().tensors["W"].data[22], 5.0);
+        assert_eq!(Network::load_dir(&fin).unwrap().tensors["W"].data[33], 33.0);
+    }
+
+    #[test]
+    fn checkpoints_are_references_to_blobs() {
+        let d = tempfile::tempdir().unwrap();
+        let mut g = Gate::open(d.path(), big_base(), EditPolicy::default()).unwrap();
+        g.apply(set("W", 0, 0, 7.0), "a", "t").unwrap();
+        g.checkpoint("c1").unwrap();
+        assert!(d.path().join("checkpoints/c1.json").exists());
+        assert!(!d.path().join("checkpoints/c1").exists());
+        let at = g.current.clone();
+        g.apply(set("W", 0, 1, 8.0), "b", "t").unwrap();
+        let b0 = EditOp::Assign {
+            tensor: "b".into(),
+            index: vec![Idx::One(0)],
+            mode: Mode::Set,
+            values: Values::Scalar(8.0),
+        };
+        g.apply(b0, "c", "t").unwrap();
+        g.restore("c1", "t").unwrap();
+        assert_eq!(g.current, at);
+        drop(g);
+        assert_eq!(
+            Gate::open(d.path(), big_base(), EditPolicy::default()).unwrap().current,
+            at
+        );
     }
 
     #[test]

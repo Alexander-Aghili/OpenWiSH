@@ -11,14 +11,21 @@ use openwish_tensor::{Network, Tensor};
 
 pub const PRACTICE: &[&str] = &["random", "weak", "strong"];
 
-pub fn load_opponent(dir: &Path, name: &str) -> Result<Box<dyn Policy>> {
-    if name == "random" {
+/// A playing policy: uniform random play for "random", else the MLP network in the folder `path`.
+pub fn policy_at(path: &Path) -> Result<Box<dyn Policy>> {
+    if path.as_os_str() == "random" {
         return Ok(Box::new(Uniform));
     }
-    let p = dir.join(name);
-    Ok(Box::new(Mlp::from_network(
-        &Network::load_dir(&p).with_context(|| format!("opponent {name} at {}", p.display()))?,
-    )?))
+    let net = Network::load_dir(path).with_context(|| format!("opponent network at {}", path.display()))?;
+    Ok(Box::new(Mlp::from_network(&net)?))
+}
+
+/// A practice opponent by name: "random", or a network folder under `dir`.
+pub fn load_opponent(dir: &Path, name: &str) -> Result<Box<dyn Policy>> {
+    if name == "random" {
+        return policy_at(Path::new("random"));
+    }
+    policy_at(&dir.join(name))
 }
 
 const GAMES_README: &str = "summary.json: per opponent: score (wins / games), wins, losses, score as black / white, \

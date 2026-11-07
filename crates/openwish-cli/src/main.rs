@@ -17,7 +17,6 @@ mod status;
 use go::GoCmd;
 
 /// How long a scorer may run.
-const SCORE_TIMEOUT_S: u64 = 6 * 3600;
 
 #[derive(Parser)]
 #[command(
@@ -252,29 +251,7 @@ fn ask(a: &EditorArgs, instructions: Option<&Path>, workdir: PathBuf, pc: &Proje
 }
 
 fn score(run: &Path) -> Result<serde_json::Value> {
-    let spec = saved_spec(run)?;
-    let Some(sc) = &spec.score else {
-        bail!("task {} has no scorer", spec.id);
-    };
-    let run = std::fs::canonicalize(run)?;
-    let envs = [
-        ("OPENWISH_RUN", run.display().to_string()),
-        ("OPENWISH_TASK_DIR", spec.dir.display().to_string()),
-        ("OPENWISH_FINAL_NET", run.join("final/net").display().to_string()),
-        (
-            "OPENWISH_FINAL_ANSWER",
-            run.join("final_answer.md").display().to_string(),
-        ),
-        ("OPENWISH_ROOT", root()?.display().to_string()),
-    ];
-    let mut v = openwish_core::forward::run_command(&spec.argv(&sc.command), &envs, &spec.dir, SCORE_TIMEOUT_S)?;
-    // every score names the access it was earned under (scores from different access levels are not comparable)
-    if let Some(o) = v.as_object_mut() {
-        o.insert("access".into(), spec.access());
-    }
-    std::fs::create_dir_all(run.join("eval"))?;
-    std::fs::write(run.join("eval/score.json"), serde_json::to_string_pretty(&v)?)?;
-    Ok(v)
+    openwish_core::forward::score_run(run, &root()?)
 }
 
 /// Hold OpenWiSH and its children to a share of the machine: a thread count (a quarter of the cores by

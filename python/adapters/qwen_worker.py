@@ -13,7 +13,6 @@ import hashlib
 import json
 import math
 import os
-import re
 import shutil
 import subprocess
 import sys
@@ -147,7 +146,7 @@ def one_model(args):
 def grade(items, recs):
     out = []
     for it, r in zip(items, recs):
-        pred = last_boxed(answer_text(r["text"])) if r["finish"] != "length" or "</think>" in r["text"] else last_boxed(answer_text(r["text"]))
+        pred = last_boxed(answer_text(r["text"]))
         ok = is_correct(pred, it.get("gold")) if it.get("gold") is not None else None
         if r["finish"] == "length":
             fail = "cut_at_max_tokens"

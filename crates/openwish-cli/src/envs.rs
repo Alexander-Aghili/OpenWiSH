@@ -131,7 +131,7 @@ pub fn list(dir: &Path) -> String {
                 rows.push(vec![t.id.clone(), tools_cell(&t), budgets_cell(&t), assets, file]);
             }
             Err(e) => {
-                let why: String = format!("{e:#}").replace('\n', " ").chars().take(70).collect();
+                let why = openwish_text::head(&format!("{e:#}").replace('\n', " "), 70).to_string();
                 rows.push(vec![
                     "-".into(),
                     "-".into(),

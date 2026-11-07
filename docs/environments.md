@@ -221,6 +221,20 @@ The scorer runs once after the final answer, or later with `openwish score <run>
 
 Print one JSON line with `ok` and a numeric `score`, plus any detail you want kept. OpenWiSH saves the line to `eval/score.json`. The time limit is 6 hours. `tasks/toy/score.py` is a 12-line example.
 
+### Shared worker code
+
+A probe and a scorer for one model usually live in one worker file, `python/adapters/<name>_worker.py`. Build the worker on `python/adapters/workerlib.py` and write only what your environment needs:
+
+| `workerlib` | Purpose |
+|---|---|
+| `main(worker, base, probe, score)` | The `probe` and `score [--net DIR]` command line, and the GPU-host hand-off |
+| `load_net(dir)` | A network folder as memory-mapped arrays, so a large network costs no RAM until you read a tensor |
+| `load_hf(model_dir, net, param_name)` | A Hugging Face model with the network's tensors copied in, on `OPENWISH_DEVICE` |
+| `read_request(resolve)`, `save_run(arrays, summary)`, `fail(msg)` | The request, the `run.npz` file and the JSON reply |
+| `cached(path, key, compute)` | A base-model result, recomputed when its inputs change |
+
+Workers run with `python -I`, so they load sibling files by path. `vuln_worker.py` and `moe_worker.py` are working examples. With `OPENWISH_REMOTE` set to a host file, `main` sends each call to the GPU host named there (`python/adapters/remote.py`). Only changed weight bytes travel.
+
 ### 6. Check the environment
 
 1. Write a scripted reply file (replies separated by lines of `=====`) and run the task with `--backend scripted:<file>`.

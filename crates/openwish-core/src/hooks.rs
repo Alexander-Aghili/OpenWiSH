@@ -157,7 +157,7 @@ impl Outcome {
     pub fn reason(&self) -> String {
         let e = self.stderr.trim();
         if !e.is_empty() {
-            return e.chars().take(4000).collect();
+            return openwish_text::head(e, 4000).to_string();
         }
         if self.timed_out {
             "the hook timed out".into()
@@ -221,13 +221,6 @@ impl HookSet {
 /// Characters of a hook's stdout or stderr that are kept.
 const MAX_CAPTURE: usize = 20_000;
 
-fn cap(s: String) -> String {
-    match s.char_indices().nth(MAX_CAPTURE) {
-        Some((end, _)) => format!("{}\n[cut at {MAX_CAPTURE} characters]", &s[..end]),
-        None => s,
-    }
-}
-
 /// Run one hook with `sh -c` in its own process group, so a timeout kills everything it started.
 pub fn run_one(h: &Hook, ctx: &Context) -> Outcome {
     let mut cmd = Command::new("sh");
@@ -256,8 +249,8 @@ pub fn run_one(h: &Hook, ctx: &Context) -> Outcome {
             out.code = done.status.and_then(|s| s.code());
             out.timed_out = done.timed_out();
             out.seconds = done.elapsed.as_secs_f64();
-            out.stdout = cap(done.stdout);
-            out.stderr = cap(done.stderr);
+            out.stdout = openwish_text::clip(&done.stdout, MAX_CAPTURE, "");
+            out.stderr = openwish_text::clip(&done.stderr, MAX_CAPTURE, "");
         }
         Err(Failure::Start { source, .. }) => {
             out.stderr = format!("the hook could not start in {}: {source}", h.cwd.display())

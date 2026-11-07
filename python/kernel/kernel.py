@@ -162,7 +162,7 @@ def load(name):
     p = _file(name)
     if not os.path.exists(p):
         raise KeyError(f"unknown tensor {name!r}; NAMES lists them")
-    return np.load(p).astype(np.float32)
+    return np.load(p).astype(np.float32, copy=False)  # np.load already returns a private, writable array
 
 
 def _checked_rpc(method, refused=None, done=None, **kw):

@@ -11,12 +11,18 @@ Request ($OPENWISH_REQ, JSON):
    "patch": [{"component": "<id>", "source": j}]}     optional, the component's write from input j (interchange)
 Saves $OPENWISH_OUT/run.npz: logits [n, seq, vocab_out], every component's write [n, seq, d_model],
 attention patterns "<head>_pattern" [n, seq, seq] and MLP activations "<mlp>_post" [n, seq, d_mlp]."""
+import importlib.util
 import json
 import math
 import os
 from pathlib import Path
 
 import numpy as np
+
+# workers run under python -I, so sibling modules load by path
+_spec = importlib.util.spec_from_file_location("workerlib", Path(__file__).resolve().parent / "workerlib.py")
+wl = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(wl)
 
 MAX_INPUTS = 64
 _erf = np.vectorize(math.erf)
@@ -27,7 +33,7 @@ def gelu(x):
 
 
 def load_params(net_dir):
-    return {p.stem: np.load(p).astype(np.float64) for p in Path(net_dir).glob("*.npy")}
+    return wl.load_net(net_dir, np.float64)
 
 
 def components(cfg):
@@ -112,18 +118,14 @@ def run_request(P, cfg, req):
 
 
 def main():
-    try:
-        cfg = json.loads(Path(os.environ["OPENWISH_TASK_DIR"], "arch.json").read_text())
-        req = json.loads(Path(os.environ["OPENWISH_REQ"]).read_text())
-        out = run_request(load_params(os.environ["OPENWISH_NET"]), cfg, req)
-    except (ValueError, json.JSONDecodeError) as e:
-        print(json.dumps({"ok": False, "error": str(e)}))
+    cfg = json.loads(Path(os.environ["OPENWISH_TASK_DIR"], "arch.json").read_text())
+    params = load_params(os.environ["OPENWISH_NET"])
+    out = wl.read_request(lambda req: run_request(params, cfg, req))
+    if out is None:
         return
-    path = Path(os.environ["OPENWISH_OUT"])
-    path.mkdir(parents=True, exist_ok=True)
-    np.savez(path / "run.npz", logits=out["logits"].astype(np.float32), **{k: v.astype(np.float32) for k, v in out["cache"].items()})
-    print(json.dumps({"ok": True, "predictions": out["predictions"], "file": "run.npz",
-                      "arrays": {"logits": list(out["logits"].shape), **{k: list(v.shape) for k, v in out["cache"].items()}}}))
+    arrays = {"logits": out["logits"].astype(np.float32), **{k: v.astype(np.float32) for k, v in out["cache"].items()}}
+    wl.save_run(arrays, {"predictions": out["predictions"],
+                         "arrays": {k: list(v.shape) for k, v in arrays.items()}})
 
 
 if __name__ == "__main__":

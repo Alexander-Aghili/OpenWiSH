@@ -7,20 +7,7 @@ use std::path::Path;
 use std::time::Duration;
 
 /// The counters of `state.json` printed by `openwish status`, in order.
-const COUNTERS: &[&str] = &[
-    "turn",
-    "runs_used",
-    "passes_used",
-    "handoffs",
-    "nudges",
-    "failed_requests",
-    "protocol_errors",
-    "refusals",
-    "backend_errors",
-    "kernel_restarts",
-    "cost_usd",
-    "usage_total",
-];
+use openwish_core::run::COUNTERS;
 
 /// A run's task, state and counters, then its score and audit summary if it has them.
 pub fn report(run: &Path) -> Result<String> {

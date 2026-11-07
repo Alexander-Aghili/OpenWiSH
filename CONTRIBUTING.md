@@ -78,7 +78,7 @@ Docs, comments, error messages and agent-facing text follow the same rules.
 |---|---|
 | Move the kernel protocol off the inherited stdout | `python/kernel/kernel.py`, `crates/openwish-sandbox` |
 | Check cleanup after interrupted edit RPCs | `python/kernel/kernel.py` |
-| Keep the reply of a one-reply task when an error follows | `crates/openwish-core/src/run.rs` |
+| Keep the reply of a one-reply task when an error follows | `crates/openwish-core/src/run/turn.rs` |
 | Make `restore` atomic | `crates/openwish-tensor/src/gate.rs` |
 | Replace the fixed 120 s kernel start wait | `crates/openwish-sandbox` |
 | Prompt-caching hints in the `api` backend | `crates/openwish-llm/src/anthropic_api.rs` |

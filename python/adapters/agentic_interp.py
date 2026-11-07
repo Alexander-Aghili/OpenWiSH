@@ -6,12 +6,18 @@ circuit component with one class of the benchmark's 5-class taxonomy. The score 
 
 Gold annotations stay in assets/agentic_interp (hidden from the sandbox)."""
 import argparse
+import importlib.util
 import json
 import os
 import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
+# loaded by path: these scripts run under python -I or another project's interpreter
+_spec = importlib.util.spec_from_file_location("subm", Path(__file__).resolve().parent / "submission.py")
+subm = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(subm)
+
 GOLD = ROOT / "assets/agentic_interp/hf/dataset/annotations"
 TAGS = ("INDICATOR", "AGGREGATOR", "ROUTER", "MAPPER", "COMBINER")
 
@@ -60,15 +66,7 @@ def evidence_problem(evidence, component_ids, requests):
 
 def parse(text):
     """The last JSON object in the text holding a "tags" key."""
-    found, dec = None, json.JSONDecoder()
-    for match in re.finditer(r"\{", text):
-        try:
-            value, _ = dec.raw_decode(text[match.start():])
-        except json.JSONDecodeError:
-            continue
-        if isinstance(value, dict) and "tags" in value:
-            found = value
-    return found
+    return subm.last_json_object(text, key="tags")
 
 
 def grade(gold, sub):
@@ -86,11 +84,7 @@ def grade(gold, sub):
 
 def answer_text():
     """A validated or sandbox-written submission wins over the reply text."""
-    run = Path(os.environ.get("OPENWISH_RUN", ""))
-    for path in (run / "validated_submission.json", run / "work/submission.json"):
-        if path.is_file() and not path.is_symlink():
-            return path.read_text()
-    return Path(os.environ["OPENWISH_FINAL_ANSWER"]).read_text()
+    return subm.submission_text()
 
 
 def main():

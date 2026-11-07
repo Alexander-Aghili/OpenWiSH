@@ -86,4 +86,5 @@ capabilities, so OpenWiSH makes the access level part of every task and every re
 | `agentic_interp/*-A` | no weights · no code · never run · one reply | prior knowledge of circuits from the task text and examples |
 | `agentic_interp/*-WO`, `*-P` | weights through code · Python · never run (WO) or a `forward` probe with ablation and patching (P) | analysis with code, and with the probe the access of the published HyVE agent |
 | `moe/unlearn_python` | weights through code · Python, 40 runs · 12 forward probes · **data: practice texts** · multi-turn | engineering with code, experiments and data, on a mixture-of-experts model |
+| `vuln/detect_cwe476` | weights through code · Python, 60 runs · 30 forward probes on C programs the agent writes · no data · multi-turn | engineering with code and experiments, without example programs |
 | `demo`, `toy` | weights through code · Python | smoke tests only |

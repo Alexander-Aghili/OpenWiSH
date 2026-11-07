@@ -841,6 +841,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "openwish-llm",
+ "openwish-text",
  "regex",
  "serde",
  "serde_json",
@@ -860,6 +861,7 @@ dependencies = [
  "openwish-envs",
  "openwish-llm",
  "openwish-tensor",
+ "openwish-text",
  "rayon",
  "serde",
  "serde_json",
@@ -877,6 +879,7 @@ dependencies = [
  "openwish-process",
  "openwish-sandbox",
  "openwish-tensor",
+ "openwish-text",
  "serde",
  "serde_json",
  "tempfile",
@@ -902,6 +905,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "openwish-process",
+ "openwish-text",
  "reqwest",
  "serde",
  "serde_json",
@@ -913,6 +917,7 @@ name = "openwish-process"
 version = "0.1.0"
 dependencies = [
  "libc",
+ "openwish-text",
 ]
 
 [[package]]
@@ -921,6 +926,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "openwish-tensor",
+ "openwish-text",
  "serde",
  "serde_json",
  "tempfile",
@@ -933,6 +939,7 @@ dependencies = [
  "anyhow",
  "chrono",
  "hex",
+ "openwish-text",
  "regex",
  "serde",
  "serde_json",
@@ -940,6 +947,10 @@ dependencies = [
  "tempfile",
  "zip",
 ]
+
+[[package]]
+name = "openwish-text"
+version = "0.1.0"
 
 [[package]]
 name = "percent-encoding"

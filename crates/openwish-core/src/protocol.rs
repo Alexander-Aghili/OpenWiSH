@@ -27,33 +27,10 @@ pub enum Action {
 
 /// Fenced blocks as (info string, body).
 pub fn blocks(reply: &str) -> Vec<(String, String)> {
-    let mut out = vec![];
-    let mut open: Option<(usize, String, String)> = None; // (fence length, info, body)
-    for line in reply.lines() {
-        let t = line.trim_start();
-        let ticks = t.chars().take_while(|c| *c == '`').count();
-        match &mut open {
-            None => {
-                if ticks >= 3 {
-                    let info = t[ticks..].split_whitespace().next().unwrap_or("").to_string();
-                    open = Some((ticks, info, String::new()));
-                }
-            }
-            Some((n, _, body)) => {
-                if ticks >= *n && t[ticks..].trim().is_empty() {
-                    let (_, info, body) = open.take().unwrap();
-                    out.push((info, body));
-                } else {
-                    body.push_str(line);
-                    body.push('\n');
-                }
-            }
-        }
-    }
-    if let Some((_, info, body)) = open {
-        out.push((info, body));
-    }
-    out
+    openwish_text::fences(reply)
+        .into_iter()
+        .map(|f| (f.info, f.body))
+        .collect()
 }
 
 /// Info strings that look like an attempt to run code but are not a tool tag.

@@ -8,6 +8,7 @@ Writes tasks/agentic_interp/<case>-A/ (prompt only, one reply) and <case>-WO/ (w
 execution). The gold annotation and the RASP program never enter a task folder. Weights load with
 torch.load(weights_only=True). No pickle file is opened."""
 import csv
+import importlib.util
 import json
 from pathlib import Path
 
@@ -118,8 +119,10 @@ def prompt(gold, enc, m):
         f"Architecture: {architecture(m)}", "Components:", *("  " + component_text(c["id"]) for c in gold["components"]), ""])
 
 
-def toml_string(s):
-    return '"""' + s.replace("\\", "\\\\").replace('"""', '\\"\\"\\"') + '"""'
+_spec = importlib.util.spec_from_file_location("subm", ROOT / "python/adapters/submission.py")
+_subm = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(_subm)
+toml_string = _subm.toml_string
 
 
 def write_task(case, cond, text, instructions, extra):

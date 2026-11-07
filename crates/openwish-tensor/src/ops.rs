@@ -126,7 +126,7 @@ pub fn compute(op: &EditOp, net: &Network, base: &Network, blob_root: &Path) -> 
         EditOp::Assign {
             index, mode, values, ..
         } => assign(name, cur, index, *mode, values),
-        EditOp::Replace { blob, .. } => replace(name, cur, &blob_root.join(blob)),
+        EditOp::Replace { blob, .. } => replace(name, cur, base.get(name)?, &blob_root.join(blob)),
         EditOp::AddRank1 { u, v, alpha, .. } => add_rank1(name, cur, u, v, *alpha),
         EditOp::ProjectOut {
             dir,
@@ -181,10 +181,15 @@ fn block_offset(k: usize, axes: &[Vec<usize>], strides: &[usize]) -> usize {
     off
 }
 
-/// The tensor stored in the .npy blob at `path`, which must have the current shape.
-fn replace(name: &str, cur: &Tensor, path: &Path) -> Result<Tensor> {
-    let bytes = std::fs::read(path).with_context(|| format!("reading blob {}", path.display()))?;
-    let t = crate::npy::read_npy(&bytes)?;
+/// The tensor stored in the blob at `path`, which must have the current shape. A blob is a full .npy file
+/// or a `.delta` file against the base tensor (see `delta`).
+fn replace(name: &str, cur: &Tensor, base: &Tensor, path: &Path) -> Result<Tensor> {
+    let t = if path.extension().is_some_and(|e| e == crate::delta::EXT) {
+        crate::delta::load(path, base)?
+    } else {
+        let bytes = std::fs::read(path).with_context(|| format!("reading blob {}", path.display()))?;
+        crate::npy::read_npy(&bytes)?
+    };
     if t.shape != cur.shape {
         bail!(
             "{name}: replacement has shape {:?}, tensor has {:?}",

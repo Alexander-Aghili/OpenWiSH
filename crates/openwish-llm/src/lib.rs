@@ -168,7 +168,7 @@ const TRANSIENT_MARKERS: &[&str] = &[
 pub fn classify(msg: &str) -> BackendError {
     let m = msg.to_lowercase();
     let mentions = |markers: &[&str]| markers.iter().any(|k| m.contains(k));
-    let short: String = msg.chars().take(2000).collect();
+    let short = openwish_text::head(msg, 2000).to_string();
     if mentions(REFUSAL_MARKERS) {
         BackendError::Refused(short)
     } else if mentions(TRANSIENT_MARKERS) {

@@ -3,27 +3,97 @@ use anyhow::{Context, Result};
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 use std::collections::BTreeMap;
-use std::io::{Read, Write};
+use std::io::Read;
+use std::ops::{Deref, DerefMut};
 use std::path::Path;
+use std::sync::Arc;
 
-use crate::npy::{read_npy, write_npy};
+use crate::npy::{read_npy, write_npy_to};
+
+/// Tensor values, shared copy-on-write: cloning a tensor or a whole network shares the buffer, and the first
+/// write through `DerefMut` gives the writer its own copy. The gate's base and current networks therefore
+/// hold one copy of every tensor that no edit has touched.
+#[derive(Clone, Default, PartialEq)]
+pub struct TensorData(Arc<Vec<f32>>);
+
+impl Deref for TensorData {
+    type Target = Vec<f32>;
+    fn deref(&self) -> &Vec<f32> {
+        &self.0
+    }
+}
+impl DerefMut for TensorData {
+    fn deref_mut(&mut self) -> &mut Vec<f32> {
+        Arc::make_mut(&mut self.0)
+    }
+}
+impl<'a> IntoIterator for &'a TensorData {
+    type Item = &'a f32;
+    type IntoIter = std::slice::Iter<'a, f32>;
+    fn into_iter(self) -> Self::IntoIter {
+        self.0.iter()
+    }
+}
+impl From<Vec<f32>> for TensorData {
+    fn from(v: Vec<f32>) -> Self {
+        TensorData(Arc::new(v))
+    }
+}
+impl PartialEq<Vec<f32>> for TensorData {
+    fn eq(&self, other: &Vec<f32>) -> bool {
+        *self.0 == *other
+    }
+}
+impl std::fmt::Debug for TensorData {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        self.0.fmt(f)
+    }
+}
+impl Serialize for TensorData {
+    fn serialize<S: serde::Serializer>(&self, s: S) -> std::result::Result<S::Ok, S::Error> {
+        self.0.serialize(s)
+    }
+}
+impl<'de> Deserialize<'de> for TensorData {
+    fn deserialize<D: serde::Deserializer<'de>>(d: D) -> std::result::Result<Self, D::Error> {
+        Vec::<f32>::deserialize(d).map(TensorData::from)
+    }
+}
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct Tensor {
     pub shape: Vec<usize>,
-    pub data: Vec<f32>,
+    pub data: TensorData,
 }
 
 impl Tensor {
     pub fn new(shape: Vec<usize>, data: Vec<f32>) -> Self {
         assert_eq!(shape.iter().product::<usize>(), data.len(), "shape/data mismatch");
-        Tensor { shape, data }
+        Tensor {
+            shape,
+            data: data.into(),
+        }
     }
     pub fn zeros(shape: Vec<usize>) -> Self {
         let n = shape.iter().product();
-        Tensor {
-            shape,
-            data: vec![0.0; n],
+        Tensor::new(shape, vec![0.0; n])
+    }
+    /// True when both tensors share one buffer (no copy was made).
+    pub fn shares_data(&self, other: &Tensor) -> bool {
+        Arc::ptr_eq(&self.data.0, &other.data.0)
+    }
+    /// The values as little-endian f32 bytes, without copying on little-endian targets.
+    pub fn le_bytes(&self) -> std::borrow::Cow<'_, [u8]> {
+        #[cfg(target_endian = "little")]
+        {
+            // SAFETY: f32 has no padding and any byte pattern is a valid u8; the slice borrows `self`.
+            std::borrow::Cow::Borrowed(unsafe {
+                std::slice::from_raw_parts(self.data.as_ptr().cast::<u8>(), self.data.len() * 4)
+            })
+        }
+        #[cfg(not(target_endian = "little"))]
+        {
+            std::borrow::Cow::Owned(self.data.iter().flat_map(|v| v.to_le_bytes()).collect())
         }
     }
     pub fn numel(&self) -> usize {
@@ -36,9 +106,7 @@ impl Tensor {
         for d in &self.shape {
             h.update((*d as u64).to_le_bytes());
         }
-        for v in &self.data {
-            h.update(v.to_le_bytes());
-        }
+        h.update(self.le_bytes());
         hex::encode(h.finalize())
     }
     /// Number of entries whose value differs from `other` (-0.0 equals 0.0; NaN equals NaN); panics on shape mismatch.
@@ -68,7 +136,9 @@ pub fn file_to_name(file: &str) -> String {
 /// Write `t` to `path` as .npy through a temporary file, so a reader never sees half a tensor.
 pub(crate) fn save_npy(path: &Path, t: &Tensor) -> Result<()> {
     let tmp = path.with_extension("npy.tmp");
-    std::fs::write(&tmp, write_npy(t))?;
+    let mut w = std::io::BufWriter::new(std::fs::File::create(&tmp)?);
+    write_npy_to(&mut w, t)?;
+    w.into_inner().map_err(|e| e.into_error())?.sync_all()?;
     std::fs::rename(&tmp, path)?;
     Ok(())
 }
@@ -128,7 +198,7 @@ impl Network {
             .large_file(true);
         for (name, t) in &self.tensors {
             z.start_file(format!("{name}.npy"), opts)?;
-            z.write_all(&write_npy(t))?;
+            write_npy_to(&mut z, t)?;
         }
         z.finish()?;
         Ok(())

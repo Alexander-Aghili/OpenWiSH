@@ -1,0 +1,48 @@
+# Vulnerability environment: make Qwen3.5-0.8B catch NULL pointer dereferences (Juliet CWE-476) by editing MLP weights.
+# Prepare with: assets/venvs/qwen/bin/python -I scripts/prepare_vuln.py (needs assets/exp8/qwen35-text and the Juliet zip, see README.md)
+id = "vuln-detect-cwe476"
+description = "Qwen3.5-0.8B answers YES or NO: can entry() reach a NULL dereference? Raise recall on hidden Juliet CWE-476 programs without more false positives, by editing MLP weights. Python over the weights and 30 forward probes on CPU."
+prompt = "prompt.txt"
+hidden = ["../../assets/vuln/eval"]
+
+[access]
+weights = "code"
+
+[network]
+base = "../../assets/vuln/base_net"
+
+[[mounts]]
+host = "../../assets/exp8/qwen35-text"
+guest = "/model"
+
+[python]
+runs = 60
+timeout_s = 600
+mem_gb = 12
+max_out = 12000
+prelude = "prelude.py"
+reject_flags = ["backward", "autograd", "optimizer", "scipy_optimize", "manual_gradient_step", "fit_into_weights", "lstsq_into_weights"]
+
+[forward.forward]
+command = ["{root}/assets/venvs/qwen/bin/python", "-I", "{root}/python/adapters/vuln_worker.py", "probe"]
+passes = 30
+out_dir = "fwd/r{k}"
+max_out = 12000
+timeout_s = 900
+
+[edits.policy]
+allowed = ["*.mlp.gate_proj.weight", "*.mlp.up_proj.weight", "*.mlp.down_proj.weight"]
+forbid_whole_tensor_scale = true
+max_frac_changed = 0.0005
+
+[finish]
+max_turns = 90
+
+[handoff]
+max_turns_per_conversation = 45
+
+[editor]
+effort = "high"
+
+[score]
+command = ["{root}/assets/venvs/qwen/bin/python", "-I", "{root}/python/adapters/vuln_worker.py", "score"]
