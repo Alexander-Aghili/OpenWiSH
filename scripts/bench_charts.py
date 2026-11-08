@@ -411,6 +411,119 @@ def table_html(head, rows):
     return f"<table><thead><tr>{th}</tr></thead><tbody>{tr}</tbody></table>"
 
 
+def vuln_data():
+    """Juliet CWE-476 on Qwen3.5-0.8B: (label, caught, flagged, accuracy) from the run folders."""
+    run = report.load(ROOT / "runs/bench/vuln-r2-claude-opus-5-5/vuln-detect_cwe476/eval/score.json")
+    rule = report.load(ROOT / "runs/vuln_text_rule.json")
+    if not run or not rule:
+        return []
+    acc = lambda c: (c["tp"] + c["negatives"] - c["fp"]) / (c["positives"] + c["negatives"])
+    return [("Qwen3.5-0.8B as released", run["base"]["tp"], run["base"]["fp"], acc(run["base"])),
+            ("one-line text rule", rule["tp"], rule["fp"], acc(rule)),
+            ("after Opus 5.5 rewrote 3 neurons", run["edited"]["tp"], run["edited"]["fp"], acc(run["edited"]))]
+
+
+def chart_vuln(rows):
+    svg = Svg(380, "Catching NULL dereferences: Opus 5.5 edits Qwen3.5-0.8B",
+                   "1,116 scrubbed Juliet CWE-476 programs, half vulnerable. Higher green is better, lower orange is better.",
+                   "Source: runs/bench/vuln-r2-claude-opus-5-5, runs/vuln_text_rule.json. Audit: pass, 27 of 27 code runs.")
+    svg.legend(24, 82, [("vulnerable programs caught (of 558)", 3), ("safe programs flagged (of 558)", 2)])
+    x0, x1, y0, y1 = 70, W - 30, 300, 120
+    y_of = svg.yaxis(x0, x1, y0, y1, [0, 100, 200, 300, 400, 500, 600], lambda v: f"{v}")
+    grouped_bars(svg, [r[0] for r in rows], [("caught", 3), ("flagged", 2)], x0, x1, y_of, y0,
+                 [[r[1], r[2]] for r in rows], [[f"{r[0]}: {r[1]} caught", f"{r[0]}: {r[2]} flagged"] for r in rows])
+    gw = (x1 - x0) / len(rows)
+    for i, r in enumerate(rows):
+        svg.text(x0 + gw * i + gw / 2, y0 + 36, f"accuracy {100 * r[3]:.1f} %", "lb", "middle")
+    return svg.render("Juliet CWE-476: caught and falsely flagged programs, before and after the edit")
+
+
+def jlens_data():
+    """Score v3 per run (0 when the audit fails), per arm, from runs/bench/moe-v3*."""
+    arms = {"no lens": "moe-v3{r}-gpt-6.1-sol", "logit lens": "moe-v3-logitlens{r}-gpt-6.1-sol", "J-lens": "moe-v3-lens{r}-gpt-6.1-sol"}
+    out = {}
+    for arm, pat in arms.items():
+        vals = []
+        for d in sorted((ROOT / "runs/bench").glob(pat.format(r="*"))):
+            if arm == "no lens" and ("lens" in d.name):
+                continue
+            for run in d.iterdir():
+                s, a = report.load(run / "eval/score.json"), report.load(run / "audit_summary.json")
+                if s and a is not None:
+                    ok = a is True or (isinstance(a, dict) and a.get("valid"))
+                    vals.append((s["score"] if ok else 0.0, bool(ok)))
+        if vals:
+            out[arm] = vals
+    return out
+
+
+def chart_jlens(arms):
+    rows = list(arms.items())
+    h = 160 + 60 * len(rows)
+    svg = Svg(h, "Reading experts through a lens: unlearning Python in an MoE model",
+              "Granite-3.1-1B-A400M, GPT-6.1 Sol, one dot per run. Bar: mean. Runs that fail the audit score 0 (hollow).",
+              "Source: runs/bench/moe-v3*-gpt-6.1-sol. Score v3: Python loss rise if both English limits hold, else 0.")
+    x0, x1, top = 140, W - 90, 92
+    x_of = lambda v: x0 + v / 1.3 * (x1 - x0)
+    bottom = top + 60 * len(rows)
+    for tk in (0, 0.25, 0.5, 0.75, 1.0, 1.25):
+        svg.add(f'<line x1="{x_of(tk):.1f}" y1="{top}" x2="{x_of(tk):.1f}" y2="{bottom}" class="gl"/>')
+        svg.text(x_of(tk), bottom + 16, f"{tk:g}", "tk", "middle")
+    for i, (arm, vals) in enumerate(rows):
+        y = top + 34 + 60 * i
+        slot = {"no lens": 3, "logit lens": 2, "J-lens": 1}[arm]
+        svg.text(x0 - 14, y + 4, f"{arm} ({len(vals)} runs)", "lb2", "end")
+        m = sum(v for v, _ in vals) / len(vals)
+        svg.add(f'<line x1="{x_of(m):.1f}" y1="{y - 18}" x2="{x_of(m):.1f}" y2="{y + 18}" class="k{slot}" stroke-width="3"/>')
+        svg.text(x_of(m) + 6, y - 20, f"mean {m:.2f}", "lb", "start")
+        for k, (v, ok) in enumerate(sorted(vals)):
+            jy = y + (k % 3 - 1) * 9
+            cls = f"s{slot} ring fade" if ok else f"s{slot} hollow fade"
+            svg.add(f'<circle cx="{x_of(v):.1f}" cy="{jy:.1f}" r="5.5" class="{cls}" style="animation-delay:{0.03 * k:.2f}s"><title>{esc(arm)}: {v:.2f}{"" if ok else " (audit failed)"}</title></circle>')
+    return svg.render("MoE Python unlearning score by lens arm")
+
+
+POST_FREEWAY = [("Qwen 27B", 21.0), ("Qwen 27B post-trained", 47.1), ("GPT-6 Astra", 63.9)]
+
+
+def minatar_new_data():
+    out = []
+    for g, label, base, bname in (("freeway", "Freeway", "exp5-freeway-always-up", "always up"),
+                                  ("space_invaders", "Space Invaders", "exp5-space_invaders-always-fire", "always fire")):
+        s = report.load(ROOT / f"results/bench/claude-opus-5-5/exp5-{g}/eval/score.json")
+        b = report.load(ROOT / f"results/bench/baselines/{base}/eval/score.json")
+        if s and b:
+            out.append((label, bname, b["mean"], s["mean"], POST_FREEWAY if g == "freeway" else []))
+    return out
+
+
+def chart_minatar_new(panels):
+    svg = Svg(400, "Freeway and Space Invaders: policies written from zero",
+              "Claude Opus 5.5, one reply, no tools, mean return over 1,000 episodes. Dashed: scores reported in the post.",
+              "Source: results/bench/claude-opus-5-5/exp5-*, results/bench/baselines. Post: x.com/neilkale (WeightProgramBench).")
+    svg.legend(24, 82, [("fixed baseline", 3), ("Claude Opus 5.5 through OpenWiSH", 1)])
+    pw = (W - 48) / len(panels)
+    y0, y1 = 320, 130
+    for i, (name, bname, base, ours, refs) in enumerate(panels):
+        x0 = 24 + i * pw
+        hi = max([ours, base] + [v for _, v in refs]) * 1.15
+        y_of = lambda v: y0 - v / hi * (y0 - y1)
+        svg.add(f'<line x1="{x0 + 10:.1f}" y1="{y0}" x2="{x0 + pw - 10:.1f}" y2="{y0}" class="ax"/>')
+        svg.text(x0 + pw / 2, 112, name, "lb2", "middle")
+        bw, cx = 50, x0 + pw * 0.36
+        for j, (v, slot, who) in enumerate(((base, 3, bname), (ours, 1, "Opus 5.5"))):
+            x = cx - bw - 14 + j * (bw + 28)
+            svg.bar(x, y0, bw, y0 - y_of(v), slot, f"{name}, {who}: {v:.1f}", 0.08 * (2 * i + j))
+            svg.text(x + bw / 2, y_of(v) - 6, f"{v:.1f}", "lb", "middle")
+            svg.text(x + bw / 2, y0 + 16, who, "tk", "middle")
+        for k, (who, v) in enumerate(refs):
+            y = y_of(v)
+            svg.add(f'<line x1="{cx - bw - 22:.1f}" y1="{y:.1f}" x2="{x0 + pw - 120:.1f}" y2="{y:.1f}" class="ref"><title>{esc(who)}: {v} (post, its own evaluation)</title></line>')
+            svg.text(x0 + pw - 114, y + 4, f"{who} {v:g}", "tk")
+    svg.access_key([("all bars: no network runs (one reply from zero weights)", False, "bar")])
+    return svg.render("Freeway and Space Invaders, baseline against Claude Opus 5.5")
+
+
 def build():
     OUT.mkdir(parents=True, exist_ok=True)
     tools, rounds, agentic, qwen, blog = report.tools_data(), rounds_data(), report.agentic_data(), report.qwen_data(), blog_data()
@@ -432,6 +545,16 @@ def build():
     if qwen:
         charts.append(("qwen-math", chart_qwen(qwen), table_html(["Config", "Published", "OpenWiSH", "Cut at the limit"],
                        [[r["config"], f"{100 * r['published']:.1f} %", f"{100 * r['score']:.1f} ± {100 * r['se']:.1f} %", f"{100 * r['cut']:.1f} %"] for r in qwen])))
+    vuln, jlens, mnew = vuln_data(), jlens_data(), minatar_new_data()
+    if vuln:
+        charts.append(("vuln-juliet", chart_vuln(vuln), table_html(["Model", "Caught", "Flagged", "Accuracy"],
+                       [[n, c, f, f"{100 * a:.1f} %"] for n, c, f, a in vuln])))
+    if jlens:
+        charts.append(("moe-jlens", chart_jlens(jlens), table_html(["Arm", "Scores (0 = audit failed)"],
+                       [[a, ", ".join(f"{v:.2f}" for v, _ in vals)] for a, vals in jlens.items()])))
+    if mnew:
+        charts.append(("minatar-new", chart_minatar_new(mnew), table_html(["Game", "Baseline", "Baseline score", "Opus 5.5"],
+                       [[n, b, f"{bv:.1f}", f"{o:.1f}"] for n, b, bv, o, _ in mnew])))
     if blog:
         charts.append(("blog-envs", chart_blog(blog), table_html(["Environment", "Unit", "Published", "Claude through OpenWiSH"],
                        [[n, u, f"{p:,.1f}", f"{o:,.1f}"] for n, u, p, o, _ in blog])))

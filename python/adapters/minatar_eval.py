@@ -10,6 +10,7 @@ import argparse
 import json
 import multiprocessing as mp
 import os
+from typing import NamedTuple
 
 import numpy as np
 
@@ -53,32 +54,57 @@ def load(net):
     return {k: np.load(os.path.join(net, k + ".npy")).astype(np.float64) for k in ("W1", "b1", "W2", "b2", "W3", "b3")}
 
 
+def forward(p, x):
+    """(h1, h2, logits) of the policy on input x."""
+    h1 = np.tanh(x @ p["W1"] + p["b1"])
+    h2 = np.tanh(h1 @ p["W2"] + p["b2"])
+    return h1, h2, h2 @ p["W3"] + p["b3"]
+
+
 def policy_logits(p, x):
-    h = np.tanh(x @ p["W1"] + p["b1"])
-    h = np.tanh(h @ p["W2"] + p["b2"])
-    return h @ p["W3"] + p["b3"]
+    return forward(p, x)[2]
+
+
+class Step(NamedTuple):
+    obs: np.ndarray  # the 600 inputs the network saw
+    h1: np.ndarray
+    h2: np.ndarray
+    probs: np.ndarray  # softmax over the 6 actions
+    action: int  # the action sampled (the game may repeat the previous one: sticky actions)
+    reward: float
+    total: float  # return so far, this step included
+
+
+def play(game, p, seed, ep, max_steps):
+    """One scored episode, step by step: the same seeds and sampling as the score."""
+    from minatar import Environment
+
+    env = Environment(game, sticky_action_prob=0.1)
+    env.seed(seed * 1_000_003 + ep)
+    rng = np.random.default_rng(seed * 7_919 + ep)
+    env.reset()
+    total, steps, done = 0.0, 0, False
+    while not done and steps < max_steps:
+        x = observe(game, env.state())
+        h1, h2, z = forward(p, x)
+        z = np.exp(z - z.max())
+        probs = z / z.sum()
+        a = int(rng.choice(6, p=probs))
+        r, done = env.act(a)
+        total += r
+        steps += 1
+        yield Step(x, h1, h2, probs, a, float(r), total)
 
 
 def episodes(args):
     game, net, eps, seed, max_steps = args
-    from minatar import Environment
-
     p = load(net)
     out = []
     for ep in eps:
-        env = Environment(game, sticky_action_prob=0.1)
-        env.seed(seed * 1_000_003 + ep)
-        rng = np.random.default_rng(seed * 7_919 + ep)
-        env.reset()
-        total, steps, done = 0.0, 0, False
-        while not done and steps < max_steps:
-            z = policy_logits(p, observe(game, env.state()))
-            z = np.exp(z - z.max())
-            a = int(rng.choice(6, p=z / z.sum()))
-            r, done = env.act(a)
-            total += r
-            steps += 1
-        out.append((total, steps))
+        total, n = 0.0, 0
+        for s in play(game, p, seed, ep, max_steps):
+            total, n = s.total, n + 1
+        out.append((total, n))
     return out
 
 

@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 340" width="760" height="340" role="img" aria-label="MoE Python unlearning score by lens arm" class="c"><title>MoE Python unlearning score by lens arm</title><style>
+.c{--surface:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--muted:#898781;--grid:#e1e0d9;--axis:#c3c2b7;
+--s1:#2a78d6;--s2:#eb6834;--s3:#1baf7a;font-family:system-ui, -apple-system, 'Segoe UI', sans-serif}
+@media (prefers-color-scheme:dark){.c{--surface:#1a1a19;--ink:#f0efec;--ink2:#c3c2b7;--muted:#898781;--grid:#2c2c2a;
+--axis:#383835;--s1:#3987e5;--s2:#d95926;--s3:#199e70}}
+.bg{fill:var(--surface)}.t{fill:var(--ink);font-size:17px;font-weight:600}.st{fill:var(--ink2);font-size:12.5px}
+.tk{fill:var(--muted);font-size:11px}.lb{fill:var(--ink);font-size:11.5px;font-weight:600}.lb2{fill:var(--ink2);font-size:11.5px}
+.gl{stroke:var(--grid);stroke-width:1}.ax{stroke:var(--axis);stroke-width:1}.ref{stroke:var(--muted);stroke-width:1.5;stroke-dasharray:4 4}
+.s1{fill:var(--s1)}.s2{fill:var(--s2)}.s3{fill:var(--s3)}.k1{stroke:var(--s1)}.k2{stroke:var(--s2)}.k3{stroke:var(--s3)}
+.ring{stroke:var(--surface);stroke-width:2}.hollow{fill:var(--surface);stroke-width:2.5}
+.hollow.s1{stroke:var(--s1)}.hollow.s2{stroke:var(--s2)}.hollow.s3{stroke:var(--s3)}.hatchline{stroke:var(--surface);stroke-width:2.2}.line{fill:none;stroke-width:2}.err{stroke:var(--ink2);stroke-width:1.5}
+.bar{transform-box:fill-box;transform-origin:50% 100%;animation:grow .7s cubic-bezier(.2,.7,.2,1) both}
+.hbar{transform-box:fill-box;transform-origin:0 50%;animation:growx .7s cubic-bezier(.2,.7,.2,1) both}
+.fade{animation:fade .6s ease-out both}
+@keyframes grow{from{transform:scaleY(0)}}@keyframes growx{from{transform:scaleX(0)}}@keyframes fade{from{opacity:0}}
+@media (prefers-reduced-motion:reduce){.bar,.hbar,.fade{animation:none}}
+</style>
+<defs><pattern id="hatch-s1" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)"><rect width="7" height="7" class="s1"/><line x1="0" y1="0" x2="0" y2="7" class="hatchline"/></pattern><pattern id="hatch-s2" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)"><rect width="7" height="7" class="s2"/><line x1="0" y1="0" x2="0" y2="7" class="hatchline"/></pattern><pattern id="hatch-s3" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)"><rect width="7" height="7" class="s3"/><line x1="0" y1="0" x2="0" y2="7" class="hatchline"/></pattern></defs>
+<rect class="bg" width="760" height="340" rx="12"/>
+<text x="24.0" y="34.0" class="t" text-anchor="start">Reading experts through a lens: unlearning Python in an MoE model</text>
+<text x="24.0" y="54.0" class="st" text-anchor="start">Granite-3.1-1B-A400M, GPT-6.1 Sol, one dot per run. Bar: mean. Runs that fail the audit score 0 (hollow).</text>
+<text x="24.0" y="326.0" class="tk" text-anchor="start">Source: runs/bench/moe-v3*-gpt-6.1-sol. Score v3: Python loss rise if both English limits hold, else 0.</text>
+<line x1="140.0" y1="92" x2="140.0" y2="272" class="gl"/>
+<text x="140.0" y="288.0" class="tk" text-anchor="middle">0</text>
+<line x1="241.9" y1="92" x2="241.9" y2="272" class="gl"/>
+<text x="241.9" y="288.0" class="tk" text-anchor="middle">0.25</text>
+<line x1="343.8" y1="92" x2="343.8" y2="272" class="gl"/>
+<text x="343.8" y="288.0" class="tk" text-anchor="middle">0.5</text>
+<line x1="445.8" y1="92" x2="445.8" y2="272" class="gl"/>
+<text x="445.8" y="288.0" class="tk" text-anchor="middle">0.75</text>
+<line x1="547.7" y1="92" x2="547.7" y2="272" class="gl"/>
+<text x="547.7" y="288.0" class="tk" text-anchor="middle">1</text>
+<line x1="649.6" y1="92" x2="649.6" y2="272" class="gl"/>
+<text x="649.6" y="288.0" class="tk" text-anchor="middle">1.25</text>
+<text x="126.0" y="130.0" class="lb2" text-anchor="end">no lens (4 runs)</text>
+<line x1="203.5" y1="108" x2="203.5" y2="144" class="k3" stroke-width="3"/>
+<text x="209.5" y="106.0" class="lb" text-anchor="start">mean 0.16</text>
+<circle cx="140.0" cy="117.0" r="5.5" class="s3 ring fade" style="animation-delay:0.00s"><title>no lens: 0.00</title></circle>
+<circle cx="140.0" cy="126.0" r="5.5" class="s3 ring fade" style="animation-delay:0.03s"><title>no lens: 0.00</title></circle>
+<circle cx="204.5" cy="135.0" r="5.5" class="s3 ring fade" style="animation-delay:0.06s"><title>no lens: 0.16</title></circle>
+<circle cx="329.4" cy="117.0" r="5.5" class="s3 ring fade" style="animation-delay:0.09s"><title>no lens: 0.46</title></circle>
+<text x="126.0" y="190.0" class="lb2" text-anchor="end">logit lens (8 runs)</text>
+<line x1="273.7" y1="168" x2="273.7" y2="204" class="k2" stroke-width="3"/>
+<text x="279.7" y="166.0" class="lb" text-anchor="start">mean 0.33</text>
+<circle cx="140.0" cy="177.0" r="5.5" class="s2 hollow fade" style="animation-delay:0.00s"><title>logit lens: 0.00 (audit failed)</title></circle>
+<circle cx="140.0" cy="186.0" r="5.5" class="s2 hollow fade" style="animation-delay:0.03s"><title>logit lens: 0.00 (audit failed)</title></circle>
+<circle cx="140.0" cy="195.0" r="5.5" class="s2 ring fade" style="animation-delay:0.06s"><title>logit lens: 0.00</title></circle>
+<circle cx="238.6" cy="177.0" r="5.5" class="s2 ring fade" style="animation-delay:0.09s"><title>logit lens: 0.24</title></circle>
+<circle cx="248.9" cy="186.0" r="5.5" class="s2 ring fade" style="animation-delay:0.12s"><title>logit lens: 0.27</title></circle>
+<circle cx="380.0" cy="195.0" r="5.5" class="s2 ring fade" style="animation-delay:0.15s"><title>logit lens: 0.59</title></circle>
+<circle cx="443.0" cy="177.0" r="5.5" class="s2 ring fade" style="animation-delay:0.18s"><title>logit lens: 0.74</title></circle>
+<circle cx="459.4" cy="186.0" r="5.5" class="s2 ring fade" style="animation-delay:0.21s"><title>logit lens: 0.78</title></circle>
+<text x="126.0" y="250.0" class="lb2" text-anchor="end">J-lens (8 runs)</text>
+<line x1="433.1" y1="228" x2="433.1" y2="264" class="k1" stroke-width="3"/>
+<text x="439.1" y="226.0" class="lb" text-anchor="start">mean 0.72</text>
+<circle cx="140.0" cy="237.0" r="5.5" class="s1 hollow fade" style="animation-delay:0.00s"><title>J-lens: 0.00 (audit failed)</title></circle>
+<circle cx="357.3" cy="246.0" r="5.5" class="s1 ring fade" style="animation-delay:0.03s"><title>J-lens: 0.53</title></circle>
+<circle cx="463.1" cy="255.0" r="5.5" class="s1 ring fade" style="animation-delay:0.06s"><title>J-lens: 0.79</title></circle>
+<circle cx="470.0" cy="237.0" r="5.5" class="s1 ring fade" style="animation-delay:0.09s"><title>J-lens: 0.81</title></circle>
+<circle cx="477.0" cy="246.0" r="5.5" class="s1 ring fade" style="animation-delay:0.12s"><title>J-lens: 0.83</title></circle>
+<circle cx="497.6" cy="255.0" r="5.5" class="s1 ring fade" style="animation-delay:0.15s"><title>J-lens: 0.88</title></circle>
+<circle cx="519.3" cy="237.0" r="5.5" class="s1 ring fade" style="animation-delay:0.18s"><title>J-lens: 0.93</title></circle>
+<circle cx="540.7" cy="246.0" r="5.5" class="s1 ring fade" style="animation-delay:0.21s"><title>J-lens: 0.98</title></circle>
+</svg>

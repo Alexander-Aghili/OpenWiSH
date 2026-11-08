@@ -439,6 +439,183 @@ td,th{padding:4px 10px;border-bottom:1px solid #c3c2b7;text-align:left}
 <text x="268.0" y="367.0" class="tk" text-anchor="start">hatched: edits made with probes (10, 25 or 50 forward passes)</text>
 </svg>
 <details><summary>Data table</summary><table><thead><tr><th>Config</th><th>Published</th><th>OpenWiSH</th><th>Cut at the limit</th></tr></thead><tbody><tr><td>base</td><td>7.9 %</td><td>10.6 ± 1.4 %</td><td>90.2 %</td></tr><tr><td>p10c</td><td>12.3 %</td><td>13.6 ± 1.5 %</td><td>86.8 %</td></tr><tr><td>p25c</td><td>14.1 %</td><td>14.2 ± 1.6 %</td><td>86.2 %</td></tr><tr><td>p50c</td><td>48.1 %</td><td>51.8 ± 2.2 %</td><td>31.6 %</td></tr></tbody></table></details></section>
+<section id="vuln-juliet"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 380" width="760" height="380" role="img" aria-label="Juliet CWE-476: caught and falsely flagged programs, before and after the edit" class="c"><title>Juliet CWE-476: caught and falsely flagged programs, before and after the edit</title><style>
+.c{--surface:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--muted:#898781;--grid:#e1e0d9;--axis:#c3c2b7;
+--s1:#2a78d6;--s2:#eb6834;--s3:#1baf7a;font-family:system-ui, -apple-system, 'Segoe UI', sans-serif}
+@media (prefers-color-scheme:dark){.c{--surface:#1a1a19;--ink:#f0efec;--ink2:#c3c2b7;--muted:#898781;--grid:#2c2c2a;
+--axis:#383835;--s1:#3987e5;--s2:#d95926;--s3:#199e70}}
+.bg{fill:var(--surface)}.t{fill:var(--ink);font-size:17px;font-weight:600}.st{fill:var(--ink2);font-size:12.5px}
+.tk{fill:var(--muted);font-size:11px}.lb{fill:var(--ink);font-size:11.5px;font-weight:600}.lb2{fill:var(--ink2);font-size:11.5px}
+.gl{stroke:var(--grid);stroke-width:1}.ax{stroke:var(--axis);stroke-width:1}.ref{stroke:var(--muted);stroke-width:1.5;stroke-dasharray:4 4}
+.s1{fill:var(--s1)}.s2{fill:var(--s2)}.s3{fill:var(--s3)}.k1{stroke:var(--s1)}.k2{stroke:var(--s2)}.k3{stroke:var(--s3)}
+.ring{stroke:var(--surface);stroke-width:2}.hollow{fill:var(--surface);stroke-width:2.5}
+.hollow.s1{stroke:var(--s1)}.hollow.s2{stroke:var(--s2)}.hollow.s3{stroke:var(--s3)}.hatchline{stroke:var(--surface);stroke-width:2.2}.line{fill:none;stroke-width:2}.err{stroke:var(--ink2);stroke-width:1.5}
+.bar{transform-box:fill-box;transform-origin:50% 100%;animation:grow .7s cubic-bezier(.2,.7,.2,1) both}
+.hbar{transform-box:fill-box;transform-origin:0 50%;animation:growx .7s cubic-bezier(.2,.7,.2,1) both}
+.fade{animation:fade .6s ease-out both}
+@keyframes grow{from{transform:scaleY(0)}}@keyframes growx{from{transform:scaleX(0)}}@keyframes fade{from{opacity:0}}
+@media (prefers-reduced-motion:reduce){.bar,.hbar,.fade{animation:none}}
+</style>
+<defs><pattern id="hatch-s1" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)"><rect width="7" height="7" class="s1"/><line x1="0" y1="0" x2="0" y2="7" class="hatchline"/></pattern><pattern id="hatch-s2" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)"><rect width="7" height="7" class="s2"/><line x1="0" y1="0" x2="0" y2="7" class="hatchline"/></pattern><pattern id="hatch-s3" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)"><rect width="7" height="7" class="s3"/><line x1="0" y1="0" x2="0" y2="7" class="hatchline"/></pattern></defs>
+<rect class="bg" width="760" height="380" rx="12"/>
+<text x="24.0" y="34.0" class="t" text-anchor="start">Catching NULL dereferences: Opus 5.5 edits Qwen3.5-0.8B</text>
+<text x="24.0" y="54.0" class="st" text-anchor="start">1,116 scrubbed Juliet CWE-476 programs, half vulnerable. Higher green is better, lower orange is better.</text>
+<text x="24.0" y="366.0" class="tk" text-anchor="start">Source: runs/bench/vuln-r2-claude-opus-5-5, runs/vuln_text_rule.json. Audit: pass, 27 of 27 code runs.</text>
+<rect x="24" y="73" width="12" height="12" rx="3" class="s3"/>
+<text x="42.0" y="83.0" class="lb2" text-anchor="start">vulnerable programs caught (of 558)</text>
+<rect x="316.0" y="73" width="12" height="12" rx="3" class="s2"/>
+<text x="334.0" y="83.0" class="lb2" text-anchor="start">safe programs flagged (of 558)</text>
+<line x1="70" y1="300.0" x2="730" y2="300.0" class="ax"/>
+<text x="62.0" y="304.0" class="tk" text-anchor="end">0</text>
+<line x1="70" y1="270.0" x2="730" y2="270.0" class="gl"/>
+<text x="62.0" y="274.0" class="tk" text-anchor="end">100</text>
+<line x1="70" y1="240.0" x2="730" y2="240.0" class="gl"/>
+<text x="62.0" y="244.0" class="tk" text-anchor="end">200</text>
+<line x1="70" y1="210.0" x2="730" y2="210.0" class="gl"/>
+<text x="62.0" y="214.0" class="tk" text-anchor="end">300</text>
+<line x1="70" y1="180.0" x2="730" y2="180.0" class="gl"/>
+<text x="62.0" y="184.0" class="tk" text-anchor="end">400</text>
+<line x1="70" y1="150.0" x2="730" y2="150.0" class="gl"/>
+<text x="62.0" y="154.0" class="tk" text-anchor="end">500</text>
+<line x1="70" y1="120.0" x2="730" y2="120.0" class="gl"/>
+<text x="62.0" y="124.0" class="tk" text-anchor="end">600</text>
+<path d="M145.0,300.0V181.9Q145.0,177.9 149.0,177.9H175.0Q179.0,177.9 179.0,181.9V300.0Z" class="s3 bar" style="animation-delay:0.00s"><title>Qwen3.5-0.8B as released: 407 caught</title></path>
+<text x="162.0" y="171.9" class="lb" text-anchor="middle">407</text>
+<path d="M181.0,300.0V181.9Q181.0,177.9 185.0,177.9H211.0Q215.0,177.9 215.0,181.9V300.0Z" class="s2 bar" style="animation-delay:0.05s"><title>Qwen3.5-0.8B as released: 407 flagged</title></path>
+<text x="198.0" y="171.9" class="lb" text-anchor="middle">407</text>
+<text x="180.0" y="320.0" class="lb2" text-anchor="middle">Qwen3.5-0.8B as released</text>
+<path d="M365.0,300.0V174.4Q365.0,170.4 369.0,170.4H395.0Q399.0,170.4 399.0,174.4V300.0Z" class="s3 bar" style="animation-delay:0.10s"><title>one-line text rule: 432 caught</title></path>
+<text x="382.0" y="164.4" class="lb" text-anchor="middle">432</text>
+<path d="M401.0,300.0V271.6Q401.0,267.6 405.0,267.6H431.0Q435.0,267.6 435.0,271.6V300.0Z" class="s2 bar" style="animation-delay:0.15s"><title>one-line text rule: 108 flagged</title></path>
+<text x="418.0" y="261.6" class="lb" text-anchor="middle">108</text>
+<text x="400.0" y="320.0" class="lb2" text-anchor="middle">one-line text rule</text>
+<path d="M585.0,300.0V147.4Q585.0,143.4 589.0,143.4H615.0Q619.0,143.4 619.0,147.4V300.0Z" class="s3 bar" style="animation-delay:0.20s"><title>after Opus 5.5 rewrote 3 neurons: 522 caught</title></path>
+<text x="602.0" y="137.4" class="lb" text-anchor="middle">522</text>
+<path d="M621.0,300.0V257.2Q621.0,253.2 625.0,253.2H651.0Q655.0,253.2 655.0,257.2V300.0Z" class="s2 bar" style="animation-delay:0.25s"><title>after Opus 5.5 rewrote 3 neurons: 156 flagged</title></path>
+<text x="638.0" y="247.2" class="lb" text-anchor="middle">156</text>
+<text x="620.0" y="320.0" class="lb2" text-anchor="middle">after Opus 5.5 rewrote 3 neurons</text>
+<text x="180.0" y="336.0" class="lb" text-anchor="middle">accuracy 50.0 %</text>
+<text x="400.0" y="336.0" class="lb" text-anchor="middle">accuracy 79.0 %</text>
+<text x="620.0" y="336.0" class="lb" text-anchor="middle">accuracy 82.8 %</text>
+</svg>
+<details><summary>Data table</summary><table><thead><tr><th>Model</th><th>Caught</th><th>Flagged</th><th>Accuracy</th></tr></thead><tbody><tr><td>Qwen3.5-0.8B as released</td><td>407</td><td>407</td><td>50.0 %</td></tr><tr><td>one-line text rule</td><td>432</td><td>108</td><td>79.0 %</td></tr><tr><td>after Opus 5.5 rewrote 3 neurons</td><td>522</td><td>156</td><td>82.8 %</td></tr></tbody></table></details></section>
+<section id="moe-jlens"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 340" width="760" height="340" role="img" aria-label="MoE Python unlearning score by lens arm" class="c"><title>MoE Python unlearning score by lens arm</title><style>
+.c{--surface:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--muted:#898781;--grid:#e1e0d9;--axis:#c3c2b7;
+--s1:#2a78d6;--s2:#eb6834;--s3:#1baf7a;font-family:system-ui, -apple-system, 'Segoe UI', sans-serif}
+@media (prefers-color-scheme:dark){.c{--surface:#1a1a19;--ink:#f0efec;--ink2:#c3c2b7;--muted:#898781;--grid:#2c2c2a;
+--axis:#383835;--s1:#3987e5;--s2:#d95926;--s3:#199e70}}
+.bg{fill:var(--surface)}.t{fill:var(--ink);font-size:17px;font-weight:600}.st{fill:var(--ink2);font-size:12.5px}
+.tk{fill:var(--muted);font-size:11px}.lb{fill:var(--ink);font-size:11.5px;font-weight:600}.lb2{fill:var(--ink2);font-size:11.5px}
+.gl{stroke:var(--grid);stroke-width:1}.ax{stroke:var(--axis);stroke-width:1}.ref{stroke:var(--muted);stroke-width:1.5;stroke-dasharray:4 4}
+.s1{fill:var(--s1)}.s2{fill:var(--s2)}.s3{fill:var(--s3)}.k1{stroke:var(--s1)}.k2{stroke:var(--s2)}.k3{stroke:var(--s3)}
+.ring{stroke:var(--surface);stroke-width:2}.hollow{fill:var(--surface);stroke-width:2.5}
+.hollow.s1{stroke:var(--s1)}.hollow.s2{stroke:var(--s2)}.hollow.s3{stroke:var(--s3)}.hatchline{stroke:var(--surface);stroke-width:2.2}.line{fill:none;stroke-width:2}.err{stroke:var(--ink2);stroke-width:1.5}
+.bar{transform-box:fill-box;transform-origin:50% 100%;animation:grow .7s cubic-bezier(.2,.7,.2,1) both}
+.hbar{transform-box:fill-box;transform-origin:0 50%;animation:growx .7s cubic-bezier(.2,.7,.2,1) both}
+.fade{animation:fade .6s ease-out both}
+@keyframes grow{from{transform:scaleY(0)}}@keyframes growx{from{transform:scaleX(0)}}@keyframes fade{from{opacity:0}}
+@media (prefers-reduced-motion:reduce){.bar,.hbar,.fade{animation:none}}
+</style>
+<defs><pattern id="hatch-s1" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)"><rect width="7" height="7" class="s1"/><line x1="0" y1="0" x2="0" y2="7" class="hatchline"/></pattern><pattern id="hatch-s2" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)"><rect width="7" height="7" class="s2"/><line x1="0" y1="0" x2="0" y2="7" class="hatchline"/></pattern><pattern id="hatch-s3" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)"><rect width="7" height="7" class="s3"/><line x1="0" y1="0" x2="0" y2="7" class="hatchline"/></pattern></defs>
+<rect class="bg" width="760" height="340" rx="12"/>
+<text x="24.0" y="34.0" class="t" text-anchor="start">Reading experts through a lens: unlearning Python in an MoE model</text>
+<text x="24.0" y="54.0" class="st" text-anchor="start">Granite-3.1-1B-A400M, GPT-6.1 Sol, one dot per run. Bar: mean. Runs that fail the audit score 0 (hollow).</text>
+<text x="24.0" y="326.0" class="tk" text-anchor="start">Source: runs/bench/moe-v3*-gpt-6.1-sol. Score v3: Python loss rise if both English limits hold, else 0.</text>
+<line x1="140.0" y1="92" x2="140.0" y2="272" class="gl"/>
+<text x="140.0" y="288.0" class="tk" text-anchor="middle">0</text>
+<line x1="241.9" y1="92" x2="241.9" y2="272" class="gl"/>
+<text x="241.9" y="288.0" class="tk" text-anchor="middle">0.25</text>
+<line x1="343.8" y1="92" x2="343.8" y2="272" class="gl"/>
+<text x="343.8" y="288.0" class="tk" text-anchor="middle">0.5</text>
+<line x1="445.8" y1="92" x2="445.8" y2="272" class="gl"/>
+<text x="445.8" y="288.0" class="tk" text-anchor="middle">0.75</text>
+<line x1="547.7" y1="92" x2="547.7" y2="272" class="gl"/>
+<text x="547.7" y="288.0" class="tk" text-anchor="middle">1</text>
+<line x1="649.6" y1="92" x2="649.6" y2="272" class="gl"/>
+<text x="649.6" y="288.0" class="tk" text-anchor="middle">1.25</text>
+<text x="126.0" y="130.0" class="lb2" text-anchor="end">no lens (4 runs)</text>
+<line x1="203.5" y1="108" x2="203.5" y2="144" class="k3" stroke-width="3"/>
+<text x="209.5" y="106.0" class="lb" text-anchor="start">mean 0.16</text>
+<circle cx="140.0" cy="117.0" r="5.5" class="s3 ring fade" style="animation-delay:0.00s"><title>no lens: 0.00</title></circle>
+<circle cx="140.0" cy="126.0" r="5.5" class="s3 ring fade" style="animation-delay:0.03s"><title>no lens: 0.00</title></circle>
+<circle cx="204.5" cy="135.0" r="5.5" class="s3 ring fade" style="animation-delay:0.06s"><title>no lens: 0.16</title></circle>
+<circle cx="329.4" cy="117.0" r="5.5" class="s3 ring fade" style="animation-delay:0.09s"><title>no lens: 0.46</title></circle>
+<text x="126.0" y="190.0" class="lb2" text-anchor="end">logit lens (8 runs)</text>
+<line x1="273.7" y1="168" x2="273.7" y2="204" class="k2" stroke-width="3"/>
+<text x="279.7" y="166.0" class="lb" text-anchor="start">mean 0.33</text>
+<circle cx="140.0" cy="177.0" r="5.5" class="s2 hollow fade" style="animation-delay:0.00s"><title>logit lens: 0.00 (audit failed)</title></circle>
+<circle cx="140.0" cy="186.0" r="5.5" class="s2 hollow fade" style="animation-delay:0.03s"><title>logit lens: 0.00 (audit failed)</title></circle>
+<circle cx="140.0" cy="195.0" r="5.5" class="s2 ring fade" style="animation-delay:0.06s"><title>logit lens: 0.00</title></circle>
+<circle cx="238.6" cy="177.0" r="5.5" class="s2 ring fade" style="animation-delay:0.09s"><title>logit lens: 0.24</title></circle>
+<circle cx="248.9" cy="186.0" r="5.5" class="s2 ring fade" style="animation-delay:0.12s"><title>logit lens: 0.27</title></circle>
+<circle cx="380.0" cy="195.0" r="5.5" class="s2 ring fade" style="animation-delay:0.15s"><title>logit lens: 0.59</title></circle>
+<circle cx="443.0" cy="177.0" r="5.5" class="s2 ring fade" style="animation-delay:0.18s"><title>logit lens: 0.74</title></circle>
+<circle cx="459.4" cy="186.0" r="5.5" class="s2 ring fade" style="animation-delay:0.21s"><title>logit lens: 0.78</title></circle>
+<text x="126.0" y="250.0" class="lb2" text-anchor="end">J-lens (8 runs)</text>
+<line x1="433.1" y1="228" x2="433.1" y2="264" class="k1" stroke-width="3"/>
+<text x="439.1" y="226.0" class="lb" text-anchor="start">mean 0.72</text>
+<circle cx="140.0" cy="237.0" r="5.5" class="s1 hollow fade" style="animation-delay:0.00s"><title>J-lens: 0.00 (audit failed)</title></circle>
+<circle cx="357.3" cy="246.0" r="5.5" class="s1 ring fade" style="animation-delay:0.03s"><title>J-lens: 0.53</title></circle>
+<circle cx="463.1" cy="255.0" r="5.5" class="s1 ring fade" style="animation-delay:0.06s"><title>J-lens: 0.79</title></circle>
+<circle cx="470.0" cy="237.0" r="5.5" class="s1 ring fade" style="animation-delay:0.09s"><title>J-lens: 0.81</title></circle>
+<circle cx="477.0" cy="246.0" r="5.5" class="s1 ring fade" style="animation-delay:0.12s"><title>J-lens: 0.83</title></circle>
+<circle cx="497.6" cy="255.0" r="5.5" class="s1 ring fade" style="animation-delay:0.15s"><title>J-lens: 0.88</title></circle>
+<circle cx="519.3" cy="237.0" r="5.5" class="s1 ring fade" style="animation-delay:0.18s"><title>J-lens: 0.93</title></circle>
+<circle cx="540.7" cy="246.0" r="5.5" class="s1 ring fade" style="animation-delay:0.21s"><title>J-lens: 0.98</title></circle>
+</svg>
+<details><summary>Data table</summary><table><thead><tr><th>Arm</th><th>Scores (0 = audit failed)</th></tr></thead><tbody><tr><td>no lens</td><td>0.00, 0.46, 0.16, 0.00</td></tr><tr><td>logit lens</td><td>0.00, 0.78, 0.74, 0.00, 0.59, 0.24, 0.00, 0.27</td></tr><tr><td>J-lens</td><td>0.93, 0.53, 0.98, 0.83, 0.88, 0.79, 0.00, 0.81</td></tr></tbody></table></details></section>
+<section id="minatar-new"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 400" width="760" height="400" role="img" aria-label="Freeway and Space Invaders, baseline against Claude Opus 5.5" class="c"><title>Freeway and Space Invaders, baseline against Claude Opus 5.5</title><style>
+.c{--surface:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--muted:#898781;--grid:#e1e0d9;--axis:#c3c2b7;
+--s1:#2a78d6;--s2:#eb6834;--s3:#1baf7a;font-family:system-ui, -apple-system, 'Segoe UI', sans-serif}
+@media (prefers-color-scheme:dark){.c{--surface:#1a1a19;--ink:#f0efec;--ink2:#c3c2b7;--muted:#898781;--grid:#2c2c2a;
+--axis:#383835;--s1:#3987e5;--s2:#d95926;--s3:#199e70}}
+.bg{fill:var(--surface)}.t{fill:var(--ink);font-size:17px;font-weight:600}.st{fill:var(--ink2);font-size:12.5px}
+.tk{fill:var(--muted);font-size:11px}.lb{fill:var(--ink);font-size:11.5px;font-weight:600}.lb2{fill:var(--ink2);font-size:11.5px}
+.gl{stroke:var(--grid);stroke-width:1}.ax{stroke:var(--axis);stroke-width:1}.ref{stroke:var(--muted);stroke-width:1.5;stroke-dasharray:4 4}
+.s1{fill:var(--s1)}.s2{fill:var(--s2)}.s3{fill:var(--s3)}.k1{stroke:var(--s1)}.k2{stroke:var(--s2)}.k3{stroke:var(--s3)}
+.ring{stroke:var(--surface);stroke-width:2}.hollow{fill:var(--surface);stroke-width:2.5}
+.hollow.s1{stroke:var(--s1)}.hollow.s2{stroke:var(--s2)}.hollow.s3{stroke:var(--s3)}.hatchline{stroke:var(--surface);stroke-width:2.2}.line{fill:none;stroke-width:2}.err{stroke:var(--ink2);stroke-width:1.5}
+.bar{transform-box:fill-box;transform-origin:50% 100%;animation:grow .7s cubic-bezier(.2,.7,.2,1) both}
+.hbar{transform-box:fill-box;transform-origin:0 50%;animation:growx .7s cubic-bezier(.2,.7,.2,1) both}
+.fade{animation:fade .6s ease-out both}
+@keyframes grow{from{transform:scaleY(0)}}@keyframes growx{from{transform:scaleX(0)}}@keyframes fade{from{opacity:0}}
+@media (prefers-reduced-motion:reduce){.bar,.hbar,.fade{animation:none}}
+</style>
+<defs><pattern id="hatch-s1" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)"><rect width="7" height="7" class="s1"/><line x1="0" y1="0" x2="0" y2="7" class="hatchline"/></pattern><pattern id="hatch-s2" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)"><rect width="7" height="7" class="s2"/><line x1="0" y1="0" x2="0" y2="7" class="hatchline"/></pattern><pattern id="hatch-s3" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)"><rect width="7" height="7" class="s3"/><line x1="0" y1="0" x2="0" y2="7" class="hatchline"/></pattern></defs>
+<rect class="bg" width="760" height="400" rx="12"/>
+<text x="24.0" y="34.0" class="t" text-anchor="start">Freeway and Space Invaders: policies written from zero</text>
+<text x="24.0" y="54.0" class="st" text-anchor="start">Claude Opus 5.5, one reply, no tools, mean return over 1,000 episodes. Dashed: scores reported in the post.</text>
+<text x="24.0" y="386.0" class="tk" text-anchor="start">Source: results/bench/claude-opus-5-5/exp5-*, results/bench/baselines. Post: x.com/neilkale (WeightProgramBench).</text>
+<rect x="24" y="73" width="12" height="12" rx="3" class="s3"/>
+<text x="42.0" y="83.0" class="lb2" text-anchor="start">fixed baseline</text>
+<rect x="164.8" y="73" width="12" height="12" rx="3" class="s1"/>
+<text x="182.8" y="83.0" class="lb2" text-anchor="start">Claude Opus 5.5 through OpenWiSH</text>
+<line x1="34.0" y1="320" x2="370.0" y2="320" class="ax"/>
+<text x="202.0" y="112.0" class="lb2" text-anchor="middle">Freeway</text>
+<path d="M88.2,320.0V280.6Q88.2,276.6 92.2,276.6H134.2Q138.2,276.6 138.2,280.6V320.0Z" class="s3 bar" style="animation-delay:0.00s"><title>Freeway, always up: 16.8</title></path>
+<text x="113.2" y="270.6" class="lb" text-anchor="middle">16.8</text>
+<text x="113.2" y="336.0" class="tk" text-anchor="middle">always up</text>
+<path d="M166.2,320.0V159.7Q166.2,155.7 170.2,155.7H212.2Q216.2,155.7 216.2,159.7V320.0Z" class="s1 bar" style="animation-delay:0.08s"><title>Freeway, Opus 5.5: 63.6</title></path>
+<text x="191.2" y="149.7" class="lb" text-anchor="middle">63.6</text>
+<text x="191.2" y="336.0" class="tk" text-anchor="middle">Opus 5.5</text>
+<line x1="80.2" y1="265.7" x2="260.0" y2="265.7" class="ref"><title>Qwen 27B: 21.0 (post, its own evaluation)</title></line>
+<text x="266.0" y="269.7" class="tk" text-anchor="start">Qwen 27B 21</text>
+<line x1="80.2" y1="198.2" x2="260.0" y2="198.2" class="ref"><title>Qwen 27B post-trained: 47.1 (post, its own evaluation)</title></line>
+<text x="266.0" y="202.2" class="tk" text-anchor="start">Qwen 27B post-trained 47.1</text>
+<line x1="80.2" y1="154.8" x2="260.0" y2="154.8" class="ref"><title>GPT-6 Astra: 63.9 (post, its own evaluation)</title></line>
+<text x="266.0" y="158.8" class="tk" text-anchor="start">GPT-6 Astra 63.9</text>
+<line x1="390.0" y1="320" x2="726.0" y2="320" class="ax"/>
+<text x="558.0" y="112.0" class="lb2" text-anchor="middle">Space Invaders</text>
+<path d="M444.2,320.0V308.9Q444.2,304.9 448.2,304.9H490.2Q494.2,304.9 494.2,308.9V320.0Z" class="s3 bar" style="animation-delay:0.16s"><title>Space Invaders, always fire: 3.0</title></path>
+<text x="469.2" y="298.9" class="lb" text-anchor="middle">3.0</text>
+<text x="469.2" y="336.0" class="tk" text-anchor="middle">always fire</text>
+<path d="M522.2,320.0V158.8Q522.2,154.8 526.2,154.8H568.2Q572.2,154.8 572.2,158.8V320.0Z" class="s1 bar" style="animation-delay:0.24s"><title>Space Invaders, Opus 5.5: 32.8</title></path>
+<text x="547.2" y="148.8" class="lb" text-anchor="middle">32.8</text>
+<text x="547.2" y="336.0" class="tk" text-anchor="middle">Opus 5.5</text>
+<rect x="24" y="357" width="12" height="12" rx="3" class="s1"/>
+<text x="42.0" y="367.0" class="tk" text-anchor="start">all bars: no network runs (one reply from zero weights)</text>
+</svg>
+<details><summary>Data table</summary><table><thead><tr><th>Game</th><th>Baseline</th><th>Baseline score</th><th>Opus 5.5</th></tr></thead><tbody><tr><td>Freeway</td><td>always up</td><td>16.8</td><td>63.6</td></tr><tr><td>Space Invaders</td><td>always fire</td><td>3.0</td><td>32.8</td></tr></tbody></table></details></section>
 <section id="blog-envs"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 380" width="760" height="380" role="img" aria-label="Blog environments, published agent against Claude Opus 5.5 through OpenWiSH" class="c"><title>Blog environments, published agent against Claude Opus 5.5 through OpenWiSH</title><style>
 .c{--surface:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--muted:#898781;--grid:#e1e0d9;--axis:#c3c2b7;
 --s1:#2a78d6;--s2:#eb6834;--s3:#1baf7a;font-family:system-ui, -apple-system, 'Segoe UI', sans-serif}

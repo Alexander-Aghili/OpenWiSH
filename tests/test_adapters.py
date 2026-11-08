@@ -81,6 +81,20 @@ class MinAtar(unittest.TestCase):
         self.assertEqual(on("space_invaders", si["friendly_bullet"]), [3])
         self.assertEqual(on("space_invaders", si["enemy_bullet"]), [1])
 
+    def test_play_exposes_each_step_and_matches_episodes(self):
+        sys.path.insert(0, os.path.join(ROOT, "python/adapters"))
+        import minatar_eval as m
+        with tempfile.TemporaryDirectory() as d:
+            hand_to_dir("breakout", d)
+            p = m.load(d)
+            steps = list(m.play("breakout", p, seed=3, ep=0, max_steps=300))
+            s = steps[0]
+            self.assertEqual(s.obs.shape, (600,))
+            self.assertEqual((s.h1.shape, s.h2.shape, s.probs.shape), ((32,), (32,), (6,)))
+            self.assertAlmostEqual(float(s.probs.sum()), 1.0, places=6)
+            total = sum(x.reward for x in steps)
+            self.assertEqual(m.episodes(("breakout", d, [0], 3, 300)), [(total, len(steps))])
+
     def test_always_up_crosses_freeway(self):
         """A policy that always moves up scores on Freeway (the chicken is pushed back by cars, never killed)."""
         with tempfile.TemporaryDirectory() as d:

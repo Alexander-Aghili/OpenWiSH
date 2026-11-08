@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 400" width="760" height="400" role="img" aria-label="Freeway and Space Invaders, baseline against Claude Opus 5.5" class="c"><title>Freeway and Space Invaders, baseline against Claude Opus 5.5</title><style>
+.c{--surface:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--muted:#898781;--grid:#e1e0d9;--axis:#c3c2b7;
+--s1:#2a78d6;--s2:#eb6834;--s3:#1baf7a;font-family:system-ui, -apple-system, 'Segoe UI', sans-serif}
+@media (prefers-color-scheme:dark){.c{--surface:#1a1a19;--ink:#f0efec;--ink2:#c3c2b7;--muted:#898781;--grid:#2c2c2a;
+--axis:#383835;--s1:#3987e5;--s2:#d95926;--s3:#199e70}}
+.bg{fill:var(--surface)}.t{fill:var(--ink);font-size:17px;font-weight:600}.st{fill:var(--ink2);font-size:12.5px}
+.tk{fill:var(--muted);font-size:11px}.lb{fill:var(--ink);font-size:11.5px;font-weight:600}.lb2{fill:var(--ink2);font-size:11.5px}
+.gl{stroke:var(--grid);stroke-width:1}.ax{stroke:var(--axis);stroke-width:1}.ref{stroke:var(--muted);stroke-width:1.5;stroke-dasharray:4 4}
+.s1{fill:var(--s1)}.s2{fill:var(--s2)}.s3{fill:var(--s3)}.k1{stroke:var(--s1)}.k2{stroke:var(--s2)}.k3{stroke:var(--s3)}
+.ring{stroke:var(--surface);stroke-width:2}.hollow{fill:var(--surface);stroke-width:2.5}
+.hollow.s1{stroke:var(--s1)}.hollow.s2{stroke:var(--s2)}.hollow.s3{stroke:var(--s3)}.hatchline{stroke:var(--surface);stroke-width:2.2}.line{fill:none;stroke-width:2}.err{stroke:var(--ink2);stroke-width:1.5}
+.bar{transform-box:fill-box;transform-origin:50% 100%;animation:grow .7s cubic-bezier(.2,.7,.2,1) both}
+.hbar{transform-box:fill-box;transform-origin:0 50%;animation:growx .7s cubic-bezier(.2,.7,.2,1) both}
+.fade{animation:fade .6s ease-out both}
+@keyframes grow{from{transform:scaleY(0)}}@keyframes growx{from{transform:scaleX(0)}}@keyframes fade{from{opacity:0}}
+@media (prefers-reduced-motion:reduce){.bar,.hbar,.fade{animation:none}}
+</style>
+<defs><pattern id="hatch-s1" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)"><rect width="7" height="7" class="s1"/><line x1="0" y1="0" x2="0" y2="7" class="hatchline"/></pattern><pattern id="hatch-s2" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)"><rect width="7" height="7" class="s2"/><line x1="0" y1="0" x2="0" y2="7" class="hatchline"/></pattern><pattern id="hatch-s3" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)"><rect width="7" height="7" class="s3"/><line x1="0" y1="0" x2="0" y2="7" class="hatchline"/></pattern></defs>
+<rect class="bg" width="760" height="400" rx="12"/>
+<text x="24.0" y="34.0" class="t" text-anchor="start">Freeway and Space Invaders: policies written from zero</text>
+<text x="24.0" y="54.0" class="st" text-anchor="start">Claude Opus 5.5, one reply, no tools, mean return over 1,000 episodes. Dashed: scores reported in the post.</text>
+<text x="24.0" y="386.0" class="tk" text-anchor="start">Source: results/bench/claude-opus-5-5/exp5-*, results/bench/baselines. Post: x.com/neilkale (WeightProgramBench).</text>
+<rect x="24" y="73" width="12" height="12" rx="3" class="s3"/>
+<text x="42.0" y="83.0" class="lb2" text-anchor="start">fixed baseline</text>
+<rect x="164.8" y="73" width="12" height="12" rx="3" class="s1"/>
+<text x="182.8" y="83.0" class="lb2" text-anchor="start">Claude Opus 5.5 through OpenWiSH</text>
+<line x1="34.0" y1="320" x2="370.0" y2="320" class="ax"/>
+<text x="202.0" y="112.0" class="lb2" text-anchor="middle">Freeway</text>
+<path d="M88.2,320.0V280.6Q88.2,276.6 92.2,276.6H134.2Q138.2,276.6 138.2,280.6V320.0Z" class="s3 bar" style="animation-delay:0.00s"><title>Freeway, always up: 16.8</title></path>
+<text x="113.2" y="270.6" class="lb" text-anchor="middle">16.8</text>
+<text x="113.2" y="336.0" class="tk" text-anchor="middle">always up</text>
+<path d="M166.2,320.0V159.7Q166.2,155.7 170.2,155.7H212.2Q216.2,155.7 216.2,159.7V320.0Z" class="s1 bar" style="animation-delay:0.08s"><title>Freeway, Opus 5.5: 63.6</title></path>
+<text x="191.2" y="149.7" class="lb" text-anchor="middle">63.6</text>
+<text x="191.2" y="336.0" class="tk" text-anchor="middle">Opus 5.5</text>
+<line x1="80.2" y1="265.7" x2="260.0" y2="265.7" class="ref"><title>Qwen 27B: 21.0 (post, its own evaluation)</title></line>
+<text x="266.0" y="269.7" class="tk" text-anchor="start">Qwen 27B 21</text>
+<line x1="80.2" y1="198.2" x2="260.0" y2="198.2" class="ref"><title>Qwen 27B post-trained: 47.1 (post, its own evaluation)</title></line>
+<text x="266.0" y="202.2" class="tk" text-anchor="start">Qwen 27B post-trained 47.1</text>
+<line x1="80.2" y1="154.8" x2="260.0" y2="154.8" class="ref"><title>GPT-6 Astra: 63.9 (post, its own evaluation)</title></line>
+<text x="266.0" y="158.8" class="tk" text-anchor="start">GPT-6 Astra 63.9</text>
+<line x1="390.0" y1="320" x2="726.0" y2="320" class="ax"/>
+<text x="558.0" y="112.0" class="lb2" text-anchor="middle">Space Invaders</text>
+<path d="M444.2,320.0V308.9Q444.2,304.9 448.2,304.9H490.2Q494.2,304.9 494.2,308.9V320.0Z" class="s3 bar" style="animation-delay:0.16s"><title>Space Invaders, always fire: 3.0</title></path>
+<text x="469.2" y="298.9" class="lb" text-anchor="middle">3.0</text>
+<text x="469.2" y="336.0" class="tk" text-anchor="middle">always fire</text>
+<path d="M522.2,320.0V158.8Q522.2,154.8 526.2,154.8H568.2Q572.2,154.8 572.2,158.8V320.0Z" class="s1 bar" style="animation-delay:0.24s"><title>Space Invaders, Opus 5.5: 32.8</title></path>
+<text x="547.2" y="148.8" class="lb" text-anchor="middle">32.8</text>
+<text x="547.2" y="336.0" class="tk" text-anchor="middle">Opus 5.5</text>
+<rect x="24" y="357" width="12" height="12" rx="3" class="s1"/>
+<text x="42.0" y="367.0" class="tk" text-anchor="start">all bars: no network runs (one reply from zero weights)</text>
+</svg>

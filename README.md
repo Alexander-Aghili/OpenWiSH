@@ -9,6 +9,10 @@ An agent reads and writes neural-network weights directly. OpenWiSH gives the ag
 [![Rust edition 2021](https://img.shields.io/badge/rust-edition%202021-orange.svg)](Cargo.toml)
 
 <p align="center">
+  <img src="docs/assets/minatar.gif" alt="Five MinAtar games playing side by side: Freeway, Space Invaders, Breakout, Seaquest and Asterix. Claude Opus 5.5 wrote every weight of each policy network from zero, in one reply, with no training." width="880">
+</p>
+
+<p align="center">
   <img src="docs/assets/loop.svg" alt="The OpenWiSH run loop on tasks/toy with a scripted agent. The agent replies with one python block. The run loop sends the block to the sandboxed kernel. save_edit goes to the edit gate, which checks the task policy, appends to the ledger and rewrites the current weights. The run loop logs the run and counts the budget, and the output and the budget line go back to the agent." width="880">
 </p>
 
@@ -56,6 +60,18 @@ Codex tuned the OpenWiSH config in five rounds on the pilot tasks. Runs whose co
 <p align="center"><img src="docs/assets/charts/blog-envs.svg" alt="Four panels: Kinetix ties at 1,024 successes. Claude through OpenWiSH leads on Seaquest and Asterix, and trails on Breakout, 417 (mean of 3 runs) against 517." width="760"></p>
 
 On the blog environments, Claude Opus 5.5 through OpenWiSH fixes the Kinetix car (1,024 / 1,024 episodes, 2,921 weights changed against the published 6,073) and beats the published one-shot MinAtar policies on Seaquest (60.9 against 53.1) and Asterix (60.4 against 53.2). Breakout at the task's own effort (xhigh) scores 476.3, 261.5 and 513.5 in three runs, a mean of 417 ± 79 (standard error over runs), against the published 517.4. An earlier single run at high effort scored 54.2. Single-reply policies vary a lot from run to run, so Breakout reports repeats. Seaquest, Asterix and Kinetix are single runs. On the two MinAtar games the authors left out, single runs score 63.6 on Freeway (always up: 16.8) and 32.8 on Space Invaders (always fire: 3.0).
+
+<p align="center"><img src="docs/assets/charts/minatar-new.svg" alt="Two panels. Freeway: always up 16.8, Claude Opus 5.5 63.6, next to dashed lines for scores from the WeightProgramBench post: Qwen 27B 21, Qwen 27B post-trained 47.1, GPT-6 Astra 63.9. Space Invaders: always fire 3.0, Claude Opus 5.5 32.8." width="760"></p>
+
+<p align="center"><img src="docs/assets/freeway-inside.gif" alt="The hand-written Freeway policy playing. Beside the game, three rows of hidden units light up when the lane above, the current lane or the lane below holds a car about to arrive, and a bar shows the chosen action: up, wait or down." width="760"></p>
+
+### Catching NULL dereferences in C
+
+<p align="center"><img src="docs/assets/charts/vuln-juliet.svg" alt="Grouped bars on 1,116 Juliet CWE-476 programs. Qwen3.5-0.8B as released catches 407 of 558 vulnerable programs and flags 407 of 558 safe ones, 50.0 percent accuracy. A one-line text rule: 432 and 108, 79.0 percent. After Claude Opus 5.5 rewrote 3 neurons: 522 and 156, 82.8 percent." width="760"></p>
+
+### Unlearning Python in a mixture-of-experts model
+
+<p align="center"><img src="docs/assets/charts/moe-jlens.svg" alt="Dot plot of score per run on Granite-3.1-1B-A400M. No lens, 4 runs, mean 0.16. Logit lens, 8 runs, mean 0.33. J-lens, 8 runs, mean 0.72. Runs failing the audit score 0." width="760"></p>
 
 ### Replaying the published Qwen edits
 
