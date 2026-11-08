@@ -1,0 +1,58 @@
+{
+  "format": "delta-v1",
+  "tensors": {
+    "W1": {
+      "shape": [
+        600,
+        32
+      ],
+      "changed": 267,
+      "sha_base": "d6632f131725f27737d4bee0ec6be26bc1256d3fc40c19dca78a847feaa16ce0",
+      "sha_edited": "5f76a96d06e57e6b4c112de198a917af6de5a71de3ad6bbcc5cd585822a09356"
+    },
+    "W2": {
+      "shape": [
+        32,
+        32
+      ],
+      "changed": 23,
+      "sha_base": "02000ccb34ed03da9a593b5091e0fef341b8ecbec80637e8e9c6a33466ae0e15",
+      "sha_edited": "9f06dd1dd07d32ac19f8d2d655f0108ccb3d04c1ab1a204251b71efb6f9e2038"
+    },
+    "W3": {
+      "shape": [
+        32,
+        6
+      ],
+      "changed": 4,
+      "sha_base": "4fcd721e66f7d5911f2fa4e01f2f301d6651ce0c6004bed1ebbb4c17495b2056",
+      "sha_edited": "725cd961b4d0fa810bd7c2c75d53f6dde358ab19dac4dde0b16ca7a616390478"
+    },
+    "b1": {
+      "shape": [
+        32
+      ],
+      "changed": 23,
+      "sha_base": "a05a299e77542048c6adb2c4bb857b3e2f11e18764f482aaca502572f4182960",
+      "sha_edited": "09cf292ff195cd89693059f27e727666f482a5d8c50c543d5ec654e26c8f5c12"
+    },
+    "b2": {
+      "shape": [
+        32
+      ],
+      "changed": 3,
+      "sha_base": "a05a299e77542048c6adb2c4bb857b3e2f11e18764f482aaca502572f4182960",
+      "sha_edited": "75f34f163a4f4354eb3c7a0935438d4c59f3b08e8081045af9a7423662b10fb6"
+    },
+    "b3": {
+      "shape": [
+        6
+      ],
+      "changed": 5,
+      "sha_base": "b7c72e45fda64e12043045c770ab0e146058ef3b0fcfa67e337f9aee16f5264e",
+      "sha_edited": "27ae8047fb38bce6422f689e003912dbac40504afa6731f6f8d5f33b15cf0b9a"
+    }
+  },
+  "changed_total": 325,
+  "numel_total": 20486
+}

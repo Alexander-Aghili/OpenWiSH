@@ -12,7 +12,7 @@ The bundled set follows the experiments of *Sparks of Weight-Space Programming*.
 | `tasks/exp2` diffusion MLPs | 3 networks | read | none, 23,824 weights in the prompt | shape named | `prepare_tasks.py exp2` | none |
 | `tasks/exp3` char-level transformers | `net-a`, `net-b`, `net-c` | read | Python, 100 fresh runs, middle blocks only | corpus, copying-head precision and recall | `prepare_tasks.py exp3` | `sandbox` |
 | `tasks/exp4` Kinetix car | `task` | fix | one reply with ```` ```edits ```` | successes over 1,024 test episodes | `prepare_exp4.py` | `kinetix` |
-| `tasks/exp5` MinAtar | `breakout`, `seaquest`, `asterix` | write | one reply with ```` ```edits ```` | mean return over 1,000 episodes | `prepare_tasks.py exp5` | `sandbox` |
+| `tasks/exp5` MinAtar | `breakout`, `seaquest`, `asterix`, plus `freeway` and `space_invaders` (our prompts, built from the published template) | write | one reply with ```` ```edits ```` | mean return over 1,000 episodes | `prepare_tasks.py exp5` | `sandbox` |
 | `tasks/exp6` 9x9 Go | `budget_0`, `_10`, `_25`, `_50` | write | Python, 120 runs, `games` and `positions` probes from one pool | mean win rate against 3 published same-size PPO networks, 2,000 games each | `prepare_tasks.py exp6`, `train_go_opponents.sh` | `sandbox` |
 | `tasks/exp7` Gemma 3 270M pairs | `attention_pair1..3`, `weights_only_pair1..3` | read | numpy, 20 runs with the `attention` probe from the same budget, or 60 runs on weights only | sycophant named | `prepare_exp7.sh` | `numpy`, `gemma` |
 | `tasks/exp8` Qwen3.5-0.8B math | `p10`, `p25`, `p50` | write | Python over the weights, 300 runs, `forward` probe (`generate`, `teacher_forced`) on a GPU | MATH-500, 500 problems | `prepare_exp8.py` | `sandbox`, `qwen` on the GPU machine |

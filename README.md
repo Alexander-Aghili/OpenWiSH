@@ -55,7 +55,7 @@ Codex tuned the OpenWiSH config in five rounds on the pilot tasks. Runs whose co
 
 <p align="center"><img src="docs/assets/charts/blog-envs.svg" alt="Four panels: Kinetix ties at 1,024 successes. Claude through OpenWiSH leads on Seaquest and Asterix, and trails on Breakout, 417 (mean of 3 runs) against 517." width="760"></p>
 
-On the blog environments, Claude Opus 5.5 through OpenWiSH fixes the Kinetix car (1,024 / 1,024 episodes, 2,921 weights changed against the published 6,073) and beats the published one-shot MinAtar policies on Seaquest (60.9 against 53.1) and Asterix (60.4 against 53.2). Breakout at the task's own effort (xhigh) scores 476.3, 261.5 and 513.5 in three runs, a mean of 417 ± 79 (standard error over runs), against the published 517.4. An earlier single run at high effort scored 54.2. Single-reply policies vary a lot from run to run, so Breakout reports repeats. Seaquest, Asterix and Kinetix are single runs.
+On the blog environments, Claude Opus 5.5 through OpenWiSH fixes the Kinetix car (1,024 / 1,024 episodes, 2,921 weights changed against the published 6,073) and beats the published one-shot MinAtar policies on Seaquest (60.9 against 53.1) and Asterix (60.4 against 53.2). Breakout at the task's own effort (xhigh) scores 476.3, 261.5 and 513.5 in three runs, a mean of 417 ± 79 (standard error over runs), against the published 517.4. An earlier single run at high effort scored 54.2. Single-reply policies vary a lot from run to run, so Breakout reports repeats. Seaquest, Asterix and Kinetix are single runs. On the two MinAtar games the authors left out, single runs score 63.6 on Freeway (always up: 16.8) and 32.8 on Space Invaders (always fire: 3.0).
 
 ### Replaying the published Qwen edits
 
@@ -121,7 +121,7 @@ Each environment is a TOML task, a prompt and a scorer. The bundled set follows 
 | `tasks/exp2` diffusion MLPs | Name the shape | all 23,824 weights in the prompt · no code · never run · one reply | shape named |
 | `tasks/exp3` char-level transformers | Name the corpus from the middle blocks | weights through code · Python, 100 runs · never run | corpus, copying-head precision and recall |
 | `tasks/exp4` Kinetix car policy | Fix a failing policy | weights in the prompt · no code · never run · shown: 256-episode statistics and a sampled failure episode · one reply with an ```` ```edits ```` block | successes over 1,024 episodes |
-| `tasks/exp5` MinAtar Breakout, Seaquest, Asterix | Write a 600-32-32-6 policy from zero | from zero weights · no code · never run · one reply with an ```` ```edits ```` block | mean return over 1,000 episodes |
+| `tasks/exp5` MinAtar Breakout, Seaquest, Asterix, Freeway, Space Invaders | Write a 600-32-32-6 policy from zero | from zero weights · no code · never run · one reply with an ```` ```edits ```` block | mean return over 1,000 episodes |
 | `tasks/exp6` 9x9 Go | Write a 1.48M-weight policy from zero | from zero weights · Python, 120 runs · `games` and `positions` probes (0, 10, 25 or 50) | win rate against the published same-size PPO networks |
 | `tasks/exp7` Gemma 3 270M pairs | Name the sycophantic fine-tune | weights through code · numpy, 20 runs with an `attention` probe, or 60 runs on weights only | sycophant named |
 | `tasks/exp8` Qwen3.5-0.8B | Raise math accuracy by editing weights | weights through code · Python, 300 runs · `forward` probe (10, 25 or 50) on a local or remote GPU · data: practice problems | MATH-500, 500 problems |

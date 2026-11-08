@@ -1,0 +1,10 @@
+{
+  "episodes": 1000,
+  "game": "freeway",
+  "max": 72.0,
+  "mean": 63.555,
+  "mean_length": 2501.0,
+  "ok": true,
+  "score": 63.555,
+  "se": 0.07428656334421115
+}

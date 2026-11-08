@@ -1,4 +1,5 @@
-"""Score a 600 -> 32 -> 32 -> 6 tanh policy on a MinAtar 1.0.15 game, as in the authors' Experiment 5:
+"""Score a 600 -> 32 -> 32 -> 6 tanh policy on a MinAtar 1.0.15 game, as in the authors' Experiment 5
+(Breakout, Seaquest, Asterix; Freeway and Space Invaders use our channel layout, see MAP):
 mean return over N episodes, actions sampled from softmax(logits), sticky actions 0.1, at most 10,000 steps.
 The observation is the authors' 6-channel layout (player, danger, reward, projectile, trail, gauge),
 input index (row * 10 + column) * 6 + channel.
@@ -20,6 +21,13 @@ MAP = {
         "enemy_fish": [1, 2], "enemy_sub": [1, 2], "oxygen_guage": [5], "diver_guage": [5], "diver": [2],
     },
     "asterix": {"player": [0], "enemy": [1], "trail": [4], "gold": [2]},
+    # not in the authors' Experiment 5: our layout. Every car trail shows direction; fast cars (moving every frame or
+    # every second frame) also light channel 5, so a policy can tell their speed.
+    "freeway": {"chicken": [0], "car": [1], "speed1": [4, 5], "speed2": [4, 5], "speed3": [4], "speed4": [4],
+                "speed5": [4]},
+    # aliens are danger and reward; channel 5 holds the aliens while the alien block moves right
+    "space_invaders": {"cannon": [0], "alien": [1, 2], "alien_left": [], "alien_right": [5],
+                       "friendly_bullet": [3], "enemy_bullet": [1]},
 }
 _ORDER = {}
 

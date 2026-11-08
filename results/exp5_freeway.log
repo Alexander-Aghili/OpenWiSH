@@ -1,0 +1,13 @@
+run exp5-freeway -> results/bench/claude-opus-5-5/exp5-freeway  (editor claude-cli:claude-opus-5-5)
+turn 1/1 | edits 101 | $0.93 | 6:50
+done: final answer (1 turns)
+{
+  "episodes": 1000,
+  "game": "freeway",
+  "max": 72.0,
+  "mean": 63.555,
+  "mean_length": 2501.0,
+  "ok": true,
+  "score": 63.555,
+  "se": 0.07428656334421115
+}

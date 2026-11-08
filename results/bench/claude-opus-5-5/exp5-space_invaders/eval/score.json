@@ -1,0 +1,10 @@
+{
+  "episodes": 1000,
+  "game": "space_invaders",
+  "max": 191.0,
+  "mean": 32.803,
+  "mean_length": 316.889,
+  "ok": true,
+  "score": 32.803,
+  "se": 0.6873154978564019
+}

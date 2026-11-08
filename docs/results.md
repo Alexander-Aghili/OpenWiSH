@@ -82,6 +82,19 @@ The Gemma run multiplied gate and up projections of embedding-derived vectors, a
 
 Experiment 8 replays the published Qwen3.5-0.8B edits on MATH-500 with one sample per problem: base 10.6 %, 10 passes 13.6 %, 25 passes 14.2 %, 50 passes 51.8 % (published 7.9, 12.3, 14.1 and 48.1 % over four samples). The share of answers cut at the 32,768-token limit falls from 90.2 % to 31.6 %. The gain comes from ending reasoning loops, as the critique thread noted.
 
+## MinAtar Freeway and Space Invaders
+
+Neil Kale and a colleague at Trajectory Labs post-trained Qwen models (27B and 35B-A3B) to write game policies weight by weight. They report on WeightProgramBench, which holds out the five original MinAtar games. On Freeway, Qwen 27B rose from 21.0 to 47.1 points after post-training, against 63.9 for GPT-6 Astra ([post](https://x.com/neilkale/status/2118897078550307050)). The published Experiment 5 covers only Breakout, Seaquest and Asterix, so OpenWiSH now has the other two: `tasks/exp5/freeway` and `tasks/exp5/space_invaders`. Their prompts are the published Breakout prompt with the game text, the game's MinAtar source and the channel table swapped. The channel layout is ours. On Freeway, channel 5 marks the trail of fast cars, so a policy sees which cars are fast. Single runs of Claude Opus 5.5, one reply, no tools, 1,000 episodes:
+
+| Game | Fixed baseline | Claude Opus 5.5 through OpenWiSH |
+|---|---:|---:|
+| Freeway | always up: 16.8 ± 0.4 | **63.6 ± 0.1** |
+| Space Invaders | always fire: 3.0 | **32.8 ± 0.7** |
+
+On Freeway, Opus derived a danger test from the source: a lane is unsafe to enter when its car is in column 4, one step away and approaching, or two steps away and fast. One linear score per lane separates every case, and Opus checked all 40 by hand in the reply. The policy steps up when the lane above is safe, waits when not, and steps back when its own lane turns unsafe. On Space Invaders, the policy dodges the one enemy bullet, walks toward the side with more aliens, fires when an alien is overhead, and leads its shot at a lone fast alien.
+
+The numbers do not compare directly with the post. WeightProgramBench uses its own evaluation code and observation layout, and the post gives no Space Invaders figure. The Freeway score sits next to the post's 63.9 for GPT-6 Astra, and the always-up baseline shows the post's base Qwen 27B (21.0) does only a little better than holding up. Records: `results/bench/claude-opus-5-5/exp5-{freeway,space_invaders}/`, baselines in `results/bench/baselines/`.
+
 ## A mixture-of-experts model
 
 `tasks/moe` asks an agent to remove Python skill from Granite-3.1-1B-A400M (24 layers, 32 experts per layer, 8 active per token) while keeping English. The agent edits router and expert output weights through the gate, capped at 64 experts' worth of entries, with 40 Python runs and 12 forward probes on CPU. The probes return losses and the share of tokens routed to each expert. Fixed baselines get the same cap: 64 random experts, or the 64 experts the router sends code to most often on the practice texts.

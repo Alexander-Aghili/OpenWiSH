@@ -132,11 +132,61 @@ def zero_mlp(d, sizes):
         open(f"{d}/b{i + 1}.npy", "wb").write(npy((sizes[i + 1],), sizes[i + 1]))
 
 
-def exp5():
-    zero_mlp(f"{A}/exp5/zero_net", [600, 32, 32, 6])
-    for game in ("breakout", "seaquest", "asterix"):
-        copy(f"{LOGS}/exp5_write_from_scratch/runs/{game}/reply/prompt.txt", f"{A}/exp5/prompts/{game}.txt")
-        write(f"{T}/exp5/{game}.toml", HEADER + f'''id = "exp5-{game}"
+# The two MinAtar games the authors' Experiment 5 left out (WeightProgramBench holds out all five). Their prompts are
+# the published Breakout prompt with the game section, the source file and the channel table replaced.
+GENERIC = ["player", "danger", "reward", "projectile", "trail", "gauge"]
+NEW_GAMES = {
+    "freeway": {
+        "title": "Freeway",
+        "game": "The player moves a chicken up and down column 4 and must cross 8 lanes of road (rows 1 to 8) from the "
+                "bottom row to the top row. Each lane holds one car that wraps around the screen at its own speed and "
+                "direction. Reaching the top row gives +1, puts the chicken back on the bottom row and gives every car a "
+                "new random speed and direction. A car that hits the chicken sends the chicken back to the bottom row. "
+                "The chicken moves at most once every 3 frames. The episode ends after 2,500 frames.",
+        "actions": "up and down move the chicken; left, right and fire do nothing (they act as no-op).",
+        "channels": ["the chicken", "the cars", "always empty in this game", "always empty in this game",
+                     "the cell just behind each car (it shows which way the car moves)",
+                     "the cell just behind each fast car, one that moves every frame or every second frame"],
+    },
+    "space_invaders": {
+        "title": "Space Invaders",
+        "game": "The player moves a cannon along the bottom row and shoots bullets upward at a block of aliens. The "
+                "aliens move sideways together; when one reaches the edge, all of them step down one row and turn "
+                "around. Shooting an alien gives +1 and removes the alien. The alien nearest the cannon shoots bullets "
+                "down. The aliens speed up as fewer remain, and a cleared wave is replaced by a faster one. The episode "
+                "ends when an alien or an alien bullet reaches the cannon.",
+        "actions": "left and right move the cannon, fire shoots (at most once every 5 frames); up and down do nothing "
+                   "(they act as no-op).",
+        "channels": ["the cannon", "the aliens and the alien bullets", "the aliens", "the cannon's bullets",
+                     "always empty in this game", "the aliens, while the alien block moves right (empty while it "
+                     "moves left)"],
+    },
+}
+
+
+def minatar_prompt(template, game, source):
+    """The published Breakout prompt rewritten for `game`, with `source` as the game file shown to the model."""
+    sys.path.insert(0, os.path.join(ROOT, "python", "adapters"))
+    from minatar_eval import MAP
+    g = NEW_GAMES[game]
+    head, rest = template.split("```python\n", 1)
+    rest = rest.split("```\n", 1)[1]
+    intro = head[:head.index("THE GAME:")]
+    impl = head[head.index("The game's exact implementation"):].replace("breakout.py", f"{game}.py")
+    head = f"{intro}THE GAME: {g['title']} from MinAtar (Young & Tian 2019), on a 10 x 10 grid. {g['game']}\nActions: {g['actions']}\n\n{impl}"
+    table = "".join(f"  channel {c} ({GENERIC[c]}): {g['channels'][c]}\n" for c in range(6))
+    sources = "; ".join(f"channel {c} ({GENERIC[c]}) <- " + (", ".join(k for k, v in MAP[game].items() if c in v) or "nothing")
+                        for c in range(6))
+    a, b = rest.index("In this game:\n") + len("In this game:\n"), rest.index("THE OUTPUT")
+    rest = rest[:a] + table + rest[b:]
+    a = rest.index("(state() in the source): ") + len("(state() in the source): ")
+    b = rest.index(". A cell is 1 in a channel")
+    rest = rest[:a] + sources + rest[b:]
+    return head + "```python\n" + source + "```\n" + rest
+
+
+def exp5_task(game):
+    write(f"{T}/exp5/{game}.toml", HEADER + f'''id = "exp5-{game}"
 description = "Experiment 5: write a 600-32-32-6 MinAtar {game} policy from zero weights, in one reply, with no tools."
 prompt = "../../assets/exp5/prompts/{game}.txt"
 
@@ -155,6 +205,19 @@ max_turns = 1
 [score]
 command = ["{{root}}/assets/venvs/sandbox/bin/python", "-I", "{{root}}/python/adapters/minatar_eval.py", "--game", "{game}", "--episodes", "1000"]
 ''')
+
+
+def exp5():
+    zero_mlp(f"{A}/exp5/zero_net", [600, 32, 32, 6])
+    for game in ("breakout", "seaquest", "asterix"):
+        copy(f"{LOGS}/exp5_write_from_scratch/runs/{game}/reply/prompt.txt", f"{A}/exp5/prompts/{game}.txt")
+        exp5_task(game)
+    import importlib.util
+    template = open(f"{LOGS}/exp5_write_from_scratch/runs/breakout/reply/prompt.txt").read()
+    envs = os.path.join(os.path.dirname(importlib.util.find_spec("minatar").origin), "environments")
+    for game in NEW_GAMES:
+        write(f"{A}/exp5/prompts/{game}.txt", minatar_prompt(template, game, open(f"{envs}/{game}.py").read()))
+        exp5_task(game)
 
 
 def exp6():
